@@ -1,0 +1,2 @@
+Patchwork Studio original SVG artwork and generated background loops. Copyright 2026 Patchwork Studio contributors. Licensed under CC0 1.0 Universal. You may use, modify, and redistribute these assets, including in exported websites. https://creativecommons.org/publicdomain/zero/1.0/
+Fonts are distributed under their individual SIL Open Font Licenses in this directory.

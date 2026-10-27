@@ -1,0 +1,31 @@
+{
+  "name": "patchwork-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/build-ascii.mjs && vite --host 127.0.0.1",
+    "build:ascii": "node scripts/build-ascii.mjs",
+    "build": "node scripts/build-ascii.mjs && tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "tsx --test tests/*.test.ts",
+    "qa:fixtures": "node scripts/prepare-browser-fixtures.mjs && node scripts/prepare-ascii-capture.mjs"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^4.4.1",
+    "esbuild": "^0.28.2",
+    "fake-indexeddb": "^6.2.6",
+    "tsx": "^4.19.4",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  }
+}

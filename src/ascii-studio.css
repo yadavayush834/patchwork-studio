@@ -1,0 +1,419 @@
+.ascii-dashboard-banner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+  text-align: left;
+  background: #12121d;
+  border: 1px solid #292637;
+  border-radius: 10px;
+  margin: 28px 0 8px;
+  padding: 20px 24px;
+  color: #efedfa;
+  position: relative;
+  overflow: hidden;
+}
+.ascii-banner-glyphs {
+  font: 21px/1.1 "Space Mono";
+  color: #a2a8f0;
+  letter-spacing: 3px;
+  padding-right: 6px;
+  flex-shrink: 0;
+}
+.ascii-dashboard-banner .eyebrow {
+  font-size: 7px;
+  letter-spacing: 1.5px;
+  color: #a19bb8;
+  margin-bottom: 8px;
+}
+.ascii-dashboard-banner strong {
+  font: 400 19px "Space Grotesk";
+  letter-spacing: -0.4px;
+}
+.ascii-dashboard-banner p {
+  font-size: 10px;
+  line-height: 1.6;
+  color: #8d89a1;
+  margin: 7px 0 0;
+}
+.ascii-banner-cta {
+  font-size: 10px;
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-left: auto;
+  color: #c2b3eb;
+  white-space: nowrap;
+}
+.ascii-dashboard-banner:hover {
+  border-color: #746189;
+}
+.ascii-library-entry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  color: #d6ccf6;
+  background: #151321;
+  border: 1px solid #383046;
+  border-radius: 7px;
+  padding: 14px 10px;
+  margin-bottom: 15px;
+}
+.ascii-library-entry > svg:first-child {
+  color: #c1a6eb;
+}
+.ascii-library-entry > svg:last-child {
+  margin-left: auto;
+}
+.ascii-library-entry strong {
+  font-size: 10px;
+  font-weight: 500;
+  display: block;
+}
+.ascii-library-entry small {
+  font-size: 7px;
+  color: #9488a6;
+  display: block;
+  margin-top: 5px;
+}
+.ascii-inspector {
+  border: 1px solid #e4d9f0;
+  border-radius: 7px;
+  padding: 12px;
+  background: #fcfaff;
+  margin-bottom: 20px;
+}
+.ascii-inspector-title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #8f70b4;
+  font-size: 10px;
+  margin: 0 0 17px;
+}
+.ascii-inspector-title strong {
+  font-weight: 500;
+}
+.ascii-inspector-title button {
+  margin-left: auto;
+  display: flex;
+  color: #a188bc;
+}
+.ascii-inspector-download {
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid #e6d9f1;
+  border-radius: 4px;
+  color: #9b7bb5;
+  background: #fff;
+}
+.ascii-inspector p {
+  font-size: 8px;
+  line-height: 1.7;
+  color: #ac96bb;
+  margin: 11px 0 0;
+}
+.ascii-gallery-backdrop {
+  background: #13101bbd;
+  backdrop-filter: blur(12px);
+  padding: 24px;
+}
+.ascii-gallery {
+  background: #f6f4f9;
+  border: 1px solid #ffffff4d;
+  border-radius: 16px;
+  width: 1050px;
+  max-width: 100%;
+  max-height: 94vh;
+  overflow: auto;
+  box-shadow: 0 30px 110px #0007;
+  scrollbar-width: thin;
+}
+.ascii-gallery > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 25px;
+  border-bottom: 1px solid #e5dfed;
+}
+.ascii-gallery-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font: 9px "Space Mono";
+  letter-spacing: 1px;
+  color: #9b89ad;
+}
+.ascii-gallery-intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 24px 30px 20px;
+  gap: 20px;
+}
+.ascii-gallery-intro .eyebrow {
+  color: #a08bb4;
+  font-size: 7px;
+  letter-spacing: 1.5px;
+}
+.ascii-gallery-intro h2 {
+  font: 400 28px "Space Grotesk";
+  letter-spacing: -1px;
+  margin: 10px 0 0;
+  color: #4c3e60;
+}
+.ascii-gallery-intro p {
+  font-size: 10px;
+  line-height: 1.8;
+  color: #aa97b9;
+  margin: 0;
+}
+.ascii-gallery-stage {
+  height: 400px;
+  margin: 0 20px;
+  border-radius: 9px;
+  overflow: hidden;
+  position: relative;
+  background: #030710;
+  border: 1px solid #282032;
+}
+.ascii-gallery-stage .preview-host {
+  height: 100%;
+  padding: 0;
+}
+.ascii-gallery-stage .canvas-size {
+  border: 0 !important;
+  box-shadow: none;
+  border-radius: 0 !important;
+}
+.ascii-gallery-stage .pw-ascii-canvas {
+  height: 100%;
+}
+.ascii-live-badge {
+  position: absolute;
+  left: 20px;
+  top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #070911a6;
+  backdrop-filter: blur(8px);
+  border: 1px solid #ffffff15;
+  border-radius: 4px;
+  padding: 7px 9px;
+  font: 7px "Space Mono";
+  color: #c2c5d9;
+  letter-spacing: 1.2px;
+}
+.ascii-live-badge > i {
+  width: 4px;
+  height: 4px;
+  background: #a9d5b8;
+  border-radius: 50%;
+}
+.ascii-pause {
+  position: absolute;
+  right: 18px;
+  top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  border: 1px solid #ffffff25;
+  border-radius: 50%;
+  color: #c2bfd7;
+  background: #05071188;
+}
+.ascii-stage-caption {
+  position: absolute;
+  bottom: 18px;
+  left: 20px;
+  right: 20px;
+  display: flex;
+  justify-content: space-between;
+  font: 7px "Space Mono";
+  letter-spacing: 1.2px;
+  color: #6b6c86;
+  pointer-events: none;
+}
+.ascii-stage-caption > span {
+  font-size: 6px;
+  color: #4c4f64;
+}
+.ascii-scene-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 9px;
+  margin: 15px 20px 0;
+}
+.ascii-scene-tabs > button {
+  position: relative;
+  border: 1px solid #e5ddec;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  padding: 8px;
+  background: #fff7;
+  min-width: 0;
+}
+.ascii-scene-tabs > button[aria-selected="true"] {
+  border-color: #b69ad2;
+  background: #eee7f7;
+}
+.ascii-scene-tabs img {
+  width: 60px;
+  height: 43px;
+  object-fit: cover;
+  border-radius: 3px;
+  background: #030710;
+}
+.ascii-scene-tabs span {
+  font: 6px "Space Mono";
+  letter-spacing: 0.6px;
+  color: #aa91bf;
+  display: block;
+}
+.ascii-scene-tabs strong {
+  font-size: 10px;
+  color: #80628f;
+  font-weight: 500;
+  display: block;
+  margin-top: 5px;
+  white-space: nowrap;
+}
+.ascii-scene-tabs i {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+  width: 4px;
+  height: 4px;
+  background: #aa8bc2;
+  border-radius: 50%;
+}
+.ascii-gallery > footer {
+  padding: 22px 28px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.ascii-gallery footer h3 {
+  font: 400 19px "Space Grotesk";
+  letter-spacing: -0.5px;
+  margin: 0 0 7px;
+  color: #655072;
+}
+.ascii-gallery footer p {
+  font-size: 10px;
+  color: #9e86ac;
+  line-height: 1.7;
+  max-width: 480px;
+  margin: 0;
+}
+.ascii-gallery footer small {
+  display: block;
+  font-size: 7px;
+  color: #b3a0bf;
+  margin-top: 9px;
+}
+.ascii-gallery-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.ascii-download {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #ded2e9;
+  border-radius: 6px;
+  padding: 12px 13px;
+  font-size: 10px;
+  color: #9d82af;
+  background: #fff;
+}
+.ascii-gallery-actions .primary {
+  font-size: 10px;
+  padding: 13px 14px;
+}
+@media (max-height: 800px) {
+  .ascii-gallery-stage {
+    height: 310px;
+  }
+  .ascii-gallery-intro {
+    padding-top: 17px;
+    padding-bottom: 17px;
+  }
+  .ascii-gallery > footer {
+    padding-top: 16px;
+    padding-bottom: 19px;
+  }
+  .ascii-gallery-intro h2 {
+    font-size: 25px;
+  }
+}
+@media (max-width: 760px) {
+  .ascii-dashboard-banner {
+    padding: 18px;
+    gap: 13px;
+    flex-wrap: wrap;
+  }
+  .ascii-banner-cta {
+    font-size: 9px;
+    margin: 0 0 0 61px;
+  }
+  .ascii-dashboard-banner strong {
+    font-size: 16px;
+  }
+  .ascii-dashboard-banner p {
+    font-size: 9px;
+    max-width: 220px;
+  }
+  .ascii-gallery-backdrop {
+    padding: 12px;
+  }
+  .ascii-gallery-intro {
+    padding: 20px;
+    display: block;
+  }
+  .ascii-gallery-intro h2 {
+    font-size: 24px;
+  }
+  .ascii-gallery-intro p {
+    margin-top: 12px;
+    font-size: 9px;
+  }
+  .ascii-gallery-stage {
+    margin: 0 12px;
+    height: 310px;
+  }
+  .ascii-scene-tabs {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 12px;
+  }
+  .ascii-gallery > footer {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px 20px;
+  }
+  .ascii-gallery-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .ascii-gallery > header {
+    padding: 12px 15px;
+  }
+  .ascii-gallery-brand {
+    font-size: 7px;
+  }
+}
