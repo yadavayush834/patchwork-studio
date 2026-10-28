@@ -106,6 +106,7 @@ const groups: [Family, string[]][] = [
       "Aberration|aberration",
       "Anaglyph 3D|anaglyph",
       "Dreamdust|dreamdust",
+      "Duotone|duotone",
     ],
   ],
   [
