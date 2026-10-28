@@ -1,5 +1,18 @@
 # Patchwork Studio implementation
 
+## Video Lab (28 October 2026, solo)
+
+| ID | Ownership / outcome | Depends on | Route | Acceptance | Status |
+|---|---|---|---|---|---|
+| VL-1 | `src/video-lab/`: registry, workspace, decode/trim, shared renderer, worker export | Existing app | Main, solo | A transformed clip previews, downloads, and enters a website | Complete |
+| VL-2 | First 24 styles, text output, thumbnails, export queue | VL-1 | Main, solo | MP4/WebM/GIF browser checks and distinct frames | Complete |
+| VL-3 | 48 expansion styles and 20 advanced styles | VL-2 | Main, solo | All 92 render; per-style visual/temporal review | Complete |
+| VL-4 | App handoff, tests, browser probes, documentation | VL-1/2/3 | Main, solo | Required gates and regression/export evidence | Complete |
+
+See `docs/VERIFICATION.md` for observed coverage and untested limits.
+
+Coordinator recommendation: Sol medium; no runtime switch or subagent dispatch is implied. No deployment or publication is authorized.
+
 Local-only React/TypeScript/Vite application. No deployment or accounts.
 
 | ID | Output / ownership | Depends on | Route | Acceptance | Status |
