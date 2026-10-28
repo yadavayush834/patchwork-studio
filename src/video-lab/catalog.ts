@@ -135,6 +135,7 @@ const groups: [Family, string[]][] = [
       "Glitch, RGB Split & VHS|glitch",
       "Beacon|beacon",
       "CRT Screen|crt",
+      "Datamosh|datamosh",
     ],
   ],
   [
