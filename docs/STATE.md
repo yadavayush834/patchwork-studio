@@ -1,6 +1,6 @@
 # Current state and context
 
-Last verified: 27 October 2026. This file is the short entry point for a fresh chat or a different coding agent.
+Last verified: 28 October 2026. This file is the short entry point for a fresh chat or a different coding agent.
 
 Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/patchwork-studio), private, branch `main`. The local checkout uses `origin` for this repository. Check `git status`, the current commit, and the remote before continuing; do not infer present synchronization from this dated note.
 
@@ -11,6 +11,10 @@ An interactive place where creators can build websites using ready-made sections
 The user subsequently requested the real `stackedlol/ascii-sharks` library plus at least three more high-quality ASCII backgrounds. The four-scene collection is implemented and includes genuine downloadable videos. The user then requested a new GitHub repository, real commits, and enough context/style documentation for another agent or chat to continue the work.
 
 ## Implemented
+
+- Video Lab: separate lazy-loaded local workspace at `?lab=video`, accessible from dashboard navigation and editor Scenes. All 92 style IDs across 10 families have original procedural renderers, with no paid/unfinished cards.
+- Lab upload/decode validation, seek/play/compare, trimming, source-frame thumbnails, effect-specific controls, text/PNG frames, recipe JSON, sequential MP4/WebM/GIF jobs, cancellation, audio retention, and generated clip/poster insertion into an existing section. Sources/settings remain session-local; reopening the Lab within the app retains them. Reload requires reselecting the source file.
+- Preview, thumbnails, and exports use workers and one shared rendering engine. Bundled Mediabunny/WebCodecs handles media and gifenc handles GIFs. Website insertion stores ordinary media, preserving version 1 documents and existing export/runtime behavior. Effects are original procedural interpretations, not exact replicas or AI reconstructions.
 
 - React/TypeScript/Vite studio: dashboard, blank projects, four starter worlds, editor, preview, and export dialog.
 - Six section types, 24 world/section presets, 20 backgrounds, 24 original decorations, eight local font pairings, and six interaction presets plus Still.
@@ -23,7 +27,7 @@ The user subsequently requested the real `stackedlol/ascii-sharks` library plus 
 
 ## Verification and limits
 
-The latest source passes `npm test` (13 tests) and `npm run build` with strict TypeScript and unused-symbol checks. Browser evidence covers editing, undo/redo, uploads, save/reload, project duplication/deletion, invalid imports, simulated storage failure/recovery, scene dragging, all four ASCII previews, controls, downloads, and live/recorded website exports. Independent extracted sites were tested at exact CSS widths 360, 768, and 1440. See `docs/VERIFICATION.md` for precise evidence.
+The latest source passes `npm test` (19 tests) and `npm run build` with strict TypeScript and unused-symbol checks. Browser evidence covers editing, undo/redo, uploads, save/reload, project duplication/deletion, invalid imports, simulated storage failure/recovery, scene dragging, all four ASCII previews, controls, downloads, and live/recorded website exports. Independent extracted sites were tested at exact CSS widths 360, 768, and 1440. See `docs/VERIFICATION.md` for precise evidence.
 
 Direct `file://` navigation is blocked by the automation tool, so double-click opening is not browser-verified. Exports use ordinary relative assets and standalone scripts; independent HTTP hosting was verified. Storage failure was simulated by a transaction exception rather than filling the disk. The linked X post was inaccessible (403), so no exact visual match to that unseen video is claimed.
 
@@ -35,7 +39,7 @@ All shipped fonts, decorative artwork, posters, and video loops are committed un
 
 ## Next work is optional, not an unfinished requirement
 
-The approved first release and ASCII expansion are complete. The longer roadmap remains: more coordinated worlds, multi-page sites, dedicated sprite/ASCII/background/motion editors, then optional cloud saves/publishing and community packs. Choose the next scope with the user; do not silently add cloud services or rewrite the editor.
+The approved first release, ASCII expansion, and Video Lab implementation are complete locally. The longer roadmap remains: more coordinated worlds, multi-page sites, dedicated sprite/background editors, then optional cloud saves/publishing and community packs. Choose the next scope with the user; do not silently add cloud services or rewrite the editor.
 
 ## Useful cautions for continuation
 
