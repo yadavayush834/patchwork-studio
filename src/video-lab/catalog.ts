@@ -75,6 +75,7 @@ const groups: [Family, string[]][] = [
       "Diagonal Strokes|diagonal",
       "Diamond Glyphs|diamond",
       "Lines, Vertical Strokes|lines",
+      "Droste|droste",
     ],
   ],
   [
