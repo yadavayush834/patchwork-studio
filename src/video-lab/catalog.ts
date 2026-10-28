@@ -132,6 +132,7 @@ const groups: [Family, string[]][] = [
   [
     "Glitch",
     [
+      "Glitch, RGB Split & VHS|glitch",
     ],
   ],
   [
