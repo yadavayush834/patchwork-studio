@@ -60,6 +60,7 @@ const groups: [Family, string[]][] = [
       "Halftone|halftone",
       "Mezzotint|mezzotint",
       "Pointillize|pointillize",
+      "Posterize|posterize",
     ],
   ],
   [
