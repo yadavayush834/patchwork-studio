@@ -141,6 +141,7 @@ const groups: [Family, string[]][] = [
       "Lofi|lofi",
       "Pixel Sort|pixelsort",
       "RGB Split|rgb",
+      "Scanline|scanline",
     ],
   ],
   [
