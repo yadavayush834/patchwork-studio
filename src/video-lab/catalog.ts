@@ -55,6 +55,7 @@ const groups: [Family, string[]][] = [
       "CMYK Drops|cmyk",
       "Comic|comic",
       "Crosshatch|crosshatch",
+      "Cyanotype|cyanotype",
     ],
   ],
   [
