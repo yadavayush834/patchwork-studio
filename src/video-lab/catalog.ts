@@ -125,6 +125,7 @@ const groups: [Family, string[]][] = [
       "Molten Metal|molten",
       "Oil Paint|oil",
       "Thin-Film|thinfilm",
+      "Watercolor|watercolor",
     ],
   ],
   [
