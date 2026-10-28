@@ -73,6 +73,7 @@ const groups: [Family, string[]][] = [
     [
       "Cross Glyphs|cross",
       "Diagonal Strokes|diagonal",
+      "Diamond Glyphs|diamond",
     ],
   ],
   [
