@@ -138,6 +138,7 @@ const groups: [Family, string[]][] = [
       "Datamosh|datamosh",
       "Digital Distortion|digital",
       "Forensics|forensics",
+      "Lofi|lofi",
     ],
   ],
   [
