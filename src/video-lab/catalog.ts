@@ -34,6 +34,7 @@ const groups: [Family, string[]][] = [
       "Animated ASCII|animated-ascii",
       "Mixed Glyphs|mixed",
       "ASCII Studio|ascii-studio",
+      "Braille|braille",
     ],
   ],
   [
