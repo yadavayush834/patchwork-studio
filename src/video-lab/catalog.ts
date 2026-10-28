@@ -137,6 +137,7 @@ const groups: [Family, string[]][] = [
       "CRT Screen|crt",
       "Datamosh|datamosh",
       "Digital Distortion|digital",
+      "Forensics|forensics",
     ],
   ],
   [
