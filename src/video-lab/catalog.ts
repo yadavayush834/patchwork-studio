@@ -163,6 +163,7 @@ const groups: [Family, string[]][] = [
       "Shear|shear",
       "Smudge|smudge",
       "Spherize|spherize",
+      "Twirl|twirl",
     ],
   ],
 ];
