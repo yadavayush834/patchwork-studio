@@ -142,6 +142,7 @@ const groups: [Family, string[]][] = [
       "Pixel Sort|pixelsort",
       "RGB Split|rgb",
       "Scanline|scanline",
+      "Thermal|thermal",
     ],
   ],
   [
