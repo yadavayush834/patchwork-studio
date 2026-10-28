@@ -51,6 +51,16 @@ The runtime includes vendored ASCII code even when a website uses other backgrou
 
 Each ASCII catalog item has a still poster and a recorded WebM. Live mode emits a canvas/poster/dimmer; recorded mode emits video with poster and configured speed. The section keeps readable light text over the dark scene. Reduced motion displays a poster. Root motion-class changes are observed as well as the system media query.
 
+## Video Lab boundary
+
+`src/video-lab/` owns an independent style registry, settings/recipe validation, Canvas 2D glyph/geometry/print renderers, WebGL2 pixel effects, media inspection, and the workspace. `preview.worker.ts` handles one live frame at a time or a sequential thumbnail job. `export.worker.ts` decodes/processes/encodes incrementally; cancellation terminates the current worker. Neither path uploads media. Fonts are loaded from the local licensed Space Mono asset inside workers.
+
+Every generated view uses the same `Renderer`. Deterministic seeded patterns stay anchored to source coordinates. Datamosh uses a separately decoded frame 0.2 seconds earlier for temporal block smears, including after seeking. Gaussian blur has horizontal/vertical passes; pixel sorting sorts brightness-thresholded runs; crystallize clips Voronoi cells; topography uses marching-square crossings; flow integrates seeded paths along image gradients.
+
+Mediabunny 1.62.1 (MPL-2.0) provides containers, decoding, WebCodecs integration, and audio conversion. gifenc 1.0.3 (MIT) produces GIF frames with centisecond error distribution. Their notices are served locally. Codecs are probed at actual output dimensions, with explicit errors for missing video/audio capabilities. Completed blobs are session results, not autosaved projects.
+
+`App` lazy-loads the Lab, preserves editor state underneath it, and merges selected clip/poster assets against the current project after asynchronous storage. Existing section `video`/`poster` references and undo history perform the handoff. No document/database version migration or new website renderer is introduced. Exported sites contain baked media, not the Lab/codec/shader engine.
+
 ## Asset and evidence boundaries
 
 - `public/assets/`: shipped artwork, backgrounds, ASCII posters, and WebMs.
