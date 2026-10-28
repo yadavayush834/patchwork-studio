@@ -29,6 +29,7 @@ const groups: [Family, string[]][] = [
     "ASCII & Text",
     [
       "Characters|ascii",
+      "Block Characters|blocks",
     ],
   ],
   [
