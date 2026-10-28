@@ -105,6 +105,7 @@ const groups: [Family, string[]][] = [
       "Disco, Mirror Sphere|disco",
       "Aberration|aberration",
       "Anaglyph 3D|anaglyph",
+      "Dreamdust|dreamdust",
     ],
   ],
   [
