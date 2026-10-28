@@ -32,6 +32,7 @@ const groups: [Family, string[]][] = [
       "Block Characters|blocks",
       "Dots, Halftone Print|dots",
       "Animated ASCII|animated-ascii",
+      "Mixed Glyphs|mixed",
     ],
   ],
   [
