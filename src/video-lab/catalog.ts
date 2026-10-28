@@ -151,6 +151,7 @@ const groups: [Family, string[]][] = [
       "Gaussian Blur|gaussian",
       "Motion Blur|motion",
       "Radial Blur|radial",
+      "Tilt-Shift|tiltshift",
     ],
   ],
   [
