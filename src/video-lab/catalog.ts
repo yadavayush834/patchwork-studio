@@ -81,6 +81,7 @@ const groups: [Family, string[]][] = [
       "Iso Extrude|iso",
       "Lattice|lattice",
       "Low Poly|lowpoly",
+      "Neon Grid|neon",
     ],
   ],
   [
