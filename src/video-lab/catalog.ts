@@ -85,6 +85,7 @@ const groups: [Family, string[]][] = [
       "Schematic|schematic",
       "Specimen|specimen",
       "Topography|topography",
+      "Truchet|truchet",
     ],
   ],
   [
