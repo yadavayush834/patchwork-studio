@@ -108,6 +108,7 @@ const groups: [Family, string[]][] = [
       "Dreamdust|dreamdust",
       "Duotone|duotone",
       "Edge Glow|edgeglow",
+      "Gradient Map|gradient",
     ],
   ],
   [
