@@ -44,6 +44,7 @@ const groups: [Family, string[]][] = [
       "Photo Mosaic|mosaic",
       "LEGO Bricks|lego",
       "Voxel Cubes|voxel",
+      "Hex Mosaic|hex",
     ],
   ],
   [
