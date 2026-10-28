@@ -96,6 +96,7 @@ const groups: [Family, string[]][] = [
       "Glass Orb|orb",
       "Shatter|shatter",
       "Tinted Glass|tinted",
+      "Vitrine|vitrine",
     ],
   ],
   [
