@@ -123,6 +123,7 @@ const groups: [Family, string[]][] = [
       "Emboss|emboss",
       "Marble|marble",
       "Molten Metal|molten",
+      "Oil Paint|oil",
     ],
   ],
   [
