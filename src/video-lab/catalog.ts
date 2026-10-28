@@ -53,6 +53,7 @@ const groups: [Family, string[]][] = [
     [
       "Dither, Retro Dithering|dither",
       "CMYK Drops|cmyk",
+      "Comic|comic",
     ],
   ],
   [
