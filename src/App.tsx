@@ -5,6 +5,9 @@ import {
   useId,
   cloneElement,
   isValidElement,
+  lazy,
+  Suspense,
+  useCallback,
 } from "react";
 import {
   ArrowUpRight,
@@ -81,6 +84,7 @@ import {
 import { exportWebsite } from "./export";
 import Preview from "./Preview";
 import AsciiGallery from "./AsciiGallery";
+const VideoLab = lazy(() => import("./video-lab/VideoLab"));
 
 type Tab = "sections" | "backgrounds" | "decorations" | "type" | "motion";
 const tabs: { id: Tab; name: string; icon: typeof Shapes }[] = [
@@ -169,6 +173,23 @@ function Slider({
 const starters = worlds.map((w) => createProject(w.id));
 
 export default function App() {
+  const [videoLabOpen, setVideoLabOpen] = useState(
+    () => new URLSearchParams(location.search).get("lab") === "video",
+  );
+  const [videoLabLoaded, setVideoLabLoaded] = useState(videoLabOpen);
+  const openVideoLab = useCallback(() => {
+    setVideoLabLoaded(true);
+    setVideoLabOpen(true);
+    const url = new URL(location.href);
+    url.searchParams.set("lab", "video");
+    window.history.replaceState(null, "", url);
+  }, []);
+  const closeVideoLab = useCallback(() => {
+    setVideoLabOpen(false);
+    const url = new URL(location.href);
+    url.searchParams.delete("lab");
+    window.history.replaceState(null, "", url);
+  }, []);
   const [projects, setProjects] = useState<Project[]>([]),
     [project, setProject] = useState<Project | null>(null),
     [selection, setSelection] = useState(""),
@@ -302,6 +323,51 @@ export default function App() {
   }
   function patch(changes: Partial<SiteSection>) {
     if (project && section) commit(updateSection(project, section.id, changes));
+  }
+  async function addLabClip(
+    sectionId: string,
+    blob: Blob,
+    poster: Blob,
+    name: string,
+  ) {
+    const projectId = currentProject.current?.id;
+    if (!projectId) throw new Error("Open a website project first.");
+    if (blob.size > 30 * 1024 * 1024)
+      throw new Error(
+        "Website clips must be smaller than 30 MB. Render at a smaller resolution or trim the clip.",
+      );
+    const clip: AssetRecord = {
+      id: `asset:${uid()}`,
+      name: `${name}.${blob.type === "video/mp4" ? "mp4" : "webm"}`,
+      type: blob.type,
+      blob,
+    };
+    const still: AssetRecord = {
+      id: `asset:${uid()}`,
+      name: `${name}-poster.png`,
+      type: "image/png",
+      blob: poster,
+    };
+    await storeAsset(clip);
+    await storeAsset(still);
+    const live = currentProject.current;
+    if (
+      !live ||
+      live.id !== projectId ||
+      !live.sections.some((s) => s.id === sectionId)
+    )
+      throw new Error("The target section is no longer available.");
+    assetUrls.current[clip.id] = URL.createObjectURL(blob);
+    assetUrls.current[still.id] = URL.createObjectURL(poster);
+    setAssets({ ...assetUrls.current });
+    commit(
+      updateSection(live, sectionId, {
+        video: clip.id,
+        poster: still.id,
+        background: "none",
+        ascii: undefined,
+      }),
+    );
   }
   function useAscii(b: Background) {
     if (project && section)
@@ -676,6 +742,9 @@ export default function App() {
             </div>
             <p className="nav-label">YOUR STUDIO</p>
             <nav>
+              <button onClick={openVideoLab}>
+                <Play size={18} /> Video Lab <span className="new-dot" />
+              </button>
               <button
                 className={dashTab === "home" ? "selected" : ""}
                 onClick={() => setDashTab("home")}
@@ -1270,6 +1339,17 @@ export default function App() {
                       ))}
                   {tab === "backgrounds" && (
                     <>
+                      <button
+                        className="ascii-library-entry"
+                        onClick={openVideoLab}
+                      >
+                        <Play size={19} />
+                        <span>
+                          <strong>Video Lab</strong>
+                          <small>Your footage, 92 creative looks</small>
+                        </span>
+                        <ArrowUpRight size={15} />
+                      </button>
                       <button
                         className="ascii-library-entry"
                         onClick={() => setModal("ascii")}
@@ -2421,6 +2501,25 @@ export default function App() {
             </aside>
           )}
         </div>
+      )}
+      {videoLabLoaded && (
+        <Suspense
+          fallback={
+            <div className="vl-close-loading" role="status">
+              Opening Video Lab…
+              <button onClick={closeVideoLab}>Back to studio</button>
+            </div>
+          }
+        >
+          <VideoLab
+            open={videoLabOpen}
+            onClose={closeVideoLab}
+            sections={
+              project?.sections.map((s) => ({ id: s.id, title: s.title })) || []
+            }
+            onAdd={addLabClip}
+          />
+        </Suspense>
       )}
       {modal === "ascii" && (
         <AsciiGallery
