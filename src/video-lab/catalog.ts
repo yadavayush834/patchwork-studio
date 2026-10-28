@@ -79,6 +79,7 @@ const groups: [Family, string[]][] = [
       "Flow Field|flow",
       "Forms|forms",
       "Iso Extrude|iso",
+      "Lattice|lattice",
     ],
   ],
   [
