@@ -118,6 +118,7 @@ const groups: [Family, string[]][] = [
   [
     "Material",
     [
+      "Chrome|chrome",
     ],
   ],
   [
