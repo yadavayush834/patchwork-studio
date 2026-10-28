@@ -126,6 +126,7 @@ const groups: [Family, string[]][] = [
       "Oil Paint|oil",
       "Thin-Film|thinfilm",
       "Watercolor|watercolor",
+      "Waves|waves",
     ],
   ],
   [
