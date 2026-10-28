@@ -139,6 +139,7 @@ const groups: [Family, string[]][] = [
       "Digital Distortion|digital",
       "Forensics|forensics",
       "Lofi|lofi",
+      "Pixel Sort|pixelsort",
     ],
   ],
   [
