@@ -41,6 +41,7 @@ const groups: [Family, string[]][] = [
     "Pixel & Blocks",
     [
       "Pixel Art|pixel",
+      "Photo Mosaic|mosaic",
     ],
   ],
   [
