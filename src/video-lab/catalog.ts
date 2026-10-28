@@ -58,6 +58,7 @@ const groups: [Family, string[]][] = [
       "Cyanotype|cyanotype",
       "Engraving|engraving",
       "Halftone|halftone",
+      "Mezzotint|mezzotint",
     ],
   ],
   [
