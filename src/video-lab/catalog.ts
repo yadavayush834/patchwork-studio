@@ -112,6 +112,7 @@ const groups: [Family, string[]][] = [
       "Kaleidoscope|kaleidoscope",
       "Light Wind|lightwind",
       "Prism|prism",
+      "Warpbloom|warpbloom",
     ],
   ],
   [
