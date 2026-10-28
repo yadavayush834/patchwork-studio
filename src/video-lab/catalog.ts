@@ -103,6 +103,7 @@ const groups: [Family, string[]][] = [
     "Light & Color",
     [
       "Disco, Mirror Sphere|disco",
+      "Aberration|aberration",
     ],
   ],
   [
