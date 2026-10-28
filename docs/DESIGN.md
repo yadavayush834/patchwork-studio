@@ -51,6 +51,12 @@ Sharkwater is a real ecosystem from the credited upstream source. Moon jellies e
 - Keep motion ambient, bounded, and purposeful. Pause offscreen/hidden scenes and honor reduced-motion posters.
 - Desktop-first refers to the editor. Generated sites still need phone/tablet/desktop layouts without unintended overflow.
 
+## Video Lab
+
+The Lab is a separate lavender workbench, with a style cabinet, large checkerboard-backed comparison canvas, and a narrow settings/export panel. Reuse Space Grotesk, DM Sans, Space Mono, lavender actions, white panels, and quiet borders. The empty-state film strip is original CSS artwork. Style thumbnails use the user's selected frame; only the selected preview animates. Heavy rendering stays in workers so controls remain usable.
+
+Show only settings the selected renderer actually uses. A plus beside a style queues it; selected styles other than the current customized style use their documented defaults. Results must expose a playable clip, actual format/file size, download, and an optional explicit section handoff. GIF is downloadable but not a background-video insertion format. Source replacement and failure must not damage website drafts. The previous workbench is hidden/inert while the Lab is open, and focus returns on close.
+
 ## CSS boundaries to preserve
 
 Site classes use `.pw-*`; editor classes do not. Section wrappers use `.pw-section-{kind}`, while inner layout classes such as `.pw-about` and `.pw-footer` serve different roles. Reusing the inner class on the outer section previously caused layout collisions. Shared site changes must be reviewed in preview and in an independent exported site.
