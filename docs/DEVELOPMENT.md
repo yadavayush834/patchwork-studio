@@ -58,6 +58,25 @@ For the full ASCII editor probe, use a dev server on port 5175 and `scripts/brow
 
 Run one sequence at a time per browser session. Do not edit/rebuild the dev runtime while a recording or multi-step browser probe is using it. Browser zoom can affect `innerWidth`; assert the effective CSS viewport, as the standalone ASCII probe does. Close QA sessions/servers when done without stopping the user's main preview.
 
+## Video Lab QA and dependencies
+
+`npm ci` installs pinned Mediabunny/gifenc; no FFmpeg, Python, paid API, or cross-origin isolation is required by the product. The Lab requires a modern browser with Workers, OffscreenCanvas, WebGL2, and compatible WebCodecs. Format/audio availability depends on the browser's actual codec support. The target Windows Chromium was checked for MP4 (H.264/AAC), WebM (VP9/Opus), and GIF.
+
+Open `?lab=video`, or use dashboard Video Lab / editor Scenes. Sources are local MP4/WebM files up to 250 MB. MP4/WebM segments are limited to 60 seconds; GIF segments to 10 seconds. 480p/720p/1080p refer to landscape-equivalent long-edge bounds, preserving orientation and avoiding upscale. GIF caps width at 480 pixels. Website insertion retains the editor's 30 MB clip cap. Browser workspace origin/profile rules still apply.
+
+The Lab retains source/settings/results while closed within the running app. They are intentionally not stored in IndexedDB; save a recipe and reselect the video after reload. Completed clips added to websites follow ordinary persistent asset/project-bundle behavior. Heavy playback adaptively coarsens cell detail; paused frames and exports use full chosen settings. Other queued styles use default settings; only the current style uses its customized controls.
+
+Use a separate browser session on dev port 5176 for the new staged CLI probes:
+
+- `scripts/browser-video-lab-engine.js`: imports source modules, renders/determinism-checks all 92 styles, verifies real text, and captures a contact sheet.
+- `scripts/browser-video-lab-flow.js`: creates a local moving/audio fixture in the browser, uploads it, trims, exports/downloads MP4/WebM/GIF, cancels a queue, and checks invalid trim recovery.
+- `scripts/browser-video-lab-handoff.js`: continues that session through website insertion, undo/redo, saved-project reopen, website/project ZIP download, and project import.
+- `scripts/browser-video-lab-compare.js`: compares a decoded MP4 frame against the shared renderer at the matching source time, profiles heavy preview playback, and exercises temporal datamosh. Run after the flow probe has saved its original source fixture.
+- `scripts/browser-video-lab-production.js`: production port 5174, completed multi-style queue, adaptive playback, keyboard focus/Escape, session reopening, and responsive Lab layout.
+- `scripts/browser-video-lab-media.js`: continues the editor session through portrait/rotation, silent exports, corrupt/unsupported input, recipes, text download, and simulated unavailable codec handling. It expects `portrait.mp4`, `rotated.mp4` (real display-matrix rotation), `corrupt.mp4`, and `unsupported.webm` fixtures under ignored `output/playwright/`.
+
+These are CLI function snippets, without a trailing semicolon. Do not run a production build or regenerate the ASCII runtime during browser flows: Vite can reload the app and intentionally discard session-local Lab input. Stop QA sessions/servers afterward; leave the user's port/profile alone.
+
 ## Change a library item
 
 1. Inspect `src/types.ts` and the relevant registry/defaults in `src/catalog.ts`.
