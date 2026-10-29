@@ -72,3 +72,12 @@ User request: push the completed quality fixes, then create a distinct section w
 - [x] Author a traced SVG blueprint, staged design notes, three cinematic project curtains with CSS 3D models, material studies, and a layered doorway finale.
 - [x] Integrate customization, persistence, the shared preview/export renderer, a real rendered cover, and a balanced two-column collection grid.
 - [x] Preserve native scrolling, phone layouts, reduced-motion reading order, WebGL fallback, and existing editor data boundaries.
+
+## Three further scroll experiences — Pelagic, Heliograph, Afterimage
+
+- [x] Add three distinct complete authored websites to the existing motion collection.
+- [x] Build original capsule/armillary geometry, vector field specimens and terrain, CSS lens optics, and layered film landscapes.
+- [x] Author nine reversible GSAP pinned sequences, including sonar drawing, eclipse alignment, film shutter edits, and contact-sheet separation.
+- [x] Integrate existing customization/persistence and independent static ZIP export; preserve original editor data boundaries.
+- [x] Refine desktop/tablet/phone framing, capture actual gallery covers, and verify reading/GPU fallbacks.
+- [x] Update catalog contracts, documentation, and the focused browser expansion probe.

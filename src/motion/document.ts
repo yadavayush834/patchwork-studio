@@ -1,3 +1,4 @@
+import studiesCSS from "./studies.css?raw";
 import templateCSS from "./template.css?raw";
 import { renderMotion } from "./templates";
 import {
@@ -38,7 +39,9 @@ export function motionCSS(base = "") {
       )
       .join("\n") +
     "\n" +
-    templateCSS
+    templateCSS +
+    "\n" +
+    studiesCSS
   );
 }
 export function motionDocument(

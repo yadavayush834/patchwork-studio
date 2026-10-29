@@ -1,6 +1,8 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { MotionScene } from "./scene";
+import { MotionScene, type Pose } from "./scene";
+import { StudyScene } from "./study-scene";
+import { animateStudy } from "./study-runtime";
 import { isMotionId } from "./catalog";
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true });
@@ -9,7 +11,7 @@ const id = root?.dataset.template;
 const parentMessage = (data: Record<string, unknown>) => {
   if (parent !== window) parent.postMessage(data, "*");
 };
-function aether(scene: MotionScene, mobile: boolean) {
+function aether(scene: { pose: Pose }, mobile: boolean) {
   gsap.set([".ae-explode-copy", ".ae-annotation"], { autoAlpha: 0 });
   const hero = gsap.timeline({
     scrollTrigger: {
@@ -174,7 +176,7 @@ function aether(scene: MotionScene, mobile: boolean) {
     },
   });
 }
-function offscript(scene: MotionScene, mobile: boolean) {
+function offscript(scene: { pose: Pose }, mobile: boolean) {
   const hero = gsap.timeline({
     scrollTrigger: {
       trigger: ".of-hero",
@@ -372,7 +374,7 @@ function offscript(scene: MotionScene, mobile: boolean) {
     },
   });
 }
-function floraison(scene: MotionScene, mobile: boolean) {
+function floraison(scene: { pose: Pose }, mobile: boolean) {
   gsap.set(".fl-bloom-copy", { autoAlpha: 0 });
   scene.pose.bloom = 0.65;
   const hero = gsap.timeline({
@@ -535,7 +537,7 @@ function floraison(scene: MotionScene, mobile: boolean) {
     },
   });
 }
-function monolith(scene: MotionScene, mobile: boolean) {
+function monolith(scene: { pose: Pose }, mobile: boolean) {
   gsap.set([".mn-section-copy", ".mn-floor-notes"], { autoAlpha: 0 });
   const hero = gsap.timeline({
     scrollTrigger: {
@@ -822,18 +824,22 @@ if (root && isMotionId(id)) {
         const reduced = !!context.conditions?.reduce,
           mobile = !!context.conditions?.mobile;
         root.classList.toggle("mt-reduced", reduced);
-        const scene = new MotionScene(
-          root.querySelector<HTMLElement>(".mt-scene")!,
-          id,
-          reduced,
+        const sceneHost = root.querySelector<HTMLElement>(
+          ".mt-scene,.ns-scene",
         );
-        const render = (time: number) => scene.render(time);
+        const scene = sceneHost
+          ? id === "pelagic" || id === "heliograph"
+            ? new StudyScene(sceneHost, id, reduced)
+            : new MotionScene(sceneHost, id, reduced)
+          : undefined;
+        const render = (time: number) => scene?.render(time);
         if (!reduced) {
           gsap.ticker.add(render);
-          if (id === "aether") aether(scene, mobile);
-          else if (id === "offscript") offscript(scene, mobile);
-          else if (id === "floraison") floraison(scene, mobile);
-          else monolith(scene, mobile);
+          if (id === "aether" && scene) aether(scene, mobile);
+          else if (id === "offscript" && scene) offscript(scene, mobile);
+          else if (id === "floraison" && scene) floraison(scene, mobile);
+          else if (id === "monolith" && scene) monolith(scene, mobile);
+          else animateStudy(id, scene, mobile);
           gsap.utils.toArray<HTMLElement>(".mt-reveal").forEach((el) =>
             gsap.from(el, {
               y: 70,
@@ -849,8 +855,10 @@ if (root && isMotionId(id)) {
           );
           gsap.from(".mt-nav", { y: -15, autoAlpha: 0, duration: 0.6 });
         } else {
-          scene.pose.bloom = 1;
-          scene.render(0);
+          if (scene) {
+            scene.pose.bloom = 1;
+            scene.render(0);
+          }
         }
         const progress = ScrollTrigger.create({
           start: 0,
@@ -872,7 +880,7 @@ if (root && isMotionId(id)) {
           if (disposed) return;
           disposed = true;
           gsap.ticker.remove(render);
-          scene.dispose();
+          scene?.dispose();
           progress.kill();
         };
         window.addEventListener("pagehide", dispose, { once: true });

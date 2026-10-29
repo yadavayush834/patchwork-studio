@@ -73,3 +73,11 @@ The collection is deliberately separate from the lavender workbench: warm gray p
 Each scroll sequence introduces a new composition. Keep motion authored around the chapter rather than adding a blanket fade to every element. Native vertical scroll drives pinned and sideways sequences. Reduced motion presents the content without pinning or scrubbed transforms. Text, brand, and contact actions stay accessible. Keep concepts fictional and do not invent testimonials, real customers, or measurable product claims.
 
 Monolith uses warm mineral paper, graphite, terracotta, geometric grotesk typography with restrained serif contrasts, and precise drawing annotations. Its pavilion separates into structural floors; a traced courtyard plan explains the design; vertical curtains reveal three imagined spatial studies. Keep the full-screen projects distinct from the studio template’s horizontal track. The four-item collection uses two columns so every cover has room.
+
+## Further motion studies
+
+- **Pelagic**: ink-blue ocean, pale mineral typography, acid-green telemetry. A bolted survey capsule descends through the water column; drawn sonar contours rotate into a map; three translucent medusa specimens drift into an observational theatre. Depth is scroll position, not a decorative looping counter.
+- **Heliograph**: charcoal, warm vellum, amber and engraved brass. A six-ring armillary instrument separates into orbital planes. A lunar disc crosses the sun, holds totality with a corona, then releases the light. The atlas is a continuous sideways journey through three original orbital plates.
+- **Afterimage**: mineral paper, photographic green-black, vermilion. An eight-blade optical iris opens and enlarges into an illustrated landscape. Foreground/background layers move at different rates before a vertical match cut and staggered shutter introduce the next film. A physical nine-frame contact sheet separates around a selected image.
+
+Each opening has an authored phone composition. Staged labels become normal reading content under reduced motion; do not hide later observations or films. Keep the scripts local and retain the direct relationship between scrolling and the changing composition.

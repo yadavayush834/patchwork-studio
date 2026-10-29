@@ -12,7 +12,7 @@ The user subsequently requested the real `stackedlol/ascii-sharks` library plus 
 
 ## Implemented
 
-- Independent Motion Templates collection at `?collection=motion`, reached from dashboard navigation and a dedicated collection card. Four complete GSAP ScrollTrigger experiences: Æther (product/chrome headphone assembly), Offscript (kinetic type, sideways work, flying process deck), Floraison (blooming sculpted flower, botanical specimens, seasons), and Monolith (exploded courtyard pavilion, traced plans, cinematic spatial studies).
+- Independent Motion Templates collection at `?collection=motion`, reached from dashboard navigation and a dedicated collection card. Seven complete GSAP ScrollTrigger experiences: Æther (product/chrome headphone assembly), Offscript (kinetic type, sideways work, flying process deck), Floraison (blooming sculpted flower, botanical specimens, seasons), Monolith (exploded courtyard pavilion, traced plans, cinematic spatial studies), Pelagic (diving capsule descent, sonar cartography, luminous specimens), Heliograph (orbital instrument, eclipse alignment, celestial atlas), and Afterimage (mechanical iris, illustrated film edits, unspooling contact sheet).
 - Templates preview in isolated documents and export as self-contained static website ZIPs with local fonts, GSAP/Three.js runtime, notices, and a reference recipe. They are separate authored sites, not ordinary Patchwork section documents. Brand/headline/accent/email customization persists in namespaced, versioned local storage; original editor documents stay version 1.
 - Native scrolling, desktop/phone choreography, reduced-motion reading layouts, WebGL graphic fallback, keyboard exits, and bounded/offscreen 3D rendering. Source is under `src/motion/`; generated `public/motion/engine.js` comes from `npm run build:motion` and is rebuilt by normal dev/build scripts.
 
@@ -58,3 +58,9 @@ The approved first release, ASCII expansion, and Video Lab implementation are co
 - The initial studio build used repo-wide coding work in the main chat; the user explicitly requested no subagents.
 - Fresh browser QA should use a separate profile and prepared fixtures. Some scripts are staged workflows, not independent tests or CI entry points.
 - Browser zoom can change the effective CSS viewport. Use actual `innerWidth` for responsive assertions; the final standalone probe compensates for zoom.
+
+## Motion expansion — 29 October 2026
+
+Three additional authored scroll experiences are integrated into the existing collection, customization record, and static ZIP exporter. Each has three reversible pinned sequences, original local artwork, a real captured cover, phone choreography, a complete reduced-motion reading layout, and accessible contact/navigation links. Pelagic and Heliograph add procedural Three.js instruments; Afterimage uses CSS optics and layered SVG film frames. Source additions: `studies.ts`, `studies.css`, `study-runtime.ts`, and `study-scene.ts`.
+
+Current local preview: Vite development server on `http://127.0.0.1:5174`. This expansion adds no backend or document/storage migration. Focused checks are recorded in `docs/VERIFICATION.md`; browser QA has a separate production origin and does not touch original drafts.

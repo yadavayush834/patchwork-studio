@@ -925,7 +925,7 @@ export default function App() {
                       <strong>
                         Made to move you.
                         <small>
-                          Four immersive GSAP templates. A separate collection
+                          Seven immersive GSAP templates. A separate collection
                           of scroll-led worlds.
                         </small>
                       </strong>

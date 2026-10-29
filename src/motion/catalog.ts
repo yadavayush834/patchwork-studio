@@ -1,6 +1,7 @@
 export const motionTemplates = [
   {
     id: "aether",
+    cover: "/motion/aether-cover.png",
     number: "01",
     name: "Æther",
     category: "PRODUCT / OBJECT",
@@ -19,6 +20,7 @@ export const motionTemplates = [
   },
   {
     id: "offscript",
+    cover: "/motion/offscript-cover.png",
     number: "02",
     name: "Offscript",
     category: "STUDIO / EXPRESSION",
@@ -37,6 +39,7 @@ export const motionTemplates = [
   },
   {
     id: "floraison",
+    cover: "/motion/floraison-cover.png",
     number: "03",
     name: "Floraison",
     category: "JOURNAL / NATURE",
@@ -55,6 +58,7 @@ export const motionTemplates = [
   },
   {
     id: "monolith",
+    cover: "/motion/monolith-cover.png",
     number: "04",
     name: "Monolith",
     category: "ARCHITECTURE / SPACE",
@@ -69,6 +73,67 @@ export const motionTemplates = [
       "Drawn from the inside",
       "Studies in space",
       "Build a possibility",
+    ],
+  },
+  {
+    id: "pelagic",
+    cover: "/motion/pelagic-cover.jpg",
+    number: "05",
+    name: "Pelagic",
+    category: "EXPEDITION / OCEAN",
+    headline: "Below the known.",
+    description:
+      "A descent into the blue. A sculpted diving capsule, sonar-drawn seabeds, and luminous life suspended in the dark.",
+    color: "#d8fc81",
+    background: "#051c29",
+    tags: ["Cinematic descent", "Sonar cartography", "Specimen theatre"],
+    chapters: [
+      "Leave the surface",
+      "Read the unseen",
+      "Life without sunlight",
+      "Stay curious",
+    ],
+  },
+  {
+    id: "heliograph",
+    cover: "/motion/heliograph-cover.jpg",
+    number: "06",
+    name: "Heliograph",
+    category: "OBSERVATORY / COSMOS",
+    headline: "A closer kind of infinity.",
+    description:
+      "An instrument for wonder. A brass orbital sculpture unfolds, an eclipse aligns, and an atlas carries you from dawn to the edge of night.",
+    color: "#ed9f51",
+    background: "#171819",
+    tags: ["Orbital mechanics", "Scroll-built eclipse", "Celestial atlas"],
+    chapters: [
+      "An instrument for wonder",
+      "Between light and shadow",
+      "A field guide to infinity",
+      "Keep looking up",
+    ],
+  },
+  {
+    id: "afterimage",
+    cover: "/motion/afterimage-cover.jpg",
+    number: "07",
+    name: "Afterimage",
+    category: "CINEMA / VISUAL CULTURE",
+    headline: "Some things stay with you.",
+    description:
+      "A cinema journal in motion. Step through a mechanical iris, direct three illustrated film sequences, and unspool a moving contact sheet.",
+    color: "#ef623d",
+    background: "#e7e1d3",
+    tags: [
+      "Mechanical iris",
+      "Scroll-directed film",
+      "Unspooling contact sheet",
+    ],
+    chapters: [
+      "Open your eyes",
+      "Three short stories",
+      "Between the frames",
+      "Make a lasting impression",
     ],
   },
 ] as const;

@@ -402,14 +402,14 @@ export default function MotionStudio({ onClose }: Props) {
             <div className="motion-intro-note">
               <span>NOT JUST A FIRST IMPRESSION.</span>
               <p>
-                Four worlds to get lost in.
+                Seven worlds to get lost in.
                 <br />
                 Sculpted objects. Type with a pulse.
                 <br />
                 Stories that unfold in your hands.
               </p>
               <div>
-                <span>04 TEMPLATES</span>
+                <span>07 TEMPLATES</span>
                 <i></i>
                 <span>ENDLESS POSSIBILITIES</span>
               </div>
@@ -417,7 +417,7 @@ export default function MotionStudio({ onClose }: Props) {
           </div>
           <div className="motion-catalog-head">
             <span>THE COLLECTION</span>
-            <span>01 — 04 / SCROLL-LED EXPERIENCES</span>
+            <span>01 — 07 / SCROLL-LED EXPERIENCES</span>
           </div>
           <div className="motion-template-card-grid">
             {motionTemplates.map((t) => (
@@ -431,7 +431,12 @@ export default function MotionStudio({ onClose }: Props) {
                   aria-label={`Explore ${t.name}`}
                 >
                   <img
-                    src={`/motion/${t.id}-cover.png`}
+                    src={t.cover}
+                    loading="lazy"
+                    decoding="async"
+                    onLoad={(e) => {
+                      e.currentTarget.style.display = "";
+                    }}
                     alt={`${t.name} template cover`}
                     onError={(e) => {
                       e.currentTarget.style.display = "none";

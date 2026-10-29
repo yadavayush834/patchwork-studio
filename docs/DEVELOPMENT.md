@@ -125,3 +125,7 @@ Keep browser profiles and downloads under ignored QA folders. Use software WebGL
 `browser-motion-production.js` runs against the built app on 5177, checks the dashboard entry and downloads, then tests reduced-motion/keyboard exits. `browser-motion-downloads.js` refreshes the four production ZIPs. Extract them to `output/playwright/motion-sites/{aether,offscript,floraison,monolith}`, serve that parent on 5181, and run `browser-motion-standalone.js`. This verifies independent resources, real pins/wheel/anchors, 390px bounds and a deliberate WebGL-unavailable fallback. It modifies only the isolated test browser's WebGL API during its final fallback phase; close that session afterward.
 
 `browser-motion-monolith.js` is the focused production probe for the fourth template: four gallery cards, three pins, staged blueprint notes and final spatial curtain, ZIP download, readable reduced-motion notes/projects at 390px, and iframe keyboard exit back to the dashboard.
+
+### Expanded motion collection
+
+`browser-motion-expansion.js` is the focused production probe on port 5177 for Pelagic, Heliograph, and Afterimage. It checks seven gallery entries, real wheel scrolling, three pins per new experience, a late authored composition, ZIP downloads, and phone/reduced-motion layouts. Prepare `output/playwright` as for the existing staged probes. Extract each downloaded ZIP and serve it on a separate local origin to check independence; none of the three needs remote media. Existing production/Monolith probes also expect the seven-card gallery.

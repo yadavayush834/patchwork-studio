@@ -8,9 +8,9 @@ import {
 } from "../src/motion/catalog";
 import { renderMotion } from "../src/motion/templates";
 
-test("four independent motion stories have real scenes, navigation, chapters, and contact actions", () => {
-  assert.equal(motionTemplates.length, 4);
-  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 4);
+test("seven independent motion stories have real scenes, navigation, chapters, and contact actions", () => {
+  assert.equal(motionTemplates.length, 7);
+  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 7);
   for (const t of motionTemplates) {
     const html = renderMotion(t.id);
     assert.match(html, new RegExp(`data-scene="${t.id}"`));
@@ -45,8 +45,7 @@ test("template customization escapes markup, limits input, and refuses unsafe co
       .length,
     85,
   );
-  for (const id of ["aether", "offscript", "floraison", "monolith"])
-    assert.equal(isMotionId(id), true);
+  for (const { id } of motionTemplates) assert.equal(isMotionId(id), true);
   for (const id of ["__proto__", "other", null, 3])
     assert.equal(isMotionId(id), false);
 });
@@ -69,6 +68,28 @@ test("each motion template has distinct compositions rather than shared renamed 
   assert.ok(!m.includes("fl-specimen"));
   assert.ok(!o.includes("ae-wave"));
   assert.ok(!f.includes("of-work-track"));
+  const p = renderMotion("pelagic"),
+    h = renderMotion("heliograph"),
+    film = renderMotion("afterimage");
+  assert.match(p, /pl-contours/);
+  assert.match(p, /pl-life-notes/);
+  assert.match(h, /he-corona/);
+  assert.match(h, /he-atlas-track/);
+  assert.match(film, /af-iris-blades/);
+  assert.match(film, /af-contact-sheet/);
+  for (const html of [p, h, film]) {
+    const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
+    assert.equal(
+      new Set(ids).size,
+      ids.length,
+      "SVG definitions and section anchors must stay unique",
+    );
+    for (const reference of html.matchAll(/url\(#([^)]*)\)/g))
+      assert.ok(
+        ids.includes(reference[1]),
+        `Missing local artwork definition ${reference[1]}`,
+      );
+  }
 });
 
 test("contact mailbox punctuation cannot become mailto query headers", () => {

@@ -1,3 +1,4 @@
+import { renderNewMotion } from "./studies";
 import {
   type MotionId,
   type MotionConfig,
@@ -159,5 +160,5 @@ export function renderMotion(
   config: Partial<MotionConfig> = {},
 ): string {
   const c = normalizeMotionConfig(config, id);
-  return `<div class="mt-page mt-${id}" style="--accent:${c.accent}" data-template="${id}">${id === "aether" ? aether(c) : id === "offscript" ? offscript(c) : id === "floraison" ? floraison(c) : monolith(c)}</div>`;
+  return `<div class="mt-page mt-${id}" style="--accent:${c.accent}" data-template="${id}">${id === "aether" ? aether(c) : id === "offscript" ? offscript(c) : id === "floraison" ? floraison(c) : id === "monolith" ? monolith(c) : renderNewMotion(id, c)}</div>`;
 }

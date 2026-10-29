@@ -71,3 +71,9 @@ The section inspector offers live canvas / recorded WebM, speed, detail, glow co
 Live animation is capped at 30 fps and 1.5 device-pixel ratio. Offscreen and hidden canvases stop; reduced motion displays a poster. Exported sites include the same self-contained canvas runtime plus the relevant poster or video and the MIT/CC0 notices. No CDN or source-repo request is needed.
 
 The vendored upstream revision and adaptations are documented in `src/vendor/ascii-sharks/NOTICE.md`. Original scene code is in `src/ascii/field.ts`; lifecycle/rendering is in `src/ascii/entry.ts`. `npm run build:ascii` regenerates the standalone runtime; normal dev/build commands do this automatically. To regenerate video assets, prepare `scripts/prepare-ascii-capture.mjs`, run the `scripts/browser-record-ascii.js` Playwright CLI workflow against a dev server on port 5175, then run `python scripts/finish-ascii-loops.py` (Pillow/imageio-ffmpeg are optional asset-generation dependencies, not runtime dependencies).
+
+## Motion templates
+
+Open **Motion templates** or `?collection=motion` for seven independent scroll-driven websites: Æther, Offscript, Floraison, Monolith, Pelagic, Heliograph, and Afterimage. The three newest studies explore ocean descent and sonar mapping, orbital instruments and an eclipse, and mechanical optics with scroll-directed films.
+
+Each template supports brand/headline/accent/contact customization and downloads as a complete local website with fonts, artwork, runtime, and notices. Native scrolling drives GSAP timelines. Phone compositions, reduced-motion reading layouts, and illustrated graphics for unavailable WebGL are included. See `docs/DEVELOPMENT.md` for the focused browser probes.
