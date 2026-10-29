@@ -74,6 +74,12 @@ The vendored upstream revision and adaptations are documented in `src/vendor/asc
 
 ## Motion templates
 
-Open **Motion templates** or `?collection=motion` for seven independent scroll-driven websites: Æther, Offscript, Floraison, Monolith, Pelagic, Heliograph, and Afterimage. The three newest studies explore ocean descent and sonar mapping, orbital instruments and an eclipse, and mechanical optics with scroll-directed films.
+Open **Motion templates** or `?collection=motion` for nine independent scroll-driven websites: Æther, Offscript, Floraison, Monolith, Pelagic, Heliograph, Afterimage, Reverie, and Traverse. The three newest studies explore ocean descent and sonar mapping, orbital instruments and an eclipse, and mechanical optics with scroll-directed films.
 
 Each template supports brand/headline/accent/contact customization and downloads as a complete local website with fonts, artwork, runtime, and notices. Native scrolling drives GSAP timelines. Phone compositions, reduced-motion reading layouts, and illustrated graphics for unavailable WebGL are included. See `docs/DEVELOPMENT.md` for the focused browser probes.
+
+**Reverie** and **Traverse** add six original ChatGPT-generated environments to the motion collection. Their photographic worlds are choreographed into portals, turning galleries, image assembly, folding maps, and an alpine passage. Every download includes its three local WebP images and exact artwork-generation record; the exported website needs no AI service or remote media.
+
+### Design Library
+
+Open `?collection=library` or choose **Design Library** in the sidebar. A separate workspace contains 246 resources retained from from `yadavayush834/website-design-template-library`: templates, style studies, interface recreations, color palettes, motion experiments, SVG experiments and UI primitives. Browse/search/save, preview at real device widths, use the original lab tools, and download source or reference metadata. This collection does not replace the editor or Motion Studies. See `vendor/design-library/README.md` for provenance and the normalized structure.
