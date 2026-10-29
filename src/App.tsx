@@ -85,6 +85,7 @@ import { exportWebsite } from "./export";
 import Preview from "./Preview";
 import AsciiGallery from "./AsciiGallery";
 const VideoLab = lazy(() => import("./video-lab/VideoLab"));
+const DesignLibrary = lazy(() => import("./DesignLibrary"));
 const MotionStudio = lazy(() => import("./motion/MotionStudio"));
 
 type Tab = "sections" | "backgrounds" | "decorations" | "type" | "motion";
@@ -174,6 +175,26 @@ function Slider({
 const starters = worlds.map((w) => createProject(w.id));
 
 export default function App() {
+  const [libraryOpen, setLibraryOpen] = useState(
+    () => new URLSearchParams(location.search).get("collection") === "library",
+  );
+  const openLibrary = useCallback(() => {
+    setLibraryOpen(true);
+    setMotionOpen(false);
+    setVideoLabOpen(false);
+    const url = new URL(location.href);
+    url.searchParams.set("collection", "library");
+    url.searchParams.delete("motion");
+    url.searchParams.delete("lab");
+    window.history.replaceState(null, "", url);
+  }, []);
+  const closeLibrary = useCallback(() => {
+    setLibraryOpen(false);
+    const url = new URL(location.href);
+    url.searchParams.delete("collection");
+    url.searchParams.delete("template");
+    window.history.replaceState(null, "", url);
+  }, []);
   const [motionOpen, setMotionOpen] = useState(
     () =>
       new URLSearchParams(location.search).get("collection") === "motion" ||
@@ -766,6 +787,10 @@ export default function App() {
             </div>
             <p className="nav-label">YOUR STUDIO</p>
             <nav>
+              <button onClick={openLibrary}>
+                <LayoutGrid size={18} /> Design Library{" "}
+                <span className="new-dot" />
+              </button>
               <button onClick={openMotion}>
                 <Sparkles size={18} /> Motion templates{" "}
                 <span className="new-dot" />
@@ -919,13 +944,26 @@ export default function App() {
                       </span>
                     </div>
                   </div>
+                  <button className="motion-launch" onClick={openLibrary}>
+                    <div>
+                      <span className="motion-launch-icon">▦</span>
+                      <strong>
+                        A library of possibility.
+                        <small>
+                          Templates, color palettes, UI, and experiments. Seven
+                          collections in their own space.
+                        </small>
+                      </strong>
+                    </div>
+                    <ArrowUpRight size={24} />
+                  </button>
                   <button className="motion-launch" onClick={openMotion}>
                     <div>
                       <span className="motion-launch-icon">✳</span>
                       <strong>
                         Made to move you.
                         <small>
-                          Seven immersive GSAP templates. A separate collection
+                          Nine immersive GSAP templates. A separate collection
                           of scroll-led worlds.
                         </small>
                       </strong>
@@ -2542,6 +2580,18 @@ export default function App() {
             </aside>
           )}
         </div>
+      )}
+      {libraryOpen && (
+        <Suspense
+          fallback={
+            <div className="vl-close-loading" role="status">
+              Opening Design Library…
+              <button onClick={closeLibrary}>Back to Patchwork</button>
+            </div>
+          }
+        >
+          <DesignLibrary onClose={closeLibrary} />
+        </Suspense>
       )}
       {motionOpen && (
         <Suspense
