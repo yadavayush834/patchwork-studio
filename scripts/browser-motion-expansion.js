@@ -6,8 +6,8 @@ async (page) => {
   await page.setViewportSize({width:1440,height:1000});
   await page.goto('http://127.0.0.1:5177/?collection=motion');
   await page.locator('.motion-template-card').first().waitFor();
-  if (await page.locator('.motion-template-card').count() !== 7)
-    throw Error('Expected seven motion templates');
+  if (await page.locator('.motion-template-card').count() !== 9)
+    throw Error('Expected nine motion templates');
   for (const [id,name,stage,target] of [
     ['pelagic','Pelagic','.pl-survey-pin','.pl-survey-notes article:nth-child(3)'],
     ['heliograph','Heliograph','.he-eclipse-pin','.he-totality'],
@@ -49,5 +49,5 @@ async (page) => {
     await page.getByRole('button',{name:'The collection',exact:true}).click();
   }
   if(errors.length) throw Error(errors.join('\n'));
-  return {templates:7,results,errors};
+  return {templates:9,results,errors};
 }

@@ -1,6 +1,16 @@
 // Real rendered covers. Run only after the layouts have passed visual review.
 async (page) => {
-  for (const id of ["aether", "offscript", "floraison", "monolith", "pelagic", "heliograph", "afterimage"]) {
+  for (const id of [
+    "aether",
+    "offscript",
+    "floraison",
+    "monolith",
+    "pelagic",
+    "heliograph",
+    "afterimage",
+    "reverie",
+    "traverse",
+  ]) {
     await page.setViewportSize({ width: 900, height: 1080 });
     await page.goto(`http://127.0.0.1:5176/?collection=motion&motion=${id}`);
     const iframe = page.locator(".motion-preview iframe"),
@@ -14,7 +24,9 @@ async (page) => {
     await page
       .locator(".motion-preview-info")
       .evaluate((el) => (el.style.visibility = "hidden"));
-    await iframe.screenshot({ path: `public/motion/${id}-cover.${["pelagic", "heliograph", "afterimage"].includes(id) ? "jpg" : "png"}` });
+    await iframe.screenshot({
+      path: `public/motion/${id}-cover.${["pelagic", "heliograph", "afterimage", "reverie", "traverse"].includes(id) ? "jpg" : "png"}`,
+    });
   }
-  return { covers: 7 };
-}
+  return { covers: 9 };
+};

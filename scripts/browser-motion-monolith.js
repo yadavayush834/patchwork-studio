@@ -4,8 +4,8 @@ async (page) => {
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("http://127.0.0.1:5177/?collection=motion");
   await page.locator(".motion-template-card-grid").waitFor();
-  if ((await page.locator(".motion-template-card").count()) !== 7)
-    throw Error("Expected seven gallery cards");
+  if ((await page.locator(".motion-template-card").count()) !== 9)
+    throw Error("Expected nine gallery cards");
   await page
     .getByRole("button", { name: "Explore Monolith", exact: true })
     .click();

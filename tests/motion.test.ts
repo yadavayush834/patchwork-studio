@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { imageMotionAssets } from "../src/motion/image-assets";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
@@ -8,9 +10,9 @@ import {
 } from "../src/motion/catalog";
 import { renderMotion } from "../src/motion/templates";
 
-test("seven independent motion stories have real scenes, navigation, chapters, and contact actions", () => {
-  assert.equal(motionTemplates.length, 7);
-  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 7);
+test("nine independent motion stories have real scenes, navigation, chapters, and contact actions", () => {
+  assert.equal(motionTemplates.length, 9);
+  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 9);
   for (const t of motionTemplates) {
     const html = renderMotion(t.id);
     assert.match(html, new RegExp(`data-scene="${t.id}"`));
@@ -98,4 +100,41 @@ test("contact mailbox punctuation cannot become mailto query headers", () => {
   });
   assert.ok(html.includes('href="mailto:team%3Fsubject%3Dhello@example.com"'));
   assert.ok(!html.includes('href="mailto:team?subject='));
+});
+
+test("photographic motion stories package their local artwork and generation records", () => {
+  for (const id of ["reverie", "traverse"] as const) {
+    const html = renderMotion(id);
+    const images = new Set(
+      [...html.matchAll(/<img[^>]+src="([^"]+)"/g)].map((match) => match[1]),
+    );
+    const manifest = imageMotionAssets(id);
+    assert.equal(images.size, 3);
+    for (const path of images) {
+      assert.ok(manifest.includes(path), `${path} must be in the static ZIP`);
+      const bytes = readFileSync(new URL(`../public/${path}`, import.meta.url));
+      assert.equal(bytes.subarray(0, 4).toString(), "RIFF");
+      assert.equal(bytes.subarray(8, 12).toString(), "WEBP");
+    }
+    const recordPath = manifest.find((path) => path.endsWith("-artwork.json"))!;
+    const record = JSON.parse(
+      readFileSync(new URL(`../public/${recordPath}`, import.meta.url), "utf8"),
+    );
+    assert.equal(record.assets.length, 3);
+    assert.ok(
+      record.assets.every(
+        (asset: { prompt: string }) => asset.prompt.length > 200,
+      ),
+    );
+    assert.ok(!JSON.stringify(record).includes("/home/"));
+    const hostile = renderMotion(id, {
+      brand: "<script>bad</script>",
+      headline: "<img src=x onerror=bad>",
+      email: "javascript:bad",
+      accent: "red;display:none",
+    });
+    assert.ok(!hostile.includes("<script>"));
+    assert.ok(!hostile.includes("<img src=x"));
+    assert.ok(!hostile.includes("mailto:javascript"));
+  }
 });
