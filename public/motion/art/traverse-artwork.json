@@ -1,0 +1,23 @@
+{
+  "generator": "ChatGPT built-in ImageGen",
+  "created": "2026-10-29",
+  "use": "Original generated concept artwork for Patchwork Motion Studies; fictional places. No external image request is needed at runtime.",
+  "assets": [
+    {
+      "id": "traverse-ridge",
+      "prompt": "Use case: photorealistic-natural. Asset type: cinematic full-bleed hero panorama for a high-end alpine expedition website, wide landscape 16:9 high resolution. Immense sculptural snow-covered mountain massif, dramatic jagged central summit slightly right of center, very detailed blue-black striated rock, windswept snow ridges, deep glacier valley, cobalt and glacial blue shadows, first warm sunrise light grazing the right faces. Foreground dark fractured ridge from bottom left framing valley, layers of distant peaks in atmospheric haze. Camera at high altitude, majestic realistic large-format expedition photography, refined restrained color grading, extraordinary texture and depth, no oversaturated HDR. Upper 25 percent has clean cold pale sky and ample negative space especially left side for large live website title; mountain summit rises through that space on right. No climbers, no humans, no buildings, no text, no labels, no logos, no watermarks. Original fictional mountain landscape, do not imitate a particular photographer. The image will be divided into aligned vertical parallax panels and used as a scroll-driven ascent.",
+      "file": "motion/art/traverse-ridge.webp"
+    },
+    {
+      "id": "traverse-glacier",
+      "prompt": "Use case: photorealistic-natural. Asset type: cinematic landscape 16:9 website expedition chapter image, high resolution. Inside a monumental blue glacier canyon, camera low above a frozen pale river looking toward a distant sliver of sunlight and snowy mountains. Huge sculpted ice walls on left and right, deep translucent glacial cyan, indigo cracks, detailed trapped air, exquisite rippled facets and frost. Strong central perspective and diagonal strata pulling viewer toward the light. Foreground ice sharply textured; distant opening with a small warm ivory glow. Authentic natural photography, high dynamic range but restrained realistic color, luxurious expedition journal art direction, cold intense atmosphere, no sci-fi glowing neon. Composition keeps the center of canyon open with recognizable central vanishing point at 52 percent horizontal, upper-middle vertical. No people, no footprints, no buildings, no captions, no logos or watermarks. Original fictional alpine landscape; meant for a scroll-driven passage through layered vertical shutter panels.",
+      "file": "motion/art/traverse-glacier.webp"
+    },
+    {
+      "id": "traverse-summit",
+      "prompt": "Use case: photorealistic-natural. Asset type: cinematic panoramic summit image for the final chapter of an immersive alpine website, wide 16:9 high resolution. Standing on the very top of a narrow jagged snowy mountain ridge, looking across an endless ocean of clouds, distant sawtooth mountains rise through mist, first sunrise in pale apricot and creamy gold on horizon, sky very dark cobalt at upper edge graduating to powder blue. A fine sharp foreground rock-and-snow crest points from bottom center toward horizon, providing strong depth and an original dramatic composition. No people, flags, ropes, tents, buildings, no captions, no watermark, no logos. Breathtaking natural realism and subtle fine photographic texture, restrained editorial expedition photography, no oversaturated HDR. Upper half calm spacious sky for live website closing typography; bottom half mountain and cloud depth. Match a fictional glacial alpine world with blue-black rock and cyan shadows. Sense of arrival, cold silent air, earned light.",
+      "file": "motion/art/traverse-summit.webp",
+      "refinementPrompt": "Use case: precise-object-edit. Edit target: the attached alpine summit photograph. Change ONLY the tiny gray emblem/mark near the extreme bottom-right corner: remove it completely and reconstruct the natural blue-gray mountain/cloud pixels behind it. Preserve the entire existing mountain panorama, composition, snow ridge, sunrise, sky, materials, colors, lighting, grain, image size and camera exactly. Do not add any new symbols, logos, text, labels, watermarks, frames, people, objects, or alter any other region. The result must be the same pristine photograph with no emblem in that corner."
+    }
+  ]
+}
