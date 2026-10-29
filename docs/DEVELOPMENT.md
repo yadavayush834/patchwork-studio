@@ -129,3 +129,21 @@ Keep browser profiles and downloads under ignored QA folders. Use software WebGL
 ### Expanded motion collection
 
 `browser-motion-expansion.js` is the focused production probe on port 5177 for Pelagic, Heliograph, and Afterimage. It checks seven gallery entries, real wheel scrolling, three pins per new experience, a late authored composition, ZIP downloads, and phone/reduced-motion layouts. Prepare `output/playwright` as for the existing staged probes. Extract each downloaded ZIP and serve it on a separate local origin to check independence; none of the three needs remote media. Existing production/Monolith probes also expect the seven-card gallery.
+
+### Image-led motion studies
+
+`browser-motion-image-studies.js` is the focused production probe on 5177 for Reverie/Traverse. It checks loaded generated images, native wheel scroll, three pins each, late compositions, ZIP downloads, and complete phone/reduced-motion reading. As with the other CLI snippets, prepare `output/playwright` and use a separate QA browser profile. Extract downloads to a separate static server to check all `motion/art/` references independently. Existing gallery-count probes now expect nine entries.
+
+The six original environments and their exact generation prompts live in `public/motion/art/`. To revise artwork, preserve the current files, generate a reviewed replacement, optimize it, update its provenance record, then verify image registration and export. Do not regenerate images on ordinary dev/build commands. The app has no runtime image-generation API.
+
+## Imported library development
+
+Use `npm run build:library` after editing `vendor/design-library/src/`. This regenerates `library-catalog.json`, runs its independent TypeScript/Vite build and writes `public/design-library/`, `catalog.json` and `library-source.zip`. Main dev/build invoke this step too; nested dependencies install from their committed lockfile on first use. The existing running Vite server serves generated public files without restarting, but library source changes need this build step. Edit sources, not hashed generated bundles.
+
+Verify `?collection=library` on a separate QA origin: all seven counts, search, category filter, favorites after reload, one example per family, an actual 375px nested iframe, a source/reference download and returning to the original dashboard. Imported examples include simulated actions; they are not connected to real product backends. Original remote Google Font links were replaced by local system fallbacks. Source/provenance is in `vendor/design-library/README.md`.
+
+### Native template gallery
+
+`npm run build:library` also prepares/builds the template-only runtime. Edit original source, not `native-loaders.ts` or hashed output. Normal dev/build includes this step. Restart an already-running Vite server if its cached public-file inventory returns HTML for new dynamic JS imports.
+
+Verify hover playback and teardown, card click staying in Patchwork, real 1080/768/375 canvas widths, replay and back-to-gallery. Covers are actual first-screen captures of all 25 templates, optimized as JPEGs. Other collections have not been ported to the native shell.

@@ -79,7 +79,7 @@ Do not use generated screenshots, detector outputs, or worker self-reports as su
 
 ## Independent motion templates
 
-`src/motion/catalog.ts` defines seven stable template IDs and validated textual/accent/contact customizations. `templates.ts` is the single markup source for preview and ZIP exports; it escapes user text, preserves semantic headings and anchors, and keeps concept copy distinct from real product claims. `document.ts` supplies local fonts and shared CSS. These independently authored multi-section templates do not enter the existing project/section renderer or IndexedDB contract.
+`src/motion/catalog.ts` defines nine stable template IDs and validated textual/accent/contact customizations. `templates.ts` is the single markup source for preview and ZIP exports; it escapes user text, preserves semantic headings and anchors, and keeps concept copy distinct from real product claims. `document.ts` supplies local fonts and shared CSS. These independently authored multi-section templates do not enter the existing project/section renderer or IndexedDB contract.
 
 `MotionStudio.tsx` is lazy-loaded from `App`, makes underlying workbenches inert/hidden while open, and hosts an isolated iframe. Its version-1 `patchwork-motion-v1` local-storage record contains only normalized config. Brand/copy changes are applied explicitly; closing the collection preserves the current website editor. Preview messages are accepted only from the active iframe and matching template ID. Shell Escape/Tab behavior works across the iframe boundary.
 
@@ -93,4 +93,26 @@ Do not use generated screenshots, detector outputs, or worker self-reports as su
 
 `study-runtime.ts` owns their three pinned timelines per experience: ocean descent/map/specimens, orbital instrument/eclipse/horizontal atlas, and iris/three-film edit/contact-sheet selection. All are scrubbed and reversible; native scrolling and the existing parent progress/keyboard protocol remain. `study-scene.ts` builds the capsule and engraved armillary sphere, fits its camera to narrow hosts, caps DPR at 1.5 and rendering at 30 Hz, pauses hidden/offscreen drawing, and disposes GPU/observer resources. It shares the pose interface with the original renderer without altering those four scene builders. Afterimage requires no WebGL scene.
 
-The seven catalog records expose explicit cover URLs. New JPG covers are actual browser captures of the same rendered template, not external artwork. All three new downloads retain the existing 22-entry static bundle contract; no new remote asset dependency is introduced.
+The catalog records expose explicit cover URLs. New JPG covers are actual browser captures of the same rendered template, not external artwork. All three new downloads retain the existing 22-entry static bundle contract; no new remote asset dependency is introduced.
+
+### Generated-image motion studies
+
+`image-studies.ts` renders Reverie/Traverse through the existing `renderMotion` and `motionDocument` pipeline. `image-studies.css` is added to the shared exportable stylesheet. `image-runtime.ts` owns six GSAP timelines: responsive doorway projection and camera passage, three rotating room planes, nine registered postcard fragments, five panorama planes, six map folds with a traced SVG route/traveller, and seven ice planes opening to the summit. New pages have no Three.js scene host and need no WebGL context.
+
+The critical images decode before GSAP's initial measurements; portal clipping projects the photographed doorway coordinates through the actual cover crop. The normal match-media lifecycle reverts timelines on preference/breakpoint changes. Reduced motion shows every room and note in reading order, and places glacier before summit. Shared navigation, progress, and iframe keyboard messages are retained.
+
+`imageMotionAssets(id)` in `image-assets.ts` is the exact per-template export manifest. The six optimized WebP images and two prompt/provenance JSON files are served locally under `public/motion/art/`. Each new ZIP has 27 entries: the prior static bundle plus its three images, its record, and the artwork folder. No generated-image service, account, or API key is needed after authoring. Original generation masters and test captures remain outside Git; committed artwork records contain no machine paths.
+
+## Imported Design Library
+
+`src/DesignLibrary.tsx` hosts a separate same-origin iframe workspace and restores underlying focus/inert/display state on close. The main App lazy-loads only this host. Imported dependencies and Tailwind utilities are compiled separately in `vendor/design-library`; no imported style or component enters the editor bundle. Seven lazy demo adapters mount only the selected family. Individual previews use a nested iframe for genuine viewport media queries. Preview back messages validate source and origin.
+
+`import-design-library.mjs` parses source registries with the TypeScript AST without executing imported components, maps canonical names/categories/source references and emits a versioned, namespaced inventory. Historical aliases are consolidated; unique authored examples are never merged solely on their names or style words. Original metadata, documentation, component source and pinned upstream attribution are retained. `build-design-library.mjs` builds the static app and creates its catalog and complete source ZIP. UI primitives have individual demonstrations plus the original combined explorer. There is no conversion into version-1 editor documents.
+
+## Native Templates tab
+
+`DesignLibrary` renders `TemplateStudio` directly for Templates. Other collections retain the earlier iframe implementation. Only the website canvas is isolated; gallery/navigation/device controls belong to Patchwork. `prepare-native-templates.mjs` emits a compact 25-template catalog plus lazy component loaders from pinned original source. `native-runtime.tsx` and `vite.templates.config.ts` build `public/template-library/`, with one lazy chunk per website and no upstream app shell. No project/document migration or copy transformation is introduced. Canvas messages validate source, origin and template ID.
+
+## Authored template redesign sources
+
+The 14 template source paths and IDs remain stable. New shared helpers are in vendor/design-library/src/redesign/: Scene.tsx owns the Three.js lifecycle, expressive-models.ts builds the eight additional physical objects, shared.tsx provides modal/audio/footer helpers, and expressive.tsx provides decorative motion helpers. redesign.css and expressive.css are scoped to the authored sites; local fonts and notices live in redesign/fonts/. These modules are bundled only into imported/template canvases, not the main editor.
