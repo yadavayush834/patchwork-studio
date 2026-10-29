@@ -81,3 +81,23 @@ Monolith uses warm mineral paper, graphite, terracotta, geometric grotesk typogr
 - **Afterimage**: mineral paper, photographic green-black, vermilion. An eight-blade optical iris opens and enlarges into an illustrated landscape. Foreground/background layers move at different rates before a vertical match cut and staggered shutter introduce the next film. A physical nine-frame contact sheet separates around a selected image.
 
 Each opening has an authored phone composition. Staged labels become normal reading content under reduced motion; do not hide later observations or films. Keep the scripts local and retain the direct relationship between scrolling and the changing composition.
+
+## Reverie / Traverse — photographic motion worlds
+
+**Reverie** is a warm, surreal art journal: apricot dunes, travertine, jade water, pale rose stone, and a cobalt door. Large Playfair Display type overlays images without baking copy into the artwork. The first photographed arch becomes a real masked opening to the garden; the rooms turn like physical gallery walls; nine pieces align into a floating-island postcard. Keep the generated compositions in registration, not independently cropped tiles.
+
+**Traverse** is a colder expedition journal: blue-black rock, glacier cyan, ivory type, and a pale acid-green navigation accent. The panorama separates into depth planes. A photographic map unfolds and traces an imagined route. Glacial walls separate to reveal summit light. The landscapes and route are fictional; avoid real expedition, safety, or location claims.
+
+Both use original ChatGPT-generated environments, preserved as local assets with exact prompts. They are complete authored websites with live typography and contacts, not image-only mockups. Gallery covers are captured from actual rendered pages. Main compositions are separately reviewed at desktop, 900px tablet, and 390px phone widths.
+
+## Design Library workspace
+
+The library is a quiet cream-and-lavender editorial index: seven collections in one sidebar, expressive serif introduction, illustrated index cards, a single search/category toolbar and resource cards with save controls. Category families normalize raw source labels; secondary original styles/techniques remain searchable. The header always provides a return to Patchwork. Preview chrome provides responsive viewport controls, reference download and source context. Original demo art direction stays inside its own iframe; the imported library is not mixed into the editor's presets or GSAP collection. Narrow layouts use a horizontal collection strip and two-column cards.
+
+### Native template gallery correction
+
+Templates use Patchwork's lavender surfaces, Outfit typography, native controls and actual website screenshots. Hover/focus replaces only that card's cover with a living, gently scrolling page. One preview mounts at a time. Clicking opens the website beneath the same Patchwork header with device sizing, replay and return to all templates. Upstream library branding and navigation are absent from this path.
+
+## Redesign checkpoint: fourteen authored templates
+
+The first six use network precision, bookish editorial, maker-poster typography, a quiet material portfolio, sculptural commerce and a Nordic conference poster. The remaining eight introduce retro-computing optimism, industrial exactness, cobalt streetwear, a dark observation console, a watch atelier, pavilion light studies, a modular sound lab and a couture presentation. Physical models, graphic sprites and motion belong to each subject. Desktop review and refreshed covers remain incomplete at this checkpoint; the dedicated phone pass was explicitly deferred.

@@ -1,6 +1,6 @@
 # Current state and context
 
-Last verified: 29 October 2026. This file is the short entry point for a fresh chat or a different coding agent.
+Last verified: 30 October 2026. This file is the short entry point for a fresh chat or a different coding agent.
 
 Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/patchwork-studio), private, branch `main`. The local checkout uses `origin` for this repository. Check `git status`, the current commit, and the remote before continuing; do not infer present synchronization from this dated note.
 
@@ -12,7 +12,7 @@ The user subsequently requested the real `stackedlol/ascii-sharks` library plus 
 
 ## Implemented
 
-- Independent Motion Templates collection at `?collection=motion`, reached from dashboard navigation and a dedicated collection card. Seven complete GSAP ScrollTrigger experiences: Æther (product/chrome headphone assembly), Offscript (kinetic type, sideways work, flying process deck), Floraison (blooming sculpted flower, botanical specimens, seasons), Monolith (exploded courtyard pavilion, traced plans, cinematic spatial studies), Pelagic (diving capsule descent, sonar cartography, luminous specimens), Heliograph (orbital instrument, eclipse alignment, celestial atlas), and Afterimage (mechanical iris, illustrated film edits, unspooling contact sheet).
+- Independent Motion Templates collection at `?collection=motion`, reached from dashboard navigation and a dedicated collection card. Nine complete GSAP ScrollTrigger experiences: Æther (product/chrome headphone assembly), Offscript (kinetic type, sideways work, flying process deck), Floraison (blooming sculpted flower, botanical specimens, seasons), Monolith (exploded courtyard pavilion, traced plans, cinematic spatial studies), Pelagic (diving capsule descent, sonar cartography, luminous specimens), Heliograph (orbital instrument, eclipse alignment, celestial atlas), Afterimage (mechanical iris, illustrated film edits, unspooling contact sheet), Reverie (image portal, rotating dream gallery, assembling postcard), and Traverse (fractured mountain panorama, folding map, glacier-to-summit passage).
 - Templates preview in isolated documents and export as self-contained static website ZIPs with local fonts, GSAP/Three.js runtime, notices, and a reference recipe. They are separate authored sites, not ordinary Patchwork section documents. Brand/headline/accent/email customization persists in namespaced, versioned local storage; original editor documents stay version 1.
 - Native scrolling, desktop/phone choreography, reduced-motion reading layouts, WebGL graphic fallback, keyboard exits, and bounded/offscreen 3D rendering. Source is under `src/motion/`; generated `public/motion/engine.js` comes from `npm run build:motion` and is rebuilt by normal dev/build scripts.
 
@@ -64,3 +64,31 @@ The approved first release, ASCII expansion, and Video Lab implementation are co
 Three additional authored scroll experiences are integrated into the existing collection, customization record, and static ZIP exporter. Each has three reversible pinned sequences, original local artwork, a real captured cover, phone choreography, a complete reduced-motion reading layout, and accessible contact/navigation links. Pelagic and Heliograph add procedural Three.js instruments; Afterimage uses CSS optics and layered SVG film frames. Source additions: `studies.ts`, `studies.css`, `study-runtime.ts`, and `study-scene.ts`.
 
 Current local preview: Vite development server on `http://127.0.0.1:5174`. This expansion adds no backend or document/storage migration. Focused checks are recorded in `docs/VERIFICATION.md`; browser QA has a separate production origin and does not touch original drafts.
+
+## Image-led motion studies — Reverie and Traverse
+
+The user requested two additional ambitious scroll websites and authorized generated imagery. Both are integrated into the nine-template collection with three pinned sequences each, original art direction and live semantic copy, phone/tablet compositions, existing brand/headline/accent/contact customization, and independent static downloads.
+
+Six original scenes were generated with the built-in ChatGPT ImageGen tool, with one targeted summit refinement. Optimized local WebP files and exact prompt/provenance JSON records live in `public/motion/art/`. Reverie uses desert/garden/sky imagery; Traverse uses ridge/glacier/summit imagery. There is no image generation API in the product and no remote runtime media dependency. Exporting these templates includes only their three images and their artwork record. Earlier seven template bundles remain unchanged.
+
+Source: `src/motion/image-studies.ts`, `image-studies.css`, `image-runtime.ts`, and `image-assets.ts`. Runtime initialization waits for the critical images to decode before measuring portal bounds. Latest checks: 29 tests plus the production build; see the verification log for actual browser evidence and limits. Local development remains at `http://127.0.0.1:5174`.
+
+## Design Library — 30 October 2026
+
+A separate `?collection=library` workspace imports the user's website-design-template-library snapshot `5e36f6275720538eafba279531aa1c8912f3883b`. Its 257 resources are indexed once: 25 templates, 28 style studies, 10 interface studies, 105 palettes, 40 motion experiments, 40 SVG experiments and nine UI primitives. Search, category filters, device previews, saved resources and source/reference downloads are implemented. Distinct works with similar labels remain separate; navigation aliases and repeated metadata are normalized, with original labels/metadata preserved. The editor, Motion Studies and Video Lab remain independent.
+
+Source is under `vendor/design-library/`; an isolated React/Tailwind build produces `public/design-library/`. `npm run build:library` regenerates the canonical catalog, checks/builds the library and packages source. Normal dev/build also runs it. The first library build runs its pinned `npm ci --ignore-scripts` if dependencies are missing. Tool storage keys use `patchwork-design-library:`. No source push or deployment is included.
+
+## Native template previews — corrected scope
+
+Templates now open under Patchwork's native library header and controls. `src/template-library/TemplateStudio.tsx` owns the 25-card gallery, search/category filtering, single active hover preview, desktop/tablet/phone viewer, replay and return navigation. Actual covers live in `public/template-covers/`. A template-only runtime mounts the original site component without imported repository app navigation. Hover previews auto-scroll and unmount on leaving; reduced-motion disables auto-scrolling. No new editing system was added. Other collections retain their existing implementation pending later user direction.
+
+## Template removals — 30 October 2026
+
+Removed the templates numbered 1, 2, 3, 7, 9, 11, 12, 13, 17, 20 and 25 in the previous 25-template gallery, including their registry imports, source folders and covers. Fourteen templates remain in the same relative order and are numbered 1–14. The canonical library now has 246 resources; other collections are unchanged. Both native and imported template registries/builds use this same retained set.
+
+## Redesign work in progress — 30 October 2026
+
+All 14 retained template sources now have newly authored layouts, copy and interactions. The first six use the scoped redesign helpers/stylesheet; the next eight use expressive helpers/stylesheet and additional procedural models. Shared Three.js rendering has capped pixel ratio/frame rate, visibility pausing, reduced-motion behavior, resource cleanup and a graphic fallback. Four local typefaces retain OFL notices. No template was added back after the selected deletions.
+
+The user explicitly paused the dedicated phone-layout pass and then requested an immediate GitHub push. Desktop visual review covered the first six and part of the remaining eight. Full interaction QA, the remaining desktop review, phone art-direction review and recapturing all gallery covers are unfinished. Existing cover JPEGs are prior snapshots and do not yet represent all new layouts. Do not present this checkpoint as fully design-verified.

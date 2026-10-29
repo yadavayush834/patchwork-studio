@@ -81,3 +81,32 @@ User request: push the completed quality fixes, then create a distinct section w
 - [x] Integrate existing customization/persistence and independent static ZIP export; preserve original editor data boundaries.
 - [x] Refine desktop/tablet/phone framing, capture actual gallery covers, and verify reading/GPU fallbacks.
 - [x] Update catalog contracts, documentation, and the focused browser expansion probe.
+
+## Two image-led motion websites — Reverie and Traverse
+
+- [x] Develop two distinct directions and six original photographic environments using built-in ChatGPT image generation; refine the unwanted summit emblem.
+- [x] Ship optimized local imagery and per-site prompt/provenance records.
+- [x] Build a responsive portal passage, rotating rooms, assembling postcard, fractured panorama, folding terrain map, and glacier-to-summit reveal.
+- [x] Integrate the nine-card collection, real captured covers, existing customization and local persistence, and per-template static asset manifests.
+- [x] Verify forward/reverse scroll, phone/tablet compositions, reduced-motion reading order, image loading, and independent exported websites.
+- [x] Expand unit contracts and document a repeatable focused browser probe.
+
+## Design Library integration — 30 October 2026
+
+- Imported the complete pinned source repository into an isolated local workspace.
+- Reconciled misleading historical counts and navigation aliases into seven canonical collections and 257 resource IDs.
+- Normalized names, category families and source references; preserved complete original metadata and distinct examples.
+- Added searchable browsing, saved resources, responsive live previews, interactive lab adapters, individual primitive examples, and source/catalog/reference downloads.
+- Preserved the main editor and all nine Motion Studies; no deployment or push requested.
+
+## Native template correction — 30 October 2026
+
+Clarified scope: templates open inside Patchwork's UI; cards show live hover previews. Implemented native gallery/viewer for all 25, actual covers, one active hover/focus preview, device controls and replay. Discarded the unrequested editing-system draft. Other collections remain for later work.
+
+## Template removals — 30 October 2026
+
+Removed the templates numbered 1, 2, 3, 7, 9, 11, 12, 13, 17, 20 and 25 in the previous 25-template gallery, including their registry imports, source folders and covers. Fourteen templates remain in the same relative order and are numbered 1–14. The canonical library now has 246 resources; other collections are unchanged. Both native and imported template registries/builds use this same retained set.
+
+## Fourteen-template redesign checkpoint
+
+New source is implemented for the first six templates and the remaining eight, including purpose-built 3D objects and local interactive demonstrations. Desktop review is partial. The user requested pushing all current changes before completing the dedicated mobile pass. Remaining: finish visual and interaction QA, refine the newly added models, capture updated covers, then perform the phone-layout pass.
