@@ -1,0 +1,457 @@
+.nt-gallery {
+  overflow: auto;
+  flex: 1;
+  padding: 48px 5vw 60px;
+  background: #faf8fb;
+  font-family: Outfit, sans-serif;
+  color: #4d3d59;
+}
+.nt-intro {
+  padding: 10px 0 35px;
+}
+.nt-intro h1 {
+  font:
+    500 clamp(36px, 4vw, 62px)/1.08 Outfit,
+    sans-serif;
+  letter-spacing: -2.3px;
+  margin: 20px 0;
+}
+.nt-intro h1 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  color: #a07db7;
+}
+.nt-intro p {
+  max-width: 510px;
+  line-height: 1.7;
+  font-size: 14px;
+  color: #a18eac;
+}
+.nt-filters {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  border-top: 1px solid #e4dce9;
+  padding: 25px 0;
+  margin-bottom: 8px;
+}
+.nt-filters label {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background: white;
+  border: 1px solid #e1d7e8;
+  border-radius: 8px;
+  padding: 12px 15px;
+  width: 360px;
+  color: #ad98bb;
+}
+.nt-filters input {
+  border: 0;
+  outline: 0;
+  background: none;
+  flex: 1;
+  min-width: 0;
+  color: #70577e;
+  font:
+    13px Outfit,
+    sans-serif;
+}
+.nt-filters select {
+  padding: 11px 15px;
+  background: #fff;
+  border: 1px solid #e1d7e8;
+  border-radius: 8px;
+  color: #8c749b;
+  font:
+    12px Outfit,
+    sans-serif;
+}
+.nt-filters > span {
+  margin-left: auto;
+  font: 11px monospace;
+  color: #a28eae;
+}
+.nt-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px;
+}
+.nt-card {
+  padding: 0;
+  background: #fff;
+  border: 1px solid #e5ddea;
+  border-radius: 13px;
+  overflow: hidden;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+.nt-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px #6d3b8710;
+}
+.nt-card-cover {
+  position: relative;
+  height: 235px;
+  background: color-mix(in srgb, var(--nt-accent) 13%, #f1eaf6);
+  padding: 24px 24px 34px;
+  overflow: hidden;
+}
+.nt-card-index {
+  position: absolute;
+  left: 16px;
+  top: 12px;
+  font: 8px monospace;
+  letter-spacing: 1px;
+  color: #fff;
+  background: #1914219e;
+  padding: 5px 7px;
+  border-radius: 3px;
+  z-index: 2;
+}
+.nt-real-cover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  z-index: 1;
+}
+.nt-card-action {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  right: 16px;
+  font: 8px monospace;
+  letter-spacing: 1px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f9f5fbe8;
+  color: #7c5b91;
+  padding: 6px 8px;
+  border-radius: 4px;
+  z-index: 2;
+}
+.nt-card-details {
+  padding: 20px;
+}
+.nt-card-details > small {
+  text-transform: uppercase;
+  color: #ad91be;
+  font: 9px monospace;
+  letter-spacing: 1px;
+}
+.nt-card h2 {
+  font-size: 18px;
+  line-height: 1.3;
+  margin: 12px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  font-weight: 500;
+}
+.nt-card h2 svg {
+  flex-shrink: 0;
+  color: #b39ac3;
+}
+.nt-card p {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #a590af;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 61px;
+  margin: 0;
+}
+.nt-card footer {
+  margin-top: 18px;
+  border-top: 1px solid #eee6f3;
+  padding-top: 13px;
+  font: 9px monospace;
+  color: #ae9abb;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.nt-card footer span {
+  color: #9471ac;
+}
+.nt-empty {
+  padding: 50px;
+  text-align: center;
+}
+.nt-empty button {
+  display: block;
+  margin: 20px auto;
+}
+.nt-studio {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  flex-direction: column;
+  background: #f2edf5;
+  font-family: Outfit, sans-serif;
+  color: #70587e;
+}
+.nt-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 20px;
+  background: #fcf9fd;
+  border-bottom: 1px solid #e5dbea;
+  flex-shrink: 0;
+  min-height: 67px;
+}
+.nt-toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 1px solid #e3d7ec;
+  border-radius: 7px;
+  padding: 8px 10px;
+  background: #fff;
+  color: #8a6c9d;
+  font:
+    11px Outfit,
+    sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.nt-toolbar button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.nt-toolbar .nt-back {
+  border: 0;
+  background: none;
+  padding-left: 0;
+}
+.nt-project-name {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 100px;
+  max-width: 260px;
+}
+.nt-project-name strong {
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.nt-project-name small {
+  font-size: 9px;
+  color: #ac98b7;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.nt-history,
+.nt-devices {
+  display: flex;
+  gap: 3px;
+}
+.nt-toolbar .nt-devices button {
+  border: 0;
+  background: none;
+  padding: 7px;
+}
+.nt-toolbar button[aria-pressed="true"] {
+  background: #e9dff1;
+  color: #76508f;
+}
+.nt-toolbar .nt-export {
+  background: #a682bd;
+  color: #fff;
+  border-color: #a682bd;
+  padding: 9px 12px;
+}
+.nt-editor-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+.nt-canvas-area {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.nt-canvas-caption {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 24px;
+  font: 8px monospace;
+  letter-spacing: 1px;
+  color: #b39ac2;
+  flex-shrink: 0;
+}
+.nt-canvas-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.nt-canvas-fit {
+  flex-shrink: 0;
+  box-shadow: 0 8px 30px #73548216;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.nt-canvas-fit iframe {
+  display: block;
+  border: 0;
+  background: white;
+}
+.nt-color-label {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+}
+.nt-color-label input {
+  width: 45px;
+  height: 30px;
+  padding: 2px;
+  background: white;
+  border: 1px solid #ddd0e5;
+  border-radius: 5px;
+}
+.nt-studio button:focus-visible,
+.nt-gallery button:focus-visible,
+.nt-studio input:focus-visible,
+.nt-studio textarea:focus-visible {
+  outline: 2px solid #b191c7;
+  outline-offset: 2px;
+}
+@media (max-width: 1100px) {
+  .nt-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .nt-toolbar {
+    gap: 8px;
+    padding: 10px 14px;
+  }
+  .nt-toolbar button > span {
+    display: none;
+  }
+  .nt-project-name {
+    max-width: 170px;
+  }
+}
+@media (max-width: 760px) {
+  .nt-gallery {
+    padding: 30px 18px;
+  }
+  .nt-grid {
+    gap: 15px;
+  }
+  .nt-card-cover {
+    height: 180px;
+  }
+  .nt-card-details {
+    padding: 15px;
+  }
+  .nt-card h2 {
+    font-size: 16px;
+  }
+  .nt-card footer {
+    display: block;
+    line-height: 1.8;
+  }
+  .nt-card footer span {
+    display: block;
+  }
+  .nt-filters {
+    flex-wrap: wrap;
+  }
+  .nt-filters label {
+    width: 100%;
+  }
+  .nt-filters > span {
+    font-size: 9px;
+  }
+  .nt-toolbar {
+    flex-wrap: wrap;
+  }
+  .nt-project-name {
+    max-width: none;
+    flex: 1;
+  }
+  .nt-canvas-scroll {
+    padding: 12px;
+  }
+  .nt-canvas-caption {
+    padding: 10px;
+    font-size: 7px;
+  }
+  .nt-devices {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nt-card {
+    transition: none;
+  }
+}
+.nt-card-cover {
+  padding: 0;
+  background: #eee5f4;
+}
+.nt-hover-preview {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 2;
+  pointer-events: none;
+  background: #faf8fb;
+}
+.nt-hover-preview iframe {
+  width: 1080px;
+  height: 760px;
+  border: 0;
+  transform: scale(0.34);
+  transform-origin: top left;
+  pointer-events: none;
+}
+.nt-card-cover .nt-card-index,
+.nt-card-cover .nt-card-action {
+  z-index: 3;
+}
+.nt-real-cover {
+  object-fit: cover;
+}
+.nt-canvas-area {
+  min-height: 0;
+}
+@media (max-width: 760px) {
+  .nt-toolbar .nt-devices {
+    display: flex;
+  }
+  .nt-toolbar .nt-devices span {
+    display: none;
+  }
+}
+
+.nt-project-name {
+  max-width: none;
+}
+.nt-card {
+  user-select: none;
+}

@@ -1,0 +1,220 @@
+[
+  {
+    "id": "cloud-mesh-api",
+    "name": "AetherMesh",
+    "description": "A precise infrastructure website with a physical chrome network lattice, five-region explorer, five-language code examples and a restrained cobalt identity.",
+    "category": "Developer tools",
+    "tags": [
+      "3D Network",
+      "Region Explorer",
+      "Code Playground",
+      "Swiss Typography",
+      "Developer Tools",
+      "Cobalt & Precision"
+    ],
+    "accent": "#002fa7"
+  },
+  {
+    "id": "edu-lumina-academy",
+    "name": "Lumina Academy",
+    "description": "A warm independent academy with a three-dimensional open book, readable art and design lessons, optional spoken passages and a working three-question reflection.",
+    "category": "Education",
+    "tags": [
+      "3D Book",
+      "Warm Editorial",
+      "Open Lessons",
+      "Interactive Quiz",
+      "Education & Learning",
+      "Bookish Editorial"
+    ],
+    "accent": "#b89230"
+  },
+  {
+    "id": "hack-cyber-forge",
+    "name": "CyberForge '26",
+    "description": "A bold maker-weekend website with a kinetic modular sculpture, large poster typography, selectable challenge tracks, local team shortlists and a maker-pass generator.",
+    "category": "Events",
+    "tags": [
+      "3D Sculpture",
+      "Poster Typography",
+      "Team Shortlist",
+      "Maker Pass",
+      "Hackathons & Events",
+      "Maker Poster"
+    ],
+    "accent": "#d4ff00"
+  },
+  {
+    "id": "portfolio-bento-craft",
+    "name": "Kenji Takahashi",
+    "description": "A quiet Tokyo designer portfolio with physical brass chimes, real synthesized notes, three detailed case studies, a visitor stamp and an email-draft contact form.",
+    "category": "Portfolios",
+    "tags": [
+      "3D Chimes",
+      "Audio",
+      "Case Studies",
+      "Editorial Portfolio",
+      "Portfolios & Personal",
+      "Quiet Material Portfolio"
+    ],
+    "accent": "#df3b2b"
+  },
+  {
+    "id": "ecom-aura-minimal",
+    "name": "Atelier Aura",
+    "description": "A tactile object shop with a physically rendered lamp, three selectable material finishes, a light switch, product filters, monogram studies and a working local shopping bag.",
+    "category": "Commerce",
+    "tags": [
+      "3D Product",
+      "Material Finishes",
+      "Shopping Bag",
+      "Quiet Luxury",
+      "E-Commerce & Marketplaces",
+      "Sculptural Commerce"
+    ],
+    "accent": "#1c1815"
+  },
+  {
+    "id": "hack-nordic-summit",
+    "name": "Nordic Tech Summit '26",
+    "description": "A typographic Copenhagen conference website with a layered 3D architectural sculpture, day and stage programme filters, session details and a local ticket-pass generator.",
+    "category": "Events",
+    "tags": [
+      "3D Architecture",
+      "Programme Filters",
+      "Session Details",
+      "Ticket Pass",
+      "Hackathons & Events",
+      "Nordic Typographic Poster"
+    ],
+    "accent": "#ea580c"
+  },
+  {
+    "id": "auth-retrospective-os",
+    "name": "System 95 Auth",
+    "description": "Authentic 1995 vintage desktop OS with classic grey plastic bevels (#c0c0c0), Windows blue titlebars (#000080), 56k V.90 dial-up modem handshake simulation with hardware LEDs, and Start taskbar.",
+    "category": "Authentication",
+    "tags": [
+      "Retro 90s OS",
+      "Windows 95 Bevels",
+      "56k Modem Handshake",
+      "Pixel Aesthetics",
+      "Retro Dialog",
+      "Authentication & Security",
+      "Retro 1995 Desktop Workstation"
+    ],
+    "accent": "#008080"
+  },
+  {
+    "id": "portfolio-dieter-industrial",
+    "name": "Braun & Rams Atelier",
+    "description": "Pure Dieter Rams functionalist industrial monograph with matte chalk (#eae8e3) and signal orange (#ff5500) palette, interactive aluminum rotary dial knob with detent click, and 10 Principles of Good Design drawer.",
+    "category": "Portfolios",
+    "tags": [
+      "Dieter Rams",
+      "Braun Functionalism",
+      "Rotary Dial Knob",
+      "Signal Orange",
+      "10 Principles",
+      "Portfolios & Personal",
+      "Dieter Rams Braun Functionalism"
+    ],
+    "accent": "#ff5500"
+  },
+  {
+    "id": "ecom-streetwear-drop",
+    "name": "SHIBUYA 00",
+    "description": "High-contrast Tokyo streetwear drop engine with pitch black and solar acid yellow (#fff000) palette, live millisecond countdown ticker, scarcity size inventory selector, and slide-over checkout bag.",
+    "category": "Commerce",
+    "tags": [
+      "Tokyo Streetwear",
+      "Acid Solar Yellow",
+      "Millisecond Ticker",
+      "Size Scarcity",
+      "High-Hype",
+      "E-Commerce & Marketplaces",
+      "Shibuya Cyber Streetwear Drop"
+    ],
+    "accent": "#fff000"
+  },
+  {
+    "id": "dash-aerospace-telemetry",
+    "name": "AeroTrack",
+    "description": "Oceanic air traffic control radar deck with flight navy (#020611) and aviation emerald palette, live interactive rotating radar canvas with selectable flight vectors, altitude tape gauges, and METAR weather decoder.",
+    "category": "Dashboards",
+    "tags": [
+      "Aviation Radar",
+      "Avionics Telemetry",
+      "Altitude Tape",
+      "ADS-B Transponder",
+      "ATC Cockpit",
+      "Dashboards & Applications",
+      "Avionics Oceanic Radar Cockpit"
+    ],
+    "accent": "#22c55e"
+  },
+  {
+    "id": "luxury-haute-horlogerie",
+    "name": "Æthelgard Horlogerie",
+    "description": "Geneva master watchmaker atelier with Cinzel and Cinzel Decorative typography, oscillating tourbillon balance wheel with acoustic metronome synthesizer, synodic lunar complication dial, 4-tier layer dissection, and bespoke metallurgy configurator.",
+    "category": "Commerce",
+    "tags": [
+      "Cinzel Decorative",
+      "Tourbillon Escapement",
+      "Moonphase Complication",
+      "Web Audio Metronome",
+      "18K Rose Gold",
+      "Haute Horlogerie & Luxury",
+      "Haute Horlogerie & Celestial Obsidian"
+    ],
+    "accent": "#d4af37"
+  },
+  {
+    "id": "hosp-komorebi-pavilion",
+    "name": "Komorebi Sukiya",
+    "description": "Kyoto Higashiyama architectural hermitage featuring Syne and Fraunces typography, dynamic time-of-day sun dial casting real chiaroscuro shadows through shoji louvers, interactive water basin ripple pond, and 5-stage Chado tea liturgy.",
+    "category": "Hospitality",
+    "tags": [
+      "Syne Sculptural",
+      "Fraunces Serif",
+      "Chiaroscuro Sun Dial",
+      "Zen Stone Basin",
+      "Wabi-Sabi Joinery",
+      "Hospitality & Spatial Architecture",
+      "Kyoto Sukiya & Chiaroscuro Naturalism"
+    ],
+    "accent": "#c29b6f"
+  },
+  {
+    "id": "dev-vektorform-synth",
+    "name": "Vektorform Modular",
+    "description": "Hardware analog waveform synthesizer with Unbounded and Bricolage Grotesque typography, REAL browser Web Audio API oscillator keyboard, live CRT phosphor oscilloscope canvas, 16-step modular drum grid, and Eurorack patch bay.",
+    "category": "Developer tools",
+    "tags": [
+      "Unbounded Display",
+      "Bricolage Grotesque",
+      "Web Audio API Synth",
+      "CRT Oscilloscope",
+      "16-Step Sequencer",
+      "Developer & Creative Audio",
+      "Brutalist Modular Sound Architecture"
+    ],
+    "accent": "#d8ff00"
+  },
+  {
+    "id": "fashion-atelier-venus",
+    "name": "Atelier Vénus",
+    "description": "Parisian haute couture atelier with Fraunces italic and Syne typography, 360° rotational silhouette drapery metrology with cut architecture wireframes, interactive fabric sheen shader, and private fitting salon booking.",
+    "category": "Commerce",
+    "tags": [
+      "Fraunces Italic",
+      "Syne Sculptural",
+      "360° Draping Wireframe",
+      "Textile Sheen Shader",
+      "Paris Haute Couture",
+      "Haute Couture & Avant-Garde Fashion",
+      "Surrealist Metamorphic Runway"
+    ],
+    "accent": "#c084fc"
+  }
+]
