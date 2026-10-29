@@ -402,14 +402,14 @@ export default function MotionStudio({ onClose }: Props) {
             <div className="motion-intro-note">
               <span>NOT JUST A FIRST IMPRESSION.</span>
               <p>
-                Seven worlds to get lost in.
+                Nine worlds to get lost in.
                 <br />
                 Sculpted objects. Type with a pulse.
                 <br />
                 Stories that unfold in your hands.
               </p>
               <div>
-                <span>07 TEMPLATES</span>
+                <span>09 TEMPLATES</span>
                 <i></i>
                 <span>ENDLESS POSSIBILITIES</span>
               </div>
@@ -417,7 +417,7 @@ export default function MotionStudio({ onClose }: Props) {
           </div>
           <div className="motion-catalog-head">
             <span>THE COLLECTION</span>
-            <span>01 — 07 / SCROLL-LED EXPERIENCES</span>
+            <span>01 — 09 / SCROLL-LED EXPERIENCES</span>
           </div>
           <div className="motion-template-card-grid">
             {motionTemplates.map((t) => (

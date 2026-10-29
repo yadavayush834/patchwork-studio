@@ -136,6 +136,48 @@ export const motionTemplates = [
       "Make a lasting impression",
     ],
   },
+  {
+    id: "reverie",
+    cover: "/motion/reverie-cover.jpg",
+    number: "08",
+    name: "Reverie",
+    category: "ART / IMAGINED PLACES",
+    headline: "Leave the ordinary behind.",
+    description:
+      "A passage through the impossible. Step inside a desert portal, turn the walls of a dream gallery, and piece together a place that only exists in your imagination.",
+    color: "#b94d37",
+    background: "#f0debd",
+    tags: ["Portal passage", "Rotating dream gallery", "Image assembly"],
+    chapters: [
+      "The threshold",
+      "A different way of seeing",
+      "Rooms without rules",
+      "A place to keep",
+    ],
+  },
+  {
+    id: "traverse",
+    cover: "/motion/traverse-cover.jpg",
+    number: "09",
+    name: "Traverse",
+    category: "EXPEDITION / ALPINE",
+    headline: "A little further.",
+    description:
+      "An alpine story you move through. A fractured mountain panorama, a folding expedition map, and a glacier passage that opens onto the first light of a summit.",
+    color: "#e1fc80",
+    background: "#101e27",
+    tags: [
+      "Fractured panorama",
+      "Folding terrain",
+      "Glacier-to-summit passage",
+    ],
+    chapters: [
+      "Beyond the familiar",
+      "Find your own line",
+      "Through the blue",
+      "The long way up",
+    ],
+  },
 ] as const;
 export type MotionId = (typeof motionTemplates)[number]["id"];
 export interface MotionConfig {

@@ -1,3 +1,4 @@
+import imageStudiesCSS from "./image-studies.css?raw";
 import studiesCSS from "./studies.css?raw";
 import templateCSS from "./template.css?raw";
 import { renderMotion } from "./templates";
@@ -41,7 +42,9 @@ export function motionCSS(base = "") {
     "\n" +
     templateCSS +
     "\n" +
-    studiesCSS
+    studiesCSS +
+    "\n" +
+    imageStudiesCSS
   );
 }
 export function motionDocument(
