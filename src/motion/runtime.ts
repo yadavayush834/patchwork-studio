@@ -2,6 +2,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MotionScene, type Pose } from "./scene";
 import { StudyScene } from "./study-scene";
+import { animateImageStudy } from "./image-runtime";
 import { animateStudy } from "./study-runtime";
 import { isMotionId } from "./catalog";
 gsap.registerPlugin(ScrollTrigger);
@@ -813,7 +814,12 @@ document.addEventListener("click", (event) => {
 if (root && isMotionId(id)) {
   const media = gsap.matchMedia();
   let lastProgress = -1;
-  void document.fonts.ready.then(() => {
+  void Promise.all([
+    document.fonts.ready,
+    ...Array.from(
+      root.querySelectorAll<HTMLImageElement>("img[data-critical]"),
+    ).map((image) => image.decode().catch(() => undefined)),
+  ]).then(() => {
     media.add(
       {
         reduce: "(prefers-reduced-motion: reduce)",
@@ -839,6 +845,8 @@ if (root && isMotionId(id)) {
           else if (id === "offscript" && scene) offscript(scene, mobile);
           else if (id === "floraison" && scene) floraison(scene, mobile);
           else if (id === "monolith" && scene) monolith(scene, mobile);
+          else if (id === "reverie" || id === "traverse")
+            animateImageStudy(id, mobile);
           else animateStudy(id, scene, mobile);
           gsap.utils.toArray<HTMLElement>(".mt-reveal").forEach((el) =>
             gsap.from(el, {
