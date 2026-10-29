@@ -1,0 +1,22 @@
+{
+  "generator": "ChatGPT built-in ImageGen",
+  "created": "2026-10-29",
+  "use": "Original generated concept artwork for Patchwork Motion Studies; fictional places. No external image request is needed at runtime.",
+  "assets": [
+    {
+      "id": "reverie-desert",
+      "prompt": "Use case: stylized-concept. Asset type: full-bleed cinematic website environment, landscape 16:9, high resolution. Create an exquisitely art-directed surreal desert threshold: enormous freestanding pale travertine arch with a rounded top, standing dead-center on perfectly smooth apricot sand dunes, arch fills central 45 percent of frame and 80 percent of height; its opening shows distant simple dusty blue sky and sand, not a black hole. Low dusty terracotta sun, long crisp architectural shadow toward bottom right, distant layered ochre ridges, fine tactile stone grain, soft peach atmospheric haze. Refined photographic surrealism, editorial large-format architectural photography, warm honey and blush palette with cobalt accents in the distant sky, believable material detail, quiet monumental elegance. Symmetrical camera at human eye level, frontal view, horizon at lower third. Left and right edges spacious for oversized live website typography; no actual letters or typography in image. No people, no logos, no watermark, no floating clutter, no illustration borders. This is original art for a fictional creative travel journal named Reverie; do not render the name. The doorway will become an animated portal, so make its inner opening clearly defined and centered.",
+      "file": "motion/art/reverie-desert.webp"
+    },
+    {
+      "id": "reverie-garden",
+      "prompt": "Use case: stylized-concept. Asset type: full-bleed photographic dreamscape for an immersive website, wide 16:9 high resolution. A silent sunken botanical palace: monumental blush-pink and warm limestone arcades surrounding perfectly still shallow jade water, impossible garden of large lush green tropical leaves and delicate climbing vines, central doorway at far end opens to luminous peach sky. Camera gliding just above water, absolutely centered one-point perspective, receding arches create a deep visual tunnel with side foliage framing all four edges. Architectural details exceptionally refined, pale weathered stone, sunlight shafts and very soft reflections, tiny ripples. Cinematic photographic surrealism, a tactile editorial art installation, palette celadon/jade, pale rose, butter cream. Some dreamlike spatial impossibility, but photographic material credibility, not a videogame or sketch. The focal doorway sits in center 35 percent; spacious shadows on left and right for overlay copy. No people, no text, no watermark or logo. Original environment for fictional Reverie journal. Match a calm monumental desert doorway world, with a richer hidden garden revealed beyond the portal.",
+      "file": "motion/art/reverie-garden.webp"
+    },
+    {
+      "id": "reverie-sky",
+      "prompt": "Use case: stylized-concept. Asset type: premium surreal photographic environment for a wide 16:9 immersive art website, high resolution. An impossible pale pink stone stairway curls gently upward from a tiny limestone island floating above a sea of luminous apricot clouds; at its top stands one slender freestanding rectangular cobalt-blue door, open onto pale sky. Several smaller soft-edged pale stone fragments hover at great distance, a tiny pale moon far upper left. Extremely quiet composition, central stairway slightly right, broad negative space on left. Architecture feels tactile and heavy, delicately weathered stone, clouds soft and luminous, lighting late afternoon, peach, powder blue, chalk and muted butter-yellow palette. Large-format photographic surrealism, gallery-quality art direction, contemplative, precisely built dream rather than busy fantasy illustration. Deep atmospheric depth. No text, no people, no logos, no watermark. This is the third room of the fictional Reverie journal; retain monumental soft stone material and the exact warm dreamy photographic world of a desert arch and jade-water garden. Do not render brand or labels.",
+      "file": "motion/art/reverie-sky.webp"
+    }
+  ]
+}
