@@ -2,7 +2,7 @@
 async (page) => {
   const outcomes = [];
   await page.setViewportSize({ width: 1440, height: 1000 });
-  for (const id of ["aether", "offscript", "floraison"]) {
+  for (const id of ["aether", "offscript", "floraison", "monolith"]) {
     await page.goto(`http://127.0.0.1:5176/?collection=motion&motion=${id}`);
     const iframe = page.locator(".motion-preview iframe");
     let frame = await (await iframe.elementHandle()).contentFrame();
@@ -46,7 +46,13 @@ async (page) => {
       );
       await page.waitForTimeout(1400);
       const opacity = await frame
-        .locator(id === "aether" ? ".ae-explode-copy" : ".fl-bloom-copy")
+        .locator(
+          id === "aether"
+            ? ".ae-explode-copy"
+            : id === "monolith"
+              ? ".mn-section-copy"
+              : ".fl-bloom-copy",
+        )
         .evaluate((el) => +getComputedStyle(el).opacity);
       if (opacity < 0.5)
         throw new Error(`${id}: pinned chapter failed to reveal`);
@@ -90,6 +96,14 @@ async (page) => {
     frame = await (await iframe.elementHandle()).contentFrame();
     await frame.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
     await page.waitForTimeout(800);
+    await frame.waitForFunction(
+      () =>
+        [...document.querySelectorAll("h1 .word")].every(
+          (el) => el.getBoundingClientRect().right <= innerWidth + 3,
+        ),
+      null,
+      { timeout: 10000 },
+    );
     const mobile = await frame.evaluate(() => ({
       viewport: innerWidth,
       scroll: document.documentElement.scrollWidth,

@@ -12,7 +12,7 @@ The user subsequently requested the real `stackedlol/ascii-sharks` library plus 
 
 ## Implemented
 
-- Independent Motion Templates collection at `?collection=motion`, reached from dashboard navigation and a dedicated collection card. Three complete GSAP ScrollTrigger experiences: Æther (product/chrome headphone assembly), Offscript (kinetic type, sideways work, flying process deck), Floraison (blooming sculpted flower, botanical specimens, seasons).
+- Independent Motion Templates collection at `?collection=motion`, reached from dashboard navigation and a dedicated collection card. Four complete GSAP ScrollTrigger experiences: Æther (product/chrome headphone assembly), Offscript (kinetic type, sideways work, flying process deck), Floraison (blooming sculpted flower, botanical specimens, seasons), and Monolith (exploded courtyard pavilion, traced plans, cinematic spatial studies).
 - Templates preview in isolated documents and export as self-contained static website ZIPs with local fonts, GSAP/Three.js runtime, notices, and a reference recipe. They are separate authored sites, not ordinary Patchwork section documents. Brand/headline/accent/email customization persists in namespaced, versioned local storage; original editor documents stay version 1.
 - Native scrolling, desktop/phone choreography, reduced-motion reading layouts, WebGL graphic fallback, keyboard exits, and bounded/offscreen 3D rendering. Source is under `src/motion/`; generated `public/motion/engine.js` comes from `npm run build:motion` and is rebuilt by normal dev/build scripts.
 

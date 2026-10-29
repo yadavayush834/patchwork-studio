@@ -64,3 +64,11 @@ User request: push the completed quality fixes, then create a distinct section w
 - Offscript: sculptural geometry, scrambled type, sideways experiments, 3D process deck.
 - Floraison: blooming petal sculpture, layered field sprites, specimen collection, seasonal reading.
 - Complete: 28-test/build gates; real browser scroll, phone, reduced-motion, keyboard, download and independent output checks; documentation. GitHub delivery follows the user’s requested push. No website deployment requested.
+
+## Fourth motion experience — Monolith
+
+- [x] Add an independent architectural direction to the existing Motion Templates collection.
+- [x] Build a procedural seven-floor courtyard pavilion with separate structural levels and scroll-driven rotation/explosion.
+- [x] Author a traced SVG blueprint, staged design notes, three cinematic project curtains with CSS 3D models, material studies, and a layered doorway finale.
+- [x] Integrate customization, persistence, the shared preview/export renderer, a real rendered cover, and a balanced two-column collection grid.
+- [x] Preserve native scrolling, phone layouts, reduced-motion reading order, WebGL fallback, and existing editor data boundaries.

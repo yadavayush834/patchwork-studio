@@ -2234,3 +2234,959 @@ button:focus-visible {
     font-size: clamp(64px, 16vw, 120px);
   }
 }
+
+/* MONOLITH — mass, void, and the moving day. */
+.mt-monolith {
+  background: #dedbd2;
+  color: #282b27;
+  font-family: "DM Sans", sans-serif;
+}
+.mt-monolith h1,
+.mt-monolith h2,
+.mt-monolith h3 {
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.065em;
+}
+.mt-monolith em {
+  font-family: "Playfair Display", serif;
+  font-weight: 400;
+  letter-spacing: -0.055em;
+}
+.mt-monolith .mt-brand {
+  text-transform: uppercase;
+  font-size: 25px;
+  letter-spacing: -1.6px;
+}
+.mn-hero {
+  background: #dedbd2;
+  isolation: isolate;
+}
+.mn-coordinate {
+  position: absolute;
+  top: 135px;
+  left: 5%;
+  font:
+    9px/1.8 "Space Mono",
+    monospace;
+  letter-spacing: 0.09em;
+}
+.mn-hero-copy {
+  position: absolute;
+  left: 5%;
+  top: 25%;
+  width: 48%;
+  z-index: 5;
+  pointer-events: none;
+}
+.mn-hero-copy h1 {
+  font-size: clamp(72px, 8.2vw, 150px);
+  line-height: 0.94;
+  margin: 24px 0;
+  max-width: 680px;
+}
+.mn-hero .mt-scene {
+  left: 28%;
+  right: -4%;
+  top: 4%;
+  bottom: 5%;
+  z-index: 3;
+}
+.mn-sun {
+  width: 27vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--accent);
+  position: absolute;
+  right: 13%;
+  top: 21%;
+  opacity: 0.8;
+  z-index: 1;
+}
+.mn-axis {
+  position: absolute;
+  width: 72vw;
+  height: 72vw;
+  top: 2%;
+  right: -10%;
+  border: 1px solid #45493f25;
+  border-radius: 50%;
+  z-index: 0;
+}
+.mn-axis i {
+  position: absolute;
+  left: 50%;
+  top: -10%;
+  height: 120%;
+  width: 1px;
+  background: #45493f25;
+}
+.mn-axis i + i {
+  transform: rotate(90deg);
+}
+.mn-model-caption {
+  position: absolute;
+  left: 50%;
+  right: 5%;
+  bottom: 12%;
+  display: flex;
+  justify-content: space-between;
+  font:
+    8px/1.6 "Space Mono",
+    monospace;
+  gap: 25px;
+  z-index: 4;
+}
+.mn-hero-bottom {
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  right: 5%;
+  border-top: 1px solid #282b273d;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  font:
+    9px "Space Mono",
+    monospace;
+}
+.mn-section-copy {
+  position: absolute;
+  left: 5%;
+  top: 30%;
+  width: 40%;
+  z-index: 5;
+  pointer-events: none;
+}
+.mn-section-copy h2 {
+  font-size: clamp(48px, 5.2vw, 88px);
+  line-height: 1;
+  margin: 26px 0;
+}
+.mn-section-copy p {
+  font-size: 14px;
+  line-height: 1.8;
+}
+.mn-floor-notes {
+  position: absolute;
+  right: 6%;
+  top: 25%;
+  height: 42%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font:
+    8px "Space Mono",
+    monospace;
+  z-index: 5;
+}
+.mn-floor-notes span:before {
+  content: "";
+  display: inline-block;
+  width: 35px;
+  height: 1px;
+  background: currentColor;
+  margin-right: 12px;
+  vertical-align: middle;
+}
+.mn-section-label {
+  font:
+    10px "Space Mono",
+    monospace;
+  letter-spacing: 0.1em;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #282b2740;
+}
+.mn-belief {
+  padding: 95px 7% 105px;
+  background: #f0eee7;
+  position: relative;
+}
+.mn-belief h2 {
+  font-size: clamp(52px, 7vw, 108px);
+  line-height: 1.08;
+  margin: 70px 0;
+}
+.mn-belief h2 > span,
+.mn-belief h2 > em {
+  display: block;
+}
+.mn-belief h2 > span:nth-child(2) {
+  padding-left: 14%;
+}
+.mn-belief h2 > em {
+  padding-left: 40%;
+  color: var(--accent);
+}
+.mn-belief-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr 0.5fr;
+  gap: 8%;
+  align-items: end;
+}
+.mn-belief-bottom p {
+  font-size: 15px;
+  line-height: 1.8;
+  max-width: 330px;
+  margin: 0;
+}
+.mn-small-mark {
+  font:
+    10px/1.6 "Space Mono",
+    monospace;
+  border-left: 1px solid #282b2740;
+  padding-left: 25px;
+}
+.mn-window {
+  height: 180px;
+  background: #d7d3c6;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  gap: 20px;
+  padding: 0 25px;
+  perspective: 400px;
+}
+.mn-window i {
+  width: 25%;
+  background: #fdf8e8;
+  height: 160%;
+  box-shadow: 20px 0 15px #9a8b6220;
+  transform: skewY(-20deg);
+  transform-origin: top;
+}
+.mn-drawing {
+  background: #292f2b;
+  color: #d9ddce;
+}
+.mn-drawing-pin {
+  height: 100svh;
+  min-height: 680px;
+  position: relative;
+  padding: 7% 6%;
+  perspective: 1500px;
+}
+.mn-drawing-heading {
+  position: absolute;
+  top: 12%;
+  left: 6%;
+  z-index: 2;
+}
+.mn-drawing-heading h2 {
+  font-size: clamp(52px, 5.4vw, 90px);
+  line-height: 1;
+  margin: 25px 0;
+}
+.mn-drawing-heading p {
+  font-size: 13px;
+  line-height: 1.8;
+  color: #b8beaf;
+}
+.mn-blueprint {
+  position: absolute;
+  width: 52%;
+  right: 3%;
+  top: 7%;
+  transform-style: preserve-3d;
+}
+.mn-plan {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.mn-plan-caption {
+  font:
+    9px "Space Mono",
+    monospace;
+  display: block;
+  text-align: center;
+}
+.mn-plan-compass {
+  position: absolute;
+  right: 8%;
+  top: 4%;
+  font:
+    12px "Space Mono",
+    monospace;
+}
+.mn-drawing-notes {
+  position: absolute;
+  bottom: 13%;
+  left: 6%;
+  width: 280px;
+  min-height: 125px;
+}
+.mn-drawing-notes article {
+  position: absolute;
+  inset: 0;
+}
+.mn-drawing-notes article:not(:first-child) {
+  visibility: hidden;
+  opacity: 0;
+}
+.mn-drawing-notes span {
+  font:
+    9px "Space Mono",
+    monospace;
+  color: #d5a58e;
+}
+.mn-drawing-notes h3 {
+  font-size: 30px;
+  margin: 13px 0;
+}
+.mn-drawing-notes p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #b8beaf;
+}
+.mn-drawing-rule {
+  position: absolute;
+  bottom: 5%;
+  left: 6%;
+  right: 6%;
+  border-top: 1px solid #d9ddce30;
+  padding-top: 15px;
+  font:
+    8px "Space Mono",
+    monospace;
+}
+.mn-drawing-rule i {
+  position: absolute;
+  top: -1px;
+  height: 2px;
+  width: 100%;
+  background: #d5a58e;
+  transform-origin: left;
+}
+.mn-project-pin {
+  height: 100svh;
+  min-height: 650px;
+  position: relative;
+  background: #bab9a9;
+}
+.mn-project-header {
+  position: absolute;
+  top: 4%;
+  left: 5%;
+  right: 5%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 6;
+  font:
+    9px "Space Mono",
+    monospace;
+}
+.mn-project {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: inset(0 0 0 0);
+}
+.mn-project-quiet {
+  z-index: 3;
+  background: #cecdc0;
+}
+.mn-project-common {
+  z-index: 2;
+  background: #b5bbae;
+}
+.mn-project-above {
+  z-index: 1;
+  background: #c6ac98;
+}
+.mn-project-art {
+  position: absolute;
+  inset: 0;
+  perspective: 1000px;
+  overflow: hidden;
+}
+.mn-project-disc {
+  position: absolute;
+  right: 16%;
+  top: 12%;
+  width: 31vw;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #eee7d4;
+  opacity: 0.8;
+}
+.mn-project-common .mn-project-disc {
+  background: #bd6145;
+}
+.mn-project-above .mn-project-disc {
+  background: #ead6b9;
+}
+.mn-terrain {
+  position: absolute;
+  left: -20%;
+  width: 140%;
+  height: 60%;
+  top: 57%;
+  background: linear-gradient(160deg, #9b9b86, #c3c0ad);
+  transform: rotate(-9deg);
+  box-shadow: 0 -1px #ffffff40;
+}
+.mn-project-common .mn-terrain {
+  transform: rotate(8deg);
+  background: linear-gradient(150deg, #7c8975, #b1b7a4);
+}
+.mn-project-above .mn-terrain {
+  background: linear-gradient(145deg, #887662, #baa18b);
+}
+.mn-building {
+  position: absolute;
+  left: 53%;
+  top: 42%;
+  width: 240px;
+  height: 180px;
+  transform-style: preserve-3d;
+  transform: rotateX(-16deg) rotateY(-25deg) rotateZ(-5deg);
+  z-index: 3;
+}
+.mn-building > i {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateY(calc(var(--level) * -24px));
+}
+.mn-building > i > b {
+  position: absolute;
+  inset: 0;
+  display: block;
+  background: linear-gradient(145deg, #d8d5c9, #b2b3a5);
+  transform: rotateX(90deg) translateZ(90px);
+  border: 1px solid #ebebe080;
+  box-shadow: 0 0 0 7px #ced0c1;
+}
+.mn-building > i > b:nth-child(2) {
+  background: repeating-linear-gradient(
+    90deg,
+    #717e7470 0 14px,
+    #d8d7c9 14px 19px
+  );
+  height: 23px;
+  top: 0;
+  transform: none;
+  box-shadow: none;
+}
+.mn-building > i > b:nth-child(3) {
+  width: 180px;
+  height: 23px;
+  top: 0;
+  left: auto;
+  right: 0;
+  background: #959f90;
+  transform: rotateY(90deg);
+  transform-origin: right;
+  box-shadow: none;
+}
+.mn-building-1 {
+  width: 340px;
+  left: 48%;
+  transform: rotateX(-16deg) rotateY(-30deg);
+}
+.mn-building-1 > i {
+  transform: translateY(calc(var(--level) * -14px))
+    rotateY(calc(var(--level) * 5deg));
+}
+.mn-building-1 > i > b {
+  background: #c5c0a9;
+  box-shadow: 0 0 0 5px #b7b39d;
+}
+.mn-building-2 {
+  width: 155px;
+  left: 56%;
+  top: 47%;
+}
+.mn-building-2 > i {
+  transform: translateY(calc(var(--level) * -27px))
+    rotateY(calc(var(--level) * 6deg));
+}
+.mn-building-2 > i > b {
+  box-shadow: 0 0 0 7px #9eaa86;
+}
+.mn-project-shadow {
+  position: absolute;
+  left: 44%;
+  top: 61%;
+  width: 45%;
+  height: 7%;
+  background: #282b2745;
+  filter: blur(20px);
+  transform: rotate(-12deg);
+}
+.mn-project-copy {
+  position: absolute;
+  left: 5%;
+  bottom: 10%;
+  z-index: 4;
+  max-width: 70%;
+}
+.mn-project-copy h2 {
+  font-size: clamp(45px, 6vw, 100px);
+  line-height: 1;
+  margin: 20px 0;
+}
+.mn-project-copy p {
+  font-size: 14px;
+}
+.mn-project-number {
+  position: absolute;
+  right: 5%;
+  bottom: 10%;
+  font:
+    80px/0.9 "Space Grotesk",
+    sans-serif;
+  letter-spacing: -0.08em;
+}
+.mn-project-number small {
+  display: block;
+  font:
+    10px "Space Mono",
+    monospace;
+  letter-spacing: 0;
+  text-align: right;
+  margin-top: 12px;
+}
+.mn-materials {
+  padding: 100px 7%;
+  background: #eeeae0;
+}
+.mn-materials h2 {
+  font-size: clamp(48px, 6.3vw, 96px);
+  line-height: 1.05;
+  margin: 65px 0;
+}
+.mn-material-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  perspective: 1000px;
+}
+.mn-material h3 {
+  font-size: 32px;
+  margin: 22px 0 10px;
+}
+.mn-material p {
+  font-size: 13px;
+}
+.mn-material-swatch {
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+.mn-material-swatch > span {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  font:
+    10px "Space Mono",
+    monospace;
+}
+.mn-material-earth .mn-material-swatch {
+  background: repeating-radial-gradient(
+    ellipse at 13% 40%,
+    #9e5a41 0 0.5px,
+    #ab674c 0.5px 2px,
+    #a76349 2px 4px
+  );
+  color: #f0d1b6;
+}
+.mn-material-stone .mn-material-swatch {
+  background: repeating-linear-gradient(
+    173deg,
+    #b2b2a4 0 1px,
+    #c2c0b1 1px 3px,
+    #bcbbad 3px 7px
+  );
+}
+.mn-material-light .mn-material-swatch {
+  background: #b9af98;
+}
+.mn-material-light i {
+  position: absolute;
+  left: -20%;
+  top: -30%;
+  width: 90%;
+  height: 170%;
+  transform: rotate(25deg);
+  background: linear-gradient(90deg, #f7efd99a, #fcf5e1);
+  box-shadow: 15px 0 30px #685e4420;
+}
+.mn-contact {
+  padding: 130px 7% 100px;
+  background: #292f2b;
+  color: #e5e2d6;
+  min-height: 850px;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+.mn-contact h2 {
+  font-size: clamp(65px, 9vw, 150px);
+  line-height: 0.98;
+  max-width: 850px;
+  margin: 80px 0 50px;
+  position: relative;
+  z-index: 2;
+}
+.mn-contact > a {
+  display: inline-flex;
+  gap: 80px;
+  align-items: center;
+  font-size: 16px;
+  border-bottom: 1px solid #e5e2d680;
+  padding: 0 0 18px;
+  position: relative;
+  z-index: 2;
+}
+.mn-contact > a span {
+  font-size: 32px;
+}
+.mn-contact > p {
+  margin-top: 70px;
+  font-size: 11px;
+  line-height: 1.8;
+  color: #b9bdae;
+}
+.mn-door {
+  position: absolute;
+  right: 9%;
+  top: 20%;
+  width: 230px;
+  height: 420px;
+  perspective: 600px;
+  z-index: 0;
+}
+.mn-door i {
+  position: absolute;
+  inset: 0;
+  border: 1px solid #c9a58b70;
+  transform-origin: bottom right;
+}
+.mt-monolith .mt-footer {
+  background: #292f2b;
+  color: #c4c8b8;
+  border-top: 1px solid #e5e2d630;
+}
+.mt-monolith .scene-fallback {
+  border-radius: 0;
+  transform: translate(-50%, -50%) rotate(-22deg) skewY(12deg);
+  border-width: 15px;
+  border-color: #b4b5a8;
+  box-shadow:
+    20px 25px 0 #989e8b,
+    40px 50px 0 #7b8576;
+}
+.mt-monolith .scene-fallback:after {
+  border-radius: 0;
+}
+@media (max-width: 760px) {
+  .mn-coordinate {
+    top: 110px;
+    font-size: 8px;
+  }
+  .mn-hero-copy {
+    top: 22%;
+    width: 90%;
+  }
+  .mn-hero-copy h1 {
+    font-size: clamp(54px, 13vw, 92px);
+    max-width: 95%;
+    margin: 18px 0;
+  }
+  .mn-hero .mt-scene {
+    left: 0;
+    right: 0;
+    top: 35%;
+    bottom: 5%;
+  }
+  .mn-sun {
+    width: 52vw;
+    right: 22%;
+    top: 48%;
+  }
+  .mn-axis {
+    width: 105vw;
+    height: 105vw;
+    top: 32%;
+    right: -20%;
+  }
+  .mn-model-caption {
+    left: 5%;
+    bottom: 11%;
+    font-size: 6px;
+    gap: 12px;
+  }
+  .mn-hero-bottom {
+    font-size: 7px;
+    gap: 25px;
+  }
+  .mn-hero-bottom > span:last-child {
+    max-width: 40%;
+    text-align: right;
+  }
+  .mn-section-copy {
+    top: 15%;
+    width: 90%;
+  }
+  .mn-section-copy h2 {
+    font-size: 43px;
+    margin: 16px 0;
+  }
+  .mn-section-copy p {
+    font-size: 12px;
+  }
+  .mn-floor-notes {
+    right: 4%;
+    top: 50%;
+    height: 24%;
+    font-size: 6px;
+  }
+  .mn-floor-notes span:before {
+    width: 12px;
+    margin-right: 5px;
+  }
+  .mn-belief {
+    padding: 65px 6%;
+  }
+  .mn-belief h2 {
+    font-size: clamp(36px, 8.5vw, 64px);
+    margin: 50px 0;
+  }
+  .mn-belief h2 > span:nth-child(2) {
+    padding-left: 3%;
+  }
+  .mn-belief h2 > em {
+    padding-left: 25%;
+  }
+  .mn-belief-bottom {
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+  }
+  .mn-window {
+    height: 150px;
+    gap: 10px;
+    padding: 0 15px;
+  }
+  .mn-belief-bottom p {
+    font-size: 12px;
+  }
+  .mn-small-mark {
+    display: none;
+  }
+  .mn-drawing-pin {
+    min-height: 740px;
+    height: 100svh;
+  }
+  .mn-drawing-heading {
+    top: 7%;
+    left: 6%;
+  }
+  .mn-drawing-heading h2 {
+    font-size: 43px;
+    margin: 18px 0;
+  }
+  .mn-drawing-heading p {
+    font-size: 11px;
+    margin: 0;
+  }
+  .mn-blueprint {
+    width: 85%;
+    right: 7%;
+    top: 31%;
+  }
+  .mn-drawing-notes {
+    bottom: 7%;
+    width: 86%;
+    min-height: 120px;
+  }
+  .mn-drawing-notes h3 {
+    font-size: 25px;
+    margin: 8px 0;
+  }
+  .mn-drawing-notes p {
+    font-size: 11px;
+    max-width: 270px;
+  }
+  .mn-drawing-rule {
+    bottom: 3%;
+    font-size: 6px;
+  }
+  .mn-plan-caption {
+    font-size: 7px;
+  }
+  .mn-project-header {
+    font-size: 7px;
+    gap: 20px;
+  }
+  .mn-project-pin {
+    min-height: 700px;
+  }
+  .mn-project-disc {
+    width: 65vw;
+    right: 12%;
+    top: 16%;
+  }
+  .mn-building {
+    left: 30%;
+    top: 41%;
+    scale: 0.72;
+  }
+  .mn-building-1 {
+    left: 16%;
+    scale: 0.65;
+  }
+  .mn-building-2 {
+    left: 40%;
+    top: 45%;
+  }
+  .mn-project-copy {
+    bottom: 12%;
+    max-width: 85%;
+  }
+  .mn-project-copy h2 {
+    font-size: 45px;
+    max-width: 280px;
+  }
+  .mn-project-copy p {
+    font-size: 12px;
+    max-width: 240px;
+  }
+  .mn-project-number {
+    font-size: 42px;
+    bottom: 4%;
+  }
+  .mn-project-copy .mt-eyebrow {
+    font-size: 7px;
+  }
+  .mn-terrain {
+    top: 50%;
+  }
+  .mn-materials {
+    padding: 65px 6%;
+  }
+  .mn-materials h2 {
+    font-size: 42px;
+    margin: 45px 0;
+  }
+  .mn-material-grid {
+    gap: 12px;
+  }
+  .mn-material-swatch {
+    height: 170px;
+  }
+  .mn-material h3 {
+    font-size: 24px;
+  }
+  .mn-material p {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .mn-contact {
+    padding: 80px 6%;
+    min-height: 740px;
+  }
+  .mn-contact h2 {
+    font-size: clamp(54px, 13vw, 90px);
+    margin: 85px 0 45px;
+  }
+  .mn-contact .mt-eyebrow {
+    font-size: 8px;
+    max-width: 260px;
+  }
+  .mn-contact > a {
+    gap: 45px;
+    font-size: 14px;
+  }
+  .mn-door {
+    right: 20%;
+    width: 150px;
+    height: 300px;
+    top: 28%;
+  }
+}
+.mt-monolith.mt-reduced .mn-section-copy,
+.mt-monolith.mt-reduced .mn-floor-notes {
+  display: none;
+}
+.mt-monolith.mt-reduced .mn-drawing-pin {
+  height: auto;
+  min-height: 0;
+  padding: 70px 6%;
+}
+.mt-monolith.mt-reduced .mn-drawing-heading,
+.mt-monolith.mt-reduced .mn-blueprint,
+.mt-monolith.mt-reduced .mn-drawing-notes {
+  position: relative;
+  inset: auto;
+  width: 100%;
+}
+.mt-monolith.mt-reduced .mn-blueprint {
+  max-width: 600px;
+  margin: 40px auto;
+}
+.mt-monolith.mt-reduced .mn-drawing-notes {
+  display: flex;
+  gap: 35px;
+  min-height: 0;
+}
+.mt-monolith.mt-reduced .mn-drawing-notes article {
+  position: relative;
+  inset: auto;
+  visibility: visible;
+  opacity: 1;
+  flex: 1;
+}
+.mt-monolith.mt-reduced .mn-drawing-rule {
+  display: none;
+}
+.mt-monolith.mt-reduced .mn-project-pin {
+  height: auto;
+}
+.mt-monolith.mt-reduced .mn-project {
+  position: relative;
+  inset: auto;
+  height: 850px;
+  min-height: 100svh;
+}
+.mt-monolith.mt-reduced .mn-project-header {
+  display: none;
+}
+@media (max-width: 760px) {
+  .mt-monolith.mt-reduced .mn-drawing-notes {
+    flex-direction: column;
+    gap: 20px;
+  }
+  .mt-monolith.mt-reduced .mn-project {
+    height: 740px;
+  }
+}
+/* Closed slab edges keep the project models legible through their camera turns. */
+.mn-building {
+  scale: 1.25;
+}
+.mn-building > i > b:nth-child(2) {
+  top: 90px;
+  transform: translateZ(90px);
+  border: 1px solid #e8e7d070;
+}
+.mn-building > i > b:nth-child(3) {
+  top: 90px;
+  transform: rotateY(90deg) translateX(90px);
+  border: 1px solid #d7d7c070;
+}
+@media (max-width: 760px) {
+  .mn-building {
+    scale: 0.8;
+  }
+  .mn-building-1 {
+    scale: 0.7;
+  }
+  .mn-building-2 {
+    scale: 0.8;
+  }
+}
+.mn-building > i > b:first-child {
+  transform: rotateX(90deg);
+}

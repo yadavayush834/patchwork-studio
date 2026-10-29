@@ -10,13 +10,14 @@ async (page) => {
   await page
     .getByRole("button", { name: "Motion templates", exact: true })
     .click();
-  if ((await page.locator(".motion-template-card").count()) !== 3)
+  if ((await page.locator(".motion-template-card").count()) !== 4)
     throw new Error("Collection entry missing");
   const outcomes = [];
   for (const [id, name] of [
     ["aether", "Æther"],
     ["offscript", "Offscript"],
     ["floraison", "Floraison"],
+    ["monolith", "Monolith"],
   ]) {
     await page
       .getByRole("button", { name: `Explore ${name}`, exact: true })

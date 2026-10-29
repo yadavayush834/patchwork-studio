@@ -225,7 +225,7 @@ export default function MotionStudio({ onClose }: Props) {
         </button>
         <div className="motion-wordmark">
           patchwork <span>/</span> <strong>motion studies</strong>
-          <sup>03</sup>
+          <sup>{String(motionTemplates.length).padStart(2, "0")}</sup>
         </div>
         <div className="motion-top-actions">
           {selected ? (
@@ -402,14 +402,14 @@ export default function MotionStudio({ onClose }: Props) {
             <div className="motion-intro-note">
               <span>NOT JUST A FIRST IMPRESSION.</span>
               <p>
-                Three worlds to get lost in.
+                Four worlds to get lost in.
                 <br />
                 Sculpted objects. Type with a pulse.
                 <br />
                 Stories that unfold in your hands.
               </p>
               <div>
-                <span>03 TEMPLATES</span>
+                <span>04 TEMPLATES</span>
                 <i></i>
                 <span>ENDLESS POSSIBILITIES</span>
               </div>
@@ -417,7 +417,7 @@ export default function MotionStudio({ onClose }: Props) {
           </div>
           <div className="motion-catalog-head">
             <span>THE COLLECTION</span>
-            <span>01 — 03 / SCROLL-LED EXPERIENCES</span>
+            <span>01 — 04 / SCROLL-LED EXPERIENCES</span>
           </div>
           <div className="motion-template-card-grid">
             {motionTemplates.map((t) => (

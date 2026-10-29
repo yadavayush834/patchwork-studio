@@ -27,9 +27,9 @@ const split = (text: string) =>
     )
     .join(" ")}</span>`;
 const nav = (c: MotionConfig, id: MotionId) =>
-  `<a class="mt-skip" href="#story">Skip to the story</a><header class="mt-nav"><a class="mt-brand" href="#top">${escape(c.brand)}<span>®</span></a><nav aria-label="Template navigation"><a href="#story">${id === "offscript" ? "Work" : id === "floraison" ? "Field notes" : "The story"}</a><a href="#contact">${id === "offscript" ? "Get in touch" : id === "floraison" ? "Stay curious" : "Get closer"} <span>↗</span></a></nav></header><div class="mt-progress" aria-hidden="true"><i></i></div>`;
+  `<a class="mt-skip" href="#story">Skip to the story</a><header class="mt-nav"><a class="mt-brand" href="#top">${escape(c.brand)}<span>®</span></a><nav aria-label="Template navigation"><a href="#story">${id === "offscript" ? "Work" : id === "floraison" ? "Field notes" : id === "monolith" ? "The practice" : "The story"}</a><a href="#contact">${id === "offscript" ? "Get in touch" : id === "floraison" ? "Stay curious" : id === "monolith" ? "Let’s talk" : "Get closer"} <span>↗</span></a></nav></header><div class="mt-progress" aria-hidden="true"><i></i></div>`;
 const footer = (c: MotionConfig, id: MotionId) =>
-  `<footer class="mt-footer"><span>${escape(c.brand)} © ${new Date().getFullYear()}</span><span>AN INDEPENDENT ${id === "offscript" ? "CREATIVE" : id === "floraison" ? "BOTANICAL" : "PRODUCT"} CONCEPT</span><a href="#top">Back to the beginning ↑</a></footer>`;
+  `<footer class="mt-footer"><span>${escape(c.brand)} © ${new Date().getFullYear()}</span><span>AN INDEPENDENT ${id === "offscript" ? "CREATIVE" : id === "floraison" ? "BOTANICAL" : id === "monolith" ? "ARCHITECTURAL" : "PRODUCT"} CONCEPT</span><a href="#top">Back to the beginning ↑</a></footer>`;
 function aether(c: MotionConfig) {
   return `${nav(c, "aether")}
 <section class="ae-hero mt-hero" id="top" data-chapter="First contact">
@@ -105,10 +105,59 @@ function floraison(c: MotionConfig) {
     .join("")}</div></section>
 <section class="fl-contact mt-contact" id="contact" data-chapter="Let things grow"><div class="fl-contact-sprig">${leaf}${leaf}</div><span class="mt-eyebrow">THE NEXT PAGE IS STILL UNWRITTEN.</span><h2>${split("Leave a little room for wonder.")}</h2><a class="fl-contact-link" href="${escape(mail(c.email))}">Send a field note <span>↗</span></a><span class="fl-handwriting">until next season.</span></section>${footer(c, "floraison")}`;
 }
+// Original architectural plates: the same vector drawings ship in preview and export.
+const plan = `<svg class="mn-plan" viewBox="0 0 600 600" fill="none" aria-hidden="true"><g class="mn-plan-grid" stroke="currentColor" opacity=".18"><path d="M0 100H600M0 200H600M0 300H600M0 400H600M0 500H600M100 0V600M200 0V600M300 0V600M400 0V600M500 0V600"/></g><g class="mn-draw" stroke="currentColor" stroke-width="2"><path pathLength="1" d="M100 100H500V500H100Z"/><path pathLength="1" d="M115 115H485V485H115ZM270 115V230H370V115M115 270H230V370H115M270 485V370H370V485M485 270H370V230"/><path pathLength="1" d="M230 230H370V370H230Z"/><path pathLength="1" d="M390 290H470M390 302H470M390 314H470M390 326H470M390 338H470M390 350H470"/><path pathLength="1" d="M60 100V500M50 100H70M50 500H70M100 540H500M100 530V550M500 530V550"/></g><circle class="mn-plan-sun" cx="300" cy="300" r="48" fill="currentColor" opacity=".18"/><g fill="currentColor" font-family="monospace" font-size="10"><text x="278" y="305">COURT</text><text x="265" y="563">18 000</text><text x="116" y="93">A</text><text x="480" y="93">A′</text></g></svg>`;
+const building = (kind: number) =>
+  `<div class="mn-building mn-building-${kind}" aria-hidden="true">${Array.from({ length: kind === 2 ? 9 : 6 }, (_, i) => `<i style="--level:${i}"><b></b><b></b><b></b></i>`).join("")}</div>`;
+function monolith(c: MotionConfig) {
+  return `${nav(c, "monolith")}
+<section class="mn-hero mt-hero" id="top" data-chapter="A sense of place"><div class="mn-coordinate">CONCEPT ARCHITECTURE<br>FORM / LIGHT / HUMAN EXPERIENCE</div><div class="mn-hero-copy"><span class="mt-eyebrow">A PRACTICE IN POSSIBILITY</span><h1>${split(c.headline)}</h1></div><div class="mn-sun" aria-hidden="true"></div><div class="mn-axis" aria-hidden="true"><i></i><i></i></div><div class="mt-scene" data-scene="monolith" role="img" aria-label="Concrete pavilion with copper courtyard and seven sculpted floors separating into an architectural model"></div><div class="mn-model-caption"><span>FIG. 001 — THE OPEN HOUSE</span><span>AXONOMETRIC STUDY / NOT TO SCALE</span></div><div class="mn-section-copy"><span class="mt-eyebrow">SOLID → SPACE</span><h2>Less mass.<br>More <em>possibility.</em></h2><p>A floor becomes a horizon.<br>A void becomes a place to belong.</p></div><div class="mn-floor-notes"><span>07 / SKY TERRACE</span><span>04 / OPEN COURT</span><span>01 / COMMON GROUND</span></div><div class="mn-hero-bottom"><span>SCROLL TO TAKE IT APART ↓</span><span>AN INDEPENDENT SPATIAL PRACTICE</span></div></section>
+<section class="mn-belief" id="story" data-chapter="Drawn from the inside"><div class="mn-section-label">01 / THE SPACE BETWEEN</div><h2><span>We shape the walls.</span><span>The light does</span><em>the rest.</em></h2><div class="mn-belief-bottom"><div class="mn-window" aria-hidden="true"><i></i><i></i><i></i></div><p>Architecture starts with a question:<br>how do we want to feel here?<br><br>These imagined spaces explore what happens when we leave room for light, for pause, and for each other.</p><span class="mn-small-mark">M /<br>STUDIES IN<br>INHABITING</span></div></section>
+<section class="mn-drawing" data-chapter="Drawn from the inside"><div class="mn-drawing-pin"><div class="mn-drawing-heading"><span class="mt-eyebrow">02 / FROM LINE TO LIFE</span><h2>Drawn from<br>the <em>inside.</em></h2><p>The plan is only the beginning.<br>The life inside is the point.</p></div><div class="mn-blueprint">${plan}<span class="mn-plan-caption">GROUND PLAN / 1:200</span><div class="mn-plan-compass">N ↑</div></div><div class="mn-drawing-notes"><article><span>01 / SUBTRACT</span><h3>Make room.</h3><p>Carve a courtyard from the solid. Let the sky into the center.</p></article><article><span>02 / CONNECT</span><h3>Find a rhythm.</h3><p>A continuous path turns separate rooms into a shared experience.</p></article><article><span>03 / OPEN</span><h3>Follow the light.</h3><p>Orient every threshold toward the changing day.</p></article></div><div class="mn-drawing-rule"><i></i><span>IDEA → DRAWING → EXPERIENCE</span></div></div></section>
+<section class="mn-projects" data-chapter="Studies in space"><div class="mn-project-pin"><div class="mn-project-header"><span>03 / SPATIAL STUDIES</span><span>THREE IMAGINED PLACES</span></div>${[
+    [
+      "01",
+      "The quiet house",
+      "A place to step out of the noise.",
+      "RESIDENTIAL / COURTYARD STUDY",
+      "quiet",
+    ],
+    [
+      "02",
+      "A common ground",
+      "Many lives. One shared horizon.",
+      "CULTURAL / PUBLIC PAVILION",
+      "common",
+    ],
+    [
+      "03",
+      "Above the everyday",
+      "A different view of what comes next.",
+      "EXPERIMENTAL / VERTICAL GARDEN",
+      "above",
+    ],
+  ]
+    .map(
+      ([n, title, copy, meta, kind], i) =>
+        `<article class="mn-project mn-project-${kind}"><div class="mn-project-art"><div class="mn-project-disc"></div><div class="mn-terrain"></div>${building(i)}<div class="mn-project-shadow"></div></div><div class="mn-project-copy"><span class="mt-eyebrow">${meta}</span><h2>${title}</h2><p>${copy}</p></div><span class="mn-project-number">${n}<small>/ 03</small></span></article>`,
+    )
+    .join("")}</div></section>
+<section class="mn-materials"><div class="mn-section-label">04 / AN HONEST PALETTE</div><h2 class="mt-reveal">Nothing to hide.<br><em>Everything to feel.</em></h2><div class="mn-material-grid">${[
+    ["01", "Earth", "Pigment, texture, imperfection.", "earth"],
+    ["02", "Stone", "A memory of the landscape.", "stone"],
+    ["03", "Light", "Our most important material.", "light"],
+  ]
+    .map(
+      ([n, name, copy, cl]) =>
+        `<article class="mn-material mn-material-${cl}"><div class="mn-material-swatch"><i></i><span>${n}</span></div><h3>${name}</h3><p>${copy}</p></article>`,
+    )
+    .join("")}</div></section>
+<section class="mn-contact" id="contact" data-chapter="Build a possibility"><div class="mn-door" aria-hidden="true"><i></i><i></i><i></i><i></i></div><span class="mt-eyebrow">EVERY POSSIBILITY STARTS WITH A CONVERSATION.</span><h2>${split("Leave the door open.")}</h2><a href="${escape(mail(c.email))}">Build a possibility <span>↗</span></a><p>A conceptual architecture template.<br>Make the next space your own.</p></section>${footer(c, "monolith")}`;
+}
 export function renderMotion(
   id: MotionId,
   config: Partial<MotionConfig> = {},
 ): string {
   const c = normalizeMotionConfig(config, id);
-  return `<div class="mt-page mt-${id}" style="--accent:${c.accent}" data-template="${id}">${id === "aether" ? aether(c) : id === "offscript" ? offscript(c) : floraison(c)}</div>`;
+  return `<div class="mt-page mt-${id}" style="--accent:${c.accent}" data-template="${id}">${id === "aether" ? aether(c) : id === "offscript" ? offscript(c) : id === "floraison" ? floraison(c) : monolith(c)}</div>`;
 }

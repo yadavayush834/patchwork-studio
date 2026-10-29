@@ -136,7 +136,8 @@ export class MotionScene {
       this.renderer.setClearColor(0, 0);
       this.renderer.outputColorSpace = THREE.SRGBColorSpace;
       this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      this.renderer.toneMappingExposure = id === "floraison" ? 0.95 : 1.05;
+      this.renderer.toneMappingExposure =
+        id === "monolith" ? 0.9 : id === "floraison" ? 0.95 : 1.05;
       this.container.append(this.renderer.domElement);
       this.renderer.domElement.setAttribute("aria-hidden", "true");
       this.renderer.domElement.addEventListener(
@@ -150,30 +151,34 @@ export class MotionScene {
       room.dispose();
       generator.dispose();
       this.scene.add(
-        new THREE.AmbientLight(0xffffff, id === "floraison" ? 0.65 : 1.3),
+        new THREE.AmbientLight(
+          0xffffff,
+          id === "floraison" || id === "monolith" ? 0.65 : 1.3,
+        ),
       );
       const key = new THREE.DirectionalLight(
         id === "offscript" ? 0xc9ffb2 : 0xffe9ce,
-        id === "floraison" ? 1.8 : 3.5,
+        id === "floraison" || id === "monolith" ? 1.8 : 3.5,
       );
       key.position.set(3, 5, 5);
       this.scene.add(key);
       const rim = new THREE.DirectionalLight(
         id === "aether" ? 0xffb48d : id === "offscript" ? 0xb9c7ff : 0xffcead,
-        id === "floraison" ? 1.1 : 3,
+        id === "floraison" || id === "monolith" ? 1.1 : 3,
       );
       rim.position.set(-4, 1, -1);
       this.scene.add(rim);
       const fill = new THREE.DirectionalLight(
         0xffffff,
-        id === "floraison" ? 0.6 : 1.3,
+        id === "floraison" || id === "monolith" ? 0.6 : 1.3,
       );
       fill.position.set(-2, -2, 4);
       this.scene.add(fill);
       this.scene.add(this.root);
       if (id === "aether") this.headphones();
       else if (id === "offscript") this.sculpture();
-      else this.flower();
+      else if (id === "floraison") this.flower();
+      else this.architecture();
       const resize = new ResizeObserver(() => this.resize());
       resize.observe(container);
       this.observers.push(resize);
@@ -389,6 +394,120 @@ export class MotionScene {
     this.objects.push(satellite);
     this.root.rotation.z = -0.25;
   }
+  private architecture() {
+    // A courtyard pavilion built from independent structural floors, not a loaded model.
+    const canvas = document.createElement("canvas");
+    canvas.width = canvas.height = 128;
+    const ctx = canvas.getContext("2d")!;
+    const pixels = ctx.createImageData(128, 128);
+    for (let i = 0; i < 128 * 128; i++) {
+      const grain = 128 + hash(i) * 35;
+      pixels.data.set([grain, grain - 4, grain - 12, 255], i * 4);
+    }
+    ctx.putImageData(pixels, 0, 0);
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    this.textures.push(texture);
+    const concrete = new THREE.MeshStandardMaterial({
+      map: texture,
+      roughness: 0.86,
+      metalness: 0,
+      envMapIntensity: 0.35,
+    });
+    const copper = new THREE.MeshStandardMaterial({
+      color: 0x99533c,
+      roughness: 0.38,
+      metalness: 0.55,
+    });
+    const glass = new THREE.MeshStandardMaterial({
+      color: 0x384c47,
+      roughness: 0.22,
+      metalness: 0.65,
+    });
+    const dark = new THREE.MeshStandardMaterial({
+      color: 0x464943,
+      roughness: 0.9,
+    });
+    const slab = new THREE.BoxGeometry(2.35, 0.11, 2.35);
+    const beam = new THREE.BoxGeometry(0.11, 0.32, 0.11);
+    for (let level = 0; level < 7; level++) {
+      const floor = new THREE.Group();
+      floor.userData.level = level;
+      this.root.add(floor);
+      // Four beams preserve the open square courtyard through all seven levels.
+      mesh(
+        new THREE.BoxGeometry(2.35, 0.13, 0.68),
+        concrete,
+        floor,
+        0,
+        0,
+        -0.835,
+      );
+      mesh(
+        new THREE.BoxGeometry(2.35, 0.13, 0.68),
+        concrete,
+        floor,
+        0,
+        0,
+        0.835,
+      );
+      mesh(new THREE.BoxGeometry(0.68, 0.13, 1), concrete, floor, -0.835, 0, 0);
+      mesh(new THREE.BoxGeometry(0.68, 0.13, 1), concrete, floor, 0.835, 0, 0);
+      if (level < 6) {
+        for (const x of [-1.04, 1.04])
+          for (const z of [-1.04, 1.04])
+            mesh(beam, concrete, floor, x, 0.22, z);
+        for (let i = 0; i < 9; i++) {
+          mesh(
+            new THREE.BoxGeometry(0.024, 0.25, 0.055),
+            copper,
+            floor,
+            -0.94 + i * 0.235,
+            0.2,
+            -1.08,
+          );
+        }
+        mesh(
+          new THREE.BoxGeometry(0.055, 0.25, 1.58),
+          glass,
+          floor,
+          1.06,
+          0.2,
+          0,
+        );
+      }
+      this.objects.push(floor);
+    }
+    mesh(slab, dark, this.root, 0, -1.4, 0).scale.set(1.3, 1, 1.3);
+    mesh(
+      new THREE.BoxGeometry(0.85, 0.055, 0.85),
+      copper,
+      this.root,
+      0,
+      -1.3,
+      0,
+    );
+    for (let i = 0; i < 6; i++) {
+      mesh(
+        new THREE.BoxGeometry(0.8, 0.05, 0.13),
+        concrete,
+        this.root,
+        0,
+        -1.35 - i * 0.04,
+        1.25 + i * 0.13,
+      );
+    }
+    const ground = mesh(
+      new THREE.CylinderGeometry(2.1, 2.1, 0.055, 80),
+      concrete,
+      this.root,
+      0,
+      -1.65,
+      0,
+    );
+    ground.scale.z = 0.9;
+    this.root.rotation.set(0.3, -0.6, 0);
+  }
   private flower() {
     const texture = petalTexture();
     this.textures.push(texture);
@@ -495,7 +614,13 @@ export class MotionScene {
     if (!width || !height) return;
     this.camera.aspect = width / height;
     this.camera.position.z =
-      this.id === "offscript" ? 7.4 : this.id === "floraison" ? 7.4 : 7.6;
+      this.id === "monolith"
+        ? 9.3
+        : this.id === "offscript"
+          ? 7.4
+          : this.id === "floraison"
+            ? 7.4
+            : 7.6;
     if (this.camera.aspect < 0.8) this.camera.position.z += 0.9;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height, false);
@@ -540,6 +665,19 @@ export class MotionScene {
       this.root.position.y = p.lift + Math.sin(t * 0.5) * 0.05;
       this.objects.forEach((o, i) => {
         if (i > 1) o.rotation.y = t * 0.1 + p.turn * (i % 2 ? 1 : -1);
+      });
+    } else if (this.id === "monolith") {
+      this.root.rotation.set(
+        0.3 + p.roll + this.tilt.y,
+        -0.6 + p.turn + this.tilt.x,
+        0,
+      );
+      this.root.position.y = p.lift;
+      this.objects.forEach((floor, i) => {
+        floor.position.y = -1.23 + i * 0.43 + p.explode * (i - 3) * 0.22;
+        floor.rotation.y =
+          Math.sin(i * 0.7) * 0.11 + p.explode * (i - 3) * 0.06;
+        floor.position.x = p.explode * Math.sin(i * 0.8) * 0.15;
       });
     } else {
       this.root.rotation.set(

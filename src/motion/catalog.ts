@@ -53,6 +53,24 @@ export const motionTemplates = [
       "Let things grow",
     ],
   },
+  {
+    id: "monolith",
+    number: "04",
+    name: "Monolith",
+    category: "ARCHITECTURE / SPACE",
+    headline: "Space is a feeling.",
+    description:
+      "An architectural journey from solid to space. An exploded concrete pavilion, living blueprints, and cinematic studies of light and mass.",
+    color: "#c34f32",
+    background: "#dedbd2",
+    tags: ["Exploded architecture", "Living blueprints", "Spatial transitions"],
+    chapters: [
+      "A sense of place",
+      "Drawn from the inside",
+      "Studies in space",
+      "Build a possibility",
+    ],
+  },
 ] as const;
 export type MotionId = (typeof motionTemplates)[number]["id"];
 export interface MotionConfig {

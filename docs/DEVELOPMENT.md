@@ -113,13 +113,15 @@ For packaged-app checks, open a separate production-preview session and run `scr
 
 `npm ci` installs the pinned GSAP/Three.js dependencies. `npm run build:motion` bundles the standalone runtime and copies attribution; normal dev/build scripts run it automatically. Runtime edits do not use Vite's module HMR because the generated engine is a classic self-contained file: rebuild it explicitly after changing `runtime.ts` or `scene.ts`. Never edit `public/motion/engine.js` by hand. Public PNG covers are actual browser captures, not external stock images.
 
-Routes: `?collection=motion` for the gallery, `?collection=motion&motion=aether`, `offscript`, or `floraison` for direct previews. The templates use isolated documents with their own scrolling. Browser scripts must select `.motion-preview iframe`, not the dashboard's unrelated preview iframes.
+Routes: `?collection=motion` for the gallery, `?collection=motion&motion=aether`, `offscript`, `floraison`, or `monolith` for direct previews. The templates use isolated documents with their own scrolling. Browser scripts must select `.motion-preview iframe`, not the dashboard's unrelated preview iframes.
 
 - `scripts/browser-motion-visual.js`: desktop WebGL/pin/overflow evidence and screenshots at multiple scroll positions.
-- `scripts/browser-motion-flow.js`: real wheel scroll, chapter/sideways transforms, customization, downloadable three-template ZIPs, 390px layout and persisted settings.
+- `scripts/browser-motion-flow.js`: real wheel scroll, chapter/sideways transforms, customization, downloadable four-template ZIPs, 390px layout and persisted settings.
 - `scripts/browser-motion-covers.js`: cover capture at 900×1080. Use an isolated session with default namespaced motion configs; do not capture a user's custom template as the original cover.
 - Packaged-app/standalone/reduced-motion checks are described in `docs/VERIFICATION.md`.
 
 Keep browser profiles and downloads under ignored QA folders. Use software WebGL only for QA on machines lacking a GPU; a software renderer is not a reliable measure of user-device frame rate. New motion documents are independent templates; do not import them as ordinary editable project ZIPs or silently migrate existing projects.
 
-`browser-motion-production.js` runs against the built app on 5177, checks the dashboard entry and downloads, then tests reduced-motion/keyboard exits. `browser-motion-downloads.js` refreshes the three production ZIPs. Extract them to `output/playwright/motion-sites/{aether,offscript,floraison}`, serve that parent on 5181, and run `browser-motion-standalone.js`. This verifies independent resources, real pins/wheel/anchors, 390px bounds and a deliberate WebGL-unavailable fallback. It modifies only the isolated test browser's WebGL API during its final fallback phase; close that session afterward.
+`browser-motion-production.js` runs against the built app on 5177, checks the dashboard entry and downloads, then tests reduced-motion/keyboard exits. `browser-motion-downloads.js` refreshes the four production ZIPs. Extract them to `output/playwright/motion-sites/{aether,offscript,floraison,monolith}`, serve that parent on 5181, and run `browser-motion-standalone.js`. This verifies independent resources, real pins/wheel/anchors, 390px bounds and a deliberate WebGL-unavailable fallback. It modifies only the isolated test browser's WebGL API during its final fallback phase; close that session afterward.
+
+`browser-motion-monolith.js` is the focused production probe for the fourth template: four gallery cards, three pins, staged blueprint notes and final spatial curtain, ZIP download, readable reduced-motion notes/projects at 390px, and iframe keyboard exit back to the dashboard.

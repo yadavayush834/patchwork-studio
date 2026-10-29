@@ -8,9 +8,9 @@ import {
 } from "../src/motion/catalog";
 import { renderMotion } from "../src/motion/templates";
 
-test("three independent motion stories have real scenes, navigation, chapters, and contact actions", () => {
-  assert.equal(motionTemplates.length, 3);
-  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 3);
+test("four independent motion stories have real scenes, navigation, chapters, and contact actions", () => {
+  assert.equal(motionTemplates.length, 4);
+  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 4);
   for (const t of motionTemplates) {
     const html = renderMotion(t.id);
     assert.match(html, new RegExp(`data-scene="${t.id}"`));
@@ -45,7 +45,7 @@ test("template customization escapes markup, limits input, and refuses unsafe co
       .length,
     85,
   );
-  for (const id of ["aether", "offscript", "floraison"])
+  for (const id of ["aether", "offscript", "floraison", "monolith"])
     assert.equal(isMotionId(id), true);
   for (const id of ["__proto__", "other", null, 3])
     assert.equal(isMotionId(id), false);
@@ -62,6 +62,11 @@ test("each motion template has distinct compositions rather than shared renamed 
   assert.match(f, /fl-specimen/);
   assert.match(f, /fl-season-grid/);
   assert.match(f, /Papaver/);
+  const m = renderMotion("monolith");
+  assert.match(m, /mn-plan/);
+  assert.match(m, /mn-project-quiet/);
+  assert.match(m, /mn-floor-notes/);
+  assert.ok(!m.includes("fl-specimen"));
   assert.ok(!o.includes("ae-wave"));
   assert.ok(!f.includes("of-work-track"));
 });

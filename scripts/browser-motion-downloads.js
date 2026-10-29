@@ -7,6 +7,7 @@ async (page) => {
     ["aether", "Æther"],
     ["offscript", "Offscript"],
     ["floraison", "Floraison"],
+    ["monolith", "Monolith"],
   ]) {
     await page
       .getByRole("button", { name: `Explore ${name}`, exact: true })
@@ -29,5 +30,5 @@ async (page) => {
       .click();
   }
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  return { downloads: 3 };
+  return { downloads: 4 };
 }

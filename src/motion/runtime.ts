@@ -535,6 +535,243 @@ function floraison(scene: MotionScene, mobile: boolean) {
     },
   });
 }
+function monolith(scene: MotionScene, mobile: boolean) {
+  gsap.set([".mn-section-copy", ".mn-floor-notes"], { autoAlpha: 0 });
+  const hero = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".mn-hero",
+      start: "top top",
+      end: () => `+=${innerHeight * (mobile ? 2 : 2.8)}`,
+      pin: true,
+      scrub: 0.8,
+    },
+  });
+  hero
+    .to(
+      scene.pose,
+      { turn: 0.8, scale: mobile ? 0.95 : 1.08, duration: 1, ease: "none" },
+      0,
+    )
+    .to(".mn-hero-copy", { yPercent: -30, autoAlpha: 0, duration: 0.5 }, 0.15)
+    .to(".mn-coordinate,.mn-hero-bottom", { autoAlpha: 0, duration: 0.25 }, 0)
+    .to(".mn-sun", { xPercent: -40, yPercent: 30, scale: 1.6, duration: 2 }, 0)
+    .to(".mn-axis", { rotation: 45, scale: 1.4, duration: 2 }, 0)
+    .to(
+      scene.pose,
+      {
+        explode: 1,
+        turn: 1.5,
+        roll: 0.12,
+        scale: mobile ? 0.86 : 1,
+        duration: 1.1,
+      },
+      0.8,
+    )
+    .fromTo(
+      ".mn-section-copy",
+      { y: 40, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.5 },
+      1,
+    )
+    .fromTo(
+      ".mn-floor-notes",
+      { x: 30, autoAlpha: 0 },
+      { x: 0, autoAlpha: 1, duration: 0.5 },
+      1.45,
+    )
+    .to(".mn-hero", { backgroundColor: "#c9c9bd", duration: 0.6 }, 1.6);
+  gsap.from(".mn-belief h2>span,.mn-belief h2>em", {
+    x: (i) => (i % 2 ? 100 : -100),
+    autoAlpha: 0.15,
+    stagger: 0.2,
+    scrollTrigger: {
+      trigger: ".mn-belief",
+      start: "top 75%",
+      end: "top 5%",
+      scrub: 1,
+    },
+  });
+  gsap.fromTo(
+    ".mn-window i",
+    { xPercent: -70, skewY: 20 },
+    {
+      xPercent: 70,
+      skewY: -20,
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: ".mn-belief",
+        start: "top bottom",
+        end: "bottom top",
+        scrub: 1,
+      },
+    },
+  );
+  const draw = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".mn-drawing-pin",
+      start: "top top",
+      end: () => `+=${innerHeight * (mobile ? 2.2 : 2.8)}`,
+      pin: true,
+      scrub: 0.7,
+    },
+  });
+  draw
+    .fromTo(
+      ".mn-draw path",
+      { strokeDasharray: 1, strokeDashoffset: 1 },
+      { strokeDashoffset: 0, stagger: 0.08, duration: 1.4, ease: "none" },
+      0,
+    )
+    .fromTo(
+      ".mn-blueprint",
+      { rotationX: 45, rotationZ: -25, scale: 0.78 },
+      { rotationX: 0, rotationZ: 0, scale: 1, duration: 1.5 },
+      0,
+    )
+    .fromTo(
+      ".mn-plan-sun",
+      { scale: 0, transformOrigin: "50% 50%" },
+      { scale: 1, duration: 0.6 },
+      0.7,
+    )
+    .from(
+      ".mn-drawing-notes article:first-child",
+      { autoAlpha: 0, y: 30, duration: 0.4 },
+      0.4,
+    )
+    .to(
+      ".mn-drawing-notes article:first-child",
+      { autoAlpha: 0, y: -20, duration: 0.3 },
+      1.1,
+    )
+    .fromTo(
+      ".mn-drawing-notes article:nth-child(2)",
+      { autoAlpha: 0, y: 30 },
+      { autoAlpha: 1, y: 0, duration: 0.4 },
+      1.35,
+    )
+    .to(".mn-plan-sun", { scale: 1.6, x: 40, y: -30, duration: 0.8 }, 1.4)
+    .to(
+      ".mn-drawing-notes article:nth-child(2)",
+      { autoAlpha: 0, y: -20, duration: 0.3 },
+      2,
+    )
+    .fromTo(
+      ".mn-drawing-notes article:nth-child(3)",
+      { autoAlpha: 0, y: 30 },
+      { autoAlpha: 1, y: 0, duration: 0.4 },
+      2.25,
+    )
+    .to(
+      ".mn-blueprint",
+      { rotationX: mobile ? 12 : 30, rotationZ: 15, duration: 1 },
+      1.8,
+    )
+    .fromTo(
+      ".mn-drawing-rule i",
+      { scaleX: 0 },
+      { scaleX: 1, duration: 2.8, ease: "none" },
+      0,
+    );
+  const projects = gsap.timeline({
+    scrollTrigger: {
+      trigger: ".mn-project-pin",
+      start: "top top",
+      end: () => `+=${innerHeight * (mobile ? 2.8 : 3.5)}`,
+      pin: true,
+      scrub: 0.8,
+    },
+  });
+  projects
+    .to(
+      ".mn-project-quiet .mn-building",
+      { rotationY: 35, y: -35, duration: 1.3 },
+      0,
+    )
+    .to(
+      ".mn-project-quiet",
+      { clipPath: "inset(0 0 100% 0)", duration: 0.8, ease: "power2.inOut" },
+      0.8,
+    )
+    .fromTo(
+      ".mn-project-common .mn-building",
+      { rotationY: -40, y: 70 },
+      { rotationY: 15, y: -35, duration: 1.5 },
+      0.9,
+    )
+    .fromTo(
+      ".mn-project-common .mn-project-copy",
+      { y: 60, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.5 },
+      1.3,
+    )
+    .to(
+      ".mn-project-common",
+      { clipPath: "inset(0 0 100% 0)", duration: 0.8, ease: "power2.inOut" },
+      2.1,
+    )
+    .fromTo(
+      ".mn-project-above .mn-building",
+      { rotationY: -30, y: 90 },
+      { rotationY: 30, y: -20, duration: 1.5 },
+      2.2,
+    )
+    .fromTo(
+      ".mn-project-above .mn-project-copy",
+      { y: 60, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.5 },
+      2.65,
+    );
+  gsap.from(".mn-material-swatch", {
+    rotationX: 55,
+    y: 90,
+    autoAlpha: 0,
+    stagger: 0.16,
+    scrollTrigger: {
+      trigger: ".mn-material-grid",
+      start: "top 85%",
+      end: "top 20%",
+      scrub: 0.8,
+    },
+  });
+  gsap.to(".mn-material-light i", {
+    xPercent: 140,
+    rotation: 35,
+    scrollTrigger: {
+      trigger: ".mn-material-grid",
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 1,
+    },
+  });
+  gsap.from(".mn-contact .char", {
+    rotationX: -90,
+    yPercent: 70,
+    autoAlpha: 0,
+    stagger: 0.025,
+    scrollTrigger: {
+      trigger: ".mn-contact",
+      start: "top 75%",
+      end: "top 10%",
+      scrub: 0.8,
+    },
+  });
+  gsap.fromTo(
+    ".mn-door i",
+    { scale: 1, rotation: 0 },
+    {
+      scale: (i) => 1 + i * 0.22,
+      rotation: (i) => i * 7,
+      stagger: 0.1,
+      scrollTrigger: {
+        trigger: ".mn-contact",
+        start: "top bottom",
+        end: "bottom bottom",
+        scrub: 1,
+      },
+    },
+  );
+}
 // The preview keeps keyboard exits in its host; standalone sites keep native navigation.
 if (parent !== window)
   document.addEventListener("keydown", (event) => {
@@ -595,7 +832,8 @@ if (root && isMotionId(id)) {
           gsap.ticker.add(render);
           if (id === "aether") aether(scene, mobile);
           else if (id === "offscript") offscript(scene, mobile);
-          else floraison(scene, mobile);
+          else if (id === "floraison") floraison(scene, mobile);
+          else monolith(scene, mobile);
           gsap.utils.toArray<HTMLElement>(".mt-reveal").forEach((el) =>
             gsap.from(el, {
               y: 70,

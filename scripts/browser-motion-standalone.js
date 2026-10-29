@@ -9,7 +9,7 @@ async (page) => {
   const outcomes = [];
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  for (const id of ["aether", "offscript", "floraison"]) {
+  for (const id of ["aether", "offscript", "floraison", "monolith"]) {
     await page.goto(`http://127.0.0.1:5181/${id}/`);
     await page.waitForFunction(
       () => document.documentElement.dataset.motionReady === "true",
@@ -19,7 +19,7 @@ async (page) => {
     if (await page.locator(".scene-fallback").count())
       throw new Error("Standalone 3D unavailable");
     const pins = await page.locator(".pin-spacer").count();
-    if (pins !== (id === "offscript" ? 4 : 2))
+    if (pins !== (id === "offscript" ? 4 : id === "monolith" ? 3 : 2))
       throw new Error("Standalone choreography missing");
     await page.mouse.wheel(0, 1200);
     await page.waitForTimeout(1200);
@@ -41,7 +41,14 @@ async (page) => {
     await page.waitForFunction(() => scrollY < 5, null, { timeout: 10000 });
     await page.setViewportSize({ width: 390, height: 844 });
     await page.waitForTimeout(700);
-    await page.waitForFunction(() => [...document.querySelectorAll('h1 .word')].every(el => el.getBoundingClientRect().right <= innerWidth + 5), null, {timeout:10000});
+    await page.waitForFunction(
+      () =>
+        [...document.querySelectorAll("h1 .word")].every(
+          (el) => el.getBoundingClientRect().right <= innerWidth + 5,
+        ),
+      null,
+      { timeout: 10000 },
+    );
     const mobile = await page.evaluate(() => ({
       width: innerWidth,
       scroll: document.documentElement.scrollWidth,

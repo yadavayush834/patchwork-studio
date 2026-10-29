@@ -1,7 +1,7 @@
 // Vite on 5176. Captures actual WebGL scenes and representative scroll stages.
 async (page) => {
   const results = [];
-  for (const id of ["aether", "offscript", "floraison"]) {
+  for (const id of ["aether", "offscript", "floraison", "monolith"]) {
     await page.goto(`http://127.0.0.1:5176/?collection=motion&motion=${id}`);
     await page.setViewportSize({ width: 1440, height: 1000 });
     const frame = await (
