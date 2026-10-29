@@ -1,3 +1,4 @@
+import { isStudio } from "./studio-settings";
 import {
   ALL_FORMATS,
   BlobSource,
@@ -10,6 +11,7 @@ import {
   CanvasSink,
   canEncodeVideo,
   canEncodeAudio,
+  QUALITY_VERY_HIGH,
 } from "mediabunny";
 import { GIFEncoder, quantize, applyPalette } from "gifenc";
 import {
@@ -158,6 +160,9 @@ scope.onmessage = async ({ data: job }) => {
           fit: "contain",
           codec,
           frameRate: 24,
+          ...(isStudio(job.style)
+            ? { quality: QUALITY_VERY_HIGH, keyFrameInterval: 1 }
+            : {}),
           allowTransformationMetadata: false,
           forceTranscode: true,
           process: async (sample) => {

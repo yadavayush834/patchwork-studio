@@ -1,3 +1,4 @@
+import { AsciiEngine, PixelEngine } from "./studio-engines";
 import { luminance, noise, type Settings } from "./catalog";
 import { GPU, gpuStyles } from "./gpu";
 type Ctx = OffscreenCanvasRenderingContext2D;
@@ -6,6 +7,8 @@ export class Renderer {
   private source = new OffscreenCanvas(2, 2);
   private reference = new OffscreenCanvas(2, 2);
   private gpu?: GPU;
+  private asciiEngine?: AsciiEngine;
+  private pixelEngine?: PixelEngine;
   private data = new Uint8ClampedArray();
   private w = 2;
   private h = 2;
@@ -35,8 +38,23 @@ export class Renderer {
       this.source.width = width;
       this.source.height = height;
     }
+    // Normalize decoded VideoFrames and preview ImageBitmaps to the same RGBA
+    // sampling path before reducing the logical grid. Direct video downsampling
+    // can otherwise choose different glyphs than CanvasSink/poster frames.
     const src = this.source.getContext("2d", { willReadFrequently: true })!;
     src.drawImage(image, 0, 0, width, height);
+    if (id === "ascii-studio") {
+      this.asciiEngine ??= new AsciiEngine();
+      this.asciiEngine.render(this.source, this.output, settings);
+      this.text = this.asciiEngine.text;
+      return this.output;
+    }
+    if (id === "pixel") {
+      this.pixelEngine ??= new PixelEngine();
+      this.pixelEngine.render(this.source, this.output, settings);
+      return this.output;
+    }
+
     const c = this.output.getContext("2d")!;
     if (gpuStyles.includes(id) && id !== "pixelsort") {
       this.gpu ??= new GPU();
@@ -159,21 +177,15 @@ export class Renderer {
       this.text = rows.join("\n");
       return this.output;
     }
-    if (
-      ["ascii", "animated-ascii", "blocks", "mixed", "ascii-studio"].includes(
-        id,
-      )
-    ) {
+    if (["ascii", "animated-ascii", "blocks", "mixed"].includes(id)) {
       const ramp =
         id === "blocks"
           ? " ░▒▓█"
           : id === "mixed"
             ? " .·:+*ox%#@▓█"
-            : id === "ascii-studio"
-              ? " ·∘○◉●"
-              : id === "animated-ascii"
-                ? " .:-=+*#%@"
-                : " .,:;irsXA253hMHGS#9B&@";
+            : id === "animated-ascii"
+              ? " .:-=+*#%@"
+              : " .,:;irsXA253hMHGS#9B&@";
       const ch = cell * 1.8,
         rows: string[] = [];
       c.textBaseline = "top";
@@ -429,13 +441,7 @@ export class Renderer {
         c.fillStyle = s.color ? rgb(v) : s.foreground;
         c.strokeStyle = c.fillStyle;
         c.lineWidth = Math.max(0.6, step * 0.1);
-        if (id === "pixel") {
-          const levels = 2 + Math.round(k * 6);
-          c.fillStyle = rgb(
-            v.map((t) => (Math.round((t / 255) * levels) / levels) * 255),
-          );
-          c.fillRect(x, y, step + 1, step + 1);
-        } else if (id === "mosaic") {
+        if (id === "mosaic") {
           c.fillRect(x + 1, y + 1, step - 2, step - 2);
         } else if (id === "lego") {
           c.fillRect(x, y, step - 1, step - 1);

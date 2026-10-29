@@ -1,3 +1,8 @@
+import {
+  isStudio,
+  validateStudioSettings,
+  type StudioSettings,
+} from "./studio-settings";
 export type Family =
   | "ASCII & Text"
   | "Pixel & Blocks"
@@ -9,7 +14,7 @@ export type Family =
   | "Glitch"
   | "Blur"
   | "Distort";
-export interface Settings {
+export interface Settings extends StudioSettings {
   amount: number;
   cell: number;
   foreground: string;
@@ -336,7 +341,7 @@ export function controls(id: string) {
     "oil",
   ]);
   return {
-    amount: amount.has(id) || gpu.has(id),
+    amount: !isStudio(id) && (amount.has(id) || gpu.has(id)),
     cell: !gpu.has(id) || detailGPU.has(id),
     ink: ink.has(id),
     color:
@@ -366,7 +371,14 @@ export function controls(id: string) {
 }
 export const defaults = (id: string): Settings => ({
   amount: 0.65,
-  cell: ["braille", "stippling"].includes(id) ? 6 : 12,
+  cell:
+    id === "ascii-studio"
+      ? 4
+      : id === "pixel"
+        ? 5
+        : ["braille", "stippling"].includes(id)
+          ? 6
+          : 12,
   foreground: "#b5f4cb",
   background: "#15121e",
   color: ![
@@ -381,6 +393,19 @@ export const defaults = (id: string): Settings => ({
     "diamond",
   ].includes(id),
   seed: 7,
+  ...(isStudio(id)
+    ? {
+        glyphs: "dense" as const,
+        palette: "studio" as const,
+        exposure: id === "ascii-studio" ? 0.15 : 0,
+        contrast: 1.1,
+        edge: 0.25,
+        dither: 0.25,
+        ...(id === "ascii-studio"
+          ? { color: false, foreground: "#e8edf5", background: "#080c14" }
+          : {}),
+      }
+    : {}),
 });
 export function noise(x: number, y: number, seed: number) {
   const n = Math.sin(x * 127.1 + y * 311.7 + seed * 74.7) * 43758.5453;
@@ -456,6 +481,7 @@ export function parseRecipe(value: unknown, duration: number) {
     !/^#[0-9a-f]{6}$/i.test(s.background)
   )
     throw new Error("This recipe contains invalid settings.");
+  validateStudioSettings(s);
   validateTrim(r.start!, r.end!, duration);
   return {
     style: r.style as string,

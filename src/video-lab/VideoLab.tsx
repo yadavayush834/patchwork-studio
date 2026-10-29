@@ -1,3 +1,4 @@
+import { isStudio, studioPresets } from "./studio-settings";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
@@ -63,7 +64,7 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
     [start, setStart] = useState(0),
     [end, setEnd] = useState(0);
   const [format, setFormat] = useState<"mp4" | "webm" | "gif">("mp4"),
-    [resolution, setResolution] = useState(720),
+    [resolution, setResolution] = useState(1080),
     [audio, setAudio] = useState(true);
   const [selected, setSelected] = useState<string[]>([]),
     [results, setResults] = useState<Result[]>([]),
@@ -88,6 +89,9 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
     renderRef = useRef<() => void>(() => {});
   const active = styles.find((s) => s.id === style)!;
   const knobs = controls(style);
+  const studio = isStudio(style);
+  const savedStudioSettings = useRef<Record<string, Settings>>({});
+  if (studio) savedStudioSettings.current[style] = settings;
   const visible = styles.filter(
     (s) =>
       (family === "All styles" || s.family === family) &&
@@ -204,8 +208,12 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
           image.close();
           return;
         }
-        const size = dimensions(info.width, info.height, previewMax.current);
         const opts = renderOptions.current;
+        const size = dimensions(
+          info.width,
+          info.height,
+          isStudio(opts.style) ? 1920 : previewMax.current,
+        );
         if (opts.compare) {
           const c = canvas.current;
           if (c) {
@@ -222,12 +230,13 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
             image,
             ...size,
             style: opts.style,
-            settings: !v.paused
-              ? {
-                  ...opts.settings,
-                  cell: opts.settings.cell * previewDensity.current,
-                }
-              : opts.settings,
+            settings:
+              !v.paused && !isStudio(opts.style)
+                ? {
+                    ...opts.settings,
+                    cell: opts.settings.cell * previewDensity.current,
+                  }
+                : opts.settings,
             time: v.currentTime,
             revision: currentRevision,
             file: opts.style === "datamosh" ? file : undefined,
@@ -257,7 +266,7 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
         c.height = data.image.height;
         c.getContext("2d")!.drawImage(data.image, 0, 0);
         setText(data.text);
-        if (data.ms > 70) {
+        if (data.ms > 70 && !isStudio(renderOptions.current.style)) {
           previewMax.current = 480;
           previewDensity.current = Math.min(3, previewDensity.current * 1.5);
         }
@@ -397,7 +406,9 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
   }
   function choose(id: string) {
     setStyle(id);
-    setSettings(defaults(id));
+    setSettings(savedStudioSettings.current[id] ?? defaults(id));
+    previewMax.current = 854;
+    previewDensity.current = 1;
     setError("");
   }
   function seek(t: number) {
@@ -456,7 +467,10 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
             const job: ExportJob = {
               file,
               style: id,
-              settings: id === style ? settings : defaults(id),
+              settings:
+                id === style
+                  ? settings
+                  : (savedStudioSettings.current[id] ?? defaults(id)),
               start,
               end,
               format,
@@ -840,8 +854,9 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
           </div>
           {playing && (
             <p className="vl-muted">
-              Playback adapts fine detail to your device. Pause to see full
-              detail; exports keep your settings.
+              {studio
+                ? "Full-detail preview. On slower devices, playback may skip frames; exported video renders every frame."
+                : "Playback adapts fine detail to your device. Pause to see full detail; exports keep your settings."}
             </p>
           )}
           {info && (
@@ -949,6 +964,124 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
           </div>
           <p className="vl-setting-name">{active.name}</p>
           <fieldset disabled={busy}>
+            {studio && (
+              <div className="vl-engine-controls">
+                <span className="vl-engine-badge">
+                  {style === "ascii-studio"
+                    ? "CHARACTER ENGINE"
+                    : "PIXEL ENGINE"}
+                </span>
+                <div className="vl-presets" aria-label="Engine presets">
+                  {studioPresets[style as keyof typeof studioPresets].map(
+                    (preset) => (
+                      <button
+                        key={preset.name}
+                        type="button"
+                        title={preset.description}
+                        onClick={() =>
+                          setSettings({
+                            ...defaults(style),
+                            ...preset.settings,
+                          })
+                        }
+                      >
+                        {preset.name}
+                      </button>
+                    ),
+                  )}
+                </div>
+                {style === "ascii-studio" ? (
+                  <label>
+                    Character set
+                    <select
+                      aria-label="Character set"
+                      value={settings.glyphs ?? "dense"}
+                      onChange={(e) =>
+                        update("glyphs", e.target.value as Settings["glyphs"])
+                      }
+                    >
+                      <option value="dense">Fine type · dense ramp</option>
+                      <option value="classic">Classic ASCII</option>
+                      <option value="typewriter">Bold terminal</option>
+                      <option value="contour">Directional contours</option>
+                    </select>
+                  </label>
+                ) : (
+                  <label>
+                    Palette
+                    <select
+                      aria-label="Pixel palette"
+                      value={settings.palette ?? "studio"}
+                      onChange={(e) =>
+                        update("palette", e.target.value as Settings["palette"])
+                      }
+                    >
+                      <option value="studio">Studio · 32 colors</option>
+                      <option value="original">Source colors</option>
+                      <option value="handheld">Handheld · 4 colors</option>
+                      <option value="ember">Ember · 8 colors</option>
+                    </select>
+                  </label>
+                )}
+                <label>
+                  Exposure <span>{(settings.exposure ?? 0).toFixed(2)} EV</span>
+                  <input
+                    aria-label="Exposure"
+                    type="range"
+                    min="-2"
+                    max="2"
+                    step="0.05"
+                    value={settings.exposure ?? 0}
+                    onChange={(e) => update("exposure", +e.target.value)}
+                  />
+                </label>
+                <label>
+                  Contrast <span>{(settings.contrast ?? 1).toFixed(2)}</span>
+                  <input
+                    aria-label="Contrast"
+                    type="range"
+                    min="0.5"
+                    max="2"
+                    step="0.05"
+                    value={settings.contrast ?? 1}
+                    onChange={(e) => update("contrast", +e.target.value)}
+                  />
+                </label>
+                <label>
+                  Edge definition{" "}
+                  <span>{Math.round((settings.edge ?? 0.25) * 100)}%</span>
+                  <input
+                    aria-label="Edge definition"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                    value={settings.edge ?? 0.25}
+                    onChange={(e) => update("edge", +e.target.value)}
+                  />
+                </label>
+                {style === "pixel" && settings.palette !== "original" && (
+                  <label>
+                    Dithering{" "}
+                    <span>{Math.round((settings.dither ?? 0.25) * 100)}%</span>
+                    <input
+                      aria-label="Dithering"
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.05"
+                      value={settings.dither ?? 0.25}
+                      onChange={(e) => update("dither", +e.target.value)}
+                    />
+                  </label>
+                )}
+                <p className="vl-muted">
+                  {style === "ascii-studio"
+                    ? "Measured glyphs, averaged tones, and sharp type. Smaller cells reveal more detail."
+                    : "Averaged colors, stable dithering, and crisp pixel edges. Smaller cells reveal more detail."}
+                </p>
+              </div>
+            )}
             {knobs.amount && (
               <label>
                 Intensity <span>{Math.round(settings.amount * 100)}%</span>
@@ -965,7 +1098,17 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
             )}
             {knobs.cell && (
               <label>
-                Detail / cell size <span>{settings.cell}</span>
+                {studio
+                  ? style === "ascii-studio"
+                    ? "Character size"
+                    : "Pixel size"
+                  : "Detail / cell size"}{" "}
+                <span>
+                  {settings.cell}
+                  {studio
+                    ? ` · ${Math.round(720 / settings.cell)} columns`
+                    : ""}
+                </span>
                 <input
                   aria-label="Cell size"
                   type="range"
@@ -1092,7 +1235,9 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
           <p className="vl-muted">
             {format === "gif"
               ? "GIF: 480px wide, 12 fps, up to 10 seconds."
-              : "24 fps · aspect ratio preserved · no upscaling. Available codecs are checked before rendering."}
+              : studio
+                ? "High-quality encoding · 24 fps · aspect ratio preserved · no upscaling. PNG saves the preview without video compression."
+                : "24 fps · aspect ratio preserved · no upscaling. Available codecs are checked before rendering."}
           </p>
           <button
             className="vl-primary vl-export"

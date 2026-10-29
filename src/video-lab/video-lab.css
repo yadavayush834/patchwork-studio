@@ -751,3 +751,40 @@
     transform: none;
   }
 }
+
+.vl-engine-controls {
+  display: grid;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #eae7ef;
+  margin-bottom: 14px;
+}
+.vl-engine-badge {
+  font:
+    10px "Space Mono",
+    monospace;
+  letter-spacing: 0.1em;
+  color: #795be6;
+}
+.vl-presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.vl-presets button {
+  border: 1px solid #ded6f4;
+  border-radius: 7px;
+  padding: 9px 6px;
+  background: #f7f4ff;
+  color: #463368;
+  font-size: 11px;
+  cursor: pointer;
+}
+.vl-presets button:hover,
+.vl-presets button:focus-visible {
+  background: #ece4ff;
+  border-color: #795be6;
+}
+.vl-engine-controls .vl-muted {
+  margin: 0;
+}

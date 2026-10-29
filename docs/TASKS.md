@@ -42,3 +42,13 @@ Lavender (#795be6), ink (#282336), mist (#f5f4f8), white (#ffffff), sage (#dcebd
 The user authorized a new repository and real Git commits for the whole project. The delivery repository is private `yadavayush834/patchwork-studio`, branch `main`. Source/assets, QA/media tooling, and handoff documentation/CI are grouped into descriptive commits using the existing Git author identity and current timestamps.
 
 Handoff materials: root `AGENTS.md`; `docs/START_HERE.md` with a copy-ready continuation prompt; `docs/STATE.md`; architecture, design, and development guides; verification evidence; and current UI screenshots under `docs/images/`. The Node 22 CI workflow runs the unit suite and production build. `npm run qa:fixtures` reconstructs local browser-test prerequisites from committed inputs. Caches, dependencies, builds, browser profiles, test downloads, and local user drafts are excluded from Git.
+
+
+## Focused Video Lab quality work
+
+User scope: improve ASCII Studio and Pixel Art only, including their engines, styles, playback and video quality.
+
+- Dedicated ASCII renderer: measured glyph atlas, four character treatments, averaged tonal sampling, ink/paper polarity, and exposure/contrast/edge controls.
+- Dedicated pixel renderer: perceptual palette matching, four treatments, fixed ordered dithering, contour emphasis, and nearest-neighbor output.
+- Preserve chosen detail in preview; remember both tools' settings and queued customizations; use very-high encoding quality; fix first-export development reload.
+- Verification: unit/build gates and targeted browser render, playback, recipe, and MP4/WebM checks. See `docs/VERIFICATION.md` for evidence and limitations.

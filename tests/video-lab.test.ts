@@ -92,3 +92,41 @@ test("recipes round-trip safe settings and reject unknown effects or hostile/inv
   ])
     assert.throws(() => parseRecipe(invalid, 10));
 });
+
+test("studio recipes retain new controls, accept legacy settings, and reject malformed fields", () => {
+  for (const style of ["ascii-studio", "pixel"]) {
+    const recipe = {
+      version: 1,
+      style,
+      settings: defaults(style),
+      start: 0,
+      end: 1,
+    };
+    assert.deepEqual(parseRecipe(recipe, 2).settings, recipe.settings);
+    for (const bad of [
+      { glyphs: "unknown" },
+      { palette: "unknown" },
+      { exposure: Infinity },
+      { contrast: 0 },
+      { edge: -1 },
+      { dither: 2 },
+      { dither: "0.5" },
+    ]) {
+      assert.throws(() =>
+        parseRecipe({ ...recipe, settings: { ...recipe.settings, ...bad } }, 2),
+      );
+    }
+    const legacy = {
+      amount: 0.65,
+      cell: 12,
+      foreground: "#b5f4cb",
+      background: "#15121e",
+      color: true,
+      seed: 7,
+    };
+    assert.deepEqual(
+      parseRecipe({ ...recipe, settings: legacy }, 2).settings,
+      legacy,
+    );
+  }
+});

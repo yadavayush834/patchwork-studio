@@ -25,9 +25,15 @@ The user subsequently requested the real `stackedlol/ascii-sharks` library plus 
 - ASCII live/recorded modes, speed, detail, glow color, brightness, posters, and downloadable 1280x720 VP9 WebM loops. Each loop decodes to 204 frames at 24 fps, nominally 8.5 seconds.
 - Reduced-motion posters, offscreen/hidden animation pausing, keyboard-focus preview, and responsive exported pages.
 
+## Focused ASCII Studio / Pixel Art quality update
+
+Only the Video Lab `ascii-studio` and `pixel` rendering paths were rebuilt. They now have dedicated engines, four presets each, exposure/contrast/edge controls, measured glyph coverage with selectable character sets, and perceptual pixel palettes with stable ordered dithering. Full-detail playback keeps the chosen cell grid instead of automatically coarsening it. Studio settings survive switching between the two tools and round-trip in version-1 recipes; legacy recipes remain accepted.
+
+Preview, poster, and export share a normalized RGBA sampling path. MP4/WebM use the encoder's very-high quality setting for these two styles. The resolution selector defaults to 1080p but retains the no-upscale rule. Vite prebundles worker media dependencies so the first export does not reload the app and erase its local source. See the focused evidence in `docs/VERIFICATION.md`; the quality update is ready for GitHub, with no website deployment.
+
 ## Verification and limits
 
-The latest source passes `npm test` (19 tests) and `npm run build` with strict TypeScript and unused-symbol checks. Browser evidence covers editing, undo/redo, uploads, save/reload, project duplication/deletion, invalid imports, simulated storage failure/recovery, scene dragging, all four ASCII previews, controls, downloads, and live/recorded website exports. Independent extracted sites were tested at exact CSS widths 360, 768, and 1440. See `docs/VERIFICATION.md` for precise evidence.
+The latest source passes `npm test` (24 tests) and `npm run build` with strict TypeScript and unused-symbol checks. Browser evidence covers editing, undo/redo, uploads, save/reload, project duplication/deletion, invalid imports, simulated storage failure/recovery, scene dragging, all four ASCII previews, controls, downloads, and live/recorded website exports. Independent extracted sites were tested at exact CSS widths 360, 768, and 1440. See `docs/VERIFICATION.md` for precise evidence.
 
 Direct `file://` navigation is blocked by the automation tool, so double-click opening is not browser-verified. Exports use ordinary relative assets and standalone scripts; independent HTTP hosting was verified. Storage failure was simulated by a transaction exception rather than filling the disk. The linked X post was inaccessible (403), so no exact visual match to that unseen video is claimed.
 

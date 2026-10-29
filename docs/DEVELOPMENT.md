@@ -64,7 +64,7 @@ Run one sequence at a time per browser session. Do not edit/rebuild the dev runt
 
 Open `?lab=video`, or use dashboard Video Lab / editor Scenes. Sources are local MP4/WebM files up to 250 MB. MP4/WebM segments are limited to 60 seconds; GIF segments to 10 seconds. 480p/720p/1080p refer to landscape-equivalent long-edge bounds, preserving orientation and avoiding upscale. GIF caps width at 480 pixels. Website insertion retains the editor's 30 MB clip cap. Browser workspace origin/profile rules still apply.
 
-The Lab retains source/settings/results while closed within the running app. They are intentionally not stored in IndexedDB; save a recipe and reselect the video after reload. Completed clips added to websites follow ordinary persistent asset/project-bundle behavior. Heavy playback adaptively coarsens cell detail; paused frames and exports use full chosen settings. Other queued styles use default settings; only the current style uses its customized controls.
+The Lab retains source/settings/results while closed within the running app. They are intentionally not stored in IndexedDB; save a recipe and reselect the video after reload. Completed clips added to websites follow ordinary persistent asset/project-bundle behavior. ASCII Studio and Pixel Art keep full chosen detail during playback; slow devices may skip preview frames. Other heavy styles retain adaptive cell detail. Queued ASCII Studio and Pixel Art use their remembered custom settings; other noncurrent styles use defaults.
 
 Use a separate browser session on dev port 5176 for the new staged CLI probes:
 
@@ -98,3 +98,12 @@ Committed fonts, artwork, posters, WebMs, and `src/artwork.json` make a clone se
 Python media generation uses Pillow and imageio-ffmpeg. These are optional authoring dependencies; install them with `python -m pip install -r scripts/requirements-assets.txt` if needed. Do not introduce Python or a CDN into the product runtime.
 
 Review generated clips visually and decode them to verify frame count/dimensions. MediaRecorder can start with nonzero timestamps; normalization before trimming is necessary. Preserve `public/licenses/ascii-sharks-MIT.txt`, the upstream NOTICE, and font OFLs in source and exports.
+
+
+### Focused studio quality probes
+
+In an isolated Playwright CLI session on the Vite server, run `scripts/browser-studio-quality.js`, then `scripts/browser-studio-flow.js`, then `scripts/browser-studio-export-compare.js`. The first creates a local 960×540 moving portrait/landscape/gradient fixture, checks all eight presets, and uploads the encoded clip. The flow checks settings retention, playback dimensions, trimming, four playable MP4/WebM exports, recipe restoration, and narrow layout. The final probe decodes saved frames and compares them with the shared renderer at the matching source time; it writes `output/playwright/studio-quality-audit.json`.
+
+Do not rebuild or edit app modules between these staged probes: HMR intentionally does not persist selected videos. `vite.config.ts` prebundles `mediabunny` and `gifenc` to prevent a dependency-discovery reload during the first export. Configure the CLI's browser executable for the installed Chromium on each machine; do not commit machine-specific paths.
+
+For packaged-app checks, open a separate production-preview session and run `scripts/browser-studio-production.js` after the quality probe has saved its source fixture. It covers both GIF exports, cancelling an export, and retaining results across closing/reopening.
