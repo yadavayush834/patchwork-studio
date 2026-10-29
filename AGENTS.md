@@ -24,7 +24,7 @@ npm test
 npm run build
 ```
 
-There are currently 13 unit tests. For changes to editing, persistence, media, motion, or export, also exercise the relevant real browser flow. A successful build alone does not verify those behaviors. See the browser QA recipes and their prerequisites in `docs/DEVELOPMENT.md`.
+There are currently 28 unit tests. For changes to editing, persistence, media, motion, or export, also exercise the relevant real browser flow. A successful build alone does not verify those behaviors. See the browser QA recipes and their prerequisites in `docs/DEVELOPMENT.md`.
 
 ## Architecture rules
 
@@ -35,6 +35,7 @@ There are currently 13 unit tests. For changes to editing, persistence, media, m
 - IndexedDB stores project documents and uploaded blobs. Asset references are `asset:UUID`; browser object URLs are temporary and must never appear in exported websites or project documents.
 - Update documents immutably. Preserve undo/redo and merge asynchronous uploads into the current project, rather than an old captured snapshot.
 - `src/ascii/runtime.generated.js` is generated from `src/ascii/entry.ts` and its dependencies. Edit source, then run `npm run build:ascii`; do not hand-edit generated output.
+- `public/motion/engine.js` is generated from `src/motion/runtime.ts` and `scene.ts` by `npm run build:motion`; edit source and rebuild. Motion templates are independent authored sites, not version-1 editor section documents.
 - Preserve third-party notices, font licenses, and the pinned upstream source attribution. Exported scripts contain the ASCII engine, so every website export carries its MIT notice.
 
 ## Visual and interaction rules

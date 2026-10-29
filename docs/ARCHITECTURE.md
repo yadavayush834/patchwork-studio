@@ -75,3 +75,14 @@ Mediabunny 1.62.1 (MPL-2.0) provides containers, decoding, WebCodecs integration
 - Ignored `output/`, `.playwright-cli/`, `.cache/`, `node_modules/`, `dist/`: local artifacts; not required by a clone.
 
 Do not use generated screenshots, detector outputs, or worker self-reports as substitutes for checking a real user flow. Tests of glyph fields use finite/varied/changing output rather than fragile exact shark poses, because the upstream simulation uses randomness.
+
+
+## Independent motion templates
+
+`src/motion/catalog.ts` defines three stable template IDs and validated textual/accent/contact customizations. `templates.ts` is the single markup source for preview and ZIP exports; it escapes user text, preserves semantic headings and anchors, and keeps concept copy distinct from real product claims. `document.ts` supplies local fonts and shared CSS. These independently authored multi-section templates do not enter the existing project/section renderer or IndexedDB contract.
+
+`MotionStudio.tsx` is lazy-loaded from `App`, makes underlying workbenches inert/hidden while open, and hosts an isolated iframe. Its version-1 `patchwork-motion-v1` local-storage record contains only normalized config. Brand/copy changes are applied explicitly; closing the collection preserves the current website editor. Preview messages are accepted only from the active iframe and matching template ID. Shell Escape/Tab behavior works across the iframe boundary.
+
+`runtime.ts` owns scoped GSAP/ScrollTrigger timelines. Match-media setup gives phone sequences shorter pin distances and reduced-motion users a normal reading layout. Native scrolling remains in charge; no wheel/touch cancellation is used. `scene.ts` creates original procedural Three.js headphone, knot/satellite, and petal/stem/pollen geometry. RoomEnvironment is procedural and bundled. DPR is capped at 1.5; only 3D draws are limited to 30Hz, while GSAP text updates keep their own cadence. Invisible/hidden scenes skip rendering; viewport/media changes and page teardown release observers, ticker callbacks, geometries, materials, textures, and contexts.
+
+`scripts/build-motion.mjs` bundles GSAP 3.14.2 + Three.js 0.182.0 into `public/motion/engine.js` and preserves notices. Edit runtime/scene sources and rebuild, never the generated engine. `export.ts` creates a 22-entry ZIP with relative HTML/CSS/runtime/font/notice references and a recipe/README. A static server or static host runs the result without Patchwork, React, npm, or a CDN. Existing website/project ZIPs and the Video Lab are independent of this exporter.

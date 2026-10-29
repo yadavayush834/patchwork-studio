@@ -52,3 +52,15 @@ User scope: improve ASCII Studio and Pixel Art only, including their engines, st
 - Dedicated pixel renderer: perceptual palette matching, four treatments, fixed ordered dithering, contour emphasis, and nearest-neighbor output.
 - Preserve chosen detail in preview; remember both tools' settings and queued customizations; use very-high encoding quality; fix first-export development reload.
 - Verification: unit/build gates and targeted browser render, playback, recipe, and MP4/WebM checks. See `docs/VERIFICATION.md` for evidence and limitations.
+
+
+## Three GSAP motion templates
+
+User request: push the completed quality fixes, then create a distinct section with three ambitious scroll-led templates, substantial 3D content, typography, and sprites. Work remains solo.
+
+- Quality fixes pushed to `origin/main`: `f65edfd`.
+- Motion collection: independent lazy-loaded gallery, authored covers, full-window previews, local customization, standalone ZIP downloads.
+- Æther: headphone assembly/explosion, orbital layers, frequency sequence, finish studies.
+- Offscript: sculptural geometry, scrambled type, sideways experiments, 3D process deck.
+- Floraison: blooming petal sculpture, layered field sprites, specimen collection, seasonal reading.
+- Complete: 28-test/build gates; real browser scroll, phone, reduced-motion, keyboard, download and independent output checks; documentation. GitHub delivery follows the user’s requested push. No website deployment requested.

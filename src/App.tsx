@@ -85,6 +85,7 @@ import { exportWebsite } from "./export";
 import Preview from "./Preview";
 import AsciiGallery from "./AsciiGallery";
 const VideoLab = lazy(() => import("./video-lab/VideoLab"));
+const MotionStudio = lazy(() => import("./motion/MotionStudio"));
 
 type Tab = "sections" | "backgrounds" | "decorations" | "type" | "motion";
 const tabs: { id: Tab; name: string; icon: typeof Shapes }[] = [
@@ -173,8 +174,31 @@ function Slider({
 const starters = worlds.map((w) => createProject(w.id));
 
 export default function App() {
+  const [motionOpen, setMotionOpen] = useState(
+    () =>
+      new URLSearchParams(location.search).get("collection") === "motion" ||
+      new URLSearchParams(location.search).has("motion"),
+  );
+  const openMotion = useCallback(() => {
+    setMotionOpen(true);
+    setVideoLabOpen(false);
+    const url = new URL(location.href);
+    url.searchParams.set("collection", "motion");
+    url.searchParams.delete("lab");
+    window.history.replaceState(null, "", url);
+  }, []);
+  const closeMotion = useCallback(() => {
+    setMotionOpen(false);
+    const url = new URL(location.href);
+    url.searchParams.delete("collection");
+    url.searchParams.delete("motion");
+    window.history.replaceState(null, "", url);
+  }, []);
   const [videoLabOpen, setVideoLabOpen] = useState(
-    () => new URLSearchParams(location.search).get("lab") === "video",
+    () =>
+      new URLSearchParams(location.search).get("lab") === "video" &&
+      !new URLSearchParams(location.search).has("motion") &&
+      new URLSearchParams(location.search).get("collection") !== "motion",
   );
   const [videoLabLoaded, setVideoLabLoaded] = useState(videoLabOpen);
   const openVideoLab = useCallback(() => {
@@ -742,6 +766,10 @@ export default function App() {
             </div>
             <p className="nav-label">YOUR STUDIO</p>
             <nav>
+              <button onClick={openMotion}>
+                <Sparkles size={18} /> Motion templates{" "}
+                <span className="new-dot" />
+              </button>
               <button onClick={openVideoLab}>
                 <Play size={18} /> Video Lab <span className="new-dot" />
               </button>
@@ -891,6 +919,19 @@ export default function App() {
                       </span>
                     </div>
                   </div>
+                  <button className="motion-launch" onClick={openMotion}>
+                    <div>
+                      <span className="motion-launch-icon">✳</span>
+                      <strong>
+                        Made to move you.
+                        <small>
+                          Three immersive GSAP templates. A separate collection
+                          of scroll-led worlds.
+                        </small>
+                      </strong>
+                    </div>
+                    <ArrowUpRight size={24} />
+                  </button>
                   <div className="section-heading">
                     <div>
                       <span className="eyebrow muted">
@@ -2501,6 +2542,18 @@ export default function App() {
             </aside>
           )}
         </div>
+      )}
+      {motionOpen && (
+        <Suspense
+          fallback={
+            <div className="vl-close-loading" role="status">
+              Opening the motion collection…
+              <button onClick={closeMotion}>Back to studio</button>
+            </div>
+          }
+        >
+          <MotionStudio onClose={closeMotion} />
+        </Suspense>
       )}
       {videoLabLoaded && (
         <Suspense

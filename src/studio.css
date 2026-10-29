@@ -2530,3 +2530,5 @@ button svg {
     scroll-behavior: auto !important;
   }
 }
+
+.motion-launch{display:flex;align-items:center;justify-content:space-between;width:100%;gap:25px;padding:26px 30px;margin:0 0 35px;background:#e8e9df;border:1px solid #dadfcf;border-radius:8px;color:#3c4733;text-align:left;cursor:pointer}.motion-launch>div{display:flex;align-items:center;gap:22px}.motion-launch strong{font:500 24px "Space Grotesk",sans-serif;letter-spacing:-.05em}.motion-launch small{display:block;font:10px "DM Sans",sans-serif;margin-top:7px;color:#7d876f}.motion-launch-icon{font-size:38px;color:#6f8053;line-height:1}@media(max-width:700px){.motion-launch{padding:20px;gap:15px}.motion-launch>div{gap:14px}.motion-launch strong{font-size:19px}.motion-launch small{font-size:9px}.motion-launch-icon{font-size:32px}}

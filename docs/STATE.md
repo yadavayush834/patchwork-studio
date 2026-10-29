@@ -1,6 +1,6 @@
 # Current state and context
 
-Last verified: 28 October 2026. This file is the short entry point for a fresh chat or a different coding agent.
+Last verified: 29 October 2026. This file is the short entry point for a fresh chat or a different coding agent.
 
 Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/patchwork-studio), private, branch `main`. The local checkout uses `origin` for this repository. Check `git status`, the current commit, and the remote before continuing; do not infer present synchronization from this dated note.
 
@@ -11,6 +11,10 @@ An interactive place where creators can build websites using ready-made sections
 The user subsequently requested the real `stackedlol/ascii-sharks` library plus at least three more high-quality ASCII backgrounds. The four-scene collection is implemented and includes genuine downloadable videos. The user then requested a new GitHub repository, real commits, and enough context/style documentation for another agent or chat to continue the work.
 
 ## Implemented
+
+- Independent Motion Templates collection at `?collection=motion`, reached from dashboard navigation and a dedicated collection card. Three complete GSAP ScrollTrigger experiences: Æther (product/chrome headphone assembly), Offscript (kinetic type, sideways work, flying process deck), Floraison (blooming sculpted flower, botanical specimens, seasons).
+- Templates preview in isolated documents and export as self-contained static website ZIPs with local fonts, GSAP/Three.js runtime, notices, and a reference recipe. They are separate authored sites, not ordinary Patchwork section documents. Brand/headline/accent/email customization persists in namespaced, versioned local storage; original editor documents stay version 1.
+- Native scrolling, desktop/phone choreography, reduced-motion reading layouts, WebGL graphic fallback, keyboard exits, and bounded/offscreen 3D rendering. Source is under `src/motion/`; generated `public/motion/engine.js` comes from `npm run build:motion` and is rebuilt by normal dev/build scripts.
 
 - Video Lab: separate lazy-loaded local workspace at `?lab=video`, accessible from dashboard navigation and editor Scenes. All 92 style IDs across 10 families have original procedural renderers, with no paid/unfinished cards.
 - Lab upload/decode validation, seek/play/compare, trimming, source-frame thumbnails, effect-specific controls, text/PNG frames, recipe JSON, sequential MP4/WebM/GIF jobs, cancellation, audio retention, and generated clip/poster insertion into an existing section. Sources/settings remain session-local; reopening the Lab within the app retains them. Reload requires reselecting the source file.
@@ -29,11 +33,11 @@ The user subsequently requested the real `stackedlol/ascii-sharks` library plus 
 
 Only the Video Lab `ascii-studio` and `pixel` rendering paths were rebuilt. They now have dedicated engines, four presets each, exposure/contrast/edge controls, measured glyph coverage with selectable character sets, and perceptual pixel palettes with stable ordered dithering. Full-detail playback keeps the chosen cell grid instead of automatically coarsening it. Studio settings survive switching between the two tools and round-trip in version-1 recipes; legacy recipes remain accepted.
 
-Preview, poster, and export share a normalized RGBA sampling path. MP4/WebM use the encoder's very-high quality setting for these two styles. The resolution selector defaults to 1080p but retains the no-upscale rule. Vite prebundles worker media dependencies so the first export does not reload the app and erase its local source. See the focused evidence in `docs/VERIFICATION.md`; the quality update is ready for GitHub, with no website deployment.
+Preview, poster, and export share a normalized RGBA sampling path. MP4/WebM use the encoder's very-high quality setting for these two styles. The resolution selector defaults to 1080p but retains the no-upscale rule. Vite prebundles worker media dependencies so the first export does not reload the app and erase its local source. See the focused evidence in `docs/VERIFICATION.md`; the quality update was pushed to GitHub in commit `f65edfd`, with no website deployment.
 
 ## Verification and limits
 
-The latest source passes `npm test` (24 tests) and `npm run build` with strict TypeScript and unused-symbol checks. Browser evidence covers editing, undo/redo, uploads, save/reload, project duplication/deletion, invalid imports, simulated storage failure/recovery, scene dragging, all four ASCII previews, controls, downloads, and live/recorded website exports. Independent extracted sites were tested at exact CSS widths 360, 768, and 1440. See `docs/VERIFICATION.md` for precise evidence.
+The latest source passes `npm test` (28 tests) and `npm run build` with strict TypeScript and unused-symbol checks. Browser evidence covers editing, undo/redo, uploads, save/reload, project duplication/deletion, invalid imports, simulated storage failure/recovery, scene dragging, all four ASCII previews, controls, downloads, and live/recorded website exports. Independent extracted sites were tested at exact CSS widths 360, 768, and 1440. See `docs/VERIFICATION.md` for precise evidence.
 
 Direct `file://` navigation is blocked by the automation tool, so double-click opening is not browser-verified. Exports use ordinary relative assets and standalone scripts; independent HTTP hosting was verified. Storage failure was simulated by a transaction exception rather than filling the disk. The linked X post was inaccessible (403), so no exact visual match to that unseen video is claimed.
 

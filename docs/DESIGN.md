@@ -60,3 +60,14 @@ Show only settings the selected renderer actually uses. A plus beside a style qu
 ## CSS boundaries to preserve
 
 Site classes use `.pw-*`; editor classes do not. Section wrappers use `.pw-section-{kind}`, while inner layout classes such as `.pw-about` and `.pw-footer` serve different roles. Reusing the inner class on the outer section previously caused layout collisions. Shared site changes must be reviewed in preview and in an independent exported site.
+
+
+## Motion Templates / independent studies
+
+The collection is deliberately separate from the lavender workbench: warm gray paper, large editorial type, a restrained forest accent, and three covers captured from actual rendered experiences. Gallery selectors use the unique `motion-template-card` prefix; the existing interaction library already owns `.motion-card`.
+
+- Æther: warm industrial palette, Outfit display typography, chrome headphone sculpture, concentric orbits, exploded assembly, a terracotta frequency chapter, dimensional finish studies.
+- Offscript: near-black/acid-lime/cobalt, oversized Outfit/Space Grotesk type, a glossy knot and satellites, interlocking statement rows, a horizontal art direction story, a perspective process deck.
+- Floraison: cream/forest/terracotta, Playfair Display with Space Mono labels and Caveat notes, a modeled flower with curved petals and procedural veins, drifted leaves/butterfly, specimen plates, and seasonal typography.
+
+Each scroll sequence introduces a new composition. Keep motion authored around the chapter rather than adding a blanket fade to every element. Native vertical scroll drives pinned and sideways sequences. Reduced motion presents the content without pinning or scrubbed transforms. Text, brand, and contact actions stay accessible. Keep concepts fictional and do not invent testimonials, real customers, or measurable product claims.

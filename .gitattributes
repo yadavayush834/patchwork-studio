@@ -2,3 +2,5 @@
 *.png binary
 *.webm binary
 *.ttf binary
+# Generated bundle embeds Three.js GLSL strings with upstream whitespace.
+public/motion/engine.js -whitespace linguist-generated=true
