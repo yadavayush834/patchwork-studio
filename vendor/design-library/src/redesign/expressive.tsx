@@ -31,13 +31,21 @@ export function Sprites({
   );
 }
 export function Tape({ text }: { text: string }) {
+  const root = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const element = root.current!;
+    let visible = false;
+    const update = () => element.style.setProperty("--sprite-play", visible && !document.hidden ? "running" : "paused");
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; update(); });
+    observer.observe(element);
+    document.addEventListener("visibilitychange", update);
+    return () => { observer.disconnect(); document.removeEventListener("visibilitychange", update); };
+  }, []);
   return (
-    <div className="ex-tape" aria-hidden="true">
+    <div className="ex-tape" ref={root} aria-hidden="true" style={{ "--sprite-play": "paused" } as React.CSSProperties}>
       <div>
         {[0, 1, 2, 3].map((i) => (
-          <span key={i}>
-            {text} <b>✳</b>
-          </span>
+          <span key={i}>{text} <b>✳</b></span>
         ))}
       </div>
     </div>
