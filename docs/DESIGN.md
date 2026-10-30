@@ -101,3 +101,7 @@ Templates use Patchwork's lavender surfaces, Outfit typography, native controls 
 ## Redesign checkpoint: fourteen authored templates
 
 The first six use network precision, bookish editorial, maker-poster typography, a quiet material portfolio, sculptural commerce and a Nordic conference poster. The remaining eight introduce retro-computing optimism, industrial exactness, cobalt streetwear, a dark observation console, a watch atelier, pavilion light studies, a modular sound lab and a couture presentation. Physical models, graphic sprites and motion belong to each subject. Desktop review and refreshed covers remain incomplete at this checkpoint; the dedicated phone pass was explicitly deferred.
+
+## Responsive template finish
+
+All fourteen redesigned sites have refreshed captures and a reviewed phone reading order. Keep small authored annotations at least 10px; forms use 16px on phones and controls have 44px minimum height. The sound lab uses a four-column phone sequencer so the numbered steps remain practical touch targets. Preserve each site's distinct material palette, type scale and object composition. CRT/dial textures use a neutral base material; the antenna reflector is concave with a feed supported in front of it. Gallery covers are captured from real rendered pages at approximately 1080×810 and optimized to 720×540 JPEGs.
