@@ -58,7 +58,7 @@ export function expressiveModel(
   if (kind === "crt") {
     box(2.7, 1.95, 1.5, cream, [0, 0.2, -0.25]);
     box(2.25, 1.52, 0.08, black, [0, 0.25, 0.55]);
-    const screen = material(variant ? "#0b1215" : "#164536", 0.05, 0.2);
+    const screen = material("#ffffff", 0.05, 0.2);
     screen.map = texture((c) => {
       c.fillStyle = variant ? "#07100e" : "#12342c";
       c.fillRect(0, 0, 512, 512);
@@ -80,8 +80,9 @@ export function expressiveModel(
         }
       }
     });
-    screen.emissive.set("#3b6e52");
-    screen.emissiveIntensity = 0.25;
+    screen.emissive.set("#ffffff");
+    screen.emissiveMap = screen.map;
+    screen.emissiveIntensity = variant ? 0 : 0.4;
     const glass = object(new THREE.PlaneGeometry(2.08, 1.37), screen);
     glass.position.set(0, 0.29, 0.602);
     box(0.45, 0.18, 0.04, cream, [0.8, -0.65, 0.55]);
@@ -163,39 +164,34 @@ export function expressiveModel(
     root.add(dishGroup);
     dishGroup.position.y = 0.3;
     dishGroup.rotation.x = 0.4;
-    const dish = object(
-      new THREE.SphereGeometry(1.35, 48, 24, 0, Math.PI * 2, 0, Math.PI * 0.42),
-      material("#9baaa3", 0.7, 0.3),
-      dishGroup,
-    );
+    // A paraboloid opens toward the feed, rather than a convex sphere cap.
+    const profile = Array.from({ length: 33 }, (_, i) => {
+      const radius = Math.max(0.002, i / 32 * 1.35);
+      return new THREE.Vector2(radius, radius * radius * 0.3);
+    });
+    const dishMaterial = material("#9baaa3", 0.7, 0.3);
+    dishMaterial.side = THREE.DoubleSide;
+    const dish = object(new THREE.LatheGeometry(profile, 64), dishMaterial, dishGroup);
     dish.rotation.x = Math.PI / 2;
-    dish.scale.y = 0.34;
-    for (let i = 0; i < 8; i++) {
-      const spoke = object(
-        new THREE.CylinderGeometry(0.012, 0.012, 1.35, 6),
-        chrome,
-        dishGroup,
-      );
-      spoke.rotation.z = (i * Math.PI) / 4;
-      spoke.position.set(
-        Math.sin((i * Math.PI) / 4) * 0.58,
-        Math.cos((i * Math.PI) / 4) * 0.58,
-        0,
-      );
+    const rim = object(new THREE.TorusGeometry(1.35, 0.025, 8, 64), chrome, dishGroup);
+    rim.position.z = 1.35 * 1.35 * 0.3;
+    for (let i = 0; i < 3; i++) {
+      const angle = i * Math.PI * 2 / 3;
+      const start = new THREE.Vector3(Math.cos(angle) * 1.2, Math.sin(angle) * 1.2, 0.45);
+      const end = new THREE.Vector3(0, 0, 1);
+      const strut = object(new THREE.CylinderGeometry(0.016, 0.016, start.distanceTo(end), 8), chrome, dishGroup);
+      strut.position.copy(start).add(end).multiplyScalar(0.5);
+      strut.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), end.sub(start).normalize());
     }
-    const feed = object(
-      new THREE.ConeGeometry(0.12, 0.6, 16),
-      color,
-      dishGroup,
-    );
+    const feed = object(new THREE.ConeGeometry(0.12, 0.28, 16), color, dishGroup);
     feed.rotation.x = Math.PI / 2;
-    feed.position.z = 0.55;
+    feed.position.z = 1;
     animate = (t) => {
       dishGroup.rotation.y = t * 0.18;
     };
   } else if (kind === "watch") {
     const gold = material(tone, 0.9, 0.23),
-      dial = material("#162723", 0.25, 0.4),
+      dial = material("#ffffff", 0.15, 0.4),
       leather = material("#352c25", 0.05, 0.8);
     box(0.95, 1.45, 0.2, leather, [0, 1.5, -0.12]);
     box(0.95, 1.45, 0.2, leather, [0, -1.5, -0.12]);
