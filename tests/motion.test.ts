@@ -10,9 +10,9 @@ import {
 } from "../src/motion/catalog";
 import { renderMotion } from "../src/motion/templates";
 
-test("nine independent motion stories have real scenes, navigation, chapters, and contact actions", () => {
-  assert.equal(motionTemplates.length, 9);
-  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 9);
+test("eleven independent motion stories have real scenes, navigation, chapters, and contact actions", () => {
+  assert.equal(motionTemplates.length, 11);
+  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 11);
   for (const t of motionTemplates) {
     const html = renderMotion(t.id);
     assert.match(html, new RegExp(`data-scene="${t.id}"`));
