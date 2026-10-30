@@ -85,6 +85,7 @@ import { exportWebsite } from "./export";
 import Preview from "./Preview";
 import AsciiGallery from "./AsciiGallery";
 const VideoLab = lazy(() => import("./video-lab/VideoLab"));
+const PinterestStudio = lazy(() => import("./PinterestStudio"));
 const DesignLibrary = lazy(() => import("./DesignLibrary"));
 const MotionStudio = lazy(() => import("./motion/MotionStudio"));
 
@@ -175,6 +176,9 @@ function Slider({
 const starters = worlds.map((w) => createProject(w.id));
 
 export default function App() {
+  const [pinterestOpen, setPinterestOpen] = useState(() => new URLSearchParams(location.search).get("collection") === "pinterest");
+  const openPinterest = () => { setPinterestOpen(true); const url = new URL(location.href); url.searchParams.set("collection", "pinterest"); url.searchParams.delete("motion"); window.history.replaceState(null, "", url); };
+  const closePinterest = () => { setPinterestOpen(false); const url = new URL(location.href); url.searchParams.delete("collection"); window.history.replaceState(null, "", url); };
   const [libraryOpen, setLibraryOpen] = useState(
     () => new URLSearchParams(location.search).get("collection") === "library",
   );
@@ -944,6 +948,7 @@ export default function App() {
                       </span>
                     </div>
                   </div>
+                  <button className="motion-launch" onClick={openPinterest}><div><span className="motion-launch-icon">✦</span><strong>Reference studies.<small>Website designs brought to life, one reference at a time.</small></strong></div><ArrowUpRight size={24} /></button>
                   <button className="motion-launch" onClick={openLibrary}>
                     <div>
                       <span className="motion-launch-icon">▦</span>
@@ -963,7 +968,7 @@ export default function App() {
                       <strong>
                         Made to move you.
                         <small>
-                          Nine immersive GSAP templates. A separate collection
+                          Eleven immersive GSAP templates. A separate collection
                           of scroll-led worlds.
                         </small>
                       </strong>
@@ -2581,6 +2586,7 @@ export default function App() {
           )}
         </div>
       )}
+      {pinterestOpen && <Suspense fallback={<div className="vl-close-loading">Opening reference studies…</div>}><PinterestStudio onClose={closePinterest} /></Suspense>}
       {libraryOpen && (
         <Suspense
           fallback={
