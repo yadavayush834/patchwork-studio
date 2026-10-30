@@ -110,7 +110,7 @@
 }
 .rd-kicker {
   font:
-    9px/1.7 RD Mono,
+    10px/1.7 RD Mono,
     monospace;
   letter-spacing: 1px;
 }
@@ -182,7 +182,7 @@
 .rd-footer > span,
 .rd-footer > a {
   font:
-    8px RD Mono,
+    10px RD Mono,
     monospace;
   letter-spacing: 0.5px;
 }
@@ -257,14 +257,14 @@
   border-radius: 0;
 }
 .rd-form > small {
-  font: 9px/1.7 RD Mono;
+  font: 10px/1.7 RD Mono;
   color: #777;
 }
 .rd-modal-card h3 {
   font-weight: 500;
 }
 .rd-modal-card .rd-kicker {
-  font-size: 9px;
+  font-size: 10px;
 }
 /* AetherMesh: measured, cool, and deliberately spacious. */
 .mesh-site {
@@ -291,7 +291,7 @@
   padding: 72px 0 35px 9%;
 }
 .mesh-hero .rd-kicker {
-  font-size: 8px;
+  font-size: 10px;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -340,7 +340,7 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.4px;
   margin-top: 75px;
   padding-top: 15px;
@@ -369,7 +369,7 @@
   position: absolute;
   top: 29px;
   left: 29px;
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   color: #63747d;
   z-index: 1;
 }
@@ -380,7 +380,7 @@
   right: 28px;
   display: flex;
   justify-content: space-between;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   color: #7b888c;
   pointer-events: none;
 }
@@ -437,7 +437,7 @@
   color: #869194;
 }
 .mesh-regions button span {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
 }
 .mesh-regions button b {
   margin-left: auto;
@@ -453,7 +453,7 @@
   color: #254cf0;
 }
 .mesh-region-detail .rd-kicker {
-  font-size: 7px;
+  font-size: 10px;
 }
 .mesh-region-detail h3 {
   font-size: 28px;
@@ -479,7 +479,7 @@
   margin-left: 3px;
 }
 .mesh-region-detail p {
-  font-size: 9px;
+  font-size: 10px;
   color: #7b858b;
 }
 .mesh-build {
@@ -510,14 +510,14 @@
   align-items: center;
   padding: 18px 20px;
   border-bottom: 1px solid #ffffff20;
-  font-size: 8px;
+  font-size: 10px;
   color: #a3b7d0;
 }
 .mesh-code header button {
   background: none;
   border: 0;
   color: #c5d3e7;
-  font: 8px RD Mono;
+  font: 10px RD Mono;
 }
 .mesh-language-tabs {
   display: flex;
@@ -529,7 +529,7 @@
   border: 0;
   border-bottom: 1px solid transparent;
   padding: 14px;
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   color: #8c9db4;
 }
 .mesh-language-tabs button[aria-pressed="true"] {
@@ -546,7 +546,7 @@
 .mesh-code footer {
   padding: 16px 20px;
   border-top: 1px solid #ffffff20;
-  font-size: 7px;
+  font-size: 10px;
   color: #899db7;
 }
 .mesh-principles > span {
@@ -562,7 +562,7 @@
   align-items: center;
 }
 .mesh-principles article > span {
-  font: 9px RD Mono;
+  font: 10px RD Mono;
   color: #839094;
 }
 .mesh-principles h3 {
@@ -583,7 +583,7 @@
   background: #2c4837;
   color: #e7e5d3;
   text-align: center;
-  font: 9px/1.6 RD Sans;
+  font: 10px/1.6 RD Sans;
   padding: 10px;
 }
 .lumina-announcement a {
@@ -624,7 +624,7 @@
   top: 150px;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 1px;
   color: #a39878;
 }
@@ -633,7 +633,7 @@
   z-index: 1;
 }
 .lumina-hero-title > .rd-kicker {
-  font-size: 8px;
+  font-size: 10px;
   color: #a39878;
 }
 .lumina-hero h1 {
@@ -685,7 +685,7 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  font: 8px/1.7 RD Mono;
+  font: 10px/1.7 RD Mono;
   z-index: 1;
   transform: rotate(9deg);
   color: #8c846a;
@@ -698,7 +698,7 @@
   position: absolute;
   bottom: 15px;
   left: 30px;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 1px;
   color: #9c977d;
 }
@@ -709,7 +709,7 @@
   right: 5%;
   display: flex;
   justify-content: space-between;
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 1px;
   color: #8a907b;
 }
@@ -763,7 +763,7 @@
   letter-spacing: -1px;
 }
 .lumina-section-top p {
-  font: 7px/1.8 RD Mono;
+  font: 10px/1.8 RD Mono;
   color: #929580;
 }
 .lumina-course {
@@ -788,7 +788,7 @@
   flex: 1;
 }
 .lumina-course small {
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 1px;
   color: #8f957d;
 }
@@ -798,7 +798,7 @@
   letter-spacing: -0.8px;
 }
 .lumina-course > span:not(:first-child) {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   color: #8f957d;
 }
 .lumina-course > b {
@@ -851,7 +851,7 @@
   border: 1px solid #d8cfb6;
 }
 .lumina-page > span {
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   color: #b39d77;
   letter-spacing: 0.6px;
 }
@@ -901,7 +901,7 @@
   text-align: left;
 }
 .lumina-quiz > button > span {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   border: 1px solid #a9aa91;
   width: 23px;
   height: 23px;
@@ -977,7 +977,7 @@
 .forge-meta {
   display: flex;
   justify-content: space-between;
-  font: 8px/1.6 RD Mono;
+  font: 10px/1.6 RD Mono;
   letter-spacing: 0.3px;
 }
 .forge-title {
@@ -1064,7 +1064,7 @@
   text-align: right;
 }
 .forge-countdown > small {
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.3px;
   color: #7d8370;
 }
@@ -1080,7 +1080,7 @@
 }
 .forge-countdown > div small {
   display: block;
-  font: 6px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.5px;
   margin-top: 8px;
   color: #7d8370;
@@ -1114,7 +1114,7 @@
   margin-bottom: 42px;
 }
 .forge-section-label > span {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.6px;
   max-width: 200px;
 }
@@ -1145,7 +1145,7 @@
 }
 .forge-track-tabs button > span {
   grid-column: 1/3;
-  font: 9px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0;
 }
 .forge-track-tabs button > b {
@@ -1162,7 +1162,7 @@
   align-items: start;
 }
 .forge-track-detail > span {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.5px;
 }
 .forge-track-detail > p {
@@ -1175,7 +1175,7 @@
   text-align: right;
 }
 .forge-track-detail > strong > small {
-  font: 6px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0;
   display: block;
   margin-top: 14px;
@@ -1212,7 +1212,7 @@
 }
 .forge-filters > span {
   margin-left: auto;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   color: #9ba18b;
 }
 .forge-person-list article {
@@ -1237,7 +1237,7 @@
   letter-spacing: -0.5px;
 }
 .forge-person-list p {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   color: #9ba18b;
   margin-top: 5px;
 }
@@ -1253,7 +1253,7 @@
   border-color: #d6f44b;
 }
 .forge-local-note {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   color: #9ba18b;
   margin-top: 22px !important;
 }
@@ -1263,7 +1263,7 @@
   gap: 45px;
 }
 .forge-weekend > span {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   grid-column: 1/3;
 }
 .forge-weekend h2 {
@@ -1281,7 +1281,7 @@
   padding: 20px 0 28px;
 }
 .forge-weekend article span {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
 }
 .forge-weekend article h3 {
   font: 24px RD Grotesk;
@@ -1330,7 +1330,7 @@
   font: 12px RD Mono;
 }
 .forge-ticket > small {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   display: block;
 }
 .forge-ticket .forge-button {
@@ -1359,7 +1359,7 @@
   font-size: 11px;
 }
 .kenji-time {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   display: flex;
   gap: 10px;
   align-items: center;
@@ -1380,7 +1380,7 @@
   padding: 65px 0 38px 8.2%;
 }
 .kenji-hero-name > .rd-kicker {
-  font-size: 7px;
+  font-size: 10px;
   color: #90917f;
   letter-spacing: 0.7px;
 }
@@ -1406,7 +1406,7 @@
   color: #929481;
 }
 .kenji-hero-bottom a {
-  font: 7px/1.8 RD Mono;
+  font: 10px/1.8 RD Mono;
   width: 120px;
   text-align: right;
 }
@@ -1429,7 +1429,7 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  font: 6px RD Mono;
+  font: 10px RD Mono;
   color: #8c8978;
   z-index: 1;
 }
@@ -1450,7 +1450,7 @@
   z-index: 1;
 }
 .kenji-chime-controls > span {
-  font: 6px/1.7 RD Mono;
+  font: 10px/1.7 RD Mono;
   color: #8c8978;
   max-width: 100px;
 }
@@ -1480,7 +1480,7 @@
   padding-bottom: 90px;
 }
 .kenji-intro > .rd-kicker {
-  font-size: 7px;
+  font-size: 10px;
   color: #939781;
   max-width: 130px;
 }
@@ -1512,7 +1512,7 @@
   letter-spacing: -1.2px;
 }
 .kenji-section-heading > span {
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   color: #969783;
 }
 .kenji-project {
@@ -1546,7 +1546,7 @@
   position: absolute;
   bottom: 20px;
   right: 20px;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   font-weight: 400;
   color: #fff8;
   z-index: 1;
@@ -1606,7 +1606,7 @@
   letter-spacing: -1px;
 }
 .kenji-notebook > small {
-  font: 5px/1.8 RD Mono;
+  font: 10px/1.8 RD Mono;
   letter-spacing: 0.5px;
 }
 .kenji-room {
@@ -1647,7 +1647,7 @@
   background: #d8be9c;
 }
 .kenji-project-copy > span {
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.6px;
   color: #8d937c;
   display: block;
@@ -1713,7 +1713,7 @@
   font: 19px/1 Georgia;
 }
 .kenji-stamp > span {
-  font: 8px/1.8 RD Mono;
+  font: 10px/1.8 RD Mono;
   color: #849073;
   max-width: 160px;
 }
@@ -1737,7 +1737,7 @@
 }
 .kenji-contact label {
   display: block;
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   color: #8b947b;
   margin: 20px 0;
 }
@@ -1767,7 +1767,7 @@
 }
 .kenji-contact > div > small {
   display: block;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   color: #a0a48f;
   margin-top: 15px;
 }
@@ -1780,7 +1780,7 @@
   gap: 12px;
 }
 .kenji-case-note > span {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   color: #8b947b;
 }
 .kenji-case-note > p {
@@ -1797,7 +1797,7 @@
 }
 .aura-announcement {
   text-align: center;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 1.4px;
   padding: 10px;
   background: #e4ddce;
@@ -1812,7 +1812,7 @@
   letter-spacing: -1.4px;
 }
 .aura-nav .rd-brand > span {
-  font: 9px RD Sans;
+  font: 10px RD Sans;
   margin-top: -10px;
 }
 .aura-nav nav {
@@ -1825,12 +1825,12 @@
   display: flex;
   justify-content: space-between;
   gap: 30px;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   color: #a49177;
   letter-spacing: 0.4px;
 }
 .aura-hero-top .rd-kicker {
-  font-size: 7px;
+  font-size: 10px;
 }
 .aura-hero-text {
   display: flex;
@@ -1885,7 +1885,7 @@
   left: 2%;
   display: flex;
   gap: 18px;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.3px;
   color: #9e896f;
 }
@@ -1893,7 +1893,7 @@
   position: absolute;
   bottom: 20px;
   right: 2%;
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   background: none;
   border: 1px solid #b5a68e;
   padding: 9px 13px;
@@ -1913,7 +1913,7 @@
   margin-top: 9px;
 }
 .aura-product-bar .rd-kicker {
-  font-size: 7px;
+  font-size: 10px;
   color: #a28b6d;
 }
 .aura-finish-swatches {
@@ -1935,7 +1935,7 @@
 }
 .aura-product-bar small {
   display: block;
-  font-size: 8px;
+  font-size: 10px;
   color: #b09b7e;
   margin-top: 6px;
 }
@@ -2050,7 +2050,7 @@
   position: absolute;
   bottom: 17px;
   right: 17px;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   color: #9d8669;
 }
 .aura-product-card:hover .aura-object-illustration > span {
@@ -2061,7 +2061,7 @@
   padding: 18px 0;
 }
 .aura-product-card > div > span {
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   color: #a99577;
   letter-spacing: 0.5px;
 }
@@ -2181,7 +2181,7 @@
   margin-top: 55px;
 }
 .aura-monogram label {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   color: #a38e71;
   text-align: left;
 }
@@ -2210,7 +2210,7 @@
   word-break: break-word;
 }
 .aura-monogram > small {
-  font: 7px/1.8 RD Mono;
+  font: 10px/1.8 RD Mono;
   color: #b5a082;
   max-width: 100px;
   text-align: left;
@@ -2264,7 +2264,7 @@
   width: 100%;
 }
 .aura-bag > small {
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   color: #ac987c;
   display: block;
   margin-top: 20px;
@@ -2283,7 +2283,7 @@
   gap: 16px;
 }
 .nordic-nav .rd-brand > span {
-  font: 7px/1.5 RD Mono;
+  font: 10px/1.5 RD Mono;
   letter-spacing: 1px;
 }
 .nordic-nav nav {
@@ -2304,7 +2304,7 @@
 .nordic-hero-meta {
   display: flex;
   justify-content: space-between;
-  font: 8px/1.7 RD Mono;
+  font: 10px/1.7 RD Mono;
   letter-spacing: 0.3px;
 }
 .nordic-hero-meta > span:last-child {
@@ -2340,7 +2340,7 @@
   letter-spacing: -0.6px;
 }
 .nordic-hero-bottom a {
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   display: block;
   margin-top: 25px;
 }
@@ -2362,7 +2362,7 @@
   height: auto;
 }
 .nordic-hero-object > span {
-  font: 6px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.4px;
   position: absolute;
   bottom: 0;
@@ -2377,7 +2377,7 @@
   gap: 20px;
   padding: 21px 4.5%;
   border-bottom: 1px solid #23423e2b;
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.4px;
 }
 .nordic-info-strip > b {
@@ -2423,7 +2423,7 @@
   letter-spacing: -3px;
 }
 .nordic-section-title > p {
-  font: 8px/1.7 RD Mono;
+  font: 10px/1.7 RD Mono;
   color: #94a084;
 }
 .nordic-programme-controls {
@@ -2450,7 +2450,7 @@
   text-align: left;
 }
 .nordic-programme-controls button > span {
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.5px;
 }
 .nordic-programme-controls button[aria-pressed="true"] {
@@ -2484,7 +2484,7 @@
 }
 .nordic-session-list > button > span > small {
   display: block;
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   color: #a0aa8d;
   margin-top: 10px;
 }
@@ -2499,7 +2499,7 @@
   color: #89987c;
 }
 .nordic-session-list p > small {
-  font: 6px RD Mono;
+  font: 10px RD Mono;
   margin-left: 6px;
   letter-spacing: 0.2px;
 }
@@ -2552,7 +2552,7 @@
   z-index: 1;
   left: 20px;
   top: 15px;
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   color: #23423e77;
 }
 .nordic-portrait-shape {
@@ -2587,7 +2587,7 @@
   font-weight: 400;
 }
 .nordic-speaker-grid > button > small {
-  font: 7px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.5px;
   color: #98ab94;
   display: block;
@@ -2612,7 +2612,7 @@
   position: absolute;
   left: 20px;
   bottom: 18px;
-  font: 6px RD Mono;
+  font: 10px RD Mono;
   color: #8a997c;
 }
 .nordic-building {
@@ -2656,7 +2656,7 @@
   position: relative;
 }
 .nordic-last > span {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.5px;
 }
 .nordic-last h2 {
@@ -2697,7 +2697,7 @@
   padding-top: 20px;
 }
 .nordic-session-speaker > span {
-  font: 8px RD Mono;
+  font: 10px RD Mono;
   color: #9da88d;
 }
 .nordic-tier-options {
@@ -2731,7 +2731,7 @@
 .nordic-pass > span,
 .nordic-pass > strong,
 .nordic-pass > div {
-  font: 9px RD Mono;
+  font: 10px RD Mono;
   letter-spacing: 0.5px;
 }
 .nordic-pass h2 {
@@ -2749,7 +2749,7 @@
   margin: 18px 0;
 }
 .nordic-pass > small {
-  font: 8px/1.7 RD Mono;
+  font: 10px/1.7 RD Mono;
   color: #839276;
   display: block;
   margin-bottom: 25px;
@@ -3074,17 +3074,17 @@
   .rd-footer > span {
     order: 3;
     width: 100%;
-    font-size: 6px;
+    font-size: 10px;
     line-height: 1.8;
   }
   .rd-footer strong {
     font-size: 18px;
   }
   .rd-footer > a {
-    font-size: 7px;
+    font-size: 10px;
   }
   .rd-kicker {
-    font-size: 7px;
+    font-size: 10px;
     letter-spacing: 0.6px;
   }
   .rd-modal {
@@ -3100,7 +3100,7 @@
     font-size: 14px;
   }
   .mesh-nav .rd-link {
-    font-size: 9px;
+    font-size: 10px;
   }
   .mesh-mark {
     font-size: 29px;
@@ -3131,13 +3131,13 @@
     font-size: 10px;
   }
   .mesh-hero .rd-actions .rd-link {
-    font-size: 8px;
+    font-size: 10px;
     max-width: 100px;
   }
   .mesh-hero-note {
     margin-top: 30px;
     max-width: none;
-    font-size: 6px;
+    font-size: 10px;
   }
   .mesh-visual {
     height: 345px;
@@ -3151,13 +3151,13 @@
   .mesh-diagram-label {
     top: 20px;
     left: 7%;
-    font-size: 6px;
+    font-size: 10px;
   }
   .mesh-visual-footer {
     left: 7%;
     right: 7%;
     bottom: 18px;
-    font-size: 5px;
+    font-size: 10px;
   }
   .mesh-strip {
     padding: 20px 7%;
@@ -3166,7 +3166,7 @@
     font-size: 12px;
   }
   .mesh-strip b {
-    font-size: 9px;
+    font-size: 10px;
     width: 100%;
     opacity: 0.6;
   }
@@ -3211,10 +3211,10 @@
     font-size: 32px;
   }
   .mesh-region-detail p {
-    font-size: 7px;
+    font-size: 10px;
   }
   .mesh-region-detail .rd-kicker {
-    font-size: 5px;
+    font-size: 10px;
   }
   .mesh-build {
     grid-template-columns: 1fr;
@@ -3227,16 +3227,16 @@
     font-size: 13px;
   }
   .mesh-code pre {
-    font-size: 8px;
+    font-size: 10px;
     padding: 22px 18px;
   }
   .mesh-code header {
     padding: 15px;
-    font-size: 6px;
+    font-size: 10px;
   }
   .mesh-language-tabs button {
     padding: 11px;
-    font-size: 7px;
+    font-size: 10px;
   }
   .mesh-principles article {
     grid-template-columns: 28px 1fr;
@@ -3251,7 +3251,7 @@
     font-size: 12px;
   }
   .lumina-announcement {
-    font-size: 7px;
+    font-size: 10px;
     padding: 9px 20px;
   }
   .lumina-announcement a {
@@ -3278,7 +3278,7 @@
     padding-top: 35px;
   }
   .lumina-hero-title > .rd-kicker {
-    font-size: 6px;
+    font-size: 10px;
   }
   .lumina-hero h1 {
     font-size: 72px;
@@ -3307,7 +3307,7 @@
     right: 10px;
     width: 78px;
     height: 98px;
-    font-size: 6px;
+    font-size: 10px;
   }
   .lumina-book-badge em {
     font-size: 16px;
@@ -3315,13 +3315,13 @@
   .lumina-book-note {
     bottom: 5px;
     left: 8px;
-    font-size: 5px;
+    font-size: 10px;
   }
   .lumina-hero-bottom {
     left: 7%;
     right: 7%;
     bottom: 20px;
-    font-size: 5px;
+    font-size: 10px;
     letter-spacing: 0.3px;
   }
   .lumina-philosophy h2 {
@@ -3350,7 +3350,7 @@
     line-height: 1.1;
   }
   .lumina-section-top p {
-    font-size: 5px;
+    font-size: 10px;
     max-width: 80px;
   }
   .lumina-course {
@@ -3361,7 +3361,7 @@
     font-size: 22px;
   }
   .lumina-course small {
-    font-size: 5px;
+    font-size: 10px;
     letter-spacing: 0.3px;
   }
   .lumina-course h3 {
@@ -3371,7 +3371,7 @@
     margin-top: 6px;
   }
   .lumina-course > span:not(:first-child) {
-    font-size: 5px;
+    font-size: 10px;
     max-width: 35px;
   }
   .lumina-course > b {
@@ -3414,14 +3414,14 @@
     font-size: 27px;
   }
   .forge-button {
-    font-size: 9px;
+    font-size: 10px;
     padding: 10px 14px;
   }
   .forge-hero {
     padding: 24px 6% 0;
   }
   .forge-meta {
-    font-size: 5px;
+    font-size: 10px;
     line-height: 1.8;
   }
   .forge-meta > span:first-child {
@@ -3458,7 +3458,7 @@
   .forge-object-sticker {
     width: 68px;
     height: 68px;
-    font-size: 7px;
+    font-size: 10px;
     right: 10px;
     top: 0;
   }
@@ -3493,7 +3493,7 @@
     border-top: 1px solid #20221e30;
   }
   .forge-countdown > small {
-    font-size: 5px;
+    font-size: 10px;
     max-width: 90px;
     line-height: 1.8;
   }
@@ -3508,10 +3508,10 @@
     font-size: 27px;
   }
   .forge-countdown > div small {
-    font-size: 5px;
+    font-size: 10px;
   }
   .forge-tape {
-    font-size: 8px;
+    font-size: 10px;
     gap: 20px;
     justify-content: flex-start;
     padding: 10px 6%;
@@ -3524,7 +3524,7 @@
     margin-bottom: 30px;
   }
   .forge-section-label > span {
-    font-size: 6px;
+    font-size: 10px;
     max-width: none;
   }
   .forge-section-label h2 {
@@ -3549,7 +3549,7 @@
   }
   .forge-track-tabs button > span {
     grid-column: auto;
-    font-size: 7px;
+    font-size: 10px;
   }
   .forge-track-detail {
     grid-template-columns: 1fr auto;
@@ -3558,7 +3558,7 @@
   }
   .forge-track-detail > span {
     grid-column: 1/3;
-    font-size: 6px;
+    font-size: 10px;
   }
   .forge-track-detail > p {
     font-size: 12px;
@@ -3569,7 +3569,7 @@
     max-width: 110px;
   }
   .forge-track-detail > strong > small {
-    font-size: 5px;
+    font-size: 10px;
     line-height: 1.7;
   }
   .forge-filters {
@@ -3577,13 +3577,13 @@
     gap: 8px;
   }
   .forge-filters button {
-    font-size: 9px;
+    font-size: 10px;
     padding: 7px 12px;
   }
   .forge-filters > span {
     width: 100%;
     margin-top: 10px;
-    font-size: 5px;
+    font-size: 10px;
   }
   .forge-person-list article {
     gap: 15px;
@@ -3599,15 +3599,15 @@
     font-size: 21px;
   }
   .forge-person-list p {
-    font-size: 6px;
+    font-size: 10px;
   }
   .forge-person-list article button {
     margin-left: 59px;
     padding: 8px 11px;
-    font-size: 9px;
+    font-size: 10px;
   }
   .forge-local-note {
-    font-size: 6px;
+    font-size: 10px;
   }
   .forge-weekend {
     grid-template-columns: 1fr;
@@ -3615,7 +3615,7 @@
   }
   .forge-weekend > span {
     grid-column: auto;
-    font-size: 6px;
+    font-size: 10px;
   }
   .forge-weekend h2 {
     font-size: 51px;
@@ -3625,7 +3625,7 @@
     font-size: 23px;
   }
   .forge-weekend article > span {
-    font-size: 7px;
+    font-size: 10px;
   }
   .forge-last {
     display: block;
@@ -3650,11 +3650,11 @@
     gap: 12px;
   }
   .kenji-nav .rd-brand > span {
-    font-size: 8px;
+    font-size: 10px;
     letter-spacing: 1px;
   }
   .kenji-time {
-    font-size: 7px;
+    font-size: 10px;
   }
   .kenji-hero {
     grid-template-columns: 1fr;
@@ -3664,7 +3664,7 @@
     padding: 35px 7% 30px;
   }
   .kenji-hero-name > .rd-kicker {
-    font-size: 5px;
+    font-size: 10px;
     letter-spacing: 0.3px;
   }
   .kenji-hero-name h1 {
@@ -3684,7 +3684,7 @@
     font-size: 12px;
   }
   .kenji-hero-bottom a {
-    font-size: 5px;
+    font-size: 10px;
     max-width: 95px;
     line-height: 1.8;
     text-align: right;
@@ -3700,7 +3700,7 @@
   }
   .kenji-object-label {
     top: 20px;
-    font-size: 5px;
+    font-size: 10px;
   }
   .kenji-object-label span:last-child {
     display: block;
@@ -3715,12 +3715,12 @@
   }
   .kenji-chime-controls > span {
     max-width: 100px;
-    font-size: 5px;
+    font-size: 10px;
   }
   .kenji-chime-controls button {
     width: 25px;
     height: 25px;
-    font-size: 9px;
+    font-size: 10px;
   }
   .kenji-intro {
     grid-template-columns: 1fr auto;
@@ -3728,7 +3728,7 @@
   }
   .kenji-intro > .rd-kicker {
     grid-column: 1/3;
-    font-size: 6px;
+    font-size: 10px;
     max-width: none;
   }
   .kenji-intro > p {
@@ -3747,7 +3747,7 @@
     font-size: 27px;
   }
   .kenji-section-heading > span {
-    font-size: 5px;
+    font-size: 10px;
     max-width: 100px;
     line-height: 1.8;
     text-align: right;
@@ -3773,7 +3773,7 @@
     max-width: none;
   }
   .kenji-project-copy > span {
-    font-size: 6px;
+    font-size: 10px;
   }
   .kenji-project-copy > span:last-child {
     max-width: none;
@@ -3798,7 +3798,7 @@
   }
   .kenji-contact > .rd-kicker {
     grid-column: auto;
-    font-size: 6px;
+    font-size: 10px;
   }
   .kenji-contact h2 {
     font-size: 57px;
@@ -3813,13 +3813,13 @@
     grid-template-columns: 65px 1fr;
   }
   .kenji-case-note > span {
-    font-size: 6px;
+    font-size: 10px;
   }
   .kenji-case-note > p {
     font-size: 10px;
   }
   .aura-announcement {
-    font-size: 5px;
+    font-size: 10px;
     letter-spacing: 1px;
     padding: 9px;
   }
@@ -3835,11 +3835,11 @@
     padding: 22px 6% 0;
   }
   .aura-hero-top {
-    font-size: 5px;
+    font-size: 10px;
     gap: 15px;
   }
   .aura-hero-top .rd-kicker {
-    font-size: 5px;
+    font-size: 10px;
     max-width: 180px;
   }
   .aura-hero-top > span:last-child {
@@ -3884,12 +3884,12 @@
     left: 0;
     flex-direction: column;
     gap: 7px;
-    font-size: 5px;
+    font-size: 10px;
   }
   .aura-light-switch {
     bottom: 0;
     right: 0;
-    font-size: 6px;
+    font-size: 10px;
     padding: 7px 10px;
   }
   .aura-product-bar {
@@ -3905,7 +3905,7 @@
     font-size: 19px;
   }
   .aura-product-bar .rd-kicker {
-    font-size: 6px;
+    font-size: 10px;
   }
   .aura-product-bar > div:nth-child(3) {
     grid-row: 2;
@@ -3947,7 +3947,7 @@
     font-size: 12px;
   }
   .aura-product-card > div > span {
-    font-size: 6px;
+    font-size: 10px;
   }
   .aura-materials {
     grid-template-columns: 1fr;
@@ -3961,7 +3961,7 @@
     font-size: 32px;
   }
   .aura-material-block > span {
-    font-size: 8px;
+    font-size: 10px;
   }
   .aura-materials > div > h2 {
     font-size: 41px;
@@ -3985,7 +3985,7 @@
     margin-top: 35px;
   }
   .aura-monogram label {
-    font-size: 6px;
+    font-size: 10px;
   }
   .aura-monogram input {
     width: 140px;
@@ -3999,7 +3999,7 @@
     max-width: none;
     width: 100%;
     text-align: center;
-    font-size: 6px;
+    font-size: 10px;
   }
   .aura-site .rd-footer strong {
     font-size: 21px;
@@ -4010,18 +4010,18 @@
     gap: 12px;
   }
   .nordic-nav .rd-brand > span {
-    font-size: 5px;
+    font-size: 10px;
     letter-spacing: 0.8px;
   }
   .nordic-ticket-button {
-    font-size: 9px;
+    font-size: 10px;
     padding: 12px 16px;
   }
   .nordic-hero {
     padding: 23px 6% 0;
   }
   .nordic-hero-meta {
-    font-size: 5px;
+    font-size: 10px;
   }
   .nordic-hero h1 {
     font-size: 23vw;
@@ -4048,7 +4048,7 @@
     line-height: 1.3;
   }
   .nordic-hero-bottom a {
-    font-size: 5px;
+    font-size: 10px;
     line-height: 1.8;
     margin-top: 20px;
     max-width: 110px;
@@ -4063,7 +4063,7 @@
     width: calc(100% + 20px);
   }
   .nordic-hero-object > span {
-    font-size: 4px;
+    font-size: 10px;
     max-width: 140px;
     line-height: 1.8;
     bottom: -5px;
@@ -4081,12 +4081,12 @@
     flex-wrap: wrap;
     padding: 20px 6%;
     gap: 12px 20px;
-    font-size: 5px;
+    font-size: 10px;
     letter-spacing: 0.2px;
   }
   .nordic-info-strip > b {
     width: 100%;
-    font-size: 5px;
+    font-size: 10px;
   }
   .nordic-intro {
     grid-template-columns: 1fr;
@@ -4094,7 +4094,7 @@
   }
   .nordic-intro > .rd-kicker {
     grid-column: auto;
-    font-size: 5px;
+    font-size: 10px;
   }
   .nordic-intro h2 {
     font-size: 35px;
@@ -4113,7 +4113,7 @@
     letter-spacing: -2px;
   }
   .nordic-section-title > p {
-    font-size: 6px;
+    font-size: 10px;
     margin-top: 20px;
     line-height: 1.8;
   }
@@ -4132,10 +4132,10 @@
     gap: 7px;
   }
   .nordic-programme-controls button > span {
-    font-size: 5px;
+    font-size: 10px;
   }
   .nordic-programme-controls select {
-    font-size: 9px;
+    font-size: 10px;
   }
   .nordic-session-list > button {
     grid-template-columns: 50px 1fr 20px;
@@ -4146,7 +4146,7 @@
     font-size: 12px;
   }
   .nordic-session-list > button > span > small {
-    font-size: 5px;
+    font-size: 10px;
   }
   .nordic-session-list h3 {
     font-size: 22px;
@@ -4154,11 +4154,11 @@
     line-height: 1.15;
   }
   .nordic-session-list p {
-    font-size: 9px;
+    font-size: 10px;
     line-height: 1.6;
   }
   .nordic-session-list p > small {
-    font-size: 4px;
+    font-size: 10px;
     display: block;
     margin: 5px 0 0;
   }
@@ -4181,7 +4181,7 @@
     font-size: 25px;
   }
   .nordic-speaker-grid > button > small {
-    font-size: 6px;
+    font-size: 10px;
   }
   .nordic-portrait-shape {
     width: 170px;
@@ -4206,7 +4206,7 @@
     padding: 45px 7%;
   }
   .nordic-last > span {
-    font-size: 6px;
+    font-size: 10px;
   }
   .nordic-last h2 {
     font-size: 56px;
@@ -4241,7 +4241,7 @@
   .nordic-pass > span,
   .nordic-pass > strong,
   .nordic-pass > div {
-    font-size: 7px;
+    font-size: 10px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -4257,4 +4257,17 @@
   .forge-button:hover {
     transform: none;
   }
+}
+
+/* Physical phone controls and readable form fields at the actual canvas width. */
+@media (max-width: 700px) {
+  :is(.rd-site, .ex-site) :where(button, select) { min-height: 44px; }
+  :is(.rd-site, .ex-site) :where(input:not([type="range"]), select, textarea) { font-size: 16px; min-width: 0; max-width: 100%; }
+  :is(.rd-site, .ex-site) input[type="range"] { min-height: 44px; width: 100%; }
+  :is(.rd-site, .ex-site) :where(.rd-nav, .ex-nav) { gap: 16px; }
+  :is(.rd-site, .ex-site) :where(.rd-nav, .ex-nav) > :is(a,button):last-child { font-size: 11px; line-height: 1.5; }
+  .rd-modal-card > header button { min-width: 44px; flex-shrink: 0; }
+  .rd-modal-card { max-height: calc(100dvh - 32px); overscroll-behavior: contain; }
+  .rd-object { touch-action: pan-y; }
+  .rd-footer, .ex-footer { overflow-wrap: anywhere; }
 }
