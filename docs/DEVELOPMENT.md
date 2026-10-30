@@ -146,4 +146,4 @@ Verify `?collection=library` on a separate QA origin: all seven counts, search, 
 
 `npm run build:library` also prepares/builds the template-only runtime. Edit original source, not `native-loaders.ts` or hashed output. Normal dev/build includes this step. Restart an already-running Vite server if its cached public-file inventory returns HTML for new dynamic JS imports.
 
-Verify hover playback and teardown, card click staying in Patchwork, real 1080/768/375 canvas widths, replay and back-to-gallery. Covers are actual first-screen captures of all 25 templates, optimized as JPEGs. Other collections have not been ported to the native shell.
+Verify hover playback and teardown, card click staying in Patchwork, real 1080/768/375 canvas widths, replay and back-to-gallery. Covers are actual first-screen captures of all 14 retained redesigned templates, optimized as 720×540 JPEGs. Other collections have not been ported to the native shell.
