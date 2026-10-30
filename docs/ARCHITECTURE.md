@@ -116,3 +116,7 @@ The critical images decode before GSAP's initial measurements; portal clipping p
 ## Authored template redesign sources
 
 The 14 template source paths and IDs remain stable. New shared helpers are in vendor/design-library/src/redesign/: Scene.tsx owns the Three.js lifecycle, expressive-models.ts builds the eight additional physical objects, shared.tsx provides modal/audio/footer helpers, and expressive.tsx provides decorative motion helpers. redesign.css and expressive.css are scoped to the authored sites; local fonts and notices live in redesign/fonts/. These modules are bundled only into imported/template canvases, not the main editor.
+
+## Character and pixel scene rendering
+
+The two glyph studies share semantic markup and scoped styles in glyph-studies.ts/css. glyph-ascii.ts samples original 3D point surfaces and projects them into a character-cell depth buffer; glyph-pixel.ts draws original integer-grid scenes. glyph-runtime.ts binds three reversible ScrollTrigger pins to scene progress and bounds rendering to visible canvases at 20fps, pausing on document hide. Reduced motion paints static compositions without pins. Runtime cleanup disconnects observers/listeners and kills timelines. These use the same motionDocument/exportMotion path and local runtime/font packaging as the other Motion Studies. Reference studies remain independent local HTML pages under public/pinterest-studies, opened by the lazy PinterestStudio gallery.
