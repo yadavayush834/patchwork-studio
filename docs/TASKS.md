@@ -110,3 +110,36 @@ Removed the templates numbered 1, 2, 3, 7, 9, 11, 12, 13, 17, 20 and 25 in the p
 ## Fourteen-template redesign checkpoint
 
 New source is implemented for the first six templates and the remaining eight, including purpose-built 3D objects and local interactive demonstrations. Desktop review is partial. The user requested pushing all current changes before completing the dedicated mobile pass. Remaining: finish visual and interaction QA, refine the newly added models, capture updated covers, then perform the phone-layout pass.
+
+## Continued template polish — complete locally
+
+- [x] Finish remaining desktop review and review full phone pages for all fourteen retained templates.
+- [x] Improve annotation readability, touch targets and phone forms; repair sequencer overflow.
+- [x] Correct CRT/watch texture shading and radar reflector geometry.
+- [x] Align the remaining eight template descriptions with their implemented controls.
+- [x] Capture and replace all fourteen native gallery covers.
+- [x] Check 360/768/1080 bounds, representative interactions across all templates, reduced-motion simulation and representative graphics fallbacks.
+- [x] Verify native gallery search, single live preview/teardown, phone canvas, modal dismissal and replay.
+
+Physical-device testing and exhaustive combinations of every control remain outside this browser review. Other library collections were not redesigned in this continuation.
+
+## Reference studies — unfinished
+
+- [x] Inventory 12 Pinterest screenshots and start a separate collection.
+- [ ] Refine Brainka against its reference and complete the remaining 11 individual sites, including reference-matched generated assets and appropriate interactions.
+- [ ] Review responsive behavior, live controls and visual fidelity for every study.
+
+## Reference studies expansion — review remaining
+
+- [x] Add an initial live study and generated background for each of the remaining 11 references.
+- [ ] Complete detailed visual fidelity and responsive/interaction review across all 12 studies; refine the initial approximations against each reference.
+
+## ASCII / pixel Motion Studies — unfinished
+
+- [x] Start two procedural scenes and connect catalog, markup and runtime.
+- [ ] Complete high-detail artwork, multiple distinct scroll sequences and authored page content.
+- [ ] Capture actual covers and verify desktop, mobile, reduced motion, cleanup and standalone exports.
+
+## User-requested push checkpoint — 30 October 2026
+
+Phone-layout work is explicitly paused at the user's request. Rebuilt glyph/pixel scenes, generated reference-study assets, twelve reference pages, fourteen-template polish and current generated bundles are included in this checkpoint. Resume phone refinement only when the user asks. Remaining visual fidelity and complete final interaction/export review are documented, not treated as completed by this push.
