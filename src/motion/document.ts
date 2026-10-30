@@ -1,3 +1,4 @@
+import glyphCSS from "./glyph-studies.css?raw";
 import imageStudiesCSS from "./image-studies.css?raw";
 import studiesCSS from "./studies.css?raw";
 import templateCSS from "./template.css?raw";
@@ -14,6 +15,7 @@ const fonts = [
   "SpaceMono",
   "PlayfairDisplay",
   "Caveat",
+  "Silkscreen",
 ] as const;
 const familyNames = [
   "DM Sans",
@@ -22,6 +24,7 @@ const familyNames = [
   "Space Mono",
   "Playfair Display",
   "Caveat",
+  "Silkscreen",
 ];
 const escape = (s: string) =>
   s.replace(
@@ -44,7 +47,7 @@ export function motionCSS(base = "") {
     "\n" +
     studiesCSS +
     "\n" +
-    imageStudiesCSS
+    imageStudiesCSS + "\n" + glyphCSS
   );
 }
 export function motionDocument(
