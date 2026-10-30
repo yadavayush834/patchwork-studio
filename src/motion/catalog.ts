@@ -178,6 +178,22 @@ export const motionTemplates = [
       "The long way up",
     ],
   },
+  {
+    id: "nullsignal", name: "Null Signal", number: "10",
+    headline: "A world between the lines.", color: "#c7eaa4", background: "#080b0b",
+    cover: "/motion/nullsignal-cover.jpg", category: "ASCII / GLYPH OBSERVATORY",
+    description: "A cabinet of character-built curiosities. Disassemble an ASCII armillary instrument, travel through a vaulted arcade, and draw a message from a scattered constellation.",
+    tags: ["ASCII sculpture", "Depth-projected arcade", "Character assembly"],
+    chapters: ["Anatomy of a signal", "Inside the transmission", "A message reassembled", "Stay curious"],
+  },
+  {
+    id: "bitquest", name: "Bitquest", number: "11",
+    headline: "Beyond the edge of the map.", color: "#f0bb87", background: "#202940",
+    cover: "/motion/bitquest-cover.jpg", category: "PIXEL ART / IMAGINED PLACES",
+    description: "A hand-coded pixel expedition. Approach a floating clock-tower town, ride a moonlit railway, and unfold a seven-island atlas with a tiny traveler following your scroll.",
+    tags: ["Pixel town", "Parallax railway", "Unfolding island map"],
+    chapters: ["The skyward city", "The midnight railway", "An atlas of elsewhere", "Make room for wonder"],
+  },
 ] as const;
 export type MotionId = (typeof motionTemplates)[number]["id"];
 export interface MotionConfig {
