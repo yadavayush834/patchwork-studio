@@ -1,0 +1,17 @@
+{
+  "generator": "Built-in ChatGPT image generation",
+  "assets": {
+    "nexiron-landscape.png": "Panoramic vintage screen-printed blue sky, ivory clouds, blue tree, red shrubs and sage farmland, no text or interface.",
+    "mercy-art.png": "Violet pixel-art moonlit forest, gothic arch and two travelers, no text or interface.",
+    "morpheus-art.png": "Red and black anime portrait with dark glasses, no typography or UI.",
+    "design-art.png": "Light gray design canvas with sparse dotted grid, no UI.",
+    "fluidity-art.png": "Pastel pink, lavender and ivory floating coral sculpture on black, no UI.",
+    "orryx-art.png": "Dark navy field with purple, blue and acid-green particle wave and dark circular void, no UI.",
+    "meadow-art.png": "Anime-painted alpine valley, snowy mountains and golden flower meadow, no UI.",
+    "adulthood-art.png": "Black and pale gray geometric pixel blocks and organic boundary, no text.",
+    "horizon-art.png": "Watercolor Santorini architecture and blue Aegean sea on warm paper, no text.",
+    "daydream-art.png": "Manga illustration of pink-haired woman on a giant fluffy blue cat on aged paper, no text.",
+    "runcycle-art.png": "Pink cherry blossom branches framing a muted blue sky, no UI."
+  },
+  "note": "Each asset was generated using its corresponding local reference screenshot and the built-in image generation tool. The first Brainka artwork was generated in the preceding task."
+}
