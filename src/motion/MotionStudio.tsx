@@ -402,7 +402,7 @@ export default function MotionStudio({ onClose }: Props) {
             <div className="motion-intro-note">
               <span>NOT JUST A FIRST IMPRESSION.</span>
               <p>
-                Nine worlds to get lost in.
+                Eleven worlds to get lost in.
                 <br />
                 Sculpted objects. Type with a pulse.
                 <br />
