@@ -91,130 +91,106 @@
   },
   {
     "id": "auth-retrospective-os",
-    "name": "System 95 Auth",
-    "description": "Authentic 1995 vintage desktop OS with classic grey plastic bevels (#c0c0c0), Windows blue titlebars (#000080), 56k V.90 dial-up modem handshake simulation with hardware LEDs, and Start taskbar.",
+    "name": "System 95",
+    "description": "A moss-green personal computing tribute with a physical CRT, an explorable desktop, a local welcome note and a tiny mines game.",
     "category": "Authentication",
     "tags": [
-      "Retro 90s OS",
-      "Windows 95 Bevels",
-      "56k Modem Handshake",
-      "Pixel Aesthetics",
-      "Retro Dialog",
-      "Authentication & Security",
-      "Retro 1995 Desktop Workstation"
+      "Retro Computing",
+      "3D Objects",
+      "Interactive Study",
+      "Authentication & Security"
     ],
-    "accent": "#008080"
+    "accent": "#367870"
   },
   {
     "id": "portfolio-dieter-industrial",
-    "name": "Braun & Rams Atelier",
-    "description": "Pure Dieter Rams functionalist industrial monograph with matte chalk (#eae8e3) and signal orange (#ff5500) palette, interactive aluminum rotary dial knob with detent click, and 10 Principles of Good Design drawer.",
+    "name": "form / function",
+    "description": "An industrial object archive in chalk and signal orange, with a physical radio, a tunable frequency panel and three selectable design studies.",
     "category": "Portfolios",
     "tags": [
-      "Dieter Rams",
-      "Braun Functionalism",
-      "Rotary Dial Knob",
-      "Signal Orange",
-      "10 Principles",
-      "Portfolios & Personal",
-      "Dieter Rams Braun Functionalism"
+      "Industrial Exactness",
+      "3D Objects",
+      "Interactive Study",
+      "Portfolios & Personal"
     ],
-    "accent": "#ff5500"
+    "accent": "#e5652d"
   },
   {
     "id": "ecom-streetwear-drop",
     "name": "SHIBUYA 00",
-    "description": "High-contrast Tokyo streetwear drop engine with pitch black and solar acid yellow (#fff000) palette, live millisecond countdown ticker, scarcity size inventory selector, and slide-over checkout bag.",
+    "description": "A cobalt streetwear collection with a sculptural runner, size and color selection, a local shopping bag and material detail tabs.",
     "category": "Commerce",
     "tags": [
-      "Tokyo Streetwear",
-      "Acid Solar Yellow",
-      "Millisecond Ticker",
-      "Size Scarcity",
-      "High-Hype",
-      "E-Commerce & Marketplaces",
-      "Shibuya Cyber Streetwear Drop"
+      "Cobalt Streetwear",
+      "3D Objects",
+      "Interactive Study",
+      "E-Commerce & Marketplaces"
     ],
-    "accent": "#fff000"
+    "accent": "#2753eb"
   },
   {
     "id": "dash-aerospace-telemetry",
     "name": "AeroTrack",
-    "description": "Oceanic air traffic control radar deck with flight navy (#020611) and aviation emerald palette, live interactive rotating radar canvas with selectable flight vectors, altitude tape gauges, and METAR weather decoder.",
+    "description": "A forest-green observation console with a three-dimensional parabolic antenna, selectable simulated flights and a pausable radar sweep.",
     "category": "Dashboards",
     "tags": [
-      "Aviation Radar",
-      "Avionics Telemetry",
-      "Altitude Tape",
-      "ADS-B Transponder",
-      "ATC Cockpit",
-      "Dashboards & Applications",
-      "Avionics Oceanic Radar Cockpit"
+      "Observation Console",
+      "3D Objects",
+      "Interactive Study",
+      "Dashboards & Applications"
     ],
-    "accent": "#22c55e"
+    "accent": "#a6bf82"
   },
   {
     "id": "luxury-haute-horlogerie",
-    "name": "Æthelgard Horlogerie",
-    "description": "Geneva master watchmaker atelier with Cinzel and Cinzel Decorative typography, oscillating tourbillon balance wheel with acoustic metronome synthesizer, synodic lunar complication dial, 4-tier layer dissection, and bespoke metallurgy configurator.",
+    "name": "Æthelgard",
+    "description": "A watch atelier in forest and antique gold, with a physical watch, selectable case metals, an exploded dial study and an adjustable lunar disc.",
     "category": "Commerce",
     "tags": [
-      "Cinzel Decorative",
-      "Tourbillon Escapement",
-      "Moonphase Complication",
-      "Web Audio Metronome",
-      "18K Rose Gold",
-      "Haute Horlogerie & Luxury",
-      "Haute Horlogerie & Celestial Obsidian"
+      "Quiet Watch Atelier",
+      "3D Objects",
+      "Interactive Study",
+      "Haute Horlogerie & Luxury"
     ],
-    "accent": "#d4af37"
+    "accent": "#d2b786"
   },
   {
     "id": "hosp-komorebi-pavilion",
-    "name": "Komorebi Sukiya",
-    "description": "Kyoto Higashiyama architectural hermitage featuring Syne and Fraunces typography, dynamic time-of-day sun dial casting real chiaroscuro shadows through shoji louvers, interactive water basin ripple pond, and 5-stage Chado tea liturgy.",
+    "name": "Komorebi",
+    "description": "An imagined timber pavilion retreat with a physical architectural model, adjustable daylight, five tea rituals and a touch-responsive water basin.",
     "category": "Hospitality",
     "tags": [
-      "Syne Sculptural",
-      "Fraunces Serif",
-      "Chiaroscuro Sun Dial",
-      "Zen Stone Basin",
-      "Wabi-Sabi Joinery",
-      "Hospitality & Spatial Architecture",
-      "Kyoto Sukiya & Chiaroscuro Naturalism"
+      "Pavilion Light Studies",
+      "3D Objects",
+      "Interactive Study",
+      "Hospitality & Spatial Architecture"
     ],
-    "accent": "#c29b6f"
+    "accent": "#a16e4d"
   },
   {
     "id": "dev-vektorform-synth",
-    "name": "Vektorform Modular",
-    "description": "Hardware analog waveform synthesizer with Unbounded and Bricolage Grotesque typography, REAL browser Web Audio API oscillator keyboard, live CRT phosphor oscilloscope canvas, 16-step modular drum grid, and Eurorack patch bay.",
+    "name": "Vektorform",
+    "description": "A modular sound laboratory with a physical synthesizer, eight playable notes, four oscillator waveforms and a sixteen-step sequencer.",
     "category": "Developer tools",
     "tags": [
-      "Unbounded Display",
-      "Bricolage Grotesque",
-      "Web Audio API Synth",
-      "CRT Oscilloscope",
-      "16-Step Sequencer",
-      "Developer & Creative Audio",
-      "Brutalist Modular Sound Architecture"
+      "Modular Sound Laboratory",
+      "3D Objects",
+      "Interactive Study",
+      "Developer & Creative Audio"
     ],
-    "accent": "#d8ff00"
+    "accent": "#d2e052"
   },
   {
     "id": "fashion-atelier-venus",
     "name": "Atelier Vénus",
-    "description": "Parisian haute couture atelier with Fraunces italic and Syne typography, 360° rotational silhouette drapery metrology with cut architecture wireframes, interactive fabric sheen shader, and private fitting salon booking.",
+    "description": "A rose-toned couture presentation with a physical pleated silhouette, three look studies, construction view and interactive fabric light.",
     "category": "Commerce",
     "tags": [
-      "Fraunces Italic",
-      "Syne Sculptural",
-      "360° Draping Wireframe",
-      "Textile Sheen Shader",
-      "Paris Haute Couture",
-      "Haute Couture & Avant-Garde Fashion",
-      "Surrealist Metamorphic Runway"
+      "Sculptural Couture",
+      "3D Objects",
+      "Interactive Study",
+      "Haute Couture & Avant-Garde Fashion"
     ],
-    "accent": "#c084fc"
+    "accent": "#a7466b"
   }
 ]
