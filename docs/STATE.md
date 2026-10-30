@@ -37,13 +37,13 @@ Preview, poster, and export share a normalized RGBA sampling path. MP4/WebM use 
 
 ## Verification and limits
 
-The latest source passes `npm test` (28 tests) and `npm run build` with strict TypeScript and unused-symbol checks. Browser evidence covers editing, undo/redo, uploads, save/reload, project duplication/deletion, invalid imports, simulated storage failure/recovery, scene dragging, all four ASCII previews, controls, downloads, and live/recorded website exports. Independent extracted sites were tested at exact CSS widths 360, 768, and 1440. See `docs/VERIFICATION.md` for precise evidence.
+The latest source passes `npm test` (32 tests) and `npm run build` with strict TypeScript and unused-symbol checks. Browser evidence covers editing, undo/redo, uploads, save/reload, project duplication/deletion, invalid imports, simulated storage failure/recovery, scene dragging, all four ASCII previews, controls, downloads, and live/recorded website exports. Independent extracted sites were tested at exact CSS widths 360, 768, and 1440. See `docs/VERIFICATION.md` for precise evidence.
 
 Direct `file://` navigation is blocked by the automation tool, so double-click opening is not browser-verified. Exports use ordinary relative assets and standalone scripts; independent HTTP hosting was verified. Storage failure was simulated by a transaction exception rather than filling the disk. The linked X post was inaccessible (403), so no exact visual match to that unseen video is claimed.
 
 ## Runtime and data boundaries
 
-The desktop preview was left at `http://127.0.0.1:5174`, serving `dist`. A future chat must check whether that process is still running; do not assume it is. Browser projects and uploaded user media are not files in Git. They stay in the browser's IndexedDB. Use the editable-project download to move or back up a user draft.
+The desktop preview is `http://127.0.0.1:5174`, using the local Vite development server. A future chat must check whether that process is still running; do not assume it is. Browser projects and uploaded user media are not files in Git. They stay in the browser's IndexedDB. Use the editable-project download to move or back up a user draft.
 
 All shipped fonts, decorative artwork, posters, and video loops are committed under `public/`. A fresh clone does not need the ignored `output/`, `.cache/`, or browser profiles to run. The upstream code is vendored and pinned; no runtime GitHub/CDN request is needed.
 
@@ -87,8 +87,32 @@ Templates now open under Patchwork's native library header and controls. `src/te
 
 Removed the templates numbered 1, 2, 3, 7, 9, 11, 12, 13, 17, 20 and 25 in the previous 25-template gallery, including their registry imports, source folders and covers. Fourteen templates remain in the same relative order and are numbered 1–14. The canonical library now has 246 resources; other collections are unchanged. Both native and imported template registries/builds use this same retained set.
 
-## Redesign work in progress — 30 October 2026
+## Earlier redesign checkpoint — 30 October 2026
 
 All 14 retained template sources now have newly authored layouts, copy and interactions. The first six use the scoped redesign helpers/stylesheet; the next eight use expressive helpers/stylesheet and additional procedural models. Shared Three.js rendering has capped pixel ratio/frame rate, visibility pausing, reduced-motion behavior, resource cleanup and a graphic fallback. Four local typefaces retain OFL notices. No template was added back after the selected deletions.
 
 The user explicitly paused the dedicated phone-layout pass and then requested an immediate GitHub push. Desktop visual review covered the first six and part of the remaining eight. Full interaction QA, the remaining desktop review, phone art-direction review and recapturing all gallery covers are unfinished. Existing cover JPEGs are prior snapshots and do not yet represent all new layouts. Do not present this checkpoint as fully design-verified.
+
+## Template polish completed — 30 October 2026
+
+Continued the checkpoint with desktop review of the remaining designs, a full-page phone review of all fourteen templates and layout measurements at 360, 768 and 1080 CSS pixels. Increased undersized annotation type, added phone touch-target/form rules and changed the phone sequencer to four columns. Fixed CRT/watch texture tinting and replaced the convex radar cap with a concave parabolic reflector and feed supports. Expressive tapes now pause offscreen and when hidden. Updated all eight expressive template descriptions/features to match their actual implementations. All fourteen gallery covers now come from the redesigned pages.
+
+Representative interactive flows were exercised across all fourteen templates, plus native gallery search, live-preview teardown, device sizing, dialogs and replay. Reduced-motion simulation covered all fourteen scenes; representative WebGL-unavailable fallbacks were checked. This is browser QA in Chromium, not physical-device or hardware-performance certification. Detailed evidence and limits are in VERIFICATION.md.
+
+## Reference studies — initial work in progress
+
+The Pinterest folder contains 12 reference screenshots. A separate Reference Studies section and the first Brainka-inspired live page have been started at `?collection=pinterest`. Its monochrome face was generated with the built-in image tool and saved at `public/pinterest-studies/brainka-face.png`; the screenshot is retained beside it for reference. The generated face and coded icons are approximations, and the additional content is imagined. Eleven references still need implementation and the first needs further fidelity review.
+
+## Reference studies expansion — 30 October 2026
+
+All twelve screenshot references now have a local gallery entry and independent live HTML study under `public/pinterest-studies/`. Eleven additional image backgrounds were generated with the built-in image tool; the prompt summaries are in `artwork-prompts.json`. These are approximate recreations, not pixel-identical reproductions, and content outside the screenshots was invented. Some product/commerce controls are local demonstrations. Review exact fidelity, responsive layouts and controls before treating the studies as final.
+
+## ASCII / pixel Motion Studies — work in progress
+
+Null Signal and Bitquest have initial procedural canvas scenes and a GSAP pinned scroll journey. Sources are glyph-studies.ts/css and glyph-runtime.ts. These are early implementations, not the completed high-effort art direction requested by the user. Gallery covers are temporary SVG title cards. Further choreography, substantive authored content, real covers, mobile/reduced-motion review and independent export verification remain required.
+
+## GitHub checkpoint / phone pass paused — 30 October 2026
+
+The user explicitly paused phone-layout work and requested all current changes be pushed in 50+ commits. Preserve that pause. Null Signal and Bitquest have now been substantially rebuilt with three independent pinned sequences apiece: sampled 3D ASCII instrument, vaulted arcade and message assembly; original pixel town, railway and island atlas. Sources are glyph-studies.ts/css, glyph-runtime.ts, glyph-ascii.ts and glyph-pixel.ts. Real covers replace title cards. Initial standalone downloads, desktop scrolling, phone bounds and reduced-motion simulation were exercised, but final phone polish and complete final art/interaction/export re-review remain pending. Earlier work-in-progress notes describe preceding versions.
+
+This checkpoint also includes the twelve Pinterest reference studies and the fourteen-template presentation polish from the preceding turns. Pinterest studies remain approximate and need fidelity refinement. Do not call this entire checkpoint fully design-verified.
