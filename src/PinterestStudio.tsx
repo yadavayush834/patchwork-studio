@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./pinterest-studio.css";
 const studies = [
+  { id: "citylines", name: "Citylines", number: "13" },
   { id: "brainka", name: "Meet Brainka", number: "01" },
   { id: "nexiron", name: "Nexiron", number: "02" },
   { id: "mercy", name: "Where Mercy Is a Choice", number: "03" },

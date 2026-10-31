@@ -116,3 +116,7 @@ Null Signal and Bitquest have initial procedural canvas scenes and a GSAP pinned
 The user explicitly paused phone-layout work and requested all current changes be pushed in 50+ commits. Preserve that pause. Null Signal and Bitquest have now been substantially rebuilt with three independent pinned sequences apiece: sampled 3D ASCII instrument, vaulted arcade and message assembly; original pixel town, railway and island atlas. Sources are glyph-studies.ts/css, glyph-runtime.ts, glyph-ascii.ts and glyph-pixel.ts. Real covers replace title cards. Initial standalone downloads, desktop scrolling, phone bounds and reduced-motion simulation were exercised, but final phone polish and complete final art/interaction/export re-review remain pending. Earlier work-in-progress notes describe preceding versions.
 
 This checkpoint also includes the twelve Pinterest reference studies and the fourteen-template presentation polish from the preceding turns. Pinterest studies remain approximate and need fidelity refinement. Do not call this entire checkpoint fully design-verified.
+
+31 October 2026: Added Citylines to Reference Studies, based on the supplied short video. It uses generated city artwork and a separately animated train; it is an approximation of the video, not the original source artwork.
+
+Citylines motion update: train eases through a stop, with an animated route signal, birds, and decorative sparks. Motion pauses when the scene is offscreen or the document is hidden and respects reduced motion.

@@ -143,3 +143,5 @@ Physical-device testing and exhaustive combinations of every control remain outs
 ## User-requested push checkpoint — 30 October 2026
 
 Phone-layout work is explicitly paused at the user's request. Rebuilt glyph/pixel scenes, generated reference-study assets, twelve reference pages, fourteen-template polish and current generated bundles are included in this checkpoint. Resume phone refinement only when the user asks. Remaining visual fidelity and complete final interaction/export review are documented, not treated as completed by this push.
+
+- Citylines video reference: initial hero and train animation added to Reference Studies. Further visual comparison against the original can refine fidelity.

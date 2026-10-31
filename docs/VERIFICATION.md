@@ -174,3 +174,7 @@ Replaced the first glyph drafts with three scenes each and authored reading sect
 At 390 CSS pixels, both exported sites had three pins and no horizontal document overflow. A QA-only reduced-motion media-query/CSS simulation showed zero pins and stable frame counters for all three scenes in both sites, with headings retained in reading order. This is not OS-preference or physical-device certification. The user explicitly paused further phone work. Real initial-site screenshots were captured for gallery covers. No user projects or storage were cleared. All current work is pushed as an honest checkpoint, with remaining phone/fidelity/full final review recorded in TASKS.md.
 
 Final push gates: Node 22 ran 32/32 passing tests and the complete production build, including both isolated library builds and the regenerated motion engine. git diff --check passed. The commit plan covers every current tracked change and non-ignored new file; QA scratch files and downloads remain outside Git.
+
+- Citylines: reviewed the supplied clip as extracted frames and loaded the new standalone hero in the browser. Generated illustration and CSS train are approximations; no original source assets were supplied.
+
+- Citylines motion update: opened the standalone page in the browser and checked that Send a train restarts the train and updates its status. Reduced-motion and offscreen behavior are implemented but were not separately browser-emulated.
