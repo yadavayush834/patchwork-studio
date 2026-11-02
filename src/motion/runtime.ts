@@ -1,3 +1,4 @@
+import { animateLightkeeper } from "./lightkeeper-runtime";
 import { animateGlyphStudy } from "./glyph-runtime";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -840,6 +841,7 @@ if (root && isMotionId(id)) {
             : new MotionScene(sceneHost, id, reduced)
           : undefined;
         const render = (time: number) => scene?.render(time);
+        const lightkeeperCleanup = id === "lightkeeper" ? animateLightkeeper(reduced) : undefined;
         const glyphCleanup = id === "nullsignal" || id === "bitquest" ? animateGlyphStudy(reduced) : undefined;
 
         if (!reduced) {
@@ -850,7 +852,7 @@ if (root && isMotionId(id)) {
           else if (id === "monolith" && scene) monolith(scene, mobile);
           else if (id === "reverie" || id === "traverse")
             animateImageStudy(id, mobile);
-          else if (id !== "nullsignal" && id !== "bitquest") animateStudy(id, scene, mobile);
+          else if (id !== "lightkeeper" && id !== "nullsignal" && id !== "bitquest") animateStudy(id, scene, mobile);
           gsap.utils.toArray<HTMLElement>(".mt-reveal").forEach((el) =>
             gsap.from(el, {
               y: 70,
@@ -891,6 +893,7 @@ if (root && isMotionId(id)) {
           if (disposed) return;
           disposed = true;
           glyphCleanup?.();
+          lightkeeperCleanup?.();
           gsap.ticker.remove(render);
           scene?.dispose();
           progress.kill();

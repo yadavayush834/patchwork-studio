@@ -114,7 +114,6 @@ export function generateSemanticTokensFromPrimary(
   secondaryOverride?: string,
   accentOverride?: string
 ): SemanticTokens {
-  const primaryHsl = hexToHsl(primaryHex);
   const secondary = secondaryOverride || shiftHue(primaryHex, 35);
   const accent = accentOverride || shiftHue(primaryHex, 180);
   const tonalScale = generateTonalScale(primaryHex);

@@ -206,3 +206,19 @@ Hearthstone: browser-reviewed the initial poster and an intermediate vertical sc
 2026-11-02 Mosslight integration: opened the standalone demo locally, switched to Ember, sent a signal and opened its install instructions. Added an archive integrity test comparing the download's demo, component, preview and fonts to the live project.
 
 2026-11-02 release checks: Node 22 npm test passed (34/34) and the full production build passed.
+
+2026-11-02 Color Palettes: locally selected light and dark palettes, navigated the sample Journal and About pages, searched for eucalyptus, selected a result, and copied its background color. A palette-data test verifies unique IDs and the semantic colors required by the preview.
+
+2026-11-02 Color Palettes release checks: Node 22 npm test passed (35/35), and the complete production build passed.
+
+2026-11-02 palette expansion: browser-tested all six sample designs, selected the new Quiet Aurora dark palette and verified it persisted in the dashboard preview. Fixed a dashboard class collision found during review. Palette tests verify all 155 IDs and required color tokens.
+
+2026-11-02 palette expansion checks: Node 22 npm test passed (35/35) and the full production build passed. The new-palettes filter returned 50 entries in the browser.
+
+2026-11-02 experiment workspaces: browser-reviewed the motion and SVG stages and a studio website context; changed ASCII sphere resolution from 48 to 60 and confirmed the rendered character width changed, and changed SVG face stroke to 5 and confirmed the SVG path received it. Verified the SVG setting persisted when switching preview context. Unit coverage verifies the 80 entries have local sources and usable control defaults. Not every individual experiment or control was browser-tested.
+
+2026-11-02 experiment workspaces: Node 22 npm test passed (36/36) and full production build passed.
+
+2026-11-02 Lightkeeper: browser-reviewed the opening, threshold, descent and return scenes; corrected core visibility and text framing. Downloaded the template ZIP through the real UI, checked its HTML/engine/fonts/licenses/recipe, and opened the extracted website on an independent local server. Verified WebGL initialization, no browser console errors, and scroll progress advancing to 0.288. Node 22 tests passed (36/36) and the full production build passed. Reduced-motion and WebGL-failure fallbacks are implemented but were not separately browser-emulated.
+
+2026-11-02 Lightkeeper revision: reviewed the final scene and moved the village into the foreground after it was obscured. Browser observed act 7 with all twelve houses lit at progress 0.941, then act 4 with zero houses lit at 0.471 after reverse scrolling. No browser console errors were recorded. Downloaded the revised ZIP and verified the ending markup plus a byte-for-byte match of its engine to the current local runtime. Node 22 tests passed (37/37), full production build and final TypeScript/root build passed. Reduced-motion mode was not browser-emulated.

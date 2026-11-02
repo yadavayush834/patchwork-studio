@@ -12,6 +12,9 @@ import {
 import catalog from "./library-catalog.json";
 import "./library.css";
 type Entry = (typeof catalog.entries)[number];
+const visibleCollections = catalog.collections.filter((collection) => collection.id !== "interfaces");
+const visibleEntries = catalog.entries.filter((entry) => entry.kind !== "interfaces");
+const ExperimentStage = lazy(() => import("./experiment-stage/ExperimentStage"));
 const Demos = {
   templates: lazy(() => import("./library-demos/templates")),
   styles: lazy(() => import("./library-demos/styles")),
@@ -110,7 +113,7 @@ export default function App() {
           document.querySelector<HTMLIFrameElement>(".lib-demo")
             ?.contentWindow &&
         e.data?.type === "design-library-back" &&
-        catalog.collections.some((c) => c.id === e.data.kind)
+        visibleCollections.some((c) => c.id === e.data.kind)
       )
         location.hash = e.data.kind;
     };
@@ -121,13 +124,13 @@ export default function App() {
   const [group = "all", itemId] = (isRender ? route.slice(7) : route).split(
     "/",
   );
-  const entry = catalog.entries.find(
+  const entry = visibleEntries.find(
     (e) => e.kind === group && e.originalId === itemId,
   );
-  const selected = catalog.collections.find((c) => c.id === group);
+  const selected = visibleCollections.find((c) => c.id === group);
   const items = useMemo(
     () =>
-      catalog.entries.filter(
+      visibleEntries.filter(
         (e) =>
           (group === "all" || !selected || e.kind === group) &&
           (category === "all" || e.category === category) &&
@@ -140,7 +143,7 @@ export default function App() {
   );
   const categories = [
     ...new Set(
-      catalog.entries
+      visibleEntries
         .filter((e) => !selected || e.kind === group)
         .map((e) => e.category),
     ),
@@ -148,6 +151,10 @@ export default function App() {
     .filter(Boolean)
     .sort();
   function navigate(value: string) {
+    if (["colors", "motion", "svg"].includes(value) && window.parent !== window) {
+      window.parent.postMessage({ type: "patchwork-open-collection", section: value }, location.origin);
+      return;
+    }
     location.hash = value;
     setSize("100%");
     window.scrollTo(0, 0);
@@ -192,6 +199,10 @@ export default function App() {
         />
       </Suspense>
     );
+  }
+  if (route.startsWith("stage/")) {
+    const [, kind, id] = route.split("/");
+    if ((kind === "motion" || kind === "svg") && id) return <Boundary><Suspense fallback={<div className="lib-empty">Loading experiment…</div>}><ExperimentStage kind={kind} id={id} /></Suspense></Boundary>;
   }
   if (isRender && entry)
     return <Boundary key={entry.id}>{demo(entry)}</Boundary>;
@@ -267,9 +278,9 @@ export default function App() {
               className={!selected ? "active" : ""}
               onClick={() => navigate("all")}
             >
-              All resources <span>{catalog.entries.length}</span>
+              All resources <span>{visibleEntries.length}</span>
             </button>
-            {catalog.collections.map((c) => (
+            {visibleCollections.map((c) => (
               <button
                 key={c.id}
                 className={group === c.id ? "active" : ""}
@@ -319,7 +330,7 @@ export default function App() {
                 <small>
                   THE DESIGN INDEX
                   <br />
-                  VOL. 01 — {catalog.entries.length} RESOURCES
+                  VOL. 01 — {visibleEntries.length} RESOURCES
                 </small>
               </div>
             </div>
@@ -412,7 +423,7 @@ export default function App() {
                     </div>
                     <div className="lib-card-copy">
                       <small>
-                        {catalog.collections.find((c) => c.id === e.kind)?.name}
+                        {visibleCollections.find((c) => c.id === e.kind)?.name}
                       </small>
                       <h2>
                         {e.name}
@@ -449,7 +460,7 @@ export default function App() {
               </div>
             )}
             <footer className="lib-footer">
-              <span>Seven collections. One consistent index.</span>
+              <span>Six collections. One consistent index.</span>
               <span>Source snapshot · {catalog.source.commit.slice(0, 7)}</span>
             </footer>
           </main>

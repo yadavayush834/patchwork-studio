@@ -1,3 +1,4 @@
+import lightkeeperCSS from "./lightkeeper.css?raw";
 import glyphCSS from "./glyph-studies.css?raw";
 import imageStudiesCSS from "./image-studies.css?raw";
 import studiesCSS from "./studies.css?raw";
@@ -47,7 +48,7 @@ export function motionCSS(base = "") {
     "\n" +
     studiesCSS +
     "\n" +
-    imageStudiesCSS + "\n" + glyphCSS
+    imageStudiesCSS + "\n" + glyphCSS + "\n" + lightkeeperCSS
   );
 }
 export function motionDocument(

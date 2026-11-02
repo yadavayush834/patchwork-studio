@@ -154,3 +154,13 @@ Style Studies gallery now matches the Patchwork template collection, with the re
 Style Studies hover previews automatically tour the website while the pointer is over its card. They support document scrolling and scrollable vertical/horizontal panels, stop when the preview unmounts, pause while hidden, and remain still for reduced motion.
 
 2026-11-02: Mosslight is included in Reference Studies as a standalone interactive demo with a downloadable source package, including its reusable web component, preview, fonts and font licenses. The original project remains at /home/ayush/mosslight.
+
+2026-11-02: Design Library now has a native color workspace with 105 searchable palettes, a live three-page sample website, and copyable color values. Interface Studies is hidden from the library's collection navigation and resource list; its upstream source remains preserved.
+
+2026-11-02: Color Palettes now offers 155 combinations and six live sample designs: studio, product, shop, journal, portfolio and dashboard. Palette selection is shared across the designs.
+
+2026-11-02: Motion and SVG Experiments each have a Patchwork workspace with a searchable list, an interactive single-experiment stage, controls, and five sample website contexts. Existing collections contain 40 experiments each. Unsupported imported controls are omitted when their declared props can be checked.
+
+2026-11-02: Added The Last Lightkeeper as the twelfth Motion Study. The pixel fable uses an original Three.js voxel observatory, a vertically scrubbed GSAP story, unfolding floors and roof, a descending keeper, lens alignment and a valley-lighting finale. It supports the existing template customization and self-contained ZIP export.
+
+2026-11-02 Lightkeeper revision: replaced the five-beat machine-lighting ending with seven acts: a received call, lift access, lantern placement, lens alignment, reassembly/transmission, sequential village illumination, and a returning reply at dawn. Added a geared lift, socket, catwalk, telescope, ladder, bridge, twelve-house village, chimney smoke and a moth companion. The flight log is now optional. Narrative progress is deterministic and supports reversing the scroll.

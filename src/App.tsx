@@ -955,7 +955,7 @@ export default function App() {
                       <strong>
                         A library of possibility.
                         <small>
-                          Templates, color palettes, UI, and experiments. Seven
+                          Templates, color palettes, UI, and experiments. Six
                           collections in their own space.
                         </small>
                       </strong>
@@ -968,7 +968,7 @@ export default function App() {
                       <strong>
                         Made to move you.
                         <small>
-                          Eleven immersive GSAP templates. A separate collection
+                          Twelve immersive GSAP templates. A separate collection
                           of scroll-led worlds.
                         </small>
                       </strong>

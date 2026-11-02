@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import "./design-library.css";
 import TemplateStudio from "./template-library/TemplateStudio";
+import ColorStudio from "./color-library/ColorStudio";
+import ExperimentStudio from "./experiment-library/ExperimentStudio";
 export default function DesignLibrary({ onClose }: { onClose: () => void }) {
   const root = useRef<HTMLDivElement>(null);
   const [section, setSection] = useState(() => {
     const requested = new URLSearchParams(location.search).get("library");
-    return requested === "styles" ? requested : "templates";
+    return requested === "styles" || requested === "colors" || requested === "motion" || requested === "svg" ? requested : "templates";
   });
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.origin === location.origin && event.source === root.current?.querySelector("iframe")?.contentWindow && event.data?.type === "patchwork-open-collection" && ["colors", "motion", "svg"].includes(event.data.section)) {
+        setSection(event.data.section);
+      }
+    };
+    addEventListener("message", onMessage);
+    return () => removeEventListener("message", onMessage);
+  }, []);
   useEffect(() => {
     const escape = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -59,7 +70,6 @@ export default function DesignLibrary({ onClose }: { onClose: () => void }) {
         {[
           ["templates", "Templates"],
           ["styles", "Style studies"],
-          ["interfaces", "Interface studies"],
           ["colors", "Color palettes"],
           ["motion", "Motion experiments"],
           ["svg", "SVG experiments"],
@@ -76,6 +86,10 @@ export default function DesignLibrary({ onClose }: { onClose: () => void }) {
       </nav>
       {section === "templates" ? (
         <TemplateStudio />
+      ) : section === "colors" ? (
+        <ColorStudio />
+      ) : section === "motion" || section === "svg" ? (
+        <ExperimentStudio key={section} kind={section} />
       ) : (
         <iframe
           key={section}

@@ -169,3 +169,13 @@ Completed: restyle Style Studies to match Patchwork, remove its duplicate sideba
 Completed: make Style Study hover previews tour the website instead of remaining on the hero (2026-11-02).
 
 2026-11-02: Integrated the existing Mosslight project in the Reference Studies gallery and packaged its editable source for download.
+
+2026-11-02: Rebuilt Color Palettes as a live palette selection workspace and removed Interface Studies from library navigation.
+
+2026-11-02: Added 50 color combinations and five more sample website designs to the palette workspace.
+
+2026-11-02: Rebuilt Motion and SVG experiment browsing with live stages, settings and website preview contexts.
+
+2026-11-02: Created one new pixel/3D scroll narrative, The Last Lightkeeper, and added it to Motion Studies with a captured cover and editable export.
+
+2026-11-02: Expanded and restaged The Last Lightkeeper story and ending following visual feedback.

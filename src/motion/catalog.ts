@@ -1,4 +1,5 @@
 export const motionTemplates = [
+  {id: "lightkeeper", name: "The Last Lightkeeper", number: "12", headline: "Carry the last light.", color: "#f3ad76", background: "#0b1720", cover: "/motion/lightkeeper-cover.jpg", category: "PIXEL FABLE / VOXEL WORLD", description: "A small keeper wakes an abandoned observatory. Ride the keeper’s cable lift, restore the lenses, send a pulse to a sleeping village and follow its reply home at dawn.", tags: ["Voxel architecture", "Vertical story journey", "GSAP + 3D"], chapters: ["A window in the dark", "The mountain remembers", "Take the light below", "One small light is enough", "Give the dark an answer", "One window. Then another", "You were never the last"]},
   {
     id: "aether",
     cover: "/motion/aether-cover.png",
