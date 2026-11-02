@@ -159,3 +159,13 @@ Phone-layout work is explicitly paused at the user's request. Rebuilt glyph/pixe
 - Hearthstone Roasters: first poster and vertical scroll scene implemented; future expansion patterns and need for verified product details are in docs/reference-studies/hearthstone-design.md.
 
 Completed: publish the reviewed Driftbar cloud/scroll study within the full Patchwork production app to the existing Vercel domain (2026-11-01).
+
+Completed: add live hover/focus previews and collection-wide viewing improvements for Style Studies (2026-11-02).
+
+Completed: open Style Studies as standalone full-page websites while retaining gallery previews (2026-11-02).
+
+Completed: restyle Style Studies to match Patchwork, remove its duplicate sidebar, and use real study hero covers with label-free live previews (2026-11-02).
+
+Completed: make Style Study hover previews tour the website instead of remaining on the hero (2026-11-02).
+
+2026-11-02: Integrated the existing Mosslight project in the Reference Studies gallery and packaged its editable source for download.

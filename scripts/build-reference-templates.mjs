@@ -61,3 +61,10 @@ for(const name of ['TechText.jsx','TechText.css','entry.jsx']) driftbar.file('so
 driftbar.file('DESIGN-GUIDE.md',readFileSync(new URL('../docs/reference-studies/driftbar-design.md',import.meta.url)));
 driftbar.file('README.txt','Driftbar hero — interactive design study\nExtract all files and open index.html in a modern browser. The headline uses the user-supplied React Bits TechText component and the bundled script runs without a build step. Source is included for reference; rebuilding source requires React and esbuild. Meadow media were provided as URLs in the reference prompt; verify rights before reuse. See DESIGN-GUIDE.md and included licenses.\n');
 writeFileSync(new URL('driftbar-template.zip',base),await driftbar.generateAsync({type:'nodebuffer',compression:'DEFLATE'}));
+
+// Package the original, standalone Mosslight demo and its reusable web component.
+const mosslight = new JSZip();
+for (const name of ['index.html','style.css','mosslight.js','demo.js','README.md','preview/plain.html','fonts/dm-sans.woff2','fonts/instrument-serif.woff2','fonts/instrument-serif-italic.woff2','fonts/DMSans-OFL.txt','fonts/InstrumentSerif-OFL.txt']) {
+  mosslight.file(name, readFileSync(new URL('mosslight/' + name, base)));
+}
+writeFileSync(new URL('mosslight-template.zip', base), await mosslight.generateAsync({type:'nodebuffer',compression:'DEFLATE'}));

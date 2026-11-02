@@ -76,3 +76,15 @@ test("native gallery retains the 14 retained sites and actual local covers", () 
     assert.equal(cover[1], 216);
   }
 });
+
+test("every style study has its own local hero cover", () => {
+  const studies = catalog.entries.filter((entry) => entry.kind === "styles");
+  const covers = studies.map((entry) => {
+    const cover = readFileSync(`vendor/design-library/public/style-study-covers/${entry.originalId}.jpg`);
+    assert.equal(cover[0], 0xff, entry.originalId);
+    assert.equal(cover[1], 0xd8, entry.originalId);
+    assert.ok(cover.length > 1000, entry.originalId);
+    return cover.toString("base64");
+  });
+  assert.equal(new Set(covers).size, studies.length);
+});

@@ -248,6 +248,7 @@
 }
 .lib-card-open {
   display: block;
+  text-decoration: none;
   width: 100%;
   padding: 0;
   border: 0;
@@ -543,3 +544,51 @@
   content-visibility: auto;
   contain-intrinsic-size: auto 340px;
 }
+/* Real, isolated live previews for style studies. Only the active tile mounts a website. */
+.kind-styles{height:auto;aspect-ratio:16/10;background:#eae5ee}
+.lib-style-preview{position:absolute;inset:0;container-type:inline-size;overflow:hidden;background:#e6dfea}
+.lib-style-fallback{position:absolute;inset:0;padding:20px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(145deg,color-mix(in srgb,var(--ink) 14%,#f8f4ed),#f5f0ed);color:#3d3346}
+.lib-style-category{font:9px monospace;letter-spacing:.13em;text-transform:uppercase;color:#7d6d83}
+.lib-style-fallback strong{font:400 clamp(24px,11cqw,42px)/1 Georgia,serif;letter-spacing:-.04em;max-width:90%;text-wrap:balance}
+.lib-style-colors{display:flex;gap:5px;padding-bottom:17px}.lib-style-colors i,.lib-study-swatches span{width:19px;height:19px;border-radius:50%;border:1px solid #0002}
+.lib-style-frame{position:absolute;top:0;left:0;width:1280px;height:800px;max-width:none;border:0;transform-origin:top left;pointer-events:none;background:#fff}
+.lib-style-preview-label{position:absolute;bottom:11px;left:12px;z-index:1;padding:7px 9px;color:#fff;background:#252033c9;border-radius:4px;letter-spacing:.08em;font:9px monospace;pointer-events:none}
+.lib-style-preview-label span{padding-left:6px}
+.lib-study-intro{padding:34px clamp(24px,5vw,80px);background:#f8f5f1;border-bottom:1px solid #e5dfe4;color:#40374a;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px 30px;align-items:start}
+.lib-study-intro>span,.lib-study-intro>small{font:10px monospace;letter-spacing:.08em;color:#877789;grid-column:1/-1}
+.lib-study-intro h1{font:400 clamp(26px,3vw,42px)/1.12 Georgia,serif;letter-spacing:-.035em;margin:4px 0}
+.lib-study-intro p{grid-column:1;max-width:900px;font-size:13px;line-height:1.65;color:#786d7b;margin:0}.lib-study-swatches{grid-column:2;grid-row:2/4;display:flex;gap:7px}.lib-study-swatches span{display:block;width:24px;height:24px}.lib-study-intro>small{margin-top:8px}
+@media(prefers-reduced-motion:reduce){.lib-card{transition:none}.lib-style-preview-label{content:''}}
+/* Style Studies uses the same quiet canvas and card rhythm as Patchwork's templates. */
+@font-face{font-family:PatchworkOutfit;src:url('./redesign/fonts/Outfit.ttf') format('truetype');font-style:normal;font-weight:100 900;font-display:swap}
+.is-styles.library-app{background:#faf8fb;color:#4d3d59;font-family:PatchworkOutfit,system-ui,sans-serif}
+.is-styles .lib-header,.is-styles .lib-sidebar,.is-styles .lib-index-art{display:none}
+.is-styles .lib-layout{display:block}
+.is-styles .lib-main{max-width:none;width:100%;margin:0;padding:48px 5vw 60px}
+.is-styles .lib-intro{display:block;padding:10px 0 35px}
+.is-styles .lib-intro h1{font:500 clamp(36px,4vw,62px)/1.08 PatchworkOutfit,sans-serif;letter-spacing:-.04em;margin:20px 0}
+.is-styles .lib-intro h1 em{font-family:Georgia,serif;font-weight:400;color:#a07db7}
+.is-styles .lib-intro p:not(.lib-eyebrow){max-width:510px;font:14px/1.7 PatchworkOutfit,sans-serif;color:#887495}
+.is-styles .lib-eyebrow{font:10px monospace!important;letter-spacing:.12em;color:#a28eae!important;margin:0}
+.is-styles .lib-tools{align-items:center;gap:15px;border-top:1px solid #e4dce9;padding:25px 0 0}
+.is-styles .lib-search{flex:0 1 360px;background:#fff;border:1px solid #e1d7e8;border-radius:8px;padding:11px 15px}
+.is-styles .lib-search input,.is-styles .lib-tools select,.is-styles .lib-tools>button{font-family:PatchworkOutfit,sans-serif}
+.is-styles .lib-tools select,.is-styles .lib-tools>button{background:#fff;border-color:#e1d7e8;border-radius:8px;padding:12px 15px}
+.is-styles .lib-results{margin:20px 0 16px;color:#9a88a6;font:11px monospace}
+.is-styles .lib-results span+span,.is-styles .lib-footer{display:none}
+.is-styles .lib-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
+.is-styles .lib-card{background:#fff;border:1px solid #e5ddea;border-radius:13px}
+.is-styles .lib-card:hover{box-shadow:0 10px 30px #6d3b8710}
+.is-styles .lib-card-art{height:auto;aspect-ratio:16/10;background:#ebe6ed}
+.is-styles .lib-card-copy{padding:20px 20px 14px}
+.is-styles .lib-card-copy small{color:#a387b3;letter-spacing:.1em}
+.is-styles .lib-card h2{font:500 18px/1.3 PatchworkOutfit,sans-serif;color:#4d3d59;letter-spacing:-.02em;margin:12px 0}
+.is-styles .lib-card-copy p{color:#887691;font:12px/1.7 PatchworkOutfit,sans-serif}
+.is-styles .lib-card-footer{padding:12px 20px;color:#8f7a9d;font:10px PatchworkOutfit,sans-serif}
+.is-styles .lib-card-footer button{font-size:21px;color:#9572aa}
+.lib-style-cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;background:#e7e2eb}
+.lib-style-frame{background:transparent;transition:opacity .22s ease}
+@media(max-width:1100px){.is-styles .lib-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.is-styles .lib-main{padding:32px 20px 50px}.is-styles .lib-grid{grid-template-columns:1fr;gap:18px}.is-styles .lib-tools{flex-wrap:wrap}.is-styles .lib-search{flex:1 1 100%}}
+
+@media(min-width:601px){.is-styles .lib-main{padding-top:28px}.is-styles .lib-intro{padding:4px 0 22px}.is-styles .lib-intro h1{margin:12px 0;font-size:clamp(32px,3.5vw,52px)}.is-styles .lib-intro p:not(.lib-eyebrow){margin:0}.is-styles .lib-tools{padding-top:18px}.is-styles .lib-results{margin:16px 0 14px}}

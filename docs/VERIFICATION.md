@@ -194,3 +194,15 @@ Education dashboard full-screen update: on isolated localhost origin, opened a c
 Hearthstone: browser-reviewed the initial poster and an intermediate vertical scroll position. Checked document width against viewport to detect horizontal overflow. Tests and production build passed; reduced-motion behavior is implemented but not browser-emulated. Generated images and typography approximate the supplied poster.
 
 2026-11-01 production release: Node 22 npm test (32/32) and full npm run build passed. Vercel production deployment dpl_De9kMPZHre3VbWeEtNdjU86PzznR reached READY and was aliased to patchwork-studio-six.vercel.app. Public Driftbar HTML returned HTTP 200; production browser confirmed loaded cloud images, video readyState 4, and no console errors. Source was deployed directly from the current workspace; this release did not create a Git commit.
+
+2026-11-02 Style Studies: opened all 28 distinct render routes in the in-app browser and verified each mounted its matching study. In the Patchwork library, checked a live hover preview, opened a study in its full embedded viewer, returned to the gallery, and toggled Swiss grid and project controls. Note: this verifies mounting across the collection and representative interactions, not every control in every study. Node 22 unit tests passed (32/32); full production build checked separately.
+
+2026-11-02 standalone Style Studies: clicked a gallery card and confirmed it opened a new top-level study page; confirmed its Style Gallery control returns to the Style Studies collection and the original gallery remains open. Rebuilt assets and restarted the Vite server to refresh its static-file index; verified a second styled full-page study rendered without browser errors. Node 22 npm test passed (32/32) and npm run build passed.
+
+2026-11-02 Style Studies gallery redesign: captured all 28 actual study heroes at desktop size and added a cover-coverage test. Visually checked the redesigned Patchwork gallery, loaded real cover images, verified live preview reaches visible state, and tested search filtering and clearing. Node 22 npm test passed (33/33), and npm run build passed.
+
+2026-11-02 Style Studies hover fix: in the running gallery, observed a document-scrolling preview move from 73px to 293px and a nested scrollytelling panel move from 104px to 353px. Verified the actual iframe reached full opacity. Node 22 npm test passed (33/33) and npm run build passed. Full per-study interactions and reduced-motion emulation were not separately tested.
+
+2026-11-02 Mosslight integration: opened the standalone demo locally, switched to Ember, sent a signal and opened its install instructions. Added an archive integrity test comparing the download's demo, component, preview and fonts to the live project.
+
+2026-11-02 release checks: Node 22 npm test passed (34/34) and the full production build passed.

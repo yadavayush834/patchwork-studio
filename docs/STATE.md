@@ -144,3 +144,13 @@ Education dashboard expanded into a full-screen standalone learning workspace wi
 Added Hearthstone Roasters Reference Study: generated bottle and alpine imagery, poster-style opening, vertical GSAP ScrollTrigger scene and editable ZIP including an expansion guide. The bottle is a 2D cutout and generated label rather than a 3D model; copy is illustrative.
 
 Driftbar is included in Reference Studies with its standalone template download. The current meadow/cloud and vertical GSAP scroll study was deployed to the existing Patchwork Vercel production project on 2026-11-01 at https://patchwork-studio-six.vercel.app (deployment dpl_De9kMPZHre3VbWeEtNdjU86PzznR).
+
+Style Studies gallery: all 28 studies now have on-demand miniature live previews on hover or keyboard focus, with a palette-based fallback and just one mounted at a time. Full views display each study's palette and typography. Shared study rendering now provides locally bundled fonts, theme-colored focus and selection states, balanced headings, and reduced CSS motion. Existing designs and independent interactions remain intact.
+
+Style Study cards now open the selected interactive website as a standalone full-page tab. The gallery stays open in its original tab, hover previews remain available, and each website's Style Gallery control returns to the Style Studies collection.
+
+Style Studies gallery now matches the Patchwork template collection, with the redundant inner navigation removed. Each card displays an actual captured hero from its study; hover/focus loads the live website without an on-card preview label. All 28 locally captured covers are included in the library source archive.
+
+Style Studies hover previews automatically tour the website while the pointer is over its card. They support document scrolling and scrollable vertical/horizontal panels, stop when the preview unmounts, pause while hidden, and remain still for reduced motion.
+
+2026-11-02: Mosslight is included in Reference Studies as a standalone interactive demo with a downloadable source package, including its reusable web component, preview, fonts and font licenses. The original project remains at /home/ayush/mosslight.

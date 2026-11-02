@@ -3,7 +3,10 @@ import "./design-library.css";
 import TemplateStudio from "./template-library/TemplateStudio";
 export default function DesignLibrary({ onClose }: { onClose: () => void }) {
   const root = useRef<HTMLDivElement>(null);
-  const [section, setSection] = useState("templates");
+  const [section, setSection] = useState(() => {
+    const requested = new URLSearchParams(location.search).get("library");
+    return requested === "styles" ? requested : "templates";
+  });
   useEffect(() => {
     const escape = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();

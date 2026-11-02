@@ -4,6 +4,7 @@ import {
   Component,
   useEffect,
   useMemo,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -54,6 +55,32 @@ function readFavorites(): string[] {
     return [];
   }
 }
+function StyleCardPreview({ entry, active }: { entry: Entry; active: boolean }) {
+  const frame = useRef<HTMLDivElement>(null);
+  const previewFrame = useRef<HTMLIFrameElement>(null);
+  const [ready, setReady] = useState(false);
+  const [scale, setScale] = useState(0.25);
+  useEffect(() => {
+    if (!active) { setReady(false); return; }
+    const receive = (event: MessageEvent) => {
+      if (event.origin === location.origin && event.source === previewFrame.current?.contentWindow &&
+          event.data?.type === "style-preview-ready" && event.data?.id === entry.originalId) setReady(true);
+    };
+    addEventListener("message", receive);
+    return () => removeEventListener("message", receive);
+  }, [active, entry.originalId]);
+  useEffect(() => {
+    const element = frame.current;
+    if (!element) return;
+    const observer = new ResizeObserver(([measurement]) => setScale(measurement.contentRect.width / 1280));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+  return <div className="lib-style-preview" ref={frame}>
+    <img className="lib-style-cover" src={`./style-study-covers/${encodeURIComponent(entry.originalId)}.jpg`} loading="lazy" alt="" />
+    {active && <iframe ref={previewFrame} aria-hidden="true" tabIndex={-1} title={`${entry.name} preview`} className="lib-style-frame" style={{transform: `scale(${scale})`, opacity: ready ? 1 : 0}} src={`./index.html?preview=1#render/styles/${encodeURIComponent(entry.originalId)}`} />}
+  </div>;
+}
 export default function App() {
   const [route, setRoute] = useState(() =>
     decodeURIComponent(location.hash.slice(1)),
@@ -64,8 +91,10 @@ export default function App() {
   const [onlySaved, setOnlySaved] = useState(false);
   const [size, setSize] = useState("100%");
   const [notice, setNotice] = useState("");
+  const [previewId, setPreviewId] = useState<string | null>(null);
   useEffect(() => {
     const change = () => {
+      setPreviewId(null);
       setRoute(decodeURIComponent(location.hash.slice(1)));
       setCategory("all");
       setQuery("");
@@ -149,14 +178,17 @@ export default function App() {
       >
         <Demo
           id={e.originalId}
-          onBack={() =>
-            isRender
-              ? parent.postMessage(
-                  { type: "design-library-back", kind: e.kind },
-                  location.origin,
-                )
-              : navigate(e.kind)
-          }
+          onBack={() => {
+            if (!isRender) return navigate(e.kind);
+            if (window.parent !== window) {
+              window.parent.postMessage(
+                { type: "design-library-back", kind: e.kind },
+                location.origin,
+              );
+            } else {
+              window.location.assign(`/?collection=library&library=${encodeURIComponent(e.kind)}`);
+            }
+          }}
         />
       </Suspense>
     );
@@ -164,7 +196,7 @@ export default function App() {
   if (isRender && entry)
     return <Boundary key={entry.id}>{demo(entry)}</Boundary>;
   return (
-    <div className="library-app">
+    <div className={`library-app${group === "styles" ? " is-styles" : ""}`}>
       <header className="lib-header">
         <a href="#all" className="lib-brand">
           ✳ <b>patchwork</b>
@@ -196,6 +228,7 @@ export default function App() {
               Download reference ↓
             </button>
           </div>
+          {entry.kind === "styles" && <div className="lib-study-intro"><span>STYLE STUDY / {entry.category}</span><h1>{entry.name}</h1><p>{entry.description}</p><div className="lib-study-swatches" aria-label="Study palette">{entry.colors.slice(0, 5).map((color, i) => <span key={i} title={color} style={{background: color}} />)}</div><small>TYPE / {(entry.metadata as { typography?: string }).typography || "A distinctive type system"} <span aria-hidden="true"> · </span> EXPLORE THE INTERACTIVE STUDY BELOW ↓</small></div>}
           <div className="lib-demowrap">
             <iframe
               title={`${entry.name} live preview`}
@@ -263,9 +296,9 @@ export default function App() {
           <main className="lib-main">
             <div className="lib-intro">
               <div>
-                <p className="lib-eyebrow">A FIELD GUIDE TO DIGITAL DESIGN</p>
+                <p className="lib-eyebrow">{group === "styles" ? "THE STYLE COLLECTION / 28 WEBSITES" : "A FIELD GUIDE TO DIGITAL DESIGN"}</p>
                 <h1>
-                  {selected?.name || (
+                  {group === "styles" ? <><span>Different ways to see.</span><br /><em>Endless ways to make.</em></> : selected?.name || (
                     <>
                       A little library.
                       <br />
@@ -274,7 +307,7 @@ export default function App() {
                   )}
                 </h1>
                 <p>
-                  {selected?.description ||
+                  {group === "styles" ? "Explore 28 distinct approaches to design, from quiet typography to bold interactive worlds." : selected?.description ||
                     "Sites, systems, colors and experiments. One considered collection, with room for every kind of idea."}
                 </p>
               </div>
@@ -326,11 +359,22 @@ export default function App() {
             {notice && <p role="status">{notice}</p>}
             <div className="lib-grid">
               {items.map((e, i) => (
-                <article key={e.id} className="lib-card">
-                  <button
+                <article key={e.id} className="lib-card"
+                  onMouseEnter={() => { if (e.kind === "styles") setPreviewId(e.id); }}
+                  onMouseLeave={() => setPreviewId((current) => current === e.id ? null : current)}
+                  onFocus={() => { if (e.kind === "styles") setPreviewId(e.id); }}
+                  onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPreviewId((current) => current === e.id ? null : current); }}
+                >
+                  <a
                     className="lib-card-open"
-                    aria-label={`Explore ${e.name}`}
-                    onClick={() => navigate(`${e.kind}/${e.originalId}`)}
+                    aria-label={`Explore ${e.name}${e.kind === "styles" ? " (opens in a new tab)" : ""}`}
+                    href={e.kind === "styles" ? `./index.html#render/styles/${encodeURIComponent(e.originalId)}` : `#${e.kind}/${encodeURIComponent(e.originalId)}`}
+                    target={e.kind === "styles" ? "_blank" : undefined}
+                    rel={e.kind === "styles" ? "noopener noreferrer" : undefined}
+                    onClick={e.kind === "styles" ? undefined : (event) => {
+                      event.preventDefault();
+                      navigate(`${e.kind}/${e.originalId}`);
+                    }}
                   >
                     <div
                       className={`lib-card-art kind-${e.kind}`}
@@ -340,7 +384,9 @@ export default function App() {
                         } as React.CSSProperties
                       }
                     >
-                      {e.kind === "colors" ? (
+                      {e.kind === "styles" ? (
+                        <StyleCardPreview entry={e} active={previewId === e.id} />
+                      ) : e.kind === "colors" ? (
                         <div className="lib-swatches">
                           {e.colors.slice(0, 5).map((color, n) => (
                             <i key={n} style={{ background: color }} />
@@ -374,7 +420,7 @@ export default function App() {
                       </h2>
                       <p>{e.description}</p>
                     </div>
-                  </button>
+                  </a>
                   <div className="lib-card-footer">
                     <span>{e.category}</span>
                     <button
