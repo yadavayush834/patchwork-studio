@@ -178,3 +178,19 @@ Final push gates: Node 22 ran 32/32 passing tests and the complete production bu
 - Citylines: reviewed the supplied clip as extracted frames and loaded the new standalone hero in the browser. Generated illustration and CSS train are approximations; no original source assets were supplied.
 
 - Citylines motion update: opened the standalone page in the browser and checked that Send a train restarts the train and updates its status. Reduced-motion and offscreen behavior are implemented but were not separately browser-emulated.
+
+Citylines Copy template: tests and production build passed. Downloaded the ZIP from the public Vercel production URL and verified that index.html, the city artwork and README were present. Local package HTML matches the complete authored site source, including inline CSS and animation.
+
+Oldhand: locally inspected the standalone hero; tests and production build were run before deployment. Visual artwork and timing approximate the supplied video; the site uses illustrative team notes and a placeholder contact.
+
+Studioform pointer lighting: inspected the clip at four frames per second; browser-tested movement from face to hair and observed the lit region moving with the pointer. Tests and production build passed after the change.
+
+Botanical Portfolio hero: browser-reviewed the initial composition; unit tests and production build passed. ZIP checked for current HTML, botanical art, reference/title graphic and design guide. Artwork recreation differs from source; ornate title is preserved using a clipped region of the supplied reference.
+
+Education Dashboard: inspected desktop screenshot and tested category filtering and course detail dialog in the browser. Sample data and enrollment are illustrative and session-only. Tests and production build passed; generated avatars differ from the supplied reference.
+
+Education dashboard full-screen update: on isolated localhost origin, opened a course, added it, marked a sample lesson complete, saw chart update to 15 minutes, and reloaded to verify persistence. Reviewed desktop composition. Demo lessons are milestones only; not real course content or cross-device accounts.
+
+Hearthstone: browser-reviewed the initial poster and an intermediate vertical scroll position. Checked document width against viewport to detect horizontal overflow. Tests and production build passed; reduced-motion behavior is implemented but not browser-emulated. Generated images and typography approximate the supplied poster.
+
+2026-11-01 production release: Node 22 npm test (32/32) and full npm run build passed. Vercel production deployment dpl_De9kMPZHre3VbWeEtNdjU86PzznR reached READY and was aliased to patchwork-studio-six.vercel.app. Public Driftbar HTML returned HTTP 200; production browser confirmed loaded cloud images, video readyState 4, and no console errors. Source was deployed directly from the current workspace; this release did not create a Git commit.

@@ -145,3 +145,17 @@ Physical-device testing and exhaustive combinations of every control remain outs
 Phone-layout work is explicitly paused at the user's request. Rebuilt glyph/pixel scenes, generated reference-study assets, twelve reference pages, fourteen-template polish and current generated bundles are included in this checkpoint. Resume phone refinement only when the user asks. Remaining visual fidelity and complete final interaction/export review are documented, not treated as completed by this push.
 
 - Citylines video reference: initial hero and train animation added to Reference Studies. Further visual comparison against the original can refine fidelity.
+
+- Reference Studies: replaced the embedded preview with full-page standalone site links.
+
+- Citylines Copy template: complete standalone ZIP download; scoped to Citylines only.
+
+- Paar video reference: initial interactive hero recreation added; further frame-by-frame visual polish remains possible.
+
+- Botanical Portfolio: hero only implemented; future chapters should follow docs/reference-studies/floriette-design.md. No invented case studies or navigation destinations added.
+
+- Education Dashboard reference: first desktop screen implemented; future real account, course, progress and persistence work is scoped in docs/reference-studies/eduspace-design.md.
+
+- Hearthstone Roasters: first poster and vertical scroll scene implemented; future expansion patterns and need for verified product details are in docs/reference-studies/hearthstone-design.md.
+
+Completed: publish the reviewed Driftbar cloud/scroll study within the full Patchwork production app to the existing Vercel domain (2026-11-01).

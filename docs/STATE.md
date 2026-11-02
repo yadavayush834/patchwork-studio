@@ -120,3 +120,27 @@ This checkpoint also includes the twelve Pinterest reference studies and the fou
 31 October 2026: Added Citylines to Reference Studies, based on the supplied short video. It uses generated city artwork and a separately animated train; it is an approximation of the video, not the original source artwork.
 
 Citylines motion update: train eases through a stop, with an animated route signal, birds, and decorative sparks. Motion pauses when the scene is offscreen or the document is hidden and respects reduced motion.
+
+Reference Studies now opens each standalone website in a new browser tab at full size, leaving the gallery available in Patchwork.
+
+Citylines now has a Copy template download in Reference Studies. The build packages its complete HTML, inline CSS/animation, local artwork and editing instructions into citylines-template.zip.
+
+Added Paar, a video-inspired Reference Study with procedural pixel planets and an interactive panel layout. This is a recreation rather than the original source artwork or exact animation.
+
+Added Oldhand as a video-inspired Reference Study with generated blue halftone portrait artwork, timed note reveals, replay control and a standalone ZIP. Demo contact details and copy are placeholders.
+
+Added Studioform: yellow video-inspired full-screen hero with generated portrait, moving typography, animated lighting, navigation panels and standalone template ZIP. Portrait and motion approximate the supplied clip.
+
+Studioform lighting fix: replaced looping gradient shadow with a pointer-controlled soft portrait reveal over a dark silhouette. It eases toward pointer coordinates, supports touch pointer movement and reduces smoothing when reduced motion is enabled. Template ZIP regenerated.
+
+Added Botanical Portfolio (floriette) Reference Study. Single 16:9 hero with supplied calligraphy as a clipped graphic, generated botanical illustration, editable captions, small ambient motion and a downloadable ZIP including the expansion guide at docs/reference-studies/floriette-design.md. Illustration is a recreation, not identical to the reference.
+
+Botanical Portfolio: replaced blurry clipped title with editable locally bundled calligraphy; added generated watercolor paper background and reduced-motion-aware local GSAP entrance and pointer movement. The downloadable template includes the new assets and licenses.
+
+Added Education Dashboard Reference Study (eduspace), a screenshot-inspired desktop learning dashboard with generated avatar sheet, interactive sample course filtering/dialogs, session-only course selection and illustrative activity. The standalone ZIP includes the expansion guide.
+
+Education dashboard expanded into a full-screen standalone learning workspace with a GSAP welcome panel, locally saved demo course enrollment, lesson milestones, schedule and profile. Activity chart reflects completed demo milestones. Course content is illustrative and no backend or video lessons are provided.
+
+Added Hearthstone Roasters Reference Study: generated bottle and alpine imagery, poster-style opening, vertical GSAP ScrollTrigger scene and editable ZIP including an expansion guide. The bottle is a 2D cutout and generated label rather than a 3D model; copy is illustrative.
+
+Driftbar is included in Reference Studies with its standalone template download. The current meadow/cloud and vertical GSAP scroll study was deployed to the existing Patchwork Vercel production project on 2026-11-01 at https://patchwork-studio-six.vercel.app (deployment dpl_De9kMPZHre3VbWeEtNdjU86PzznR).
