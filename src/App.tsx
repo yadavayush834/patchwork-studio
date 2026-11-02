@@ -176,8 +176,9 @@ function Slider({
 const starters = worlds.map((w) => createProject(w.id));
 
 export default function App() {
-  const [pinterestOpen, setPinterestOpen] = useState(() => new URLSearchParams(location.search).get("collection") === "pinterest");
-  const openPinterest = () => { setPinterestOpen(true); const url = new URL(location.href); url.searchParams.set("collection", "pinterest"); url.searchParams.delete("motion"); window.history.replaceState(null, "", url); };
+  const [pinterestOpen, setPinterestOpen] = useState(() => !import.meta.env.VITE_PRIVATE_REFERENCE_URL && new URLSearchParams(location.search).get("collection") === "pinterest");
+  useEffect(() => { if (import.meta.env.VITE_PRIVATE_REFERENCE_URL && new URLSearchParams(location.search).get("collection") === "pinterest") window.location.replace(import.meta.env.VITE_PRIVATE_REFERENCE_URL); }, []);
+  const openPinterest = () => { if (import.meta.env.VITE_PRIVATE_REFERENCE_URL) { window.location.assign(import.meta.env.VITE_PRIVATE_REFERENCE_URL); return; } setPinterestOpen(true); const url = new URL(location.href); url.searchParams.set("collection", "pinterest"); url.searchParams.delete("motion"); window.history.replaceState(null, "", url); };
   const closePinterest = () => { setPinterestOpen(false); const url = new URL(location.href); url.searchParams.delete("collection"); window.history.replaceState(null, "", url); };
   const [libraryOpen, setLibraryOpen] = useState(
     () => new URLSearchParams(location.search).get("collection") === "library",
