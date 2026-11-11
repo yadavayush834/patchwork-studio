@@ -56,7 +56,7 @@ export default function AsciiGallery({ onClose, onUse, hasProject }: Props) {
           <p>
             Living backgrounds, drawn entirely in ASCII.
             <br />
-            {active.scene==='sharks'?'Move your cursor. The ocean reacts.':'Slow motion. A little atmosphere.'}
+            {active.scene==='sharks'?'Move your cursor. The ocean reacts.':active.scene==='starlings'?'Your cursor is a hawk. Click to startle the flock.':active.scene==='fireflies'?'Watch them fall into sync. Click to scatter them.':'Move your cursor to stir the air. Click to puff.'}
           </p>
         </div>
         <div className="ascii-gallery-stage">

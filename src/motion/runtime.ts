@@ -1,4 +1,9 @@
 import { animateLightkeeper } from "./lightkeeper-runtime";
+import { animateGoldseam } from "./goldseam-runtime";
+import { animateCloudwhale } from "./cloudwhale-runtime";
+import { animateBurrow } from "./burrow-runtime";
+import { animateLiving } from "./living/runtime";
+import { isLiving } from "./living/pages";
 import { animateGlyphStudy } from "./glyph-runtime";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -842,6 +847,10 @@ if (root && isMotionId(id)) {
           : undefined;
         const render = (time: number) => scene?.render(time);
         const lightkeeperCleanup = id === "lightkeeper" ? animateLightkeeper(reduced) : undefined;
+        const livingCleanup = isLiving(id) ? animateLiving(id, reduced) : undefined;
+        const burrowCleanup = id === "burrow" ? animateBurrow(reduced) : undefined;
+        const cloudwhaleCleanup = id === "cloudwhale" ? animateCloudwhale(reduced, mobile) : undefined;
+        const goldseamCleanup = id === "goldseam" ? animateGoldseam(reduced, mobile) : undefined;
         const glyphCleanup = id === "nullsignal" || id === "bitquest" ? animateGlyphStudy(reduced) : undefined;
 
         if (!reduced) {
@@ -852,7 +861,7 @@ if (root && isMotionId(id)) {
           else if (id === "monolith" && scene) monolith(scene, mobile);
           else if (id === "reverie" || id === "traverse")
             animateImageStudy(id, mobile);
-          else if (id !== "lightkeeper" && id !== "nullsignal" && id !== "bitquest") animateStudy(id, scene, mobile);
+          else if (!isLiving(id) && id !== "burrow" && id !== "cloudwhale" && id !== "goldseam" && id !== "lightkeeper" && id !== "nullsignal" && id !== "bitquest") animateStudy(id, scene, mobile);
           gsap.utils.toArray<HTMLElement>(".mt-reveal").forEach((el) =>
             gsap.from(el, {
               y: 70,
@@ -894,6 +903,10 @@ if (root && isMotionId(id)) {
           disposed = true;
           glyphCleanup?.();
           lightkeeperCleanup?.();
+          goldseamCleanup?.();
+          cloudwhaleCleanup?.();
+          burrowCleanup?.();
+          livingCleanup?.();
           gsap.ticker.remove(render);
           scene?.dispose();
           progress.kill();

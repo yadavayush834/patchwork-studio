@@ -1,4 +1,4 @@
-import { backgrounds, decorations, fontPairs, defaultAscii } from "./catalog";
+import { findBackground, decorations, fontPairs, defaultAscii } from "./catalog";
 import artwork from "./artwork.json";
 import type { Project, SiteSection, RenderOptions } from "./types";
 export const escapeHtml = (v: unknown) =>
@@ -38,7 +38,7 @@ export function renderSite(p: Project, o: RenderOptions = {}) {
   };
   const parts = visible
     .map((s) => {
-      const bg = backgrounds.find((b) => b.id === s.background);
+      const bg = findBackground(s.background);
       const ascii =
         bg?.type === "ascii" ? { ...defaultAscii(bg), ...s.ascii } : null;
       const video = s.video

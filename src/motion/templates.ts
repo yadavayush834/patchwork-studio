@@ -1,4 +1,8 @@
 import { renderLightkeeper } from "./lightkeeper";
+import { renderGoldseam } from "./goldseam";
+import { renderCloudwhale } from "./cloudwhale";
+import { renderBurrow } from "./burrow";
+import { renderLiving, isLiving } from "./living/pages";
 import { renderGlyphStudy } from "./glyph-studies";
 import { renderImageMotion } from "./image-studies";
 import { renderNewMotion } from "./studies";
@@ -163,5 +167,5 @@ export function renderMotion(
   config: Partial<MotionConfig> = {},
 ): string {
   const c = normalizeMotionConfig(config, id);
-  return `<div class="mt-page mt-${id}" style="--accent:${c.accent}" data-template="${id}">${id === "lightkeeper" ? renderLightkeeper(c) : id === "nullsignal" || id === "bitquest" ? renderGlyphStudy(id,c) : id === "aether" ? aether(c) : id === "offscript" ? offscript(c) : id === "floraison" ? floraison(c) : id === "monolith" ? monolith(c) : id === "reverie" || id === "traverse" ? renderImageMotion(id, c) : renderNewMotion(id, c)}</div>`;
+  return `<div class="mt-page mt-${id}" style="--accent:${c.accent}" data-template="${id}">${id === "burrow" ? renderBurrow(c) : id === "cloudwhale" ? renderCloudwhale(c) : isLiving(id) ? renderLiving(id, c) : id === "goldseam" ? renderGoldseam(c) : id === "lightkeeper" ? renderLightkeeper(c) : id === "nullsignal" || id === "bitquest" ? renderGlyphStudy(id,c) : id === "aether" ? aether(c) : id === "offscript" ? offscript(c) : id === "floraison" ? floraison(c) : id === "monolith" ? monolith(c) : id === "reverie" || id === "traverse" ? renderImageMotion(id, c) : renderNewMotion(id, c)}</div>`;
 }

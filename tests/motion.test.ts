@@ -10,9 +10,9 @@ import {
 } from "../src/motion/catalog";
 import { renderMotion } from "../src/motion/templates";
 
-test("motion collection retains twelve scroll stories alongside the independent Mosslight scene", () => {
-  assert.equal(motionTemplates.length, 13);
-  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 13);
+test("motion collection retains eighteen scroll stories alongside the independent Mosslight scene", () => {
+  assert.equal(motionTemplates.length, 19);
+  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 19);
   for (const t of motionTemplates) {
     if (t.id === "mosslight") continue;
     const html = renderMotion(t.id);
@@ -137,5 +137,14 @@ test("photographic motion stories package their local artwork and generation rec
     assert.ok(!hostile.includes("<script>"));
     assert.ok(!hostile.includes("<img src=x"));
     assert.ok(!hostile.includes("mailto:javascript"));
+  }
+});
+test("living-art landing pages escape customisation in every headline layout", () => {
+  for (const id of ["halcyon", "bloomfield", "aurelle"] as const) {
+    const html = renderMotion(id, { brand: "<b>B</b>", headline: "One <script>two</script> three four", email: "a@b.co" });
+    assert.match(html, new RegExp(`data-scene="${id}"`));
+    assert.ok(!html.includes("<script>") && !html.includes("<b>B</b>"));
+    assert.match(html, /&lt;script&gt;two/);
+    assert.match(html, /href="mailto:a@b.co"/);
   }
 });

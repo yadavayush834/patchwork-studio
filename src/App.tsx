@@ -68,6 +68,7 @@ import {
   uid,
   defaultAscii,
   matchesBackground,
+  findBackground,
 } from "./catalog";
 import {
   listProjects,
@@ -1044,8 +1045,8 @@ export default function App() {
                     <span className="eyebrow">NEW / ASCII MOTION STUDIES</span>
                     <strong>Characters. With a life of their own.</strong>
                     <p>
-                      Sharks, moon jellies, galaxies, and flowing terrain. Find
-                      your atmosphere.
+                      Sharks, a dusk murmuration, synchronising fireflies, and
+                      real incense smoke. Find your atmosphere.
                     </p>
                   </div>
                   <span className="ascii-banner-cta">
@@ -2126,12 +2127,10 @@ export default function App() {
                           </div>
                         )}
                         <div className="control-divider" />
-                        {backgrounds.find((b) => b.id === section.background)
+                        {findBackground(section.background)
                           ?.type === "ascii" &&
                           (() => {
-                            const bg = backgrounds.find(
-                              (b) => b.id === section.background,
-                            )!;
+                            const bg = findBackground(section.background)!;
                             const cfg = {
                               ...defaultAscii(bg),
                               ...section.ascii,
@@ -2378,7 +2377,7 @@ export default function App() {
                             looping, and inline.
                           </p>
                           {(section.video ||
-                            backgrounds.find((b) => b.id === section.background)
+                            findBackground(section.background)
                               ?.type === "video") && (
                             <>
                               <button

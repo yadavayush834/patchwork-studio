@@ -86,7 +86,7 @@ export interface Background {
   name: string;
   world: World;
   type: "css" | "svg" | "video" | "ascii";
-  scene?: "sharks" | "jellies" | "galaxy" | "terrain";
+  scene?: "sharks" | "starlings" | "fireflies" | "incense";
   description?: string;
   tint?: string;
   preview: string;

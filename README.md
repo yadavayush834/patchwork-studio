@@ -62,9 +62,11 @@ Future work: additional worlds, multi-page sites, dedicated asset editors, optio
 Open **Explore 4 living backgrounds** on the dashboard, or **Scenes → ASCII in motion** in the editor. The gallery previews one scene at a time; choose **Use this background** to apply it to the selected section. Blank projects receive a hero section. Search `ascii` in the background library to see all four studies.
 
 - **Sharkwater** uses the actual `stackedlol/ascii-sharks` World/AsciiRenderer: hammerhead, mako, thresher, schooling fish, and luminous wakes. Move or click over the scene to disturb the ocean.
-- **Moon jellies** is an original glyph sculpture with pulsing bells, luminous rims, and trailing tentacles.
-- **Spiral atlas** is an original rotating galactic disc with four spiral arms, warm core, and an orbital plane.
-- **Velvet terrain** is an original animated, perspective-shaded character landscape.
+- **Starling hour** is a 1,400-bird murmuration (boids) over a lake at dusk. A falcon patrols and stoops; panic spreads bird to bird as a visible wave. The cursor is a second predator; click to startle the flock.
+- **Firefly field** is a night meadow of pulse-coupled fireflies (Mirollo–Strogatz) that drift from random blinking into synchronized flashes, lighting the wind-combed grass. The cursor parts the grass; click to scatter them and break the rhythm.
+- **Incense** is a real-time stable-fluids smoke simulation with buoyancy and vorticity confinement, rising from an ember through a window light shaft. Moving the cursor stirs the air; click to puff.
+
+The three originals share `src/ascii/cells.ts` (a reference-style cell grid with shaded blocks and colour-bucketed glyphs). Projects saved with the retired Moon jellies, Spiral atlas and Velvet terrain backgrounds open as Firefly field, Starling hour and Incense respectively.
 
 The section inspector offers live canvas / recorded WebM, speed, detail, glow color, and brightness. Recorded loops retain their baked detail/color; live mode exposes all controls. The gallery and inspector both offer video downloads. These are real, silent WebM assets, not links to external video services.
 

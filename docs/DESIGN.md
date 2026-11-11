@@ -39,7 +39,7 @@ Worlds coordinate sections, fonts, palettes, and backgrounds. Users can mix asse
 
 Use the motion gallery to show a single active scene at useful size, with still thumbnails for the others. Keep technical implementation details out of the normal creation flow. Relevant user choices are Live/Recorded, speed, detail, glow, brightness, downloading a loop, and applying a scene.
 
-Sharkwater is a real ecosystem from the credited upstream source. Moon jellies emphasizes fluid bells/filaments; Spiral atlas has a warm core and cool spiral arms; Velvet terrain uses perspective and shaded character ridges. Maintain distinct compositions and intentional negative space behind content. ASCII backgrounds use readable light text and a subtle scrim over a dark field.
+Sharkwater is a real ecosystem from the credited upstream source. The three originals follow the same principle: a real simulation underneath (flocking, synchronising oscillators, fluid dynamics), cursor interaction, and painted underlays (dusk gradient, moon halo, window beam) beneath the glyphs, so silhouettes and light stay smooth while texture stays ASCII. Starling hour keeps the flock in the upper sky; Firefly field keeps the sky open above the treeline; Incense keeps the left half nearly empty for content. Maintain distinct compositions and intentional negative space behind content. ASCII backgrounds use readable light text and a subtle scrim over a dark field.
 
 ## Behavior and accessibility
 

@@ -1,8 +1,22 @@
 # Current state and context
 
-Last verified: 11 November 2026 (standalone motion opening; earlier feature evidence remains historical). This file is the short entry point for a fresh chat or a different coding agent.
+Last verified: 11 November 2026 (Goldseam motion template; earlier feature evidence remains historical). This file is the short entry point for a fresh chat or a different coding agent.
 
 Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/patchwork-studio), private, branch `main`. The local checkout uses `origin` for this repository. Check `git status`, the current commit, and the remote before continuing; do not infer present synchronization from this dated note.
+
+## Cloudwhale pixel fable — 11 November 2026
+
+Eighteenth Motion Template, listed first: **Cloudwhale**, a seven-chapter scroll story about a town that lives on the back of a 212-year-old sky whale (dawn town, the old whale's eye, storm, dive through the cloud sea, the song with aurora and answering whales, the houses hopping to a young whale, the old whale becoming an island at dawn). The 3D world is instanced voxels (`cloudwhale-world.ts`: procedural humpbacks with a vertex-shader swim wave mirrored in JS so houses, trees and lanterns ride it; voxel houses, clouds, sky/aurora shader). `cloudwhale-runtime.ts` renders at 1/3 resolution into a target with depth, then a post shader quantises to a fixed 32-colour palette with 4x4 Bayer dither and inks depth-edge outlines, so the 3D reads as pixel art. Narration is an RPG dialogue box whose text is typed by scroll progress; HUD, chapter cards, segmented progress, logbook icons and ending are pixel components (`cloudwhale.ts` sprites from character grids, `cloudwhale.css` stepped box-shadow borders). Pure state in `cloudwhale-story.ts` is tested. Desktop reviewed; mobile only has basic rules.
+
+## Living-art landing pages — 11 November 2026
+
+Three Motion Templates (listed first): **Halcyon** (SaaS layout, real-time iridescent butterfly in pastel Bayer dither with twinkles), **Bloomfield** (centred hero, monochrome daisy/cosmos meadow on a pixel grid that unfurls on load and sways with wind and cursor) and **Aurelle** (framed studio layout, breathing four-ring lotus with vertical streak smear, bloom and god rays). Built from the user's references (three hero images, three videos) and the look vocabulary of matthewhamilton3141/lumen (MIT), reimplemented as a GPU pass rather than copied: `src/motion/living/look.ts` renders a Three.js subject into a one-texel-per-cell target, then a shader draws pixel/LED/streak cells with ordered dither, smear and twinkles, followed by optional god rays, bloom and output. Subjects: `butterfly.ts`, `meadow.ts`, `lotus.ts`; pages `pages.ts`; styles `living.css`; runtime `living/runtime.ts` (pauses offscreen/hidden; still frame for reduced motion). Partner logos are invented wordmarks. Desktop reviewed; narrow screens only have basic rules.
+
+## Goldseam motion template — 11 November 2026
+
+Fourteenth Motion Template, listed first: **Goldseam**, a seven-chapter kintsugi story told by one real-time Three.js tea bowl. The bowl sits on a basalt plinth with steaming matcha, slips, shatters into 13 procedurally fractured shards (`src/motion/goldseam-geometry.ts`; neighbouring shards share periodic crack curves so they refit exactly), is laid out and weighed on a catalogue table with projected DOM labels, rebuilt piece by piece (Day 1→47 counter), lacquered, then gold dust streams into seam tubes that grow along the real fractures (bloom only in dark chapters). It ends back on the plinth with tea, closing the loop. One scrubbed GSAP master timeline drives both `goldseamState` (pure, tested in `goldseam-story.ts`) and all copy. Files: `goldseam.ts` (markup), `goldseam.css`, `goldseam-runtime.ts`; wired through `catalog.ts`, `templates.ts`, `document.ts`, `runtime.ts`. Cover: `public/motion/goldseam-cover.jpg` (captured from the live scene). No new assets or dependencies; export reuses the shared engine/fonts.
+
+Desktop layout is the reviewed target. The user deferred mobile: narrow-screen rules exist (portrait camera, three-column catalogue, repositioned copy) but have only had a preliminary look and need a dedicated pass.
 
 ## Current resource rebuild — 11 November 2026
 
@@ -43,7 +57,7 @@ Verified: 39 unit tests, production build, all 12 standalone websites initializi
 - Section/content editing, searchable libraries, world filtering, advanced appearance controls, scene layers, recoloring, object dragging, separate phone coordinates, property locks, shuffle, and undo/redo.
 - Image/short-video uploads; image descriptions; gallery item/link editing; video poster, fit, position, and overlay settings.
 - IndexedDB autosave and project management. Editable project ZIP import/export validates documents and remaps imported asset identities. Website ZIP export packages independent HTML/CSS/JS, assets, fonts, and notices.
-- ASCII gallery reachable from the dashboard, Scenes panel, or `?gallery=ascii`. Sharkwater uses the upstream fish/shark simulation; Moon jellies, Spiral atlas, and Velvet terrain are original glyph sculptures.
+- ASCII gallery reachable from the dashboard, Scenes panel, or `?gallery=ascii`. Sharkwater uses the upstream fish/shark simulation; Starling hour (boids murmuration with a falcon and spreading panic), Firefly field (pulse-coupled synchronising fireflies lighting wind-blown grass) and Incense (stable-fluids smoke) are original interactive simulations in `src/ascii/{starlings,fireflies,incense}.ts` on the shared `cells.ts` renderer. They replaced the user-rejected Moon jellies / Spiral atlas / Velvet terrain on 11 November 2026; `legacyBackgroundIds` + `findBackground` map saved projects to the replacements.
 - ASCII live/recorded modes, speed, detail, glow color, brightness, posters, and downloadable 1280x720 VP9 WebM loops. Each loop decodes to 204 frames at 24 fps, nominally 8.5 seconds.
 - Reduced-motion posters, offscreen/hidden animation pausing, keyboard-focus preview, and responsive exported pages.
 

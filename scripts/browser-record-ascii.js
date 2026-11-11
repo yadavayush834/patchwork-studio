@@ -1,7 +1,7 @@
 async page=>{
  const results=[];
  const only=await page.evaluate(()=>new URLSearchParams(location.search).get('only'));
- for(const scene of ['sharks','jellies','galaxy','terrain'].filter(s=>!only||s===only)){
+ for(const scene of ['sharks','starlings','fireflies','incense'].filter(s=>!only||s===only)){
   await page.setViewportSize({width:1280,height:720});
   await page.goto(`http://127.0.0.1:5175/output/playwright/ascii-capture.html?scene=${scene}`);
   await page.locator('canvas[data-ready=true]').waitFor();await page.evaluate(()=>document.fonts.ready);

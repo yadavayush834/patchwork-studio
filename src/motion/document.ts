@@ -1,6 +1,10 @@
 import mosslightSource from "./mosslight.html?raw";
 import { mosslightDocument } from "./mosslight-document";
 import lightkeeperCSS from "./lightkeeper.css?raw";
+import goldseamCSS from "./goldseam.css?raw";
+import livingCSS from "./living/living.css?raw";
+import cloudwhaleCSS from "./cloudwhale.css?raw";
+import burrowCSS from "./burrow.css?raw";
 import glyphCSS from "./glyph-studies.css?raw";
 import imageStudiesCSS from "./image-studies.css?raw";
 import studiesCSS from "./studies.css?raw";
@@ -50,7 +54,7 @@ export function motionCSS(base = "") {
     "\n" +
     studiesCSS +
     "\n" +
-    imageStudiesCSS + "\n" + glyphCSS + "\n" + lightkeeperCSS
+    imageStudiesCSS + "\n" + glyphCSS + "\n" + lightkeeperCSS + "\n" + goldseamCSS + "\n" + livingCSS + "\n" + cloudwhaleCSS + "\n" + burrowCSS
   );
 }
 export function motionDocument(

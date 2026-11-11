@@ -1,9 +1,15 @@
 """Crossfade the tail into the head so each ASCII recording loops without a cut."""
 from pathlib import Path
-import subprocess,shutil,imageio_ffmpeg
+import subprocess,shutil,sys
 root=Path(__file__).resolve().parents[1]
-ff=imageio_ffmpeg.get_ffmpeg_exe()
-for scene in ['sharks','jellies','galaxy','terrain']:
+try:
+ import imageio_ffmpeg
+ ff=imageio_ffmpeg.get_ffmpeg_exe()
+except ImportError:
+ ff=shutil.which('ffmpeg')
+ if not ff:raise SystemExit('Install imageio-ffmpeg or put ffmpeg on PATH.')
+# Pass scene names to finish only those recordings.
+for scene in sys.argv[1:] or ['sharks','starlings','fireflies','incense']:
  source=root/f'output/playwright/ascii-{scene}-raw.webm'
  target=root/f'public/assets/ascii/{scene}.webm'
  # The final frame and first frame both land on source time 1.5s.

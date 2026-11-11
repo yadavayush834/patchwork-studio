@@ -175,3 +175,11 @@ Completed: make Style Study hover previews tour the website instead of remaining
 ## 11 November 2026 — resource rebuild checkpoint
 
 Implemented new Motion/SVG/UI collections (8/8/9), original Web Component source, native inspector, standalone exports and actual preview covers. User requested pushing the work immediately and retaining the collections. Stop further redesign/interaction QA at this checkpoint.
+
+2026-11-11: Added Goldseam, a GSAP + Three.js kintsugi scroll story, as the fourteenth Motion Template. Desktop is complete; mobile layout is deferred by the user to a later pass.
+
+2026-11-11: Replaced the three original ASCII studies at the user's request with Starling hour, Firefly field and Incense (interactive simulations modelled on the ascii-sharks approach). Sharkwater retained. Old background IDs migrate to the replacements.
+
+2026-11-11: Added three living-art landing pages (Halcyon, Bloomfield, Aurelle) to Motion Templates, modelled on user-supplied reference images/videos and the lumen look vocabulary.
+
+2026-11-11: Added Cloudwhale, a GSAP + Three.js pixel-art voxel scroll fable, as the eighteenth Motion Template.

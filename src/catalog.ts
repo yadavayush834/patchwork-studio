@@ -147,28 +147,28 @@ export const asciiBackgrounds: Background[] = [
     tint: "#91dbe8",
   },
   {
-    id: "ascii-jellies",
-    name: "Moon jellies",
-    scene: "jellies",
+    id: "ascii-starlings",
+    name: "Starling hour",
+    scene: "starlings",
     description:
-      "Luminous bells, rippling rims, and trailing filaments in a midnight current.",
-    tint: "#93d9f5",
+      "A murmuration at dusk. Nine hundred birds fold over a lake; a falcon stoops and panic ripples through the flock.",
+    tint: "#e9e1ff",
   },
   {
-    id: "ascii-galaxy",
-    name: "Spiral atlas",
-    scene: "galaxy",
+    id: "ascii-fireflies",
+    name: "Firefly field",
+    scene: "fireflies",
     description:
-      "A slowly turning spiral galaxy, warm starlight, and a tilted orbital plane.",
-    tint: "#b8a8f0",
+      "A meadow at night. Fireflies blink at random, then slowly fall into one heartbeat, lighting the grass as they pass.",
+    tint: "#b9f27c",
   },
   {
-    id: "ascii-terrain",
-    name: "Velvet terrain",
-    scene: "terrain",
+    id: "ascii-incense",
+    name: "Incense",
+    scene: "incense",
     description:
-      "A sculpted landscape of characters. Soft ridges flow into a distant horizon.",
-    tint: "#a3b6ef",
+      "Real smoke physics in characters. A thread rises from a glowing ember, curls, and drifts through window light.",
+    tint: "#9fb4e8",
   },
 ].map((b) => ({
   ...b,
@@ -180,6 +180,14 @@ export const asciiBackgrounds: Background[] = [
   css: "",
   license: b.scene === "sharks" ? "MIT / CC0-1.0" : "CC0-1.0",
 }));
+/** Retired ASCII studies map to their replacements, so saved projects keep a living background. */
+export const legacyBackgroundIds: Record<string, string> = {
+  "ascii-jellies": "ascii-fireflies",
+  "ascii-galaxy": "ascii-starlings",
+  "ascii-terrain": "ascii-incense",
+};
+export const findBackground = (id: string | undefined) =>
+  id ? backgrounds.find((b) => b.id === (legacyBackgroundIds[id] ?? id)) : undefined;
 export const defaultAscii = (
   b: Background,
 ): NonNullable<SiteSection["ascii"]> => ({

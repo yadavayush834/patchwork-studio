@@ -1,14 +1,11 @@
 import { World } from "../vendor/ascii-sharks/world";
 import { AsciiRenderer } from "../vendor/ascii-sharks/renderer";
-import {
-  jellyCells,
-  galaxyCells,
-  terrainCells,
-  hash,
-  ramp,
-  clamp,
-  type SceneKind,
-} from "./field";
+import { CellFrame, type AsciiScene } from "./cells";
+import { Starlings } from "./starlings";
+import { Fireflies } from "./fireflies";
+import { Incense } from "./incense";
+
+export type SceneKind = "starlings" | "fireflies" | "incense";
 
 interface Settings {
   speed: number;
@@ -101,121 +98,67 @@ function ocean(canvas: HTMLCanvasElement): Controller {
   };
   return control;
 }
-function sculpture(canvas: HTMLCanvasElement, kind: SceneKind): Controller {
-  const ctx = canvas.getContext("2d", { alpha: false });
-  if (!ctx) throw new Error("Canvas 2D is not available");
+/** The three original Patchwork simulations share one cell renderer and controller. */
+function simulation(canvas: HTMLCanvasElement, kind: SceneKind): Controller {
   const cfg = settings(canvas);
+  const scene: AsciiScene =
+    kind === "starlings"
+      ? new Starlings(cfg.color, cfg.density)
+      : kind === "fireflies"
+        ? new Fireflies(cfg.color, cfg.density)
+        : new Incense(cfg.color, cfg.density);
+  const frame = new CellFrame(canvas, scene.palette);
+  frame.background = scene.background;
   let width = 0,
-    height = 0,
-    cols = 0,
-    rows = 0,
-    cw = 8,
-    ch = 13;
-  let buffer: Float32Array, hues: Uint8Array, glyphs: string[];
-  const base: Record<string, string> = {
-    jellies: "#030811",
-    galaxy: "#060510",
-    terrain: "#080811",
+    height = 0;
+  const paint = () => {
+    frame.clear();
+    scene.render(frame);
+    frame.draw(scene.underlay ? (ctx) => scene.underlay!(ctx, frame) : undefined);
   };
-  const toRgb = (hex: string) =>
-    [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
-  const tint = toRgb(cfg.color);
-  const warm =
-    kind === "galaxy"
-      ? [255, 217, 171]
-      : kind === "terrain"
-        ? [224, 186, 255]
-        : [170, 164, 255];
-  const palettes = [tint, warm].map((rgb) =>
-    Array.from(
-      { length: 16 },
-      (_, i) =>
-        `rgb(${rgb.map((v) => Math.round(v * (0.16 + i * 0.056))).join(",")})`,
-    ),
-  );
   const control: Controller = {
     canvas,
     visible: true,
-    time: kind === "galaxy" ? 6 : 0,
+    time: 0,
     frame: 0,
     destroy: () => {},
     resize() {
       width = canvas.clientWidth;
       height = canvas.clientHeight;
       if (width < 1 || height < 1) return;
-      const dpr = Math.min(devicePixelRatio || 1, 1.5);
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cw = clamp(Math.round(width / (150 * cfg.density)), 6, 11);
-      ch = Math.round(cw * 1.5);
-      cols = Math.ceil(width / cw);
-      rows = Math.ceil(height / ch);
-      buffer = new Float32Array(cols * rows);
-      hues = new Uint8Array(cols * rows);
-      glyphs = Array(cols * rows).fill("");
-      control.draw(0);
+      frame.resize(width, height, cfg.density);
+      scene.resize(width, height, frame);
+      paint();
     },
     draw(dt) {
-      if (!cols) return;
+      if (!frame.cols) return;
+      const steps = Math.max(1, Math.round(dt * 30));
+      for (let i = 0; i < steps; i++) scene.step((dt * cfg.speed) / steps);
+      paint();
       control.time += dt * cfg.speed;
-      const t = control.time;
-      ctx.fillStyle = base[kind];
-      ctx.fillRect(0, 0, width, height);
-      buffer.fill(0);
-      hues.fill(0);
-      glyphs.fill("");
-      const cells =
-        kind === "jellies"
-          ? jellyCells(t, cols, rows, cfg.density)
-          : kind === "galaxy"
-            ? galaxyCells(t, cols, rows, cfg.density)
-            : terrainCells(t, cols, rows, cfg.density);
-      for (const c of cells) {
-        if (c.x < 0 || c.y < 0 || c.x >= cols || c.y >= rows) continue;
-        const idx = c.y * cols + c.x;
-        if (c.light >= buffer[idx]) {
-          buffer[idx] = c.light;
-          hues[idx] = c.hue || 0;
-          glyphs[idx] = c.glyph || "";
-        }
-      }
-      ctx.font = `${Math.round(ch * 0.78)}px "Space Mono",monospace`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      for (let bucket = 0; bucket < 32; bucket++) {
-        ctx.fillStyle = palettes[bucket >> 4][bucket % 16];
-        for (let i = 0; i < buffer.length; i++) {
-          const light = buffer[i];
-          if (
-            light < 0.1 ||
-            Math.floor(clamp(light) * 15) + (hues[i] ? 16 : 0) !== bucket
-          )
-            continue;
-          ctx.fillText(
-            glyphs[i] ||
-              ramp[
-                Math.min(ramp.length - 1, Math.floor(light * (ramp.length - 1)))
-              ],
-            ((i % cols) + 0.5) * cw,
-            (Math.floor(i / cols) + 0.5) * ch,
-          );
-        }
-      }
-      // Restrained particulate depth, all made from literal keyboard characters.
-      ctx.font = `${Math.round(ch * 0.65)}px "Space Mono",monospace`;
-      for (let i = 0; i < Math.round(70 * cfg.density); i++) {
-        const x = hash(i + 70) * width,
-          y =
-            (((hash(i + 140) * height - t * (kind === "jellies" ? 3 : 0)) %
-              height) +
-              height) %
-            height;
-        ctx.fillStyle = `rgba(${tint.join(",")},${0.12 + hash(i + 20) * 0.23})`;
-        ctx.fillText(i % 9 === 0 ? "+" : ".", x, y);
-      }
       control.frame++;
     },
+  };
+  const local = (e: PointerEvent) => {
+    const r = canvas.getBoundingClientRect();
+    const x = ((e.clientX - r.left) * width) / (r.width || 1),
+      y = ((e.clientY - r.top) * height) / (r.height || 1);
+    const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom && e.pointerType !== "touch";
+    return { x, y, inside };
+  };
+  const move = (e: PointerEvent) => {
+    const p = local(e);
+    scene.pointer(p.x, p.y, p.inside);
+  };
+  const down = (e: PointerEvent) => {
+    const p = local(e);
+    if (p.inside) scene.poke(p.x, p.y);
+  };
+  canvas.ownerDocument.addEventListener("pointermove", move, { passive: true });
+  canvas.ownerDocument.addEventListener("pointerdown", down, { passive: true });
+  control.destroy = () => {
+    canvas.ownerDocument.removeEventListener("pointermove", move);
+    canvas.ownerDocument.removeEventListener("pointerdown", down);
   };
   return control;
 }
@@ -283,7 +226,7 @@ function mount() {
       const c =
         canvas.dataset.ascii === "sharks"
           ? ocean(canvas)
-          : sculpture(canvas, canvas.dataset.ascii as SceneKind);
+          : simulation(canvas, canvas.dataset.ascii as SceneKind);
       controllers.push(c);
       c.resize();
       canvas.dataset.ready = "true";
