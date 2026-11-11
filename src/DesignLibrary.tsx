@@ -2,16 +2,25 @@ import { useEffect, useRef, useState } from "react";
 import "./design-library.css";
 import TemplateStudio from "./template-library/TemplateStudio";
 import ColorStudio from "./color-library/ColorStudio";
-import ExperimentStudio from "./experiment-library/ExperimentStudio";
+import ResourceStudio from "./resource-library/ResourceStudio";
 export default function DesignLibrary({ onClose }: { onClose: () => void }) {
   const root = useRef<HTMLDivElement>(null);
   const [section, setSection] = useState(() => {
     const requested = new URLSearchParams(location.search).get("library");
-    return requested === "styles" || requested === "colors" || requested === "motion" || requested === "svg" ? requested : "templates";
+    return requested === "styles" || requested === "colors" || requested === "motion" || requested === "svg" || requested === "primitives" ? requested : "templates";
   });
   useEffect(() => {
+    const url = new URL(location.href);
+    url.searchParams.set("library", section);
+    history.replaceState(history.state, "", url);
+  }, [section]);
+  useEffect(() => {
     const onMessage = (event: MessageEvent) => {
-      if (event.origin === location.origin && event.source === root.current?.querySelector("iframe")?.contentWindow && event.data?.type === "patchwork-open-collection" && ["colors", "motion", "svg"].includes(event.data.section)) {
+      if (event.origin === location.origin && event.source === root.current?.querySelector("iframe")?.contentWindow && event.data?.type === "patchwork-open-collection" && ["colors", "motion", "svg", "primitives"].includes(event.data.section)) {
+        const url = new URL(location.href);
+        if (typeof event.data.resource === "string") url.searchParams.set("resource", event.data.resource);
+        else url.searchParams.delete("resource");
+        history.replaceState(history.state, "", url);
         setSection(event.data.section);
       }
     };
@@ -78,7 +87,12 @@ export default function DesignLibrary({ onClose }: { onClose: () => void }) {
           <button
             key={id}
             aria-pressed={section === id}
-            onClick={() => setSection(id)}
+            onClick={() => {
+              const url = new URL(location.href);
+              url.searchParams.delete("resource");
+              history.replaceState(history.state, "", url);
+              setSection(id);
+            }}
           >
             {label}
           </button>
@@ -88,8 +102,8 @@ export default function DesignLibrary({ onClose }: { onClose: () => void }) {
         <TemplateStudio />
       ) : section === "colors" ? (
         <ColorStudio />
-      ) : section === "motion" || section === "svg" ? (
-        <ExperimentStudio key={section} kind={section} />
+      ) : section === "motion" || section === "svg" || section === "primitives" ? (
+        <ResourceStudio key={section} kind={section} />
       ) : (
         <iframe
           key={section}

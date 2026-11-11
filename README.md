@@ -84,7 +84,7 @@ Each template supports brand/headline/accent/contact customization and downloads
 
 ### Design Library
 
-Open `?collection=library` or choose **Design Library** in the sidebar. A separate workspace contains 246 resources retained from from `yadavayush834/website-design-template-library`: templates, style studies, interface recreations, color palettes, motion experiments, SVG experiments and UI primitives. Browse/search/save, preview at real device widths, use the original lab tools, and download source or reference metadata. This collection does not replace the editor or Motion Studies. See `vendor/design-library/README.md` for provenance and the normalized structure.
+Open `?collection=library` or choose **Design Library** in the sidebar. A separate workspace contains 182 resources combining original interactions with retained work from `yadavayush834/website-design-template-library`: templates, style studies, interface recreations, color palettes, motion experiments, SVG experiments and UI primitives. Browse/search/save, preview at real device widths, customize the new interaction resources, and download source or reference metadata. This collection does not replace the editor or Motion Studies. See `vendor/design-library/README.md` for provenance and the normalized structure.
 
 ### Mosslight
 

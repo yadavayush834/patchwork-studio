@@ -170,3 +170,8 @@ Completed: make Style Study hover previews tour the website instead of remaining
 2026-11-02: Created one new pixel/3D scroll narrative, The Last Lightkeeper, and added it to Motion Studies with a captured cover and editable export.
 
 2026-11-02: Expanded and restaged The Last Lightkeeper story and ending following visual feedback.
+
+
+## 11 November 2026 — resource rebuild checkpoint
+
+Implemented new Motion/SVG/UI collections (8/8/9), original Web Component source, native inspector, standalone exports and actual preview covers. User requested pushing the work immediately and retaining the collections. Stop further redesign/interaction QA at this checkpoint.

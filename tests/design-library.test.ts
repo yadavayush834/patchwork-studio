@@ -5,10 +5,10 @@ import catalog from "../vendor/design-library/src/library-catalog.json";
 test("imported design library has complete distinct collections and resolvable sources", () => {
   assert.deepEqual(
     catalog.collections.map((c) => c.count),
-    [14, 28, 10, 105, 40, 40, 9],
+    [14, 28, 10, 105, 8, 8, 9],
   );
-  assert.equal(catalog.entries.length, 246);
-  assert.equal(new Set(catalog.entries.map((e) => e.id)).size, 246);
+  assert.equal(catalog.entries.length, 182);
+  assert.equal(new Set(catalog.entries.map((e) => e.id)).size, 182);
   for (const entry of catalog.entries) {
     assert.ok(entry.name);
     assert.ok(entry.description);

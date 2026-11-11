@@ -4,6 +4,12 @@ Last verified: 11 November 2026 (standalone motion opening; earlier feature evid
 
 Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/patchwork-studio), private, branch `main`. The local checkout uses `origin` for this repository. Check `git status`, the current commit, and the remote before continuing; do not infer present synchronization from this dated note.
 
+## Current resource rebuild — 11 November 2026
+
+The user requested a from-scratch replacement of Motion experiments, SVG experiments and UI primitives, then asked to stop further work and push the current implementation without deleting the collections. The current replacement has 8 motion components, 8 SVG generators and 9 UI systems. Native `src/resource-library/ResourceStudio.tsx` hosts isolated previews, live controls, source/API panels, event inspection and standalone ZIP/SVG downloads. Canonical framework-free sources live under `vendor/design-library/src/resources/`; original labs/explorer were replaced as requested. Shared UI helpers required by existing templates are retained. The full catalog now has 182 entries.
+
+Verification so far: 43 unit tests and the production build pass; all 25 preview components rendered in Chromium without page errors after fixing a reserved DOM property collision. Detailed task-by-task interactions, mobile layouts, exported component behavior and assistive technology remain unverified. This is the current work checkpoint, not a claim of completed interaction QA.
+
 ## What the user asked for
 
 An interactive place where creators can build websites using ready-made sections, sprites, art styles, backgrounds, fonts, ASCII art, and extensive manual customization. The approved first release is a local studio with export, designed for beginners and creators. Page structure uses responsive sections; artwork and sprites can be freely positioned inside scenes. Simple controls come first, with advanced controls available.

@@ -1,4 +1,4 @@
-import { MotionLabPlayground } from "../motion-lab";
+import ResourceHandoff from "../resource-handoff";
 export default function Demo({ id }: { id: string; onBack: () => void }) {
-  return <MotionLabPlayground initialId={id} />;
+  return <ResourceHandoff kind="motion" id={id} />;
 }

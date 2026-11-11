@@ -14,7 +14,7 @@ import "./library.css";
 type Entry = (typeof catalog.entries)[number];
 const visibleCollections = catalog.collections.filter((collection) => collection.id !== "interfaces");
 const visibleEntries = catalog.entries.filter((entry) => entry.kind !== "interfaces");
-const ExperimentStage = lazy(() => import("./experiment-stage/ExperimentStage"));
+
 const Demos = {
   templates: lazy(() => import("./library-demos/templates")),
   styles: lazy(() => import("./library-demos/styles")),
@@ -151,8 +151,9 @@ export default function App() {
     .filter(Boolean)
     .sort();
   function navigate(value: string) {
-    if (["colors", "motion", "svg"].includes(value) && window.parent !== window) {
-      window.parent.postMessage({ type: "patchwork-open-collection", section: value }, location.origin);
+    const [section, resource] = value.split("/");
+    if (["colors", "motion", "svg", "primitives"].includes(section) && window.parent !== window) {
+      window.parent.postMessage({ type: "patchwork-open-collection", section, resource }, location.origin);
       return;
     }
     location.hash = value;
@@ -199,10 +200,6 @@ export default function App() {
         />
       </Suspense>
     );
-  }
-  if (route.startsWith("stage/")) {
-    const [, kind, id] = route.split("/");
-    if ((kind === "motion" || kind === "svg") && id) return <Boundary><Suspense fallback={<div className="lib-empty">Loading experiment…</div>}><ExperimentStage kind={kind} id={id} /></Suspense></Boundary>;
   }
   if (isRender && entry)
     return <Boundary key={entry.id}>{demo(entry)}</Boundary>;

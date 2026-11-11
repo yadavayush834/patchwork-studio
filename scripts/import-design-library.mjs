@@ -66,13 +66,7 @@ const groups = [
   ["templates", "Templates", "data/templates-registry.ts", "templatesRegistry"],
   ["styles", "Style studies", "websites/registry.ts", "websitesRegistry"],
   ["interfaces", "Interface studies", "designs/registry.ts", "designsRegistry"],
-  [
-    "motion",
-    "Motion experiments",
-    "motion-lab/registry.ts",
-    "MOTION_COMPONENTS",
-  ],
-  ["svg", "SVG experiments", "svg-lab/registry.ts", "SVG_COMPONENTS"],
+
 ];
 const templateCategories = {
   ai: "AI & machine learning",
@@ -186,33 +180,12 @@ for (let n = 1; n <= 3; n++)
       source: `src/color-lab/data/palettes-batch${n}.ts`,
       metadata: p,
     });
-for (const id of [
-  "button",
-  "badge",
-  "card",
-  "input",
-  "tabs",
-  "modal",
-  "accordion",
-  "stats-card",
-  "skeleton",
-])
+for (const resource of JSON.parse(fs.readFileSync(`${base}/resources/catalog.json`, "utf8")))
   entries.push({
-    id: `primitives:${id}`,
-    originalId: id,
-    kind: "primitives",
-    name: id
-      .split("-")
-      .map((s) => s[0].toUpperCase() + s.slice(1))
-      .join(" "),
-    originalName: id,
-    description:
-      "Reusable React UI primitive with live examples and copyable usage.",
-    category: "UI primitives",
-    tags: ["React", "Tailwind CSS"],
-    colors: ["#c2b3ec", "#e7dfcf"],
-    source: `src/components/ui/${id}.tsx`,
-    metadata: {},
+    id: `${resource.kind}:${resource.id}`, originalId: resource.id, kind: resource.kind,
+    name: resource.name, originalName: resource.name, description: resource.description,
+    category: resource.category, tags: ["Web Component", "Original", "No dependencies"],
+    colors: ["#c6e6b0", "#202427"], source: resource.source, metadata: resource,
   });
 const ids = new Set();
 for (const e of entries) {
@@ -257,13 +230,13 @@ const collections = [
   [
     "motion",
     "Motion experiments",
-    "ASCII, shaders, 3D and interaction studies.",
+    "Original pointer, keyboard and scroll interactions.",
   ],
-  ["svg", "SVG experiments", "Vector scenes, morphs and generative drawing."],
+  ["svg", "SVG experiments", "Original parametric artwork with editable SVG exports."],
   [
     "primitives",
     "UI primitives",
-    "Reusable building blocks with live examples.",
+    "Working interface systems with state, keyboard controls and portable source.",
   ],
 ].map(([id, name, description]) => ({
   id,

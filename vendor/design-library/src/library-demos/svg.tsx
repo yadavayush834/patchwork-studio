@@ -1,4 +1,4 @@
-import { SvgLabPlayground } from "../svg-lab";
+import ResourceHandoff from "../resource-handoff";
 export default function Demo({ id }: { id: string; onBack: () => void }) {
-  return <SvgLabPlayground initialId={id} />;
+  return <ResourceHandoff kind="svg" id={id} />;
 }

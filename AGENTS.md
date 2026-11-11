@@ -24,7 +24,7 @@ npm test
 npm run build
 ```
 
-There are currently 41 unit tests. For changes to editing, persistence, media, motion, or export, also exercise the relevant real browser flow. A successful build alone does not verify those behaviors. See the browser QA recipes and their prerequisites in `docs/DEVELOPMENT.md`.
+There are currently 43 unit tests. For changes to editing, persistence, media, motion, or export, also exercise the relevant real browser flow. A successful build alone does not verify those behaviors. See the browser QA recipes and their prerequisites in `docs/DEVELOPMENT.md`.
 
 ## Architecture rules
 

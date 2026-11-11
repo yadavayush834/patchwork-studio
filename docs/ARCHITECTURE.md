@@ -128,3 +128,8 @@ The 14 template source paths and IDs remain stable. New shared helpers are in ve
 ## Character and pixel scene rendering
 
 The two glyph studies share semantic markup and scoped styles in glyph-studies.ts/css. glyph-ascii.ts samples original 3D point surfaces and projects them into a character-cell depth buffer; glyph-pixel.ts draws original integer-grid scenes. glyph-runtime.ts binds three reversible ScrollTrigger pins to scene progress and bounds rendering to visible canvases at 20fps, pausing on document hide. Reduced motion paints static compositions without pins. Runtime cleanup disconnects observers/listeners and kills timelines. These use the same motionDocument/exportMotion path and local runtime/font packaging as the other Motion Studies.
+
+
+## Replacement resource collections — November 2026
+
+`src/resource-library` owns the native motion, SVG and primitives workspace. The canonical 25 sources and control/API catalog are `vendor/design-library/src/resources`. `portable.ts` creates both isolated preview documents and standalone embed markup; `resources.ts` bundles the common base and one component in a scoped classic-script IIFE. Exports contain index.html, component.js, metadata, integration notes and MIT license. SVG resources additionally expose getSVG. Shadow DOM scopes component styles; the preview bridge verifies message source and component ID. These collections replace the old experiment labs; shared vendor UI modules remain internal dependencies of retained templates.
