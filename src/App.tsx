@@ -88,6 +88,7 @@ import AsciiGallery from "./AsciiGallery";
 const VideoLab = lazy(() => import("./video-lab/VideoLab"));
 const DesignLibrary = lazy(() => import("./DesignLibrary"));
 const MotionStudio = lazy(() => import("./motion/MotionStudio"));
+const HeroStudio = lazy(() => import("./heroes/HeroStudio"));
 
 type Tab = "sections" | "backgrounds" | "decorations" | "type" | "motion";
 const tabs: { id: Tab; name: string; icon: typeof Shapes }[] = [
@@ -176,6 +177,19 @@ function Slider({
 const starters = worlds.map((w) => createProject(w.id));
 
 export default function App() {
+  const [heroOpen, setHeroOpen] = useState(() => new URLSearchParams(location.search).get("collection") === "heroes");
+  const openHeroes = useCallback(() => {
+    setHeroOpen(true); setLibraryOpen(false); setMotionOpen(false); setVideoLabOpen(false);
+    const url = new URL(location.href); url.searchParams.set("collection", "heroes");
+    for (const key of ["motion", "lab", "view", "edit"]) url.searchParams.delete(key);
+    window.history.replaceState(null, "", url);
+  }, []);
+  const closeHeroes = useCallback(() => {
+    setHeroOpen(false); const url = new URL(location.href);
+    url.searchParams.delete("collection");url.searchParams.delete("hero");
+    window.history.replaceState(null, "", url);
+  }, []);
+
   const [libraryOpen, setLibraryOpen] = useState(
     () => new URLSearchParams(location.search).get("collection") === "library",
   );
@@ -793,6 +807,8 @@ export default function App() {
                 <LayoutGrid size={18} /> Design Library{" "}
                 <span className="new-dot" />
               </button>
+              <button onClick={openHeroes}><Sparkles size={18} />Hero sections</button>
+              <button onClick={() => location.assign("/?collection=heroes2")}><Sparkles size={18} />Hero sections II</button>
               <button onClick={openMotion}>
                 <Sparkles size={18} /> Motion templates{" "}
                 <span className="new-dot" />
@@ -958,6 +974,9 @@ export default function App() {
                       </strong>
                     </div>
                     <ArrowUpRight size={24} />
+                  </button>
+                  <button className="motion-launch" onClick={openHeroes}>
+                    <div><span className="motion-launch-icon"><Sparkles size={24}/></span><strong>Make an entrance.<small>Five original, one-screen hero sections. Live shaders, ASCII and pixel worlds, ready to reuse.</small></strong></div><ArrowUpRight size={24}/>
                   </button>
                   <button className="motion-launch" onClick={openMotion}>
                     <div>
@@ -2581,6 +2600,7 @@ export default function App() {
           )}
         </div>
       )}
+      {heroOpen && <Suspense fallback={<div className="vl-close-loading" role="status">Opening hero sections…<button onClick={closeHeroes}>Back to Patchwork</button></div>}><HeroStudio onClose={closeHeroes}/></Suspense>}
       {libraryOpen && (
         <Suspense
           fallback={

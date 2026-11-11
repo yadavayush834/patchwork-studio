@@ -1,0 +1,6 @@
+@font-face{font-family:PwHeroSyne;src:url('./fonts/Syne.ttf') format('truetype');font-weight:400 800;font-display:swap}
+@font-face{font-family:PwHeroInstrument;src:url('./fonts/InstrumentSerif.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:PwHeroBricolage;src:url('./fonts/BricolageGrotesque.ttf') format('truetype');font-weight:200 800;font-display:swap}
+@font-face{font-family:PwHeroPixel;src:url('./fonts/Silkscreen.ttf') format('truetype');font-weight:400;font-display:swap}
+@font-face{font-family:PwHeroBody;src:url('./fonts/DMSans.ttf') format('truetype');font-weight:100 900;font-display:swap}
+@font-face{font-family:PwHeroMono;src:url('./fonts/SpaceMono.ttf') format('truetype');font-weight:400;font-display:swap}

@@ -1,0 +1,20 @@
+:root{--bg:#0e0e10;--ink:#e9e5d7;--muted:#bdb8a8;--accent:#e9e5d7;--display:"Pixelify Sans",ui-monospace,monospace;--body:"Instrument Sans",system-ui,sans-serif;--radius:0;--focus:#e9e5d7}
+.hx-lowtide{background:var(--bg)}
+.hx-lowtide .hx-art{image-rendering:pixelated;image-rendering:crisp-edges}
+.hx-lowtide .hx-nav{font-family:var(--display)}
+.hx-lowtide .hx-brand{font:600 22px var(--display);text-shadow:2px 2px 0 var(--bg)}
+.l-moon{width:16px;height:16px;border-radius:50%;background:var(--ink);box-shadow:inset -5px 0 0 0 var(--bg),0 0 0 2px var(--ink)}
+.hx-lowtide .hx-link{font-size:16px;opacity:.92;text-shadow:2px 2px 0 var(--bg)}
+.l-copy{position:absolute;z-index:3;left:clamp(20px,5vw,88px);top:clamp(110px,19vh,190px);max-width:min(640px,50vw)}
+.l-title{margin:0 0 clamp(18px,3vh,26px);font:600 clamp(48px,6vw,100px)/1 var(--display);letter-spacing:-.01em;text-shadow:4px 4px 0 var(--bg);overflow-wrap:break-word;min-width:0}
+.w{display:inline-block;overflow:hidden;vertical-align:top}.w>span{display:inline-block}
+.l-sub{display:inline;margin:0;font-size:clamp(16px,1.2vw,19px);line-height:1.75;color:var(--bg);background:var(--ink);box-decoration-break:clone;-webkit-box-decoration-break:clone;padding:3px 8px}
+.l-copy .hx-actions{display:flex;gap:14px;flex-wrap:wrap;margin-top:clamp(26px,4.4vh,40px)}
+.hx-lowtide .hx-btn{font:600 18px/1 var(--display);padding:14px 20px;box-shadow:4px 4px 0 0 var(--bg),4px 4px 0 2px var(--ink);transition:transform .08s steps(2),box-shadow .08s steps(2)}
+.hx-lowtide .hx-btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 0 var(--bg),6px 6px 0 2px var(--ink)}
+.hx-lowtide .hx-btn:active{transform:translate(4px,4px);box-shadow:0 0 0 0 var(--bg)}
+.hx-lowtide .hx-ghost{background:var(--bg);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink),4px 4px 0 0 var(--ink)}
+.hx-lowtide .hx-ghost:hover{box-shadow:inset 0 0 0 2px var(--ink),6px 6px 0 0 var(--ink)}
+.l-hint{position:absolute;z-index:3;right:clamp(20px,4vw,64px);bottom:clamp(18px,4vh,36px);margin:0;font:500 15px var(--display);color:var(--ink);text-shadow:2px 2px 0 var(--bg)}
+.hx-lowtide a:focus-visible{outline:2px dashed var(--ink);outline-offset:6px}
+@media (max-width:760px){.l-copy{max-width:none;right:20px}.hx-nav nav{display:none}}

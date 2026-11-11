@@ -6,9 +6,9 @@ import { createPixelPass } from "./pixel-pass";
 
 const PALETTE = [
   "#0d0a0c", "#1c1410", "#2e1d16", "#4a3020", "#6b4a2e", "#9a6a52", "#c8a07a", "#e6dcc0",
-  "#ffffff", "#d8dce6", "#9aa0b4", "#5f6680", "#3b4466", "#262c44", "#1f5f8f", "#3d8fbf",
+  "#ffffff", "#d8dce6", "#9aa0b4", "#a8d8f0", "#3b4466", "#262c44", "#1f5f8f", "#3d8fbf",
   "#9fd3e8", "#3ce0c4", "#1d8f9a", "#2f6b4f", "#5ba86a", "#a8d46f", "#ffd34d", "#ff8a3d",
-  "#c4506b", "#7a2d55", "#e07aa8", "#f7a8c4", "#ffd6e6", "#5a5aa0", "#8b7bc0", "#c9b8e8",
+  "#c4506b", "#7a2d55", "#e07aa8", "#f7a8c4", "#ffd6e6", "#6fa8dc", "#8b7bc0", "#c9b8e8",
 ];
 const W = (x: number, y: number, z: number) => new THREE.Vector3(x * V, y * V, z * V);
 
@@ -32,6 +32,7 @@ export function animateBurrow(reduced: boolean) {
   const pass = createPixelPass({ palette: PALETTE, dither: 0.05, outlineNear: 60, outlineInk: "#0d0a0c" });
 
   const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x1c1410);
   const fogColor = new THREE.Color();
   scene.fog = new THREE.Fog(fogColor, 6, 40);
   const camera = new THREE.PerspectiveCamera(48, 1, 0.05, 400);
@@ -55,7 +56,7 @@ export function animateBurrow(reduced: boolean) {
         void main(){
           float g = smoothstep(-0.1, 0.7, vD.y);
           vec3 winter = mix(vec3(0.86, 0.87, 0.9), vec3(0.62, 0.64, 0.7), g);
-          vec3 spring = mix(vec3(1.0, 0.88, 0.92), vec3(0.45, 0.7, 0.92), g);
+          vec3 spring = mix(vec3(1.0, 0.88, 0.92), vec3(0.45, 0.7, 0.92), smoothstep(-0.05, 0.22, vD.y));
           vec3 c = mix(winter, spring, uBloom);
           gl_FragColor = vec4(pow(c, vec3(2.2)), 1.0);
         }`,
@@ -66,14 +67,41 @@ export function animateBurrow(reduced: boolean) {
   const world = buildWorld();
   const greyU = { uGrey: { value: 1 } };
   const add = (m: THREE.Object3D) => (scene.add(m), m);
-  add(voxels(world.walls, true));
-  add(voxels(world.glow, false));
+  // Rock: smooth painted shells; chamber shells open doorways where the tunnel passes.
+  const holes = world.caves.holes.slice(0, 12);
+  while (holes.length < 12) holes.push(new THREE.Vector4(0, 9999, 0, 0));
+  const rockU = { uPulse: { value: -1 }, uLit: { value: 0 } };
+  const rock = new THREE.MeshLambertMaterial({ vertexColors: true, side: THREE.DoubleSide });
+  rock.onBeforeCompile = (shader) => {
+    shader.uniforms.uHoles = { value: holes };
+    Object.assign(shader.uniforms, rockU);
+    shader.vertexShader = shader.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vWorld; attribute float along; varying float vAlong;").replace("#include <worldpos_vertex>", "#include <worldpos_vertex>\nvWorld = (modelMatrix * vec4(transformed, 1.0)).xyz; vAlong = along;");
+    shader.fragmentShader = shader.fragmentShader
+      .replace("#include <common>", "#include <common>\nvarying vec3 vWorld; uniform vec4 uHoles[12]; varying float vAlong; uniform float uPulse, uLit;")
+      .replace("#include <emissivemap_fragment>", "#include <emissivemap_fragment>\nfloat ring = exp(-pow((vAlong - uPulse) * 60.0, 2.0));\ntotalEmissiveRadiance += vec3(1.0, 0.6, 0.22) * (ring * 1.6 + step(uPulse, vAlong) * uLit * 0.12) * step(0.0, uPulse);")
+      .replace("void main() {", `void main() {\n  for (int i = 0; i < 12; i++) if (distance(vWorld, uHoles[i].xyz * ${V.toFixed(2)}) < uHoles[i].w * ${V.toFixed(2)}) discard;`);
+  };
+  // The burrow's throat: soil walls from the hill's surface down to where the tunnel begins.
+  const mouth = tunnelPath.getPointAt(0);
+  const throat = new THREE.Mesh(new THREE.CylinderGeometry((TUNNEL_R + 0.8) * V, (TUNNEL_R + 0.8) * V, 7 * V, 24, 1, true), new THREE.MeshLambertMaterial({ color: 0x4a3020, side: THREE.DoubleSide }));
+  throat.position.set(mouth.x * V, (mouth.y + 2.5) * V, mouth.z * V);
+  scene.add(throat);
+  for (const m of world.caves.meshes) {
+    m.material = rock;
+    m.scale.setScalar(V);
+    m.frustumCulled = false;
+    scene.add(m);
+  }
   add(voxels(world.detail, true));
-  add(voxels(world.knot, true));
+  const bones = add(voxels(world.bones, true)) as THREE.InstancedMesh;
+  (bones.material as THREE.MeshLambertMaterial).emissive.setRGB(0.14, 0.12, 0.09);
+  add(voxels(world.knot.map(([x, y, z, c]) => [x / 0.6, y / 0.6, z / 0.6, c] as [number, number, number, string]), true, V * 0.6));
   add(voxels(world.surface, true, V, greyable(greyU)));
   add(voxels(world.tree, true, V, greyable(greyU)));
   const crystals = add(voxels(world.crystals, false)) as THREE.InstancedMesh;
-  const core = add(voxels(world.core, false)) as THREE.InstancedMesh;
+  (crystals.material as THREE.MeshBasicMaterial).fog = false;
+  const core = add(new THREE.Mesh(new THREE.IcosahedronGeometry(2.4 * V, 0), new THREE.MeshBasicMaterial({ color: 0x9aa0b4 }))) as THREE.Mesh;
+  core.position.copy(chambers.heart.c).multiplyScalar(V);
   const waterU = { uTime: { value: 0 } };
   add(
     voxels(world.water, false, V, (shader) => {
@@ -114,11 +142,11 @@ export function animateBurrow(reduced: boolean) {
   }).filter(([x, , z]) => Math.hypot(x, z - 1) > 6), true);
   add(flowers);
   // Falling petals; glowing fish.
-  const petals = add(voxels(Array.from({ length: 140 }, (_, i) => [0, 0, 0, i % 2 ? "#f7a8c4" : "#ffd6e6"] as [number, number, number, string]), false, V * 0.6)) as THREE.InstancedMesh;
+  const petals = add(voxels(Array.from({ length: 140 }, (_, i) => [0, 0, 0, i % 2 ? "#f7a8c4" : "#ffd6e6"] as [number, number, number, string]), false, V * 1.1)) as THREE.InstancedMesh;
   const fish = add(voxels(Array.from({ length: 16 }, (_, i) => [0, 0, 0, i % 3 ? "#9fd3e8" : "#3ce0c4"] as [number, number, number, string]), false, V * 0.8)) as THREE.InstancedMesh;
   const pip = buildPip();
   scene.add(pip.group);
-  const lantern = new THREE.PointLight(0xffc878, 6, 9, 1.4);
+  const lantern = new THREE.PointLight(0xffc878, 3, 9, 1.4);
   scene.add(lantern);
   const riverLight = new THREE.PointLight(0x4aa8ff, 0, 14, 1.2);
   riverLight.position.copy(chambers.river.c).multiplyScalar(V);
@@ -141,14 +169,31 @@ export function animateBurrow(reduced: boolean) {
   const endWide = [W(-34, 30, 66), W(16, 24, -22)];
   const hc = chambers.heart.c.clone().multiplyScalar(V);
   function tunnelCam(u: number, backward: boolean) {
-    tunnelPoint(u, camPos).addScaledVector(upAt(u), 1.9 * V);
-    tunnelPoint(backward ? u - 0.014 : u + 0.014, camLook).addScaledVector(upAt(u), 0.9 * V);
+    tunnelPoint(u, camPos).addScaledVector(upAt(u), 0.7 * V);
+    tunnelPoint(backward ? u - 0.014 : u + 0.014, camLook).addScaledVector(upAt(u), 0.2 * V);
   }
   const lerp2 = (a: THREE.Vector3[], b: THREE.Vector3[], k: number) => {
     camPos.lerpVectors(a[0], b[0], k);
     camLook.lerpVectors(a[1], b[1], k);
   };
 
+  const uOf = (c: THREE.Vector3) => {
+    let best = 0, bd = Infinity;
+    for (let i = 0; i <= 400; i++) {
+      const d = tunnelPath.getPointAt(i / 400).distanceToSquared(c);
+      if (d < bd) { bd = d; best = i / 400; }
+    }
+    return best;
+  };
+  // [forward-travel fraction, tunnel u]: chapter III-V land in the middle of their chambers.
+  const travelKeys: [number, number][] = [[0, 0], [(0.3 - 0.13) / 0.56, uOf(chambers.bone.c)], [(0.45 - 0.13) / 0.56, uOf(chambers.river.c)], [(0.59 - 0.13) / 0.56, uOf(chambers.crystal.c)], [1, uOf(chambers.heart.c) - 0.045]];
+  const remap = (a: number) => {
+    for (let k = 1; k < travelKeys.length; k++) {
+      const [p0, u0] = travelKeys[k - 1], [p1, u1] = travelKeys[k];
+      if (a <= p1) return u0 + ((a - p0) / (p1 - p0)) * (u1 - u0);
+    }
+    return travelKeys[travelKeys.length - 1][1];
+  };
   const pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   const state = { p: reduced ? 0.99 : 0 };
   let shown = -1;
@@ -160,7 +205,7 @@ export function animateBurrow(reduced: boolean) {
   const layers = ["SURFACE", "TOPSOIL", "BONE HALL", "BLIND RIVER", "CRYSTAL HALL", "HEART ROOT"];
 
   function draw(time: number) {
-    const s = burrowState(state.p), p = s.p;
+    const s0 = burrowState(state.p), s = { ...s0, along: remap(s0.along) }, p = s.p;
     skyU.uBloom.value = s.bloom;
     greyU.uGrey.value = 1 - s.bloom;
     waterU.uTime.value = time;
@@ -171,13 +216,13 @@ export function animateBurrow(reduced: boolean) {
       const a = [camPos.clone(), camLook.clone()];
       lerp2(a, endWide, smooth(s.exit));
     } else if (s.orbit > 0 && s.rewind === 0) {
-      tunnelCam(1, false);
+      tunnelCam(travelKeys[travelKeys.length - 1][1], false);
       const a = camPos.clone(), b = camLook.clone();
       const ang = (p - 0.68) * 9;
-      tmpA.set(hc.x + Math.sin(ang) * 4.2, hc.y + 1.2, hc.z + Math.cos(ang) * 4.2);
+      tmpA.set(hc.x + Math.sin(ang) * 3.4, hc.y + 0.9, hc.z + Math.cos(ang) * 3.4);
       camPos.lerpVectors(a, tmpA, s.orbit);
       camLook.lerpVectors(b, hc, s.orbit);
-    } else tunnelCam(s.along, s.rewind > 0);
+    } else tunnelCam(s.rewind > 0 ? remap(s0.along) : s.along, s.rewind > 0);
     pointer.x += (pointer.tx - pointer.x) * 0.05;
     pointer.y += (pointer.ty - pointer.y) * 0.05;
     camLook.x += pointer.x * 0.5;
@@ -195,14 +240,16 @@ export function animateBurrow(reduced: boolean) {
     (scene.fog as THREE.Fog).near = 6 + (1 - under) * 40;
     (scene.fog as THREE.Fog).far = 26 + (1 - under) * 200;
     hemi.intensity = 1.4 - under * 1.15;
+    sky.visible = under < 0.97;
+    (scene.background as THREE.Color).copy(fogColor);
     sun.intensity = 2.2 * (1 - under);
     // Pip walks ahead with the lantern; after giving it, Pip waits by the heart, then by the tree.
-    const pu = Math.min(0.985, s.along + 0.034);
+    const pu = Math.min(travelKeys[travelKeys.length - 1][1] + 0.025, s.along + 0.05);
     if (s.exit > 0.5) {
       pip.group.position.copy(W(12, 9, -14));
       pip.group.rotation.set(0, 0.6, 0);
     } else {
-      tunnelPoint(s.rewind > 0 ? 0.985 : pu, pv).addScaledVector(upAt(pu), -(TUNNEL_R - 0.9) * V);
+      tunnelPoint(s.rewind > 0 ? travelKeys[travelKeys.length - 1][1] + 0.025 : pu, pv).addScaledVector(upAt(pu), -(TUNNEL_R - 0.9) * V);
       pip.group.position.copy(pv);
       pip.group.position.y += Math.abs(Math.sin(time * 6)) * 0.04;
       tunnelPoint(pu + 0.01, tmpB).addScaledVector(upAt(pu), -(TUNNEL_R - 0.9) * V);
@@ -210,18 +257,22 @@ export function animateBurrow(reduced: boolean) {
     }
     pip.capMesh.visible = p > 0.19;
     pip.lampMesh.visible = s.give < 0.5;
-    lantern.position.copy(pip.group.position).add(new THREE.Vector3(0, 0.8, 0));
-    lantern.intensity = 7 * under * (1 - s.give);
+    lantern.position.copy(pip.group.position).add(new THREE.Vector3(0, 0.9, 0));
+    lantern.intensity = 4 * under * (1 - s.give);
     // Chamber lights and life.
     riverLight.intensity = 30 * under;
     crystalLight.intensity = 26 * under;
     const crystalHum = 0.75 + 0.25 * Math.sin(time * 1.6);
     (crystals.material as THREE.MeshBasicMaterial).color.setScalar(crystalHum);
     const ember = s.give;
-    heartLight.intensity = 6 + ember * 60 + Math.sin(time * 3) * 4 * ember;
-    (core.material as THREE.MeshBasicMaterial).color.setRGB(0.35 + ember * 0.65, 0.4 + ember * 0.35, 0.5 - ember * 0.3).multiplyScalar(0.8 + 0.2 * Math.sin(time * (2 + ember * 3)));
-    core.scale.setScalar(1);
-    pulseU.uPulse.value = s.pulse > 0 ? s.along * 0.92 + 0.05 : -1;
+    heartLight.intensity = 5 + ember * 16 + Math.sin(time * 3) * 2 * ember;
+    (core.material as THREE.MeshBasicMaterial).color.setRGB(0.22 + ember * 0.78, 0.25 + ember * 0.4, 0.38 - ember * 0.22).multiplyScalar(0.85 + 0.15 * Math.sin(time * (2 + ember * 3)));
+    core.rotation.set(time * 0.3, time * 0.5, 0);
+    core.scale.setScalar(1 + ember * 0.25 + Math.sin(time * 3.2) * 0.06 * ember);
+    // The returning light: a ring of glow running up the tunnel just ahead of the camera.
+    rockU.uPulse.value = s.pulse > 0 ? Math.max(0, s.along - 0.015) : -1;
+    rockU.uLit.value = ember;
+    pulseU.uPulse.value = s.pulse > 0 ? (s.exit > 0 ? 1 - s.exit * 1.4 : 1.2) : -1;
     pulseU.uLit.value = ember;
     // Fish dart and leap in the river.
     const rv = chambers.river;
@@ -241,7 +292,7 @@ export function animateBurrow(reduced: boolean) {
       for (let i = 0; i < 140; i++) {
         const life = (time * 0.08 + i * 0.0137) % 1;
         pv.set(18 + Math.sin(i * 2.3) * 22 + Math.sin(time + i) * 2, 46 - life * 44, -24 + Math.cos(i * 1.7) * 22).multiplyScalar(V);
-        m4.compose(pv, qt.setFromEuler(new THREE.Euler(time + i, time * 0.7, 0)), sv.setScalar(V * 0.6 * s.bloom));
+        m4.compose(pv, qt.setFromEuler(new THREE.Euler(time + i, time * 0.7, 0)), sv.setScalar(V * 1.1 * s.bloom));
         petals.setMatrixAt(i, m4);
       }
     petals.instanceMatrix.needsUpdate = true;

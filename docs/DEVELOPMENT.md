@@ -160,3 +160,7 @@ Normal dev/build runs `scripts/build-mosslight.mjs` to copy the canonical source
 ## Style studies browser regression
 
 After `npm run build`, serve the build on a separate port/profile (for example `node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 5188 --strictPort`). Run `PATCHWORK_QA_URL=http://127.0.0.1:5188 PATCHWORK_CHROME=/path/to/chromium node scripts/verify-style-studies.mjs`. If Playwright's default Chromium is installed, omit PATCHWORK_CHROME. This launches an isolated context and checks all 28 studies, live tours, saved-state reload, search/filter empty state, keyboard project disclosure, viewport sizing, independent tabs, full-source ZIP, clipboard and reduced-motion behavior. Never use the user's browser profile or clear its local storage for QA.
+
+## Hero sections
+
+`npm run build:heroes` regenerates the portable hero engine from `src/heroes/runtime.ts`; normal dev/build includes it. Sources, export contracts, font provenance and the independent browser-regression command are documented in `docs/HEROES.md`. Run `scripts/verify-heroes.mjs` against a built preview on an isolated origin, with `PATCHWORK_CHROME` pointing to an installed Chromium when needed. It downloads all five ZIPs and rebuilds the shipped source using the checkout's installed dependencies, without installing anything into user projects or clearing browser data.

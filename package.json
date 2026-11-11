@@ -4,15 +4,16 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node scripts/build-mosslight.mjs && node scripts/build-ascii.mjs && node scripts/build-motion.mjs && node scripts/build-design-library.mjs && vite --host 127.0.0.1",
+    "dev": "node scripts/build-heroes.mjs && node scripts/build-mosslight.mjs && node scripts/build-ascii.mjs && node scripts/build-motion.mjs && node scripts/build-design-library.mjs && vite --host 127.0.0.1",
     "build:ascii": "node scripts/build-ascii.mjs",
-    "build": "node scripts/build-mosslight.mjs && node scripts/build-ascii.mjs && node scripts/build-motion.mjs && node scripts/build-design-library.mjs && tsc -b && vite build",
+    "build": "node scripts/build-heroes.mjs && node scripts/build-mosslight.mjs && node scripts/build-ascii.mjs && node scripts/build-motion.mjs && node scripts/build-design-library.mjs && tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test": "tsx --test tests/*.test.ts",
     "qa:fixtures": "node scripts/prepare-browser-fixtures.mjs && node scripts/prepare-ascii-capture.mjs",
     "build:motion": "node scripts/build-motion.mjs",
     "build:library": "node scripts/build-design-library.mjs",
-    "build:mosslight": "node scripts/build-mosslight.mjs"
+    "build:mosslight": "node scripts/build-mosslight.mjs",
+    "build:heroes": "node scripts/build-heroes.mjs"
   },
   "dependencies": {
     "gifenc": "1.0.3",

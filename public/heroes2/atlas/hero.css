@@ -1,0 +1,20 @@
+:root{--bg:#f1ede4;--ink:#191919;--muted:#66625a;--accent:#2340ff;--display:"Instrument Serif",Georgia,serif;--body:"Instrument Sans",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--radius:2px;--focus:#2340ff}
+.hx-atlas{background:var(--bg)}
+.hx-atlas .hx-brand{font:500 15px var(--mono);letter-spacing:-.01em}
+.a-mark{color:var(--accent)}
+.hx-atlas .hx-link{font-family:var(--mono);font-size:13px}
+.a-copy{position:absolute;z-index:3;left:clamp(20px,5.5vw,96px);top:50%;transform:translateY(-50%);max-width:min(600px,44vw)}
+.a-prompt{display:block;margin-bottom:clamp(18px,3.4vh,30px);font:400 13px var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden}
+.a-prompt::after{content:"";display:inline-block;width:.6em;height:1.1em;margin-left:2px;vertical-align:-.2em;background:var(--accent);animation:a-blink 1s steps(1) infinite}
+@keyframes a-blink{50%{opacity:0}}
+.a-title{margin:0 0 clamp(18px,3vh,26px);font:400 clamp(52px,6.4vw,112px)/.98 var(--display);letter-spacing:-.025em;overflow-wrap:break-word;min-width:0}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em}.w>span{display:inline-block}
+.a-sub{margin:0 0 clamp(24px,4vh,34px);max-width:42ch;font-size:clamp(16px,1.15vw,18px);line-height:1.6;color:var(--muted)}
+.hx-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hx-atlas .hx-btn{font-family:var(--mono);font-size:14px;letter-spacing:-.01em}
+.hx-atlas .hx-btn:not(.hx-ghost):hover{background:var(--accent)}
+.a-readout{position:absolute;z-index:4;left:0;top:0;display:grid;gap:2px;padding:6px 8px;font:500 11px/1.35 var(--mono);color:var(--accent);background:color-mix(in srgb,var(--bg) 88%,transparent);pointer-events:none;opacity:0;transition:opacity .25s ease;will-change:transform}
+.a-readout.is-on{opacity:1}
+.a-meter{position:absolute;z-index:3;right:clamp(20px,4vw,64px);bottom:clamp(18px,4vh,36px);font:400 12px var(--mono);color:var(--muted)}
+.a-meter span{color:var(--ink)}
+@media (max-width:760px){.a-copy{max-width:none;right:20px;top:auto;bottom:5vh;transform:none}.hx-nav nav{display:none}.a-meter{display:none}}

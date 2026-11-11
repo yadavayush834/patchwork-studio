@@ -138,3 +138,8 @@ The two glyph studies share semantic markup and scoped styles in glyph-studies.t
 ## Native Style studies
 
 `src/style-library/catalog.ts` derives the 28 studies from the canonical vendor inventory; it does not duplicate metadata. `StyleStudio` owns filters, shared namespaced favorites, `study` deep links and the responsive preview workbench. `LiveStudy` scales a real iframe viewport rather than resizing a screenshot. It verifies ready messages by origin, source and study ID, exposes loading/retry states, and unmounts thumbnail contexts on exit. The vendored `library-demos/styles.tsx` emits readiness for both interactive pages and optional thumbnail tours, authenticates parent visibility messages, and stops its tour on reduced motion or hidden documents. Render routes remain independent website documents; legacy gallery routes hand off to the native host. Original editor, motion templates and other collections remain separate.
+
+
+## Reusable hero sections
+
+`src/heroes/catalog.ts` defines five scene IDs, defaults and validated customization. `markup.ts` provides escaped semantic content; `runtime.ts` defines one reusable `patchwork-hero` custom element with isolated CSS, GSAP entrance choreography and bounded WebGL/ASCII renderers. `document.ts` wraps that same element for studio iframes, standalone routes and exports. `main.tsx` resolves explicit hero standalone links before loading the studio. `HeroStudio.tsx` owns customization, scoped local storage and iframe viewports; it never changes version-1 website documents. `export.ts` packages the generated runtime, original source/build recipe, local fonts and notices. `build-heroes.mjs` is included in normal builds. See `docs/HEROES.md`.

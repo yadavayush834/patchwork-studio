@@ -188,3 +188,8 @@ Implemented new Motion/SVG/UI collections (8/8/9), original Web Component source
 ## 11 November 2026 — Style studies
 
 Repaired the Style studies section with a native gallery, explicit live previews, responsive interactive website workbench, loading/retry, saved studies, source access and shareable links. Preserved all 28 studies and existing collections. Browser regression is `scripts/verify-style-studies.mjs`.
+
+2026-11-11: Added Burrow, a GSAP + Three.js pixel-art scroll story that moves into the screen (dive, forward fly-through, orbit, reverse rush) rather than sideways, as the nineteenth Motion Template.
+
+
+2026-11-11: Added a separate Hero sections collection with five original one-screen reusable designs (Facet, Undertow, Daybreak, Lattice, Frequency), native customization, standalone routes and portable custom-element/source exports. This batch is independent of ongoing Motion Template work.

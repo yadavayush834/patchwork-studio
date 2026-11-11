@@ -1,0 +1,13 @@
+:root{--bg:#efe9dc;--ink:#17171e;--muted:#5c5a55;--accent:#d63a1e;--display:"Instrument Serif",Georgia,serif;--body:"Instrument Sans",system-ui,sans-serif;--radius:4px;--focus:#d63a1e;--grain:.11}
+.hx-ink{background:var(--bg)}
+.hx-ink .hx-brand{font:400 26px var(--display);letter-spacing:-.01em}
+.i-copy{position:absolute;z-index:3;left:clamp(20px,6vw,104px);top:50%;transform:translateY(-46%);max-width:min(760px,58vw)}
+.i-seal{display:block;width:62px;height:62px;margin-bottom:clamp(20px,4vh,40px);filter:drop-shadow(0 1px 0 rgba(0,0,0,.08))}
+.i-title{margin:0 0 clamp(18px,3vh,28px);font:400 clamp(56px,7.6vw,132px)/.95 var(--display);letter-spacing:-.025em;text-shadow:0 0 28px var(--bg),0 0 8px var(--bg);overflow-wrap:break-word;min-width:0}
+.i-line{display:block}
+em.i-line{font-style:italic;color:color-mix(in srgb,var(--ink) 82%,var(--accent))}
+.i-sub{margin:0 0 clamp(24px,4vh,36px);max-width:44ch;font-size:clamp(16px,1.2vw,19px);line-height:1.6;color:var(--muted);text-shadow:0 0 12px var(--bg)}
+.hx-actions{display:flex;gap:14px;flex-wrap:wrap}
+.hx-ink .hx-btn:not(.hx-ghost):hover{background:var(--accent);box-shadow:0 12px 30px -14px var(--accent)}
+.hx-ink .hx-ghost{background:color-mix(in srgb,var(--bg) 70%,transparent)}
+@media (max-width:760px){.i-copy{max-width:none;right:20px;top:auto;bottom:6vh;transform:none}.hx-nav nav{display:none}}

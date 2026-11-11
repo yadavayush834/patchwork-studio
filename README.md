@@ -96,3 +96,5 @@ The former reference collection is maintained separately in the private [`refere
 
 
 Style studies now includes live card previews and an interactive website workspace with desktop, tablet and phone widths, saved studies, design notes, source downloads and independent website tabs. All 28 original study websites remain available.
+
+**Hero sections** adds five original one-screen openings: Facet, Undertow, Daybreak, Lattice and Frequency. Open the collection from the dashboard, customize the live scene, and download a reusable custom element with local fonts and editable shader/ASCII source. See [Hero sections](docs/HEROES.md).

@@ -1,0 +1,23 @@
+:root{--bg:#113528;--bg2:#1c4a37;--ink:#f3e7cf;--muted:#b9c2ad;--accent:#f2a33a;--display:"Fraunces",Georgia,serif;--body:"Instrument Sans",system-ui,sans-serif;--radius:999px;--focus:#f2a33a;--grain:.09;--glow:0}
+.hx-breath{background:radial-gradient(70% 60% at 50% 46%,color-mix(in srgb,var(--bg2) calc(60% + var(--glow) * 40%),var(--bg)) 0%,var(--bg) 70%)}
+.hx-breath .hx-grain{mix-blend-mode:overlay;opacity:.16}
+.hx-breath .hx-brand{font:500 20px var(--display);font-variation-settings:"SOFT" 100,"opsz" 24}
+.b-mark{width:22px;height:22px;color:var(--accent)}
+.b-stage{position:absolute;inset:0;z-index:2;display:grid;grid-template-rows:1fr auto;padding:clamp(90px,14vh,140px) clamp(20px,4vw,64px) clamp(26px,5vh,48px)}
+.b-title{align-self:center;justify-self:center;margin:0;text-align:center;font:300 clamp(64px,12.4vw,216px)/.88 var(--display);letter-spacing:-.035em;color:var(--ink);font-variation-settings:"opsz" 144;min-width:0}
+.b-letters{display:inline}
+.b-word{display:inline-block;white-space:nowrap}
+.b-l{display:inline-block;will-change:transform;transition:color .4s ease}
+.b-space{display:inline-block;width:.24em}
+.b-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:32px}
+.b-sub{margin:0;max-width:40ch;font-size:clamp(16px,1.2vw,19px);line-height:1.6;color:var(--muted)}
+.hx-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hx-breath .hx-btn{background:var(--ink);color:var(--bg);border:0;cursor:pointer}
+.hx-breath .hx-btn:hover{background:var(--accent)}
+.hx-breath .hx-ghost{background:transparent;color:var(--ink)}
+.hx-breath .hx-ghost:hover{background:transparent}
+.b-dot{position:relative;width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 1.5px currentColor;overflow:hidden}
+.b-dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:currentColor;transform:scale(var(--fill,0));transition:transform .1s linear}
+.b-guide{position:absolute;left:50%;top:clamp(80px,13vh,130px);transform:translateX(-50%);margin:0;font:400 18px var(--display);font-style:italic;color:var(--accent);min-height:1.4em;text-align:center;font-variation-settings:"SOFT" 100,"opsz" 24}
+@media (max-width:760px){.b-foot{flex-direction:column;align-items:flex-start}.hx-nav nav{display:none}}
+.b-line{display:block;white-space:nowrap}

@@ -71,23 +71,7 @@ export const greyable = (u: { uGrey: { value: number } }) => (shader: THREE.WebG
 export function buildWorld() {
   seed = 7;
   const frames = tunnelFrames();
-  // Spatial hash of tunnel samples for the "is this air?" test.
-  const grid = new Map<string, number[]>(), G = 6;
-  const key = (x: number, y: number, z: number) => `${Math.floor(x / G)},${Math.floor(y / G)},${Math.floor(z / G)}`;
-  frames.pts.forEach((p, i) => {
-    const k = key(p.x, p.y, p.z);
-    (grid.get(k) ?? grid.set(k, []).get(k)!).push(i);
-  });
   const probe = new THREE.Vector3();
-  const air = (x: number, y: number, z: number) => {
-    probe.set(x, y, z);
-    for (const ch of chamberList) if (ell(probe, ch) < 1) return true;
-    const gx = Math.floor(x / G), gy = Math.floor(y / G), gz = Math.floor(z / G);
-    for (let a = -1; a <= 1; a++) for (let b = -1; b <= 1; b++) for (let c = -1; c <= 1; c++)
-      for (const i of grid.get(`${gx + a},${gy + b},${gz + c}`) ?? []) if (frames.pts[i].distanceToSquared(probe) < TUNNEL_R * TUNNEL_R) return true;
-    // Above the hill's skin is open air; the hill itself is built separately.
-    return y >= hillHeight(x, z) - 1;
-  };
   const zone = (_x: number, y: number, z: number) => (y > -7 && z > -30 ? "soil" : z > -92 ? "soil" : z > -168 ? "bone" : z > -248 ? "river" : z > -322 ? "crystal" : "heart");
   const palette: Record<string, string[]> = {
     soil: ["#5a3b24", "#6b4a2e", "#7d5634", "#4a3020"],
@@ -96,47 +80,15 @@ export function buildWorld() {
     crystal: ["#241f3a", "#2f2850", "#3a3060", "#1c1830"],
     heart: ["#3a2028", "#4a2630", "#2e1820", "#5a2c2c"],
   };
-  const walls = new Map<number, Vox>(), glow: Vox[] = [];
-  const pack = (x: number, y: number, z: number) => (x + 512) * 1048576 + (y + 512) * 1024 + (z + 512);
-  const addWall = (x: number, y: number, z: number) => {
-    x = Math.round(x); y = Math.round(y); z = Math.round(z);
-    const k = pack(x, y, z + 400);
-    if (walls.has(k) || air(x, y, z)) return;
-    const zn = zone(x, y, z), cols = palette[zn];
-    let col = cols[Math.floor(rnd() * cols.length)];
-    if (zn === "soil" && rnd() > 0.94) col = rnd() > 0.5 ? "#8a8a96" : "#a8a0a0";
-    if (zn === "bone" && rnd() > 0.97) col = "#e6dcc0";
-    if (zn === "heart" && rnd() > 0.93) { glow.push([x, y, z, rnd() > 0.5 ? "#ff8a3d" : "#c4506b"]); return; }
-    walls.set(k, [x, y, z, col]);
-  };
-  // Tunnel walls: two rings around every sample.
-  frames.pts.forEach((p, i) => {
-    for (const rr of [TUNNEL_R + 0.6, TUNNEL_R + 1.4]) {
-      const steps = Math.ceil(Math.PI * 2 * rr * 1.3);
-      for (let a = 0; a < steps; a++) {
-        const t = (a / steps) * Math.PI * 2;
-        addWall(p.x + (frames.side[i].x * Math.cos(t) + frames.up[i].x * Math.sin(t)) * rr, p.y + (frames.side[i].y * Math.cos(t) + frames.up[i].y * Math.sin(t)) * rr, p.z + (frames.side[i].z * Math.cos(t) + frames.up[i].z * Math.sin(t)) * rr);
-      }
-    }
-  });
-  // Chamber shells.
-  for (const ch of chamberList) {
-    for (let x = -ch.r.x - 2; x <= ch.r.x + 2; x++)
-      for (let y = -ch.r.y - 2; y <= ch.r.y + 2; y++)
-        for (let z = -ch.r.z - 2; z <= ch.r.z + 2; z++) {
-          probe.set(ch.c.x + x, ch.c.y + y, ch.c.z + z);
-          const e = ell(probe, ch);
-          if (e >= 1 && e < 1.22) addWall(probe.x, probe.y, probe.z);
-        }
-  }
+  const caves = buildCaves(frames, zone, palette);
   // Hill: grass over a little soil, with the burrow mouth left open.
   const surface: Vox[] = [];
   for (let x = -70; x <= 70; x++)
     for (let z = -70; z <= 40; z++) {
       if (Math.hypot(x, z - 1) < 5.5) continue;
       const h = hillHeight(x, z);
-      surface.push([x, h, z, rnd() > 0.85 ? "#2f6b4f" : rnd() > 0.5 ? "#5ba86a" : "#4f9a5e"], [x, h - 1, z, "#6b4a2e"]);
-      if (rnd() > 0.93) surface.push([x, h + 1, z, "#4f9a5e"]);
+      surface.push([x, h, z, rnd() > 0.93 ? "#2f6b4f" : "#5ba86a"], [x, h - 1, z, "#6b4a2e"]);
+      if (rnd() > 0.96) surface.push([x, h + 1, z, "#a8d46f"]);
     }
   // The tree: a broad trunk and crooked branches; blossom clusters wait at the tips.
   const tree: Vox[] = [], tips: THREE.Vector3[] = [];
@@ -173,16 +125,16 @@ export function buildWorld() {
   // The root: from the tree down to the burrow, then along the tunnel ceiling to the heart.
   const root: { v: Vox; along: number }[] = [];
   const rootPts: THREE.Vector3[] = [];
-  const entry = frames.pts[4].clone().addScaledVector(frames.up[4], TUNNEL_R - 0.6);
+  const entry = frames.pts[4].clone().addScaledVector(frames.up[4], (TUNNEL_R - 0.4) * 0.72).addScaledVector(frames.side[4], -(TUNNEL_R - 0.4) * 0.68);
   const surfN = 30;
   for (let i = 0; i <= surfN; i++) rootPts.push(base.clone().add(new THREE.Vector3(0, -3, 0)).lerp(entry, i / surfN));
-  frames.pts.forEach((p, i) => i > 4 && rootPts.push(p.clone().addScaledVector(frames.up[i], TUNNEL_R - 0.4).addScaledVector(frames.side[i], Math.sin(i * 0.05) * 1.5)));
+
   rootPts.forEach((p, i) => {
     const along = i / (rootPts.length - 1);
     for (const [dx, dy] of [[0, 0], [1, 0], [0, -1]]) root.push({ v: [Math.round(p.x + dx), Math.round(p.y + dy), Math.round(p.z), i % 7 === 0 ? "#5a3b24" : "#7d5634"], along });
   });
   // Hanging roots and worms in the topsoil; a fossil giant in the bone hall.
-  const detail: Vox[] = [];
+  const detail: Vox[] = [], bones: Vox[] = [];
   frames.pts.forEach((p, i) => {
     const zn = zone(p.x, p.y, p.z), up = frames.up[i], side = frames.side[i];
     if (zn === "soil" && p.y < -6 && i % 9 === 0) {
@@ -190,11 +142,11 @@ export function buildWorld() {
       for (let k = 0; k < len; k++) detail.push([Math.round(p.x + side.x * off), Math.round(p.y + up.y * (TUNNEL_R - k)), Math.round(p.z + side.z * off), "#8a6a44"]);
     }
     if (zn === "bone" && ell(p, chambers.bone) < 0.85) {
-      for (const k of [0, 1]) detail.push([Math.round(p.x + up.x * (13 + k)), Math.round(p.y + up.y * (13 + k)), Math.round(p.z + up.z * (13 + k)), i % 5 < 2 ? "#e6dcc0" : "#c8bca0"]);
-      if (i % 8 === 0)
-        for (let a = -0.6; a <= Math.PI + 0.6; a += 0.06) {
-          const rr = 12.5;
-          detail.push([Math.round(p.x + (side.x * Math.cos(a) + up.x * Math.sin(a)) * rr), Math.round(p.y + up.y * Math.sin(a) * rr + side.y * Math.cos(a) * rr), Math.round(p.z + (side.z * Math.cos(a) + up.z * Math.sin(a)) * rr), "#e6dcc0"]);
+      for (const k of [0, 1]) bones.push([Math.round(p.x + up.x * (8.5 + k)), Math.round(p.y + up.y * (8.5 + k)), Math.round(p.z + up.z * (8.5 + k)), i % 5 < 2 ? "#e6dcc0" : "#c8bca0"]);
+      if (i % 6 === 0)
+        for (let a = -0.5; a <= Math.PI + 0.5; a += 0.08) {
+          const rr = 8;
+          bones.push([Math.round(p.x + (side.x * Math.cos(a) + up.x * Math.sin(a)) * rr), Math.round(p.y + up.y * Math.sin(a) * rr + side.y * Math.cos(a) * rr), Math.round(p.z + (side.z * Math.cos(a) + up.z * Math.sin(a)) * rr), "#e6dcc0"]);
         }
     }
   });
@@ -205,7 +157,7 @@ export function buildWorld() {
     if (!shell) continue;
     const socket = z === 6 && y > 3 && y < 7 && (Math.abs(x - 3.5) < 1.6 || Math.abs(x + 3.5) < 1.6);
     const tooth = z === 6 && y < 2 && x % 2 === 0;
-    detail.push([Math.round(sk.x + x), Math.round(sk.y + 9 + y), Math.round(sk.z + z), socket ? "#1c1410" : tooth ? "#ffffff" : y > 5 ? "#e6dcc0" : "#c8bca0"]);
+    bones.push([Math.round(sk.x + x), Math.round(sk.y + 9 + y), Math.round(sk.z + z), socket ? "#1c1410" : tooth ? "#ffffff" : y > 5 ? "#e6dcc0" : "#c8bca0"]);
   }
   // River: a glowing water surface and dripping stalactites.
   const water: Vox[] = [];
@@ -217,6 +169,7 @@ export function buildWorld() {
   for (let k = 0; k < 34; k++) {
     const a = rnd() * Math.PI * 2, rr = Math.sqrt(rnd()) * 0.85;
     const x = rv.c.x + Math.cos(a) * rv.r.x * rr, z = rv.c.z + Math.sin(a) * rv.r.z * rr;
+    if (frames.pts.some((p) => Math.hypot(p.x - x, p.z - z) < 9)) continue;
     probe.set(x, rv.c.y, z);
     const topY = rv.c.y + rv.r.y * Math.sqrt(Math.max(0, 1 - ((x - rv.c.x) / rv.r.x) ** 2 - ((z - rv.c.z) / rv.r.z) ** 2));
     const len = 3 + Math.floor(rnd() * 7);
@@ -225,13 +178,16 @@ export function buildWorld() {
   // Crystals grow inward from the hall's walls.
   const crystals: Vox[] = [];
   const cr = chambers.crystal;
-  for (let k = 0; k < 56; k++) {
+  for (let k = 0; k < 90; k++) {
     const d = new THREE.Vector3(rnd() - 0.5, rnd() - 0.65, rnd() - 0.5).normalize();
     const at = cr.c.clone().add(new THREE.Vector3(d.x * cr.r.x, d.y * cr.r.y, d.z * cr.r.z).multiplyScalar(0.98));
     const dir = cr.c.clone().sub(at).normalize().add(new THREE.Vector3(0, 0.6, 0)).normalize();
-    const len = 4 + rnd() * 10, cols = rnd() > 0.5 ? ["#8b7bc0", "#c9b8e8", "#5a5aa0"] : ["#3ce0c4", "#9ff0e0", "#1d8f9a"];
+    const len = 7 + rnd() * 14;
+    const tip = at.clone().addScaledVector(dir, len), midp = at.clone().addScaledVector(dir, len / 2);
+    if (frames.pts.some((p) => p.distanceTo(tip) < 8 || p.distanceTo(midp) < 8)) continue;
+    const cols = rnd() > 0.5 ? ["#8b7bc0", "#c9b8e8", "#5a5aa0"] : ["#3ce0c4", "#9ff0e0", "#1d8f9a"];
     for (let i = 0; i < len; i++) {
-      const w = i < len - 2 ? 1 : 0;
+      const w = i < len * 0.4 ? 2 : i < len - 2 ? 1 : 0;
       for (let a = -w; a <= w; a++) for (let b = -w; b <= w; b++) crystals.push([Math.round(at.x + dir.x * i + a), Math.round(at.y + dir.y * i), Math.round(at.z + dir.z * i + b), cols[i > len - 3 ? 1 : a === 0 && b === 0 ? 0 : 2]]);
     }
   }
@@ -248,11 +204,95 @@ export function buildWorld() {
     }
     // Strands to the walls.
     const d = new THREE.Vector3(rnd() - 0.5, rnd() - 0.5, rnd() - 0.5).normalize();
-    for (let i = 7; i < 19; i++) knot.push([Math.round(hc.x + d.x * i), Math.round(hc.y + d.y * i), Math.round(hc.z + d.z * i), "#5a3b24"]);
+    for (let i = 7; i < 12; i++) knot.push([Math.round(hc.x + d.x * i), Math.round(hc.y + d.y * i), Math.round(hc.z + d.z * i), "#5a3b24"]);
   }
   const core: Vox[] = [];
   for (let x = -3; x <= 3; x++) for (let y = -3; y <= 3; y++) for (let z = -3; z <= 3; z++) if (x * x + y * y + z * z <= 10) core.push([hc.x + x, hc.y + y, hc.z + z, "#ffffff"]);
-  return { frames, walls: [...walls.values()], glow, surface, tree, blossoms, root, detail, water, crystals, knot, core, waterLevel: wl };
+  return { frames, caves, bones, surface, tree, blossoms, root, detail, water, crystals, knot, core, waterLevel: wl };
+}
+
+const noise3 = (x: number, y: number, z: number) => Math.sin(x * 0.31 + Math.sin(z * 0.17) * 2) * Math.cos(y * 0.27 + x * 0.05) + Math.sin(z * 0.23 + y * 0.11) * 0.6;
+const hash3 = (x: number, y: number, z: number) => { const h = Math.sin(x * 127.1 + y * 311.7 + z * 74.7) * 43758.5453; return h - Math.floor(h); };
+/**
+ * Smooth rock: a tube for each tunnel stretch and a sculpted shell for each
+ * chamber, painted per vertex with strata bands, so the voxel sprites read clearly
+ * against them. Chamber shells get holes where the tunnel enters and leaves.
+ */
+function buildCaves(frames: ReturnType<typeof tunnelFrames>, zone: (x: number, y: number, z: number) => string, palette: Record<string, string[]>) {
+  const colorAt = (x: number, y: number, z: number, out: THREE.Color) => {
+    const zn = zone(x, y, z), cols = palette[zn];
+    const band = Math.floor((y + noise3(x, 0, z) * 2.5) / 3.5);
+    out.set(cols[((band % cols.length) + cols.length) % cols.length]);
+    const h = hash3(Math.round(x), Math.round(y), Math.round(z));
+    if (zn === "soil" && h > 0.94) out.set(h > 0.97 ? "#9aa0b4" : "#c8a07a");
+    if (zn === "bone" && h > 0.96) out.set("#e6dcc0");
+    if (zn === "heart" && h > 0.9) out.set(h > 0.95 ? "#ff8a3d" : "#c4506b");
+    if (zn === "crystal" && h > 0.95) out.set("#8b7bc0");
+    return out;
+  };
+  const paint = (geo: THREE.BufferGeometry, push: (v: THREE.Vector3, i: number) => void) => {
+    const pos = geo.getAttribute("position"), colors = new Float32Array(pos.count * 3), v = new THREE.Vector3(), c = new THREE.Color();
+    for (let i = 0; i < pos.count; i++) {
+      v.fromBufferAttribute(pos, i);
+      push(v, i);
+      pos.setXYZ(i, v.x, v.y, v.z);
+      colorAt(v.x, v.y, v.z, c).toArray(colors, i * 3);
+    }
+    geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+    geo.computeVertexNormals();
+    return geo;
+  };
+  const meshes: THREE.Mesh[] = [];
+  const holes: THREE.Vector4[] = [];
+  const inChamber = (p: THREE.Vector3, k = 1) => chamberList.some((ch) => ell(p, ch) < k);
+  // Tunnel stretches between chambers.
+  let run: THREE.Vector3[] = [], runStart = 0, runEnd = 0;
+  const flush = () => {
+    if (run.length > 3) {
+      const curve = new THREE.CatmullRomCurve3(run);
+      const geo = new THREE.TubeGeometry(curve, run.length * 2, TUNNEL_R + 0.8, 26, false);
+      // Tube normals point away from the axis: roughen the rock along them.
+      const normals = geo.getAttribute("normal"), nv = new THREE.Vector3();
+      paint(geo, (v, i) => {
+        const n = noise3(v.x, v.y, v.z) * 0.7 + (hash3(Math.round(v.x * 2), Math.round(v.y * 2), Math.round(v.z * 2)) - 0.5) * 0.4;
+        v.addScaledVector(nv.fromBufferAttribute(normals, i), n);
+      });
+      const uv = geo.getAttribute("uv"), along = new Float32Array(uv.count);
+      for (let i = 0; i < uv.count; i++) along[i] = runStart + uv.getX(i) * (runEnd - runStart);
+      geo.setAttribute("along", new THREE.BufferAttribute(along, 1));
+      meshes.push(new THREE.Mesh(geo));
+    }
+    run = [];
+  };
+  frames.pts.forEach((p, i) => {
+    const above = p.y > hillHeight(p.x, p.z) - 2;
+    if (above || inChamber(p, 0.8)) flush();
+    else {
+      if (!run.length) runStart = i / frames.n;
+      run.push(p.clone());
+      runEnd = i / frames.n;
+    }
+    // Where the path crosses a chamber's skin, cut a doorway.
+    for (const ch of chamberList) {
+      const e = ell(p, ch);
+      if (Math.abs(e - 1.02) < 0.04 && !holes.some((h) => Math.hypot(h.x - p.x, h.y - p.y, h.z - p.z) < 6)) holes.push(new THREE.Vector4(p.x, p.y, p.z, TUNNEL_R + 0.2));
+    }
+  });
+  flush();
+  for (const ch of chamberList) {
+    const geo = new THREE.SphereGeometry(1, 72, 48);
+    let bu = 0, bd = Infinity;
+    frames.pts.forEach((p, i) => { const d = p.distanceToSquared(ch.c); if (d < bd) { bd = d; bu = i / frames.n; } });
+    geo.setAttribute("along", new THREE.BufferAttribute(new Float32Array(geo.getAttribute("position").count).fill(bu), 1));
+    paint(geo, (v) => {
+      const d = v.clone();
+      v.set(ch.c.x + d.x * ch.r.x, ch.c.y + d.y * ch.r.y, ch.c.z + d.z * ch.r.z);
+      const n = noise3(v.x * 1.4, v.y * 1.4, v.z * 1.4) * 1.6 + (hash3(Math.round(v.x), Math.round(v.y), Math.round(v.z)) - 0.5) * 0.6;
+      v.add(d.normalize().multiplyScalar(n + 1));
+    });
+    meshes.push(new THREE.Mesh(geo));
+  }
+  return { meshes, holes };
 }
 
 /** Pip: a small mole with pink hands, an acorn cap and a lantern on a stick. */
@@ -264,7 +304,7 @@ export function buildPip() {
   cap.push([0, 5, 0, "#6b4a2e"]);
   for (let y = 0; y < 5; y++) lamp.push([3, y + 1, 2, "#7d5634"]);
   lamp.push([3, 6, 2, "#ffd34d"], [3, 5, 2, "#ffcf8a"]);
-  const group = new THREE.Group(), s = V * 0.55;
+  const group = new THREE.Group(), s = V * 0.36;
   const bodyMesh = voxels(body, true, s), capMesh = voxels(cap, true, s), lampMesh = voxels(lamp, false, s);
   group.add(bodyMesh, capMesh, lampMesh);
   return { group, capMesh, lampMesh };

@@ -114,3 +114,8 @@ Keep the original living pixel horizon, Instrument Serif / DM Sans typography, r
 ## Style studies workspace
 
 The native Style studies gallery keeps the lavender workbench, local Space Grotesk/DM Sans typography, and real website covers. The websites provide the visual variety. Cards have separate Explore, Live preview and Save actions; only one live card mounts at a time, and it unmounts offscreen. Live card tours stop under reduced motion. The detail workspace prioritizes the interactive website, with 1280/768/390 CSS-pixel viewport controls, restart, expanded view and independent website opening. Design notes, palette, type direction and the full-library source download sit below the preview. Keep example product actions clearly distinguished from real transactions.
+
+
+## One-screen hero collection
+
+The Hero sections browser uses the existing lavender workbench and real scene covers. Each independent hero occupies one viewport, with no scroll choreography or extra page sections. Keep the five compositions distinct: Facet has an icy canvas, asymmetric chrome ribbon and Syne; Undertow uses a glyph nautilus and Instrument Serif on charcoal; Daybreak uses Silkscreen over a pixel landscape; Lattice pairs coral and Bricolage Grotesque with a folding wire surface; Frequency centers oversized Syne inside fluted spectral light. Motion responds to the scene's action and pointer; it must leave readable content under reduced motion or WebGL failure. The customizer exposes content and art controls without introducing backend claims.
