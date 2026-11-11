@@ -1,5 +1,14 @@
 # Verification history — latest 11 November 2026
 
+## Mosslight and collection extraction — 11 November 2026
+
+- `npm test`: 41 passing tests. Strict TypeScript and full `npm run build` passed.
+- Mosslight is the thirteenth Motion Template. Isolated Chromium against production on 5185 verified independent opening, live signal response, all atmosphere controls, pause/resume, installation dialog, 390px bounds, customizer readiness, saved name/headline changes and complete ZIP download.
+- The customized ZIP was extracted and served on port 5187 with every non-export origin blocked. Its title/content, local fonts, signal control and atmosphere changes worked without Patchwork resources. No page errors remained.
+- Dashboard/gallery no longer show the old collection. Its source, assets, packaging scripts and redirect definition are absent; a clean production build contains no old collection directory. A regression test guards that boundary.
+- The separate private repository preserves all 21 studies, 153 byte-verified source/context files, downloads and licenses. Its tests and production build pass; independent gallery checks verified all 21 page URLs and working Mosslight controls. GitHub privacy and remote push were verified; private CI succeeded.
+- Fresh Mosslight card cover is a real 900×1080 page capture. `scripts/browser-mosslight.js` is the focused reusable UI probe. No personal browser drafts were touched; no website was deployed.
+
 ## Standalone motion websites — 11 November 2026
 
 - `npm test`: 39 passing tests, including standalone routes for every catalog template, legacy shared links, explicit edit routes, and invalid IDs.
@@ -172,10 +181,6 @@ All current source changes: Node 22 ran 32/32 passing tests and the full product
 - Final gates after the polish: Node 22, 32/32 tests, full production build (both imported and native library builds included), and git diff --check passed. The downloadable source archive contains 328 files; every current vendored src file matches its archive entry, with no node_modules or environment files packaged. The existing large-Three.js-chunk build advisory remains; this is not a hardware frame-rate benchmark. This continuation is local and has not been pushed or deployed.
 - After final regeneration, restarted the 5174 Vite server to refresh its cached public-asset inventory. Rechecked the styled live card and opened Lumina's 3D book page inside the native viewer successfully. Temporary QA servers were stopped; the user's normal preview remains available on 5174.
 
-## Reference studies initial expansion — 30 October 2026
-
-Twelve local study pages and their matching reference covers/artwork are present. Node 22: 32/32 tests and the full production build pass. Browser checks loaded all twelve standalone pages and measured document widths at desktop and 390px; Morpheus overflow was corrected and rechecked. The native gallery opened the travel and pixel-art studies. Representative checks confirmed the Fluidity carousel, Mercy wishlist, Runcycle resources menu, the travel day/night toggle, and the local meadow form; the initial travel toggle was repaired after an overlapping heading blocked it. These are initial approximations; exact screenshot fidelity, every control and full responsive visual review remain open. The screenshots do not establish what unseen pages contain, so follow-on content is invented and purchasing/contact demos do not perform real transactions.
-
 ## ASCII/pixel rebuild and push checkpoint — 30 October 2026
 
 Replaced the first glyph drafts with three scenes each and authored reading sections. Actual Chromium checks: independent downloaded ZIPs each contained 24 entries, including local engine, fonts and Silkscreen's OFL notice. Document references were audited for packaged files. On a separate 5181 static origin, both sites rendered; real wheel input advanced their independently pinned scenes. Desktop review covered ASCII disassembly/arcade/message assembly and pixel town/railway/atlas. The final message's depth occlusion and the atlas's portrait fitting/traveler alignment were corrected during review. Final archive downloads were captured as nullsignal-motion-template (1).zip and bitquest-motion-template (1).zip; a complete re-review of those final files was interrupted by the user's push request.
@@ -231,5 +236,3 @@ Hearthstone: browser-reviewed the initial poster and an intermediate vertical sc
 2026-11-02 Lightkeeper: browser-reviewed the opening, threshold, descent and return scenes; corrected core visibility and text framing. Downloaded the template ZIP through the real UI, checked its HTML/engine/fonts/licenses/recipe, and opened the extracted website on an independent local server. Verified WebGL initialization, no browser console errors, and scroll progress advancing to 0.288. Node 22 tests passed (36/36) and the full production build passed. Reduced-motion and WebGL-failure fallbacks are implemented but were not separately browser-emulated.
 
 2026-11-02 Lightkeeper revision: reviewed the final scene and moved the village into the foreground after it was obscured. Browser observed act 7 with all twelve houses lit at progress 0.941, then act 4 with zero houses lit at 0.471 after reverse scrolling. No browser console errors were recorded. Downloaded the revised ZIP and verified the ending markup plus a byte-for-byte match of its engine to the current local runtime. Node 22 tests passed (37/37), full production build and final TypeScript/root build passed. Reduced-motion mode was not browser-emulated.
-
-2026-11-02: Reference privacy: signed-out requests to the private project redirect to Vercel authentication; authenticated Vercel CLI fetched the 21-study gallery. A Vercel-mode build omitted dist/pinterest-studies; Node 22 tests passed (37/37) and full build passed. Old production deployment URL checked redirected to authentication.

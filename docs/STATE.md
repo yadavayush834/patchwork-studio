@@ -10,6 +10,12 @@ An interactive place where creators can build websites using ready-made sections
 
 The user subsequently requested the real `stackedlol/ascii-sharks` library plus at least three more high-quality ASCII backgrounds. The four-scene collection is implemented and includes genuine downloadable videos. The user then requested a new GitHub repository, real commits, and enough context/style documentation for another agent or chat to continue the work.
 
+## Mosslight and collection separation — 11 November 2026
+
+Mosslight is now the thirteenth Motion Template, using its original standalone page and custom element. Its canonical HTML is `src/motion/mosslight.html`; local runtime/fonts and complete source ZIP are under `public/motion/mosslight/` and `public/motion/mosslight-template.zip`. Preview and customized export share `mosslightDocument`. The customizer supports name/headline/accent; the scene retains atmosphere, signal, motion and embed controls.
+
+The old reference gallery, route handlers, source, media, packaging scripts, private-deployment scaffold and redirects have been removed from this repository and all build modes. The complete 21-study collection, original sources and historical documentation are preserved in the separate private repository `yadavayush834/reference-studies` with a SHA-256 migration manifest. Do not restore the old collection into Patchwork.
+
 ## Standalone motion opening — 11 November 2026
 
 Motion cover, title, and Explore links now open each website in its own tab at `/?view=motion&motion=ID`. The generated template document replaces the entire page; no Patchwork chrome, iframe, or editor bundle is mounted. Existing `?collection=motion&motion=ID` shared links also open standalone. The separate **Customize & download** action retains the studio inspector using `&edit=1`. Saved configurations and website ZIP rendering remain shared and unchanged.
@@ -105,14 +111,6 @@ Continued the checkpoint with desktop review of the remaining designs, a full-pa
 
 Representative interactive flows were exercised across all fourteen templates, plus native gallery search, live-preview teardown, device sizing, dialogs and replay. Reduced-motion simulation covered all fourteen scenes; representative WebGL-unavailable fallbacks were checked. This is browser QA in Chromium, not physical-device or hardware-performance certification. Detailed evidence and limits are in VERIFICATION.md.
 
-## Reference studies — initial work in progress
-
-The Pinterest folder contains 12 reference screenshots. A separate Reference Studies section and the first Brainka-inspired live page have been started at `?collection=pinterest`. Its monochrome face was generated with the built-in image tool and saved at `public/pinterest-studies/brainka-face.png`; the screenshot is retained beside it for reference. The generated face and coded icons are approximations, and the additional content is imagined. Eleven references still need implementation and the first needs further fidelity review.
-
-## Reference studies expansion — 30 October 2026
-
-All twelve screenshot references now have a local gallery entry and independent live HTML study under `public/pinterest-studies/`. Eleven additional image backgrounds were generated with the built-in image tool; the prompt summaries are in `artwork-prompts.json`. These are approximate recreations, not pixel-identical reproductions, and content outside the screenshots was invented. Some product/commerce controls are local demonstrations. Review exact fidelity, responsive layouts and controls before treating the studies as final.
-
 ## ASCII / pixel Motion Studies — work in progress
 
 Null Signal and Bitquest have initial procedural canvas scenes and a GSAP pinned scroll journey. Sources are glyph-studies.ts/css and glyph-runtime.ts. These are early implementations, not the completed high-effort art direction requested by the user. Gallery covers are temporary SVG title cards. Further choreography, substantive authored content, real covers, mobile/reduced-motion review and independent export verification remain required.
@@ -121,15 +119,12 @@ Null Signal and Bitquest have initial procedural canvas scenes and a GSAP pinned
 
 The user explicitly paused phone-layout work and requested all current changes be pushed in 50+ commits. Preserve that pause. Null Signal and Bitquest have now been substantially rebuilt with three independent pinned sequences apiece: sampled 3D ASCII instrument, vaulted arcade and message assembly; original pixel town, railway and island atlas. Sources are glyph-studies.ts/css, glyph-runtime.ts, glyph-ascii.ts and glyph-pixel.ts. Real covers replace title cards. Initial standalone downloads, desktop scrolling, phone bounds and reduced-motion simulation were exercised, but final phone polish and complete final art/interaction/export re-review remain pending. Earlier work-in-progress notes describe preceding versions.
 
-This checkpoint also includes the twelve Pinterest reference studies and the fourteen-template presentation polish from the preceding turns. Pinterest studies remain approximate and need fidelity refinement. Do not call this entire checkpoint fully design-verified.
+This checkpoint also includes the fourteen-template presentation polish from the preceding turns. Do not call this entire checkpoint fully design-verified.
 
-31 October 2026: Added Citylines to Reference Studies, based on the supplied short video. It uses generated city artwork and a separately animated train; it is an approximation of the video, not the original source artwork.
 
 Citylines motion update: train eases through a stop, with an animated route signal, birds, and decorative sparks. Motion pauses when the scene is offscreen or the document is hidden and respects reduced motion.
 
-Reference Studies now opens each standalone website in a new browser tab at full size, leaving the gallery available in Patchwork.
 
-Citylines now has a Copy template download in Reference Studies. The build packages its complete HTML, inline CSS/animation, local artwork and editing instructions into citylines-template.zip.
 
 Added Paar, a video-inspired Reference Study with procedural pixel planets and an interactive panel layout. This is a recreation rather than the original source artwork or exact animation.
 
@@ -139,7 +134,6 @@ Added Studioform: yellow video-inspired full-screen hero with generated portrait
 
 Studioform lighting fix: replaced looping gradient shadow with a pointer-controlled soft portrait reveal over a dark silhouette. It eases toward pointer coordinates, supports touch pointer movement and reduces smoothing when reduced motion is enabled. Template ZIP regenerated.
 
-Added Botanical Portfolio (floriette) Reference Study. Single 16:9 hero with supplied calligraphy as a clipped graphic, generated botanical illustration, editable captions, small ambient motion and a downloadable ZIP including the expansion guide at docs/reference-studies/floriette-design.md. Illustration is a recreation, not identical to the reference.
 
 Botanical Portfolio: replaced blurry clipped title with editable locally bundled calligraphy; added generated watercolor paper background and reduced-motion-aware local GSAP entrance and pointer movement. The downloadable template includes the new assets and licenses.
 
@@ -149,7 +143,6 @@ Education dashboard expanded into a full-screen standalone learning workspace wi
 
 Added Hearthstone Roasters Reference Study: generated bottle and alpine imagery, poster-style opening, vertical GSAP ScrollTrigger scene and editable ZIP including an expansion guide. The bottle is a 2D cutout and generated label rather than a 3D model; copy is illustrative.
 
-Driftbar is included in Reference Studies with its standalone template download. The current meadow/cloud and vertical GSAP scroll study was deployed to the existing Patchwork Vercel production project on 2026-11-01 at https://patchwork-studio-six.vercel.app (deployment dpl_De9kMPZHre3VbWeEtNdjU86PzznR).
 
 Style Studies gallery: all 28 studies now have on-demand miniature live previews on hover or keyboard focus, with a palette-based fallback and just one mounted at a time. Full views display each study's palette and typography. Shared study rendering now provides locally bundled fonts, theme-colored focus and selection states, balanced headings, and reduced CSS motion. Existing designs and independent interactions remain intact.
 
@@ -159,7 +152,6 @@ Style Studies gallery now matches the Patchwork template collection, with the re
 
 Style Studies hover previews automatically tour the website while the pointer is over its card. They support document scrolling and scrollable vertical/horizontal panels, stop when the preview unmounts, pause while hidden, and remain still for reduced motion.
 
-2026-11-02: Mosslight is included in Reference Studies as a standalone interactive demo with a downloadable source package, including its reusable web component, preview, fonts and font licenses. The original project remains at /home/ayush/mosslight.
 
 2026-11-02: Design Library now has a native color workspace with 105 searchable palettes, a live three-page sample website, and copyable color values. Interface Studies is hidden from the library's collection navigation and resource list; its upstream source remains preserved.
 
@@ -170,5 +162,3 @@ Style Studies hover previews automatically tour the website while the pointer is
 2026-11-02: Added The Last Lightkeeper as the twelfth Motion Study. The pixel fable uses an original Three.js voxel observatory, a vertically scrubbed GSAP story, unfolding floors and roof, a descending keeper, lens alignment and a valley-lighting finale. It supports the existing template customization and self-contained ZIP export.
 
 2026-11-02 Lightkeeper revision: replaced the five-beat machine-lighting ending with seven acts: a received call, lift access, lantern placement, lens alignment, reassembly/transmission, sequential village illumination, and a returning reply at dawn. Added a geared lift, socket, catwalk, telescope, ladder, bridge, twelve-house village, chimney smoke and a moth companion. The flight log is now optional. Narrative progress is deterministic and supports reversing the scroll.
-
-2026-11-02: Reference Studies production access is separated into the Vercel-authenticated patchwork-reference-studies project. Public Vercel builds remove the reference files and send the collection link to that protected project; local development retains the original collection. `node scripts/prepare-private-reference.mjs /tmp/<destination>` prepares future private deployments; enable all-deployment Vercel Authentication before deploying.

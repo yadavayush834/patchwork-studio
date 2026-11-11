@@ -105,3 +105,7 @@ The first six use network precision, bookish editorial, maker-poster typography,
 ## Responsive template finish
 
 All fourteen redesigned sites have refreshed captures and a reviewed phone reading order. Keep small authored annotations at least 10px; forms use 16px on phones and controls have 44px minimum height. The sound lab uses a four-column phone sequencer so the numbered steps remain practical touch targets. Preserve each site's distinct material palette, type scale and object composition. CRT/dial textures use a neutral base material; the antenna reflector is concave with a feed supported in front of it. Gallery covers are captured from real rendered pages at approximately 1080×810 and optimized to 720×540 JPEGs.
+
+## Mosslight
+
+Keep the original living pixel horizon, Instrument Serif / DM Sans typography, radio observatory, ringed planet, fireflies and responsive dock. It belongs to Motion Templates as an independent scene, not a forced scroll story. Its card uses an actual rendered page capture. Scene controls and the reusable-component install dialog remain functional.

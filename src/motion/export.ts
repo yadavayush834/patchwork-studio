@@ -1,9 +1,20 @@
+import { mosslightFiles } from "./mosslight-document";
 import { imageMotionAssets } from "./image-assets";
 import JSZip from "jszip";
 import { motionCSS, motionDocument, motionFonts } from "./document";
 import type { MotionId, MotionConfig } from "./catalog";
 export async function exportMotion(id: MotionId, config: MotionConfig) {
   const zip = new JSZip();
+  if (id === "mosslight") {
+    zip.file("index.html", motionDocument(id, config));
+    await Promise.all(mosslightFiles.filter(name => name !== "index.html").map(async name => {
+      const response = await fetch(`/motion/mosslight/${name}`);
+      if (!response.ok) throw new Error(`Could not package ${name}. Please try again.`);
+      zip.file(name, await response.blob());
+    }));
+    zip.file("recipe.json", JSON.stringify({ version: 1, template: id, config }, null, 2));
+    return zip.generateAsync({ type: "blob", compression: "DEFLATE" });
+  }
   zip.file("index.html", motionDocument(id, config));
   zip.file("styles.css", motionCSS());
   const files = [

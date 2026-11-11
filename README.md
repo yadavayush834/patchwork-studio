@@ -74,7 +74,7 @@ The vendored upstream revision and adaptations are documented in `src/vendor/asc
 
 ## Motion templates
 
-Open **Motion templates** or `?collection=motion` for nine independent scroll-driven websites: Æther, Offscript, Floraison, Monolith, Pelagic, Heliograph, Afterimage, Reverie, and Traverse. The three newest studies explore ocean descent and sonar mapping, orbital instruments and an eclipse, and mechanical optics with scroll-directed films.
+Open **Motion templates** or `?collection=motion` for independent motion websites and scenes: Æther, Offscript, Floraison, Monolith, Pelagic, Heliograph, Afterimage, Reverie, Traverse, Nullsignal, Bitquest, The Last Lightkeeper, and Mosslight. The three newest studies explore ocean descent and sonar mapping, orbital instruments and an eclipse, and mechanical optics with scroll-directed films.
 
 **Explore** opens the template as a complete website in its own tab, without the Patchwork interface. **Customize & download** keeps editing and ZIP export in the studio; saved changes also appear in the independent website.
 
@@ -85,3 +85,9 @@ Each template supports brand/headline/accent/contact customization and downloads
 ### Design Library
 
 Open `?collection=library` or choose **Design Library** in the sidebar. A separate workspace contains 246 resources retained from from `yadavayush834/website-design-template-library`: templates, style studies, interface recreations, color palettes, motion experiments, SVG experiments and UI primitives. Browse/search/save, preview at real device widths, use the original lab tools, and download source or reference metadata. This collection does not replace the editor or Motion Studies. See `vendor/design-library/README.md` for provenance and the normalized structure.
+
+### Mosslight
+
+Mosslight is included in Motion Templates as its original interactive pixel scene: a radio observatory, ringed planet, fireflies and a responsive lake. Open it independently, change atmospheres, send signals, toggle motion, or download the complete reusable component and website. Name, headline and accent customization are preserved in previews and exports.
+
+The former reference collection is maintained separately in the private [`reference-studies`](https://github.com/yadavayush834/reference-studies) repository and is no longer part of Patchwork.

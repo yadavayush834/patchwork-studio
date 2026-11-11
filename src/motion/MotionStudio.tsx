@@ -288,10 +288,10 @@ export default function MotionStudio({ onClose }: Props) {
                 {active.name}
               </span>
               <span>
-                {Math.round(progress * 100)
+                {selected === "mosslight" ? "INTERACTIVE PIXEL HORIZON" : <>{Math.round(progress * 100)
                   .toString()
                   .padStart(2, "0")}
-                % / SCROLL TO EXPLORE
+                % / SCROLL TO EXPLORE</>}
               </span>
             </div>
           </div>
@@ -334,7 +334,7 @@ export default function MotionStudio({ onClose }: Props) {
                   }
                 />
               </label>
-              <label>
+              {selected !== "mosslight" && <label>
                 Contact email
                 <input
                   aria-label="Contact email"
@@ -345,7 +345,7 @@ export default function MotionStudio({ onClose }: Props) {
                     setDraft({ ...draft, email: e.target.value })
                   }
                 />
-              </label>
+              </label>}
               <label className="motion-color-field">
                 Accent color
                 <input
@@ -368,7 +368,7 @@ export default function MotionStudio({ onClose }: Props) {
               </button>
               <small>
                 Saved on this device. Your download includes the complete site,
-                fonts, 3D engine, and source HTML.
+                fonts, animation engine, and source HTML.
               </small>
             </div>
           )}
@@ -388,14 +388,14 @@ export default function MotionStudio({ onClose }: Props) {
             <div className="motion-intro-note">
               <span>NOT JUST A FIRST IMPRESSION.</span>
               <p>
-                Twelve worlds to get lost in.
+                {motionTemplates.length} worlds to get lost in.
                 <br />
                 Sculpted objects. Type with a pulse.
                 <br />
                 Stories that unfold in your hands.
               </p>
               <div>
-                <span>09 TEMPLATES</span>
+                <span>{motionTemplates.length} TEMPLATES</span>
                 <i></i>
                 <span>ENDLESS POSSIBILITIES</span>
               </div>
@@ -403,7 +403,7 @@ export default function MotionStudio({ onClose }: Props) {
           </div>
           <div className="motion-catalog-head">
             <span>THE COLLECTION</span>
-            <span>01 — 09 / SCROLL-LED EXPERIENCES</span>
+            <span>01 — {String(motionTemplates.length).padStart(2, "0")} / INTERACTIVE EXPERIENCES</span>
           </div>
           <div className="motion-template-card-grid">
             {motionTemplates.map((t) => (
@@ -475,7 +475,7 @@ export default function MotionStudio({ onClose }: Props) {
           <div className="motion-collection-footer">
             <Sparkles size={19} />
             <p>
-              Scroll to experience. Customize to make it yours.
+              Explore the experience. Customize to make it yours.
               <br />
               <span>
                 Every template downloads as an independent website. All assets

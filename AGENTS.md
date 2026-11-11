@@ -24,7 +24,7 @@ npm test
 npm run build
 ```
 
-There are currently 32 unit tests. For changes to editing, persistence, media, motion, or export, also exercise the relevant real browser flow. A successful build alone does not verify those behaviors. See the browser QA recipes and their prerequisites in `docs/DEVELOPMENT.md`.
+There are currently 41 unit tests. For changes to editing, persistence, media, motion, or export, also exercise the relevant real browser flow. A successful build alone does not verify those behaviors. See the browser QA recipes and their prerequisites in `docs/DEVELOPMENT.md`.
 
 ## Architecture rules
 
@@ -47,3 +47,7 @@ Every visible control must perform its advertised action. Preserve keyboard focu
 ## Handoff discipline
 
 Inspect `git status` and the current diff before work. Preserve unrelated changes. Update `docs/STATE.md` when the actual implementation changes, `docs/TASKS.md` when scope/status changes, and `docs/VERIFICATION.md` when new checks produce evidence. Describe failures and unverified limitations honestly. Do not copy credentials, browser storage, downloads, caches, or machine-specific output into commits.
+
+## Collection boundaries
+
+Mosslight belongs to Motion Templates as an independent interactive scene, with its original component and fonts under public/motion/mosslight. Its canonical HTML is src/motion/mosslight.html; preview and customized export share mosslightDocument. The former reference collection was extracted to the private yadavayush834/reference-studies repository. Do not reintroduce its gallery, source/assets, build helpers, or deployment redirect into Patchwork. Preserve this separation test and the local-first document/export contracts.

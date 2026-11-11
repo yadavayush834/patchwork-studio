@@ -1,3 +1,5 @@
+import mosslightSource from "./mosslight.html?raw";
+import { mosslightDocument } from "./mosslight-document";
 import lightkeeperCSS from "./lightkeeper.css?raw";
 import glyphCSS from "./glyph-studies.css?raw";
 import imageStudiesCSS from "./image-studies.css?raw";
@@ -56,6 +58,7 @@ export function motionDocument(
   config: Partial<MotionConfig>,
   preview = false,
 ) {
+  if (id === "mosslight") return mosslightDocument(mosslightSource, config, preview ? `${location.origin}/motion/mosslight/` : "");
   const c = normalizeMotionConfig(config, id);
   const base = preview ? `${location.origin}/` : "";
   return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="${escape(c.headline)} — an independent motion concept."><title>${escape(c.brand)} — ${escape(c.headline)}</title><link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='51' font-size='52'%3E✳%3C/text%3E%3C/svg%3E">${preview ? `<style>${motionCSS(base)}</style>` : '<link rel="stylesheet" href="styles.css">'}<script defer src="${base}motion/engine.js"></script></head><body>${renderMotion(id, c)}</body></html>`;

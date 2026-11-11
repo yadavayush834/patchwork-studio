@@ -9,7 +9,7 @@ async (page) => {
   const popupReady = page.context().waitForEvent("page");
   await covers.first().click();
   const website = await popupReady;
-  await website.waitForSelector(".mt-page");
+  await website.waitForSelector(".mt-page,mosslight-bg");
   if (await website.locator("iframe,.motion-studio,#root").count()) throw new Error("Standalone website contains studio chrome.");
   await website.close();
   for (const link of links) {
@@ -20,10 +20,12 @@ async (page) => {
     await tab.waitForFunction(() => document.documentElement.dataset.motionReady === "true");
     if (await tab.locator("iframe,.motion-studio,#root").count()) throw new Error(`Embedded website: ${link.href}`);
     if (requested.some(url => url.includes("studio-entry"))) throw new Error("Standalone loaded the editor bundle.");
-    await tab.mouse.wheel(0, 800);
-    await tab.waitForFunction(() => scrollY > 100);
+    if (new URL(link.href).searchParams.get("motion") !== "mosslight") {
+      await tab.mouse.wheel(0, 800);
+      await tab.waitForFunction(() => scrollY > 100);
+    }
     await tab.reload();
-    await tab.waitForSelector(".mt-page");
+    await tab.waitForSelector(".mt-page,mosslight-bg");
     await tab.close();
   }
   return { standaloneTemplates: links.length, galleryPreserved: await covers.count() === links.length };

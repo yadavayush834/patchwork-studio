@@ -1,5 +1,9 @@
 # Patchwork Studio implementation
 
+## Mosslight and collection extraction (11 November 2026)
+
+Complete: move Mosslight into Motion Templates with its original scene, customization and standalone downloads. Preserve all 21 studies and original development context in a separate private repository, then remove the previous collection from Patchwork source, navigation, assets, build scripts and deployment configuration.
+
 ## Standalone motion opening (11 November 2026)
 
 Complete: cover/title/Explore links open top-level template websites in new tabs, independent of Patchwork. Customize/download remains explicit in the studio. Shared configuration, legacy direct links, and exported documents are preserved.
@@ -127,17 +131,6 @@ New source is implemented for the first six templates and the remaining eight, i
 
 Physical-device testing and exhaustive combinations of every control remain outside this browser review. Other library collections were not redesigned in this continuation.
 
-## Reference studies — unfinished
-
-- [x] Inventory 12 Pinterest screenshots and start a separate collection.
-- [ ] Refine Brainka against its reference and complete the remaining 11 individual sites, including reference-matched generated assets and appropriate interactions.
-- [ ] Review responsive behavior, live controls and visual fidelity for every study.
-
-## Reference studies expansion — review remaining
-
-- [x] Add an initial live study and generated background for each of the remaining 11 references.
-- [ ] Complete detailed visual fidelity and responsive/interaction review across all 12 studies; refine the initial approximations against each reference.
-
 ## ASCII / pixel Motion Studies — unfinished
 
 - [x] Start two procedural scenes and connect catalog, markup and runtime.
@@ -148,19 +141,14 @@ Physical-device testing and exhaustive combinations of every control remain outs
 
 Phone-layout work is explicitly paused at the user's request. Rebuilt glyph/pixel scenes, generated reference-study assets, twelve reference pages, fourteen-template polish and current generated bundles are included in this checkpoint. Resume phone refinement only when the user asks. Remaining visual fidelity and complete final interaction/export review are documented, not treated as completed by this push.
 
-- Citylines video reference: initial hero and train animation added to Reference Studies. Further visual comparison against the original can refine fidelity.
 
-- Reference Studies: replaced the embedded preview with full-page standalone site links.
 
 - Citylines Copy template: complete standalone ZIP download; scoped to Citylines only.
 
 - Paar video reference: initial interactive hero recreation added; further frame-by-frame visual polish remains possible.
 
-- Botanical Portfolio: hero only implemented; future chapters should follow docs/reference-studies/floriette-design.md. No invented case studies or navigation destinations added.
 
-- Education Dashboard reference: first desktop screen implemented; future real account, course, progress and persistence work is scoped in docs/reference-studies/eduspace-design.md.
 
-- Hearthstone Roasters: first poster and vertical scroll scene implemented; future expansion patterns and need for verified product details are in docs/reference-studies/hearthstone-design.md.
 
 Completed: publish the reviewed Driftbar cloud/scroll study within the full Patchwork production app to the existing Vercel domain (2026-11-01).
 
@@ -172,7 +160,6 @@ Completed: restyle Style Studies to match Patchwork, remove its duplicate sideba
 
 Completed: make Style Study hover previews tour the website instead of remaining on the hero (2026-11-02).
 
-2026-11-02: Integrated the existing Mosslight project in the Reference Studies gallery and packaged its editable source for download.
 
 2026-11-02: Rebuilt Color Palettes as a live palette selection workspace and removed Interface Studies from library navigation.
 
@@ -183,5 +170,3 @@ Completed: make Style Study hover previews tour the website instead of remaining
 2026-11-02: Created one new pixel/3D scroll narrative, The Last Lightkeeper, and added it to Motion Studies with a captured cover and editable export.
 
 2026-11-02: Expanded and restaged The Last Lightkeeper story and ending following visual feedback.
-
-2026-11-02: Moved Reference Studies to an owner-authenticated Vercel project and removed its assets from public production output.

@@ -10,10 +10,11 @@ import {
 } from "../src/motion/catalog";
 import { renderMotion } from "../src/motion/templates";
 
-test("twelve independent motion stories have real scenes, navigation, chapters, and contact actions", () => {
-  assert.equal(motionTemplates.length, 12);
-  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 12);
+test("motion collection retains twelve scroll stories alongside the independent Mosslight scene", () => {
+  assert.equal(motionTemplates.length, 13);
+  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 13);
   for (const t of motionTemplates) {
+    if (t.id === "mosslight") continue;
     const html = renderMotion(t.id);
     assert.match(html, new RegExp(`data-scene="${t.id}"`));
     assert.match(html, /id="top"/);

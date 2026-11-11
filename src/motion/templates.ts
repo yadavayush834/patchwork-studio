@@ -159,7 +159,7 @@ function monolith(c: MotionConfig) {
 <section class="mn-contact" id="contact" data-chapter="Build a possibility"><div class="mn-door" aria-hidden="true"><i></i><i></i><i></i><i></i></div><span class="mt-eyebrow">EVERY POSSIBILITY STARTS WITH A CONVERSATION.</span><h2>${split("Leave the door open.")}</h2><a href="${escape(mail(c.email))}">Build a possibility <span>↗</span></a><p>A conceptual architecture template.<br>Make the next space your own.</p></section>${footer(c, "monolith")}`;
 }
 export function renderMotion(
-  id: MotionId,
+  id: Exclude<MotionId, "mosslight">,
   config: Partial<MotionConfig> = {},
 ): string {
   const c = normalizeMotionConfig(config, id);

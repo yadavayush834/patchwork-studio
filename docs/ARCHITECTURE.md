@@ -4,6 +4,10 @@
 
 This is a static browser application. Vite serves/builds the studio; there is no backend, authentication, telemetry, database server, or hosted publishing API. IndexedDB is the durable store. Exported websites are separate static artifacts and do not depend on React, Vite, or the studio being running.
 
+## Mosslight motion document
+
+Mosslight is a distinct standalone interactive scene in the Motion Template catalog. `mosslight-document.ts` applies escaped customization to the original `mosslight.html` and resolves local assets for preview; exported documents keep relative URLs. The independent `mosslight.js` custom element handles scene rendering and lifecycle. `build-mosslight.mjs` copies the canonical HTML and packages a complete original source ZIP. The shared export function packages customized HTML and the same local component, styles and licensed fonts. The scroll-story renderer excludes Mosslight by type; no second renderer is introduced for existing stories.
+
 ## Application entry routes
 
 `src/main.tsx` checks motion routes before loading React or studio styles. A standalone template lazily loads `src/motion/standalone.ts`, reads the existing versioned configuration through `config-storage.ts`, and writes the trusted complete `motionDocument` as the top-level page. Normal routes load the previous React entry through `src/studio-entry.tsx`. `navigation.ts` defines shareable website URLs and keeps `&edit=1` routes in the studio. No IndexedDB schema or export rendering change.
@@ -123,4 +127,4 @@ The 14 template source paths and IDs remain stable. New shared helpers are in ve
 
 ## Character and pixel scene rendering
 
-The two glyph studies share semantic markup and scoped styles in glyph-studies.ts/css. glyph-ascii.ts samples original 3D point surfaces and projects them into a character-cell depth buffer; glyph-pixel.ts draws original integer-grid scenes. glyph-runtime.ts binds three reversible ScrollTrigger pins to scene progress and bounds rendering to visible canvases at 20fps, pausing on document hide. Reduced motion paints static compositions without pins. Runtime cleanup disconnects observers/listeners and kills timelines. These use the same motionDocument/exportMotion path and local runtime/font packaging as the other Motion Studies. Reference studies remain independent local HTML pages under public/pinterest-studies, opened by the lazy PinterestStudio gallery.
+The two glyph studies share semantic markup and scoped styles in glyph-studies.ts/css. glyph-ascii.ts samples original 3D point surfaces and projects them into a character-cell depth buffer; glyph-pixel.ts draws original integer-grid scenes. glyph-runtime.ts binds three reversible ScrollTrigger pins to scene progress and bounds rendering to visible canvases at 20fps, pausing on document hide. Reduced motion paints static compositions without pins. Runtime cleanup disconnects observers/listeners and kills timelines. These use the same motionDocument/exportMotion path and local runtime/font packaging as the other Motion Studies.
