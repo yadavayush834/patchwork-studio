@@ -203,7 +203,7 @@ export function ContemporaryArtWebsite({ onBackToGallery }: { onBackToGallery?: 
   return (
     <div className={`min-h-screen ${themeStyles.bg} ${themeStyles.text} font-sans selection:bg-[#2b2b29] selection:text-[#f7f6f2] transition-colors duration-500`}>
       {/* Return to Gallery Navigation Bar */}
-      <div className={`border-b ${themeStyles.border} ${themeStyles.cardBg} px-4 py-2.5 flex items-center justify-between text-xs font-mono tracking-wider`}>
+      <div className={`border-b ${themeStyles.border} ${themeStyles.cardBg} px-4 py-2.5 flex flex-wrap gap-3 items-center justify-between text-xs font-mono tracking-wider`}>
         <div className="flex items-center gap-3">
           <button
             onClick={onBackToGallery}
@@ -592,7 +592,7 @@ export function ContemporaryArtWebsite({ onBackToGallery }: { onBackToGallery?: 
         </div>
 
         {/* Table of Artists */}
-        <div className={`border ${themeStyles.border} rounded-lg overflow-hidden`}>
+        <div className={`border ${themeStyles.border} rounded-lg overflow-x-auto`}>
           <table className="w-full text-left border-collapse font-mono text-xs">
             <thead>
               <tr className={`border-b ${themeStyles.border} ${themeStyles.badgeBg} opacity-80 uppercase tracking-widest text-[10px]`}>

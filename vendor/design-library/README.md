@@ -15,3 +15,8 @@ The canonical index is `src/library-catalog.json`, regenerated with the parent r
 Node 22: `npm ci`, then `npm run dev`. `npm run build` checks TypeScript and builds an independent static app into `dist/`. The parent Patchwork build sets `PATCHWORK_LIBRARY_OUTPUT` to its public directory.
 
 Examples contain simulated data and product actions. Interface recreations are independent studies, not official products. The repository had no standalone license file at this snapshot; no new blanket license is asserted. Source attribution remains attached. Local system font fallbacks replace the upstream Google Fonts request; no remote font service is needed.
+
+
+## Style studies host
+
+The parent Patchwork app now hosts the Style studies gallery natively. `?embedded=1#render/styles/ID` remains an independent interactive website; adding `preview=1` enables a thumbnail tour that respects reduced motion and parent visibility. Both send authenticated readiness messages to their parent. The source archive retains all 28 study implementations. Original gallery links hand off to `/?collection=library&library=styles`, while direct render links keep opening the website itself.

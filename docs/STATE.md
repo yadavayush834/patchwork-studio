@@ -1,6 +1,6 @@
 # Current state and context
 
-Last verified: 11 November 2026 (Goldseam motion template; earlier feature evidence remains historical). This file is the short entry point for a fresh chat or a different coding agent.
+Last verified: 11 November 2026 (combined motion, ASCII and Style studies work; earlier feature evidence remains historical). This file is the short entry point for a fresh chat or a different coding agent.
 
 Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/patchwork-studio), private, branch `main`. The local checkout uses `origin` for this repository. Check `git status`, the current commit, and the remote before continuing; do not infer present synchronization from this dated note.
 
@@ -12,11 +12,15 @@ Eighteenth Motion Template, listed first: **Cloudwhale**, a seven-chapter scroll
 
 Three Motion Templates (listed first): **Halcyon** (SaaS layout, real-time iridescent butterfly in pastel Bayer dither with twinkles), **Bloomfield** (centred hero, monochrome daisy/cosmos meadow on a pixel grid that unfurls on load and sways with wind and cursor) and **Aurelle** (framed studio layout, breathing four-ring lotus with vertical streak smear, bloom and god rays). Built from the user's references (three hero images, three videos) and the look vocabulary of matthewhamilton3141/lumen (MIT), reimplemented as a GPU pass rather than copied: `src/motion/living/look.ts` renders a Three.js subject into a one-texel-per-cell target, then a shader draws pixel/LED/streak cells with ordered dither, smear and twinkles, followed by optional god rays, bloom and output. Subjects: `butterfly.ts`, `meadow.ts`, `lotus.ts`; pages `pages.ts`; styles `living.css`; runtime `living/runtime.ts` (pauses offscreen/hidden; still frame for reduced motion). Partner logos are invented wordmarks. Desktop reviewed; narrow screens only have basic rules.
 
-## Goldseam motion template — 11 November 2026
+## combined motion, ASCII and Style studies work — 11 November 2026
 
 Fourteenth Motion Template, listed first: **Goldseam**, a seven-chapter kintsugi story told by one real-time Three.js tea bowl. The bowl sits on a basalt plinth with steaming matcha, slips, shatters into 13 procedurally fractured shards (`src/motion/goldseam-geometry.ts`; neighbouring shards share periodic crack curves so they refit exactly), is laid out and weighed on a catalogue table with projected DOM labels, rebuilt piece by piece (Day 1→47 counter), lacquered, then gold dust streams into seam tubes that grow along the real fractures (bloom only in dark chapters). It ends back on the plinth with tea, closing the loop. One scrubbed GSAP master timeline drives both `goldseamState` (pure, tested in `goldseam-story.ts`) and all copy. Files: `goldseam.ts` (markup), `goldseam.css`, `goldseam-runtime.ts`; wired through `catalog.ts`, `templates.ts`, `document.ts`, `runtime.ts`. Cover: `public/motion/goldseam-cover.jpg` (captured from the live scene). No new assets or dependencies; export reuses the shared engine/fonts.
 
 Desktop layout is the reviewed target. The user deferred mobile: narrow-screen rules exist (portrait camera, three-column catalogue, repositioned copy) but have only had a preliminary look and need a dedicated pass.
+
+## Native Style studies — 11 November 2026
+
+Style studies now uses a native gallery and interactive workbench at `?collection=library&library=styles`, preserving all 28 websites. Cards expose hover/button live tours, bookmarks and direct exploration. The workbench supports desktop/tablet/phone viewport sizes, restart, expanded preview, shareable `study` links, standalone website tabs, design notes and the complete library source ZIP. Favorite IDs remain compatible with the original vendor collection. Preview loading/retry and authenticated readiness/visibility messages are implemented. Art Deco navigation and contemporary-art controls/table were repaired for narrow screens; minimalist project rows now use keyboard-operable buttons.
 
 ## Current resource rebuild — 11 November 2026
 

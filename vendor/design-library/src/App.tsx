@@ -124,6 +124,11 @@ export default function App() {
   const [group = "all", itemId] = (isRender ? route.slice(7) : route).split(
     "/",
   );
+  useEffect(() => {
+    if (isRender || group !== "styles") return;
+    if (parent !== window) parent.postMessage({ type: "patchwork-open-collection", section: "styles", resource: itemId }, location.origin);
+    else location.replace(`/?collection=library&library=styles${itemId ? `&study=${encodeURIComponent(itemId)}` : ""}`);
+  }, [group, itemId, isRender]);
   const entry = visibleEntries.find(
     (e) => e.kind === group && e.originalId === itemId,
   );
@@ -152,7 +157,7 @@ export default function App() {
     .sort();
   function navigate(value: string) {
     const [section, resource] = value.split("/");
-    if (["colors", "motion", "svg", "primitives"].includes(section) && window.parent !== window) {
+    if (["styles", "colors", "motion", "svg", "primitives"].includes(section) && window.parent !== window) {
       window.parent.postMessage({ type: "patchwork-open-collection", section, resource }, location.origin);
       return;
     }

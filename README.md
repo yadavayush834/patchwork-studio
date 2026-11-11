@@ -93,3 +93,6 @@ Open `?collection=library` or choose **Design Library** in the sidebar. A separa
 Mosslight is included in Motion Templates as its original interactive pixel scene: a radio observatory, ringed planet, fireflies and a responsive lake. Open it independently, change atmospheres, send signals, toggle motion, or download the complete reusable component and website. Name, headline and accent customization are preserved in previews and exports.
 
 The former reference collection is maintained separately in the private [`reference-studies`](https://github.com/yadavayush834/reference-studies) repository and is no longer part of Patchwork.
+
+
+Style studies now includes live card previews and an interactive website workspace with desktop, tablet and phone widths, saved studies, design notes, source downloads and independent website tabs. All 28 original study websites remain available.

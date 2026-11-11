@@ -3,6 +3,7 @@ import "./design-library.css";
 import TemplateStudio from "./template-library/TemplateStudio";
 import ColorStudio from "./color-library/ColorStudio";
 import ResourceStudio from "./resource-library/ResourceStudio";
+import StyleStudio from "./style-library/StyleStudio";
 export default function DesignLibrary({ onClose }: { onClose: () => void }) {
   const root = useRef<HTMLDivElement>(null);
   const [section, setSection] = useState(() => {
@@ -16,10 +17,12 @@ export default function DesignLibrary({ onClose }: { onClose: () => void }) {
   }, [section]);
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
-      if (event.origin === location.origin && event.source === root.current?.querySelector("iframe")?.contentWindow && event.data?.type === "patchwork-open-collection" && ["colors", "motion", "svg", "primitives"].includes(event.data.section)) {
+      if (event.origin === location.origin && event.source === root.current?.querySelector("iframe")?.contentWindow && event.data?.type === "patchwork-open-collection" && ["styles", "colors", "motion", "svg", "primitives"].includes(event.data.section)) {
         const url = new URL(location.href);
         if (typeof event.data.resource === "string") url.searchParams.set("resource", event.data.resource);
         else url.searchParams.delete("resource");
+        if (event.data.section === "styles" && typeof event.data.resource === "string") url.searchParams.set("study", event.data.resource);
+        else url.searchParams.delete("study");
         history.replaceState(history.state, "", url);
         setSection(event.data.section);
       }
@@ -29,7 +32,7 @@ export default function DesignLibrary({ onClose }: { onClose: () => void }) {
   }, []);
   useEffect(() => {
     const escape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
+      if (event.key === "Escape" && !event.defaultPrevented) onClose();
     };
     addEventListener("keydown", escape);
     return () => removeEventListener("keydown", escape);
@@ -100,6 +103,8 @@ export default function DesignLibrary({ onClose }: { onClose: () => void }) {
       </nav>
       {section === "templates" ? (
         <TemplateStudio />
+      ) : section === "styles" ? (
+        <StyleStudio />
       ) : section === "colors" ? (
         <ColorStudio />
       ) : section === "motion" || section === "svg" || section === "primitives" ? (

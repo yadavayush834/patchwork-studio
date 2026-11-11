@@ -183,3 +183,8 @@ Implemented new Motion/SVG/UI collections (8/8/9), original Web Component source
 2026-11-11: Added three living-art landing pages (Halcyon, Bloomfield, Aurelle) to Motion Templates, modelled on user-supplied reference images/videos and the lumen look vocabulary.
 
 2026-11-11: Added Cloudwhale, a GSAP + Three.js pixel-art voxel scroll fable, as the eighteenth Motion Template.
+
+
+## 11 November 2026 — Style studies
+
+Repaired the Style studies section with a native gallery, explicit live previews, responsive interactive website workbench, loading/retry, saved studies, source access and shareable links. Preserved all 28 studies and existing collections. Browser regression is `scripts/verify-style-studies.mjs`.
