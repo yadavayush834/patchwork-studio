@@ -1,6 +1,6 @@
 import type { MotionConfig } from "../catalog";
 
-export const livingIds = ["halcyon", "bloomfield", "aurelle"] as const;
+export const livingIds = ["halcyon", "bloomfield", "aurelle", "nereid", "zephyr", "vernant", "volute"] as const;
 export type LivingId = (typeof livingIds)[number];
 export const isLiving = (id: unknown): id is LivingId => livingIds.includes(id as LivingId);
 
@@ -97,5 +97,12 @@ function aurelle(c: MotionConfig) {
 }
 
 export function renderLiving(id: LivingId, c: MotionConfig) {
+  if (["nereid","zephyr","vernant","volute"].includes(id)) return specimenPage(id,c);
   return id === "halcyon" ? halcyon(c) : id === "bloomfield" ? bloomfield(c) : aurelle(c);
+}
+
+function specimenPage(id: LivingId,c:MotionConfig){
+ const notes:Record<string,[string,string,string]>={nereid:["Follow a quieter current.","A visual studio exploring the space between light and water.","A drifting jellyfish with a pulsing bell and trailing filaments"],zephyr:["Small beginnings. Open possibilities.","An independent practice for ideas ready to travel.","A silver seed head turning gently in the wind"],vernant:["Make room for the unexpected.","Digital experiences with the patience and detail of the natural world.","Seven fern fronds unfolding in jade light"],volute:["Find your own rhythm.","Motion identities shaped by repetition, proportion and a little surprise.","A luminous spiral shell with fine copper ribs"]};
+ const [title,description,alt]=notes[id];
+ return `${nav(c,bloomLogo,["The studio","Our approach","Contact"],"Start a conversation")}<main id="top"><section class="lv-hero" data-chapter="A living specimen"><div class="lv-art" data-scene="${id}" role="img" aria-label="${alt}"></div><div class="lv-hero-copy"><h1 class="lv-rise">${esc(c.headline)}</h1><p class="lv-rise">${description}</p><a class="lv-cta lv-rise" href="#story">Explore the studio ↗</a></div></section><section id="story" class="lv-features" data-chapter="Our approach"><h2 class="lv-reveal">${title}</h2><p class="lv-reveal">We start with observation. The curve of a stem, the movement of water, the way light catches an edge. From these small details, a distinct visual language takes shape.</p></section><section class="lv-band" data-chapter="In motion"><p>Identity · Interaction · Art direction</p><div class="lv-marks"><span class="wm">Considered in every frame.</span></div></section><section id="contact" class="lv-contact" data-chapter="Begin"><h2 class="lv-reveal">Something worth<br><em>bringing to life.</em></h2><p>Tell us what you are working on.</p><a class="lv-cta" href="${esc(mail(c.email))}">Start a conversation ↗</a>${footer(c,"INDEPENDENT DESIGN & MOTION")}</section></main>`;
 }

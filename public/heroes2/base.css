@@ -5,6 +5,8 @@
 @font-face{font-family:"Instrument Sans";src:url("fonts/InstrumentSans.woff2") format("woff2");font-weight:400 700;font-display:swap}
 @font-face{font-family:"JetBrains Mono";src:url("fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
 @font-face{font-family:"Pixelify Sans";src:url("fonts/PixelifySans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"Bricolage Grotesque";src:url("fonts/BricolageGrotesque.woff2") format("woff2");font-weight:200 800;font-stretch:75% 100%;font-display:swap}
+@font-face{font-family:"Syne";src:url("fonts/Syne.woff2") format("woff2");font-weight:400 800;font-display:swap}
 @font-face{font-family:"Fraunces";src:url("fonts/Fraunces.woff2") format("woff2");font-weight:100 900;font-display:swap}
 
 *,*::before,*::after{box-sizing:border-box}
@@ -31,3 +33,6 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--focus,var(--accent)
 .hx-grain{position:absolute;inset:-20%;z-index:5;pointer-events:none;opacity:var(--grain,.06);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");mix-blend-mode:multiply}
 /* Without script or with reduced motion, everything is simply present. */
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* Your picture as dot art, inside any hero: right-hand side, fading in from the words. */
+.hx-dotphoto{position:absolute;top:0;right:0;bottom:0;width:58%;z-index:1;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 35%);mask-image:linear-gradient(90deg,transparent,#000 35%)}

@@ -193,3 +193,13 @@ Repaired the Style studies section with a native gallery, explicit live previews
 
 
 2026-11-11: Added a separate Hero sections collection with five original one-screen reusable designs (Facet, Undertow, Daybreak, Lattice, Frequency), native customization, standalone routes and portable custom-element/source exports. This batch is independent of ongoing Motion Template work.
+
+2026-11-11: Changed Hero section 1 to open websites independently by default; Hero section 2 is unchanged. Kept customization/download explicit, preserved existing standalone links, and added edit=1 compatibility for editor deep links.
+
+2026-11-11: Added live website previews to every Motion Study card, with hover, keyboard and touch activation, single-context rendering, readiness feedback, offscreen/hidden cleanup and a reduced-motion tour fallback. Independent website opening remains the primary action.
+
+
+2026-11-12: Expanded Scenes from six to ten with original Tidewatch, Cloudline, Glasshouse and Pomegranate Court shader paintings. Kept the original six and their order, added safe independent routes and normal customization/export integration, plus opt-in artwork and pause controls for the new scenes.
+
+
+2026-11-12: Implemented four original living-art landing templates inspired by the supplied images, sampled video frames and Lumen rendering vocabulary. Preserved existing templates, including the earlier Pelagic.

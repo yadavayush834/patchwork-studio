@@ -53,6 +53,7 @@ export default function HeroStudio({ onClose }: { onClose: () => void }) {
     setSelected(null);
     const url = new URL(location.href);
     url.searchParams.delete("hero");
+    url.searchParams.delete("edit");
     history.replaceState(history.state, "", url);
   }, []);
   useEffect(() => {
@@ -177,6 +178,7 @@ export default function HeroStudio({ onClose }: { onClose: () => void }) {
     setNotice("");
     const url = new URL(location.href);
     url.searchParams.set("hero", id);
+    url.searchParams.set("edit", "1");
     history.replaceState(history.state, "", url);
     root.current?.scrollTo(0, 0);
   }
@@ -243,10 +245,12 @@ export default function HeroStudio({ onClose }: { onClose: () => void }) {
           <div className="hs-gallery-grid">
             {heroes.map((h) => (
               <article className="hs-card" key={h.id}>
-                <button
+                <a
                   className="hs-cover"
-                  aria-label={`Customize ${h.name}`}
-                  onClick={() => open(h.id)}
+                  aria-label={`Open ${h.name} hero in a new tab`}
+                  href={`/?view=hero&hero=${h.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
                   <img
                     src={`/heroes/covers/${h.id}.webp`}
@@ -256,18 +260,18 @@ export default function HeroStudio({ onClose }: { onClose: () => void }) {
                     loading="lazy"
                   />
                   <span>
-                    Customize <ArrowUpRight size={16} />
+                    Open hero <ArrowUpRight size={16} />
                   </span>
-                </button>
+                </a>
                 <div className="hs-card-body">
                   <div>
-                    <h2>{h.name}</h2>
+                    <h2><a href={`/?view=hero&hero=${h.id}`} target="_blank" rel="noopener noreferrer">{h.name}</a></h2>
                     <span>{h.medium}</span>
                   </div>
                   <p>{h.description}</p>
                   <footer>
-                    <button onClick={() => open(h.id)}>
-                      Make it yours <ArrowUpRight size={14} />
+                    <button aria-label={`Customize ${h.name}`} onClick={() => open(h.id)}>
+                      Customize & download <ArrowUpRight size={14} />
                     </button>
                     <a
                       href={`/?view=hero&hero=${h.id}`}

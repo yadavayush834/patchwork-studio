@@ -119,3 +119,13 @@ The native Style studies gallery keeps the lavender workbench, local Space Grote
 ## One-screen hero collection
 
 The Hero sections browser uses the existing lavender workbench and real scene covers. Each independent hero occupies one viewport, with no scroll choreography or extra page sections. Keep the five compositions distinct: Facet has an icy canvas, asymmetric chrome ribbon and Syne; Undertow uses a glyph nautilus and Instrument Serif on charcoal; Daybreak uses Silkscreen over a pixel landscape; Lattice pairs coral and Bricolage Grotesque with a folding wire surface; Frequency centers oversized Syne inside fluted spectral light. Motion responds to the scene's action and pointer; it must leave readable content under reduced motion or WebGL failure. The customizer exposes content and art controls without introducing backend claims.
+
+Motion Studies cards keep their actual captured covers until the real website is ready. Hover or keyboard focus brings the active site's animation and scroll choreography into the card. Touch users have an explicit Live preview / Stop preview button. Only one card animates at once. Loading/failure feedback stays compact; the primary cover/title/Explore action still opens an independent website. Reduced motion retains a static reading preview and stops automatic touring.
+
+
+## Four additional pixel places
+
+Preserve the first six Scenes. Tidewatch uses storm-blue water, basalt and amber maritime lights; Cloudline frames terraced green ridges through a warm timber cable-car window; Glasshouse uses a nocturnal vaulted conservatory with jade leaves and pale moths; Pomegranate Court uses sun-warmed plaster, tiled water, blue shutters and leaf shade. Keep each silhouette and limited palette legible before adding dither. The art remains dominant with words disabled. New artwork actions and pause controls use native buttons, visible focus and responsive placement clear of the existing pointer hint. Preview, standalone and ZIP all use the same source.
+
+
+The new living-art templates use distinct organic silhouettes: Nereid's blue LED jellyfish, Zephyr's silver seed parachutes with italic editorial type, Vernant's jade fronds with right-hand copy, and Volute's copper ribbed spiral with sans-serif type. Canvas edges blend into each dark page; phone layouts place readable copy above the specimen. Covers must be real browser captures. Reference videos and images inform dither, fine luminous detail and organic movement; their assets are not included.

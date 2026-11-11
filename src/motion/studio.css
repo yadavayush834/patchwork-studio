@@ -826,3 +826,13 @@
 .motion-template-card-cover, .motion-explore { text-decoration: none; }
 .motion-card-customize { display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; color: #68705d; padding: 13px 0 0; font: inherit; font-size: 10px; cursor: pointer; }
 .motion-card-customize:hover { color: #30382b; }
+
+/* Real website thumbnails: only the active card mounts a browsing context. */
+.motion-card-live{position:absolute;inset:0;z-index:3;overflow:hidden;pointer-events:none}
+.motion-card-live iframe{position:absolute;top:0;left:0;max-width:none;min-height:0;border:0;transform-origin:top left;opacity:0;pointer-events:none;flex:none}
+.motion-card-live.is-ready iframe{opacity:1}
+.motion-card-live-status{position:absolute;left:14px;bottom:18px;display:flex;align-items:center;gap:6px;max-width:55%;background:#242b25e8;color:#f3f0e8;padding:8px 10px;border-radius:5px;font:10px/1.5 'DM Sans',sans-serif}
+.motion-card-live-status i{width:5px;height:5px;border-radius:50%;background:#b0c79f}
+.motion-card-live-toggle{display:flex;align-items:center;gap:7px;min-height:36px;padding:6px 0;border:0;background:none;color:#56604f;font:11px 'DM Sans',sans-serif;cursor:pointer;margin-top:8px}
+.motion-card-live-toggle:hover{color:#243521}.motion-card-live-toggle:focus-visible{outline:2px solid #526544;outline-offset:4px}
+@media(max-width:600px){.motion-card-live-toggle{min-height:44px}.motion-card-live-status{font-size:9px;left:10px;bottom:13px}}

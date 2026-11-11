@@ -11,8 +11,8 @@ import {
 import { renderMotion } from "../src/motion/templates";
 
 test("motion collection retains eighteen scroll stories alongside the independent Mosslight scene", () => {
-  assert.equal(motionTemplates.length, 19);
-  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 19);
+  assert.equal(motionTemplates.length, 23);
+  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 23);
   for (const t of motionTemplates) {
     if (t.id === "mosslight") continue;
     const html = renderMotion(t.id);
@@ -140,7 +140,7 @@ test("photographic motion stories package their local artwork and generation rec
   }
 });
 test("living-art landing pages escape customisation in every headline layout", () => {
-  for (const id of ["halcyon", "bloomfield", "aurelle"] as const) {
+  for (const id of ["halcyon", "bloomfield", "aurelle", "nereid", "zephyr", "vernant", "volute"] as const) {
     const html = renderMotion(id, { brand: "<b>B</b>", headline: "One <script>two</script> three four", email: "a@b.co" });
     assert.match(html, new RegExp(`data-scene="${id}"`));
     assert.ok(!html.includes("<script>") && !html.includes("<b>B</b>"));

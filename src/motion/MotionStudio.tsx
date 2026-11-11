@@ -8,6 +8,8 @@ import {
   X,
   Check,
   Sparkles,
+  Play,
+  Pause,
 } from "lucide-react";
 import {
   defaultMotionConfig,
@@ -23,6 +25,7 @@ import { motionWebsiteUrl } from "./navigation";
 import { exportMotion } from "./export";
 import { download } from "../storage";
 import "./studio.css";
+import MotionCardPreview from "./MotionCardPreview";
 interface Props {
   onClose: () => void;
 }
@@ -35,6 +38,9 @@ export default function MotionStudio({ onClose }: Props) {
     const id = new URLSearchParams(location.search).get("motion");
     return isMotionId(id) ? id : null;
   });
+  const [previewId, setPreviewId] = useState<MotionId | null>(null);
+  const stopCardPreview = useCallback((id: MotionId) => setPreviewId(current => current === id ? null : current), []);
+  useEffect(() => { setPreviewId(null); }, [selected]);
   const [configs, setConfigs] = useState(readMotionConfigs),
     [editing, setEditing] = useState(false),
     [draft, setDraft] = useState<MotionConfig>(defaultMotionConfig("aether"));
@@ -410,6 +416,9 @@ export default function MotionStudio({ onClose }: Props) {
               <article
                 className={`motion-template-card motion-${t.id}`}
                 key={t.id}
+                onPointerLeave={event => {if (!event.currentTarget.contains(document.activeElement)) stopCardPreview(t.id);}}
+                onFocusCapture={event => {if ((event.target as HTMLElement).closest('a')) setPreviewId(t.id);}}
+                onBlur={event => {if (!event.currentTarget.contains(event.relatedTarget as Node | null)) stopCardPreview(t.id);}}
               >
                 <a
                   className="motion-template-card-cover"
@@ -417,6 +426,7 @@ export default function MotionStudio({ onClose }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`Explore ${t.name}`}
+                  onPointerEnter={event => {if (event.pointerType === 'mouse') setPreviewId(t.id);}}
                 >
                   <img
                     src={t.cover}
@@ -440,10 +450,15 @@ export default function MotionStudio({ onClose }: Props) {
                           : "✿"}
                     </i>
                   </div>
+                  {previewId === t.id && <MotionCardPreview id={t.id} name={t.name} config={configs[t.id] ?? defaultMotionConfig(t.id)} onStop={stopCardPreview}/>}
                   <span className="motion-cover-open">
                     Step inside <ArrowUpRight size={16} />
                   </span>
                 </a>
+                <button className="motion-card-live-toggle" aria-label={`${previewId === t.id ? 'Stop' : 'Start'} live preview of ${t.name}`} aria-pressed={previewId === t.id} onClick={() => setPreviewId(current => current === t.id ? null : t.id)}>
+                  {previewId === t.id ? <Pause size={12}/> : <Play size={12}/>}
+                  {previewId === t.id ? 'Stop preview' : 'Live preview'}
+                </button>
                 <div className="motion-template-card-meta">
                   <span>{t.category}</span>
                   <span>{t.number}</span>

@@ -757,3 +757,5 @@
     min-height: 560px;
   }
 }
+
+.hs-card h2 a{text-decoration:none;color:inherit}.hs-card h2 a:hover{color:#795be6}.hs-cover{text-decoration:none}

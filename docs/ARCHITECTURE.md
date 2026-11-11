@@ -143,3 +143,15 @@ The two glyph studies share semantic markup and scoped styles in glyph-studies.t
 ## Reusable hero sections
 
 `src/heroes/catalog.ts` defines five scene IDs, defaults and validated customization. `markup.ts` provides escaped semantic content; `runtime.ts` defines one reusable `patchwork-hero` custom element with isolated CSS, GSAP entrance choreography and bounded WebGL/ASCII renderers. `document.ts` wraps that same element for studio iframes, standalone routes and exports. `main.tsx` resolves explicit hero standalone links before loading the studio. `HeroStudio.tsx` owns customization, scoped local storage and iframe viewports; it never changes version-1 website documents. `export.ts` packages the generated runtime, original source/build recipe, local fonts and notices. `build-heroes.mjs` is included in normal builds. See `docs/HEROES.md`.
+
+Hero section 1 navigation defaults to independent pages for both explicit standalone URLs and legacy collection+hero links. Hero section 2 retains its existing routes and behavior. `edit=1` selects the editing workspace for collection links. Primary gallery actions use normal anchors with target=_blank and noopener/noreferrer; customization uses separate buttons, so opening a website does not replace the gallery or mutate its selected editor.
+
+## Motion Studies live card previews
+
+`MotionCardPreview.tsx` mounts one isolated real `motionDocument` inside the active gallery card, using saved site customization. `card-preview-document.ts` adds a preview-only scroll tour: parent messages are checked by origin, source and site ID; startup waits for the site's normal readiness signal; reduced-motion and hidden-document states stop touring. Pointer hover, focused website links and the explicit live-preview button share one active preview ID. Offscreen cards, hidden tabs and leaving pointer/focus release their browsing context. Unmount dispatches pagehide so existing scene cleanup runs before iframe removal. Covers remain visible during loading or failure. Independent Explore links and customized website ZIPs are unchanged.
+
+
+Scenes expansion uses the existing catalog/document/gallery/export pipeline. New source paintings are `public/scenes/{tidewatch,cloudline,glasshouse,courtyard}/scene.js`. All IDs are admitted by `src/scenes/route.ts` and `document.ts`; the gallery count is derived from catalog length. The common PixelScene runtime adds controls only when a scene supplies its controls label; existing scenes keep their presentation and default behavior. No new dependency or renderer is introduced.
+
+
+Four new living-art IDs (nereid, zephyr, vernant, volute) are registered through the existing Motion catalog and living/pages.ts dispatch. living/specimens.ts builds each original subject as procedural Three.js geometry; living/runtime.ts assigns its print/screen look. The existing LivingArt renderer, cleanup, visibility handling, reduced-motion stills, motionDocument and exportMotion remain shared. No reference-site imagery or Lumen source is bundled.

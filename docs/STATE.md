@@ -4,6 +4,10 @@ Last verified: 11 November 2026 (combined motion, ASCII and Style studies work; 
 
 Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/patchwork-studio), private, branch `main`. The local checkout uses `origin` for this repository. Check `git status`, the current commit, and the remote before continuing; do not infer present synchronization from this dated note.
 
+## Scenes expansion — 12 November 2026
+
+Scenes now has ten places: the original Last Bus, Kelp, Long Night, Rooftops, Riso Swell and Lantern River, followed by Tidewatch, Cloudline, Glasshouse and Pomegranate Court. The four additions are original GLSL pixel paintings with palette-limited detail, pointer interaction, explicit keyboard artwork controls and pause/resume. They reuse the existing customizer, saved configuration, independent scene routes, words-off backgrounds and local ZIP packaging. No hero collection was changed for this task. Details and provenance are in `docs/SCENES.md`; browser regression: `scripts/verify-scene-expansion.mjs`.
+
 ## Hero sections — 11 November 2026
 
 A dedicated collection at `?collection=heroes`, linked from the dashboard sidebar and overview, adds five original one-screen scenes: Facet (chrome GLSL ribbon), Undertow (spatial ASCII shell), Daybreak (pixel landscape with day/dusk), Lattice (folding WebGL wire surface), Frequency (fluted light shader). `src/heroes` owns the catalog, native editor, shared markup, runtime and exports. `npm run build:heroes` generates `public/heroes/hero.js`; normal dev/build runs it automatically. Independent routes are `?view=hero&hero=ID`. ZIPs include a reusable Shadow DOM custom element, original source/rebuild instructions and local licensed fonts. Editing is saved under namespaced local storage, separately from project documents. See `docs/HEROES.md` for contracts and the browser QA command.
@@ -194,3 +198,18 @@ Style Studies hover previews automatically tour the website while the pointer is
 2026-11-02: Added The Last Lightkeeper as the twelfth Motion Study. The pixel fable uses an original Three.js voxel observatory, a vertically scrubbed GSAP story, unfolding floors and roof, a descending keeper, lens alignment and a valley-lighting finale. It supports the existing template customization and self-contained ZIP export.
 
 2026-11-02 Lightkeeper revision: replaced the five-beat machine-lighting ending with seven acts: a received call, lift access, lantern placement, lens alignment, reassembly/transmission, sequential village illumination, and a returning reply at dawn. Added a geared lift, socket, catwalk, telescope, ladder, bridge, twelve-house village, chimney smoke and a moth companion. The flight log is now optional. Narrative progress is deterministic and supports reversing the scroll.
+
+## Hero opening — 11 November 2026
+
+Hero section 1 now uses independent website links as the primary gallery action. Its covers and titles open new tabs, with no Patchwork UI or iframe. Hero section 2 is unchanged. Separate Customize & download buttons retain the editor. Existing collection+hero links open standalone unless `edit=1` is present; editing actions write this flag and closing the editor removes it. Namespaced saved configuration is shared with the standalone renderer. `scripts/verify-hero-opening.mjs` checks actual clicks across the five heroes in section 1 and saved edits.
+
+## Verified Vercel connection — 11 November 2026
+
+The authenticated Vercel app connection can access the existing `patchwork-studio` project and its GitHub link to `yadavayush834/patchwork-studio`. Production at https://patchwork-studio-six.vercel.app is READY at commit f0fad23; prior main-branch pushes also produced successful Git deployments. The working checkout now has an ignored local `.vercel/project.json` identifying the verified project/team. No new deployment, project, billing change, or repository push was performed for this connection task. Newer local changes remain unpublished. See `docs/DEPLOYMENT.md`.
+
+## Motion Studies card previews — 12 November 2026
+
+Every Motion Study now has a real live gallery preview on mouse hover, keyboard link focus or its explicit touch-friendly preview button. One active card mounts the actual website with saved customization and an automatic scroll tour; posters remain visible during loading or failure. Offscreen/hidden previews unmount and run their existing pagehide cleanup. Thumbnail-only drawing-buffer resolution is capped independently of full websites. Reduced motion prevents the tour. The normal cover/title/Explore links still open independent websites. Source: `src/motion/MotionCardPreview.tsx`, `card-preview-document.ts`; QA: `scripts/verify-motion-card-previews.mjs`.
+
+
+2026-11-12: Added four living-art Motion Studies: Nereid (jellyfish), Zephyr (seed head), Vernant (fern), Volute (spiral). Original procedural Three.js subjects in living/specimens.ts reuse the existing dither renderer, standalone routes, customization and export pipeline. Collection now has 23 templates.

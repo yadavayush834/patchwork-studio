@@ -50,23 +50,47 @@ export const heroes2 = [
     fonts: ["Fraunces", "InstrumentSans"],
     defaults: { brand: "Fernhouse", headline: "Breathe in. Breathe out.", sub: "A breathing coach that fits in your pocket. Four minutes a day, no streaks, no noise.", cta: "Take one breath", cta2: "How it works" },
   },
+  {
+    id: "dots",
+    name: "Specimen",
+    technique: "Live 3D in dot art",
+    type: "Bricolage Grotesque",
+    description: "A moon jelly raymarched live in 3D, then rebuilt from single-colour dots: every dot flickers on its own clock, a scan rolls down, dots shy away from your pointer and a click sends a ripple through them. Upload a picture of your own and it becomes the dots instead.",
+    palette: ["#050505", "#d4ff3a", "#eef3e2"],
+    fonts: ["BricolageGrotesque", "JetBrainsMono", "InstrumentSans"],
+    defaults: { brand: "Lumen Deep", headline: "Things that glow down here.", sub: "A field guide to the bioluminescent ocean, mapped one light at a time by divers and drones.", cta: "Explore the guide", cta2: "Watch the dives" },
+  },
+  {
+    id: "prism",
+    name: "Prism",
+    technique: "Dispersion by Snell's law",
+    type: "Syne",
+    description: "A white beam meets a glass prism and leaves as a spectrum. Every wavelength is traced with Snell's law and its own index, total internal reflection included. Move to turn the prism; click to fire a pulse of light down the beam.",
+    palette: ["#07070a", "#f4f2ee", "#ff3b3b", "#4dff7a", "#5b6bff"],
+    fonts: ["Syne", "JetBrainsMono", "InstrumentSans"],
+    defaults: { brand: "Spectra", headline: "Every colour was already there.", sub: "Colour management for teams who print, screen and ship: one source of truth, from the file to the shelf.", cta: "Start a free trial", cta2: "See it work" },
+  },
 ] as const;
 export type Hero2Id = (typeof heroes2)[number]["id"];
-export interface Hero2Config { brand: string; headline: string; sub: string; cta: string; cta2: string; href: string }
+/** `image` is only used by Specimen: an optional picture of your own, kept as a small data URL. */
+export interface Hero2Config { brand: string; headline: string; sub: string; cta: string; cta2: string; href: string; image: string }
 export const isHero2 = (v: unknown): v is Hero2Id => heroes2.some((h) => h.id === v);
 export const hero2 = (id: Hero2Id) => heroes2.find((h) => h.id === id)!;
 export function defaultHero2(id: Hero2Id): Hero2Config {
-  return { ...hero2(id).defaults, href: "#" };
+  return { ...hero2(id).defaults, href: "#", image: "" };
 }
-const limits: Record<keyof Hero2Config, number> = { brand: 24, headline: 60, sub: 160, cta: 28, cta2: 28, href: 300 };
+const limits: Record<Exclude<keyof Hero2Config, "image">, number> = { brand: 24, headline: 60, sub: 160, cta: 28, cta2: 28, href: 300 };
+export const MAX_IMAGE = 700_000;
 /** Trim, cap lengths and only allow safe link schemes. */
 export function normalizeHero2(value: Partial<Hero2Config>, id: Hero2Id): Hero2Config {
   const d = defaultHero2(id);
   const out = { ...d };
-  for (const k of Object.keys(limits) as (keyof Hero2Config)[]) {
+  for (const k of Object.keys(limits) as (keyof typeof limits)[]) {
     const v = value[k];
     if (typeof v === "string" && v.trim()) out[k] = v.trim().slice(0, limits[k]);
   }
   if (!/^(https?:\/\/|mailto:|#|\/)/i.test(out.href) || /^\/\//.test(out.href)) out.href = "#";
+  const img = value.image;
+  if (typeof img === "string" && img.length <= MAX_IMAGE && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(img)) out.image = img;
   return out;
 }

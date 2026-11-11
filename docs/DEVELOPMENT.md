@@ -164,3 +164,16 @@ After `npm run build`, serve the build on a separate port/profile (for example `
 ## Hero sections
 
 `npm run build:heroes` regenerates the portable hero engine from `src/heroes/runtime.ts`; normal dev/build includes it. Sources, export contracts, font provenance and the independent browser-regression command are documented in `docs/HEROES.md`. Run `scripts/verify-heroes.mjs` against a built preview on an isolated origin, with `PATCHWORK_CHROME` pointing to an installed Chromium when needed. It downloads all five ZIPs and rebuilds the shipped source using the checkout's installed dependencies, without installing anything into user projects or clearing browser data.
+
+## Live Vercel connection
+
+The existing `patchwork-studio` Vercel project is connected to this GitHub repository. Pushes to `main` automatically publish production builds at https://patchwork-studio-six.vercel.app. The local project mapping is in ignored `.vercel/project.json`; authenticated account access is through the connected Vercel app. See `docs/DEPLOYMENT.md` for the verified target, release steps and the distinction between deploying Patchwork and publishing an editor-created website.
+
+## Motion Studies live previews
+
+After building, serve the production build on a separate QA port. Run `PATCHWORK_QA_URL=http://127.0.0.1:5195 PATCHWORK_CHROME=/path/to/chrome node scripts/verify-motion-card-previews.mjs`. It opens every Motion Study preview, confirms a single active iframe, checks automatic touring and pointer/focus cleanup, exercises touch activation and reduced motion, and verifies that normal opening still launches an independent website. Software WebGL may take longer to initialize the larger voxel stories than the user's hardware GPU.
+
+
+## Scenes expansion regression
+
+Build and serve on an isolated QA origin, then run `PATCHWORK_QA_URL=http://127.0.0.1:5197 PATCHWORK_CHROME=/path/to/chrome node scripts/verify-scene-expansion.mjs`. It checks the ten-scene gallery and all four additions through independent opening, customized ZIP extraction, locally served WebGL artwork, pointer/keyboard actions, pause, reduced motion and desktop/tablet/phone framing. Artwork snapshots temporarily hide semantic overlays to avoid measuring their independent CSS blink/entrance animations as canvas motion. It never touches the user's browser profile or projects.

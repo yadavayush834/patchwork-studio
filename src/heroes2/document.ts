@@ -59,15 +59,33 @@ ${nav(c, `<svg class="b-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M1
 <div class="hx-grain" aria-hidden="true"></div></main>`;
 }
 
-const markup: Record<Hero2Id, (c: Hero2Config) => string> = { mercury, ink, atlas, lowtide, breath };
+function dots(c: Hero2Config) {
+  return `<main class="hx hx-dots"${c.image ? ` data-image="${c.image}"` : ""}><canvas class="hx-art" aria-hidden="true"></canvas>
+${nav(c, `<i class="d-mark" aria-hidden="true"></i>`, ["Species", "Dives", "Field notes"])}
+<div class="d-copy"><p class="d-label">Field guide · Specimen 04</p><h1 class="d-title">${words(c.headline)}</h1><p class="d-sub">${esc(c.sub)}</p>${actions(c)}</div>
+<p class="d-tag" aria-hidden="true"><b>${c.image ? "Your picture" : "Aurelia aurita"}</b><span>${c.image ? "rebuilt in dots" : "moon jelly · rendered live"}</span></p>
+<p class="d-hint" aria-hidden="true">Move to scatter the dots · Click to send a ripple</p></main>`;
+}
+function prism(c: Hero2Config) {
+  const [a, b] = halves(c.headline);
+  return `<main class="hx hx-prism"><canvas class="hx-art" aria-hidden="true"></canvas>
+${nav(c, `<i class="p-mark" aria-hidden="true"></i>`, ["Product", "Pricing", "Customers"])}
+<div class="p-copy"><h1 class="p-title"><span class="hx-sr">${esc(c.headline)}</span><span class="p-line" aria-hidden="true">${masked(a)}</span><span class="p-line" aria-hidden="true">${masked(b)}</span></h1>
+<div class="p-foot"><p class="p-sub">${esc(c.sub)}</p>${actions(c)}</div></div>
+<p class="p-read" aria-hidden="true"><span>Prism <b class="p-angle">  0.0°</b></span><span>Move to turn it · Click to fire a pulse</span></p></main>`;
+}
+
+const markup: Record<Hero2Id, (c: Hero2Config) => string> = { mercury, ink, atlas, lowtide, breath, dots, prism };
 
 /** A complete, self-contained page. `base` is "" in a download and "/heroes2/" in the studio. */
 export function hero2Document(id: Hero2Id, config: Partial<Hero2Config> = {}, base = "") {
   const c = normalizeHero2(config, id);
   const h = hero2(id);
-  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(c.brand)} | ${esc(c.headline)}</title><meta name="description" content="${esc(c.sub)}"><link rel="stylesheet" href="${base}base.css"><link rel="stylesheet" href="${base}${id}/hero.css"></head><body data-hero="${id}" data-technique="${esc(h.technique)}">${markup[id](c)}<script src="${base}vendor/gsap.min.js" defer></script><script src="${base}${id}/hero.js" defer></script></body></html>`;
+  // A picture of your own: Specimen builds itself from it; every other hero gets it as a dot-art layer.
+  const photo = c.image && id !== "dots" ? `<canvas class="hx-dotphoto" aria-hidden="true" data-image="${c.image}"></canvas>` : "";
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(c.brand)} | ${esc(c.headline)}</title><meta name="description" content="${esc(c.sub)}"><link rel="stylesheet" href="${base}base.css"><link rel="stylesheet" href="${base}${id}/hero.css"></head><body data-hero="${id}" data-technique="${esc(h.technique)}">${photo ? markup[id](c).replace(/<\/main>$/, `${photo}</main>`) : markup[id](c)}<script src="${base}vendor/gsap.min.js" defer></script><script src="${base}${id}/hero.js" defer></script>${photo ? `<script src="${base}dotphoto.js" defer></script>` : ""}</body></html>`;
 }
 /** Files a downloaded hero needs, relative to the public heroes2 folder. */
 export function hero2Files(id: Hero2Id) {
-  return ["base.css", `${id}/hero.css`, `${id}/hero.js`, "vendor/gsap.min.js", ...hero2(id).fonts.map((f) => `fonts/${f}.woff2`), ...[...new Set(hero2(id).fonts.map((f) => f.replace("-Italic", "")))].map((f) => `licenses/${f}-OFL.txt`), "licenses/GSAP-NOTICE.txt"];
+  return ["base.css", "dotphoto.js", `${id}/hero.css`, `${id}/hero.js`, "vendor/gsap.min.js", ...hero2(id).fonts.map((f) => `fonts/${f}.woff2`), ...[...new Set(hero2(id).fonts.map((f) => f.replace("-Italic", "")))].map((f) => `licenses/${f}-OFL.txt`), "licenses/GSAP-NOTICE.txt"];
 }

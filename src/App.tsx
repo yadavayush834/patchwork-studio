@@ -86,6 +86,9 @@ import { exportWebsite } from "./export";
 import Preview from "./Preview";
 import AsciiGallery from "./AsciiGallery";
 const VideoLab = lazy(() => import("./video-lab/VideoLab"));
+import Home from "./home/Home";
+import AsciiPage from "./AsciiPage";
+import "./shell/overlays.css";
 const DesignLibrary = lazy(() => import("./DesignLibrary"));
 const MotionStudio = lazy(() => import("./motion/MotionStudio"));
 const HeroStudio = lazy(() => import("./heroes/HeroStudio"));
@@ -178,6 +181,10 @@ const starters = worlds.map((w) => createProject(w.id));
 
 export default function App() {
   const [heroOpen, setHeroOpen] = useState(() => new URLSearchParams(location.search).get("collection") === "heroes");
+  // ASCII studies: a collection page of their own (the in-editor picker stays a dialog).
+  const [asciiOpen, setAsciiOpen] = useState(() => new URLSearchParams(location.search).get("collection") === "ascii");
+  const openAsciiPage = useCallback(() => { const url = new URL(location.href); url.searchParams.set("collection", "ascii"); window.history.pushState(null, "", url); setAsciiOpen(true); }, []);
+  const closeAsciiPage = useCallback(() => { const url = new URL(location.href); url.searchParams.delete("collection"); window.history.replaceState(null, "", url); setAsciiOpen(false); }, []);
   const openHeroes = useCallback(() => {
     setHeroOpen(true); setLibraryOpen(false); setMotionOpen(false); setVideoLabOpen(false);
     const url = new URL(location.href); url.searchParams.set("collection", "heroes");
@@ -187,6 +194,7 @@ export default function App() {
   const closeHeroes = useCallback(() => {
     setHeroOpen(false); const url = new URL(location.href);
     url.searchParams.delete("collection");url.searchParams.delete("hero");
+    url.searchParams.delete("edit");
     window.history.replaceState(null, "", url);
   }, []);
 
@@ -780,7 +788,27 @@ export default function App() {
           </button>
         </div>
       )}
-      {!project ? (
+      {!project ? (dashTab === "home" ? (
+        <Home
+          paused={heroOpen || libraryOpen || motionOpen || asciiOpen || videoLabOpen}
+          worlds={worlds}
+          worldPreview={(i) => <Preview project={starters[i]} thumbnail />}
+          recent={[...projects].sort((a, b) => b.updatedAt - a.updatedAt).slice(0, 3)}
+          projectCount={projects.length}
+          projectThumb={(id) => { const pr = projects.find((x) => x.id === id); return pr ? <ProjectThumbnail project={pr} /> : null; }}
+          onOpenProject={(id) => { const pr = projects.find((x) => x.id === id); if (pr) void openProject(pr); }}
+          onWorld={(id) => void openProject(createProject(id as Parameters<typeof createProject>[0]))}
+          onMake={() => void openProject(createProject("pixel"))}
+          onScratch={() => void openProject(createProject("editorial", true))}
+          onProjects={() => setDashTab("projects")}
+          onHelp={() => setModal("help")}
+          openLibrary={openLibrary}
+          openHeroes={openHeroes}
+          openMotion={openMotion}
+          openVideoLab={openVideoLab}
+          openAscii={openAsciiPage}
+        />
+      ) : (
         <div className="dashboard">
           <aside className="dash-sidebar">
             <a
@@ -807,8 +835,11 @@ export default function App() {
                 <LayoutGrid size={18} /> Design Library{" "}
                 <span className="new-dot" />
               </button>
-              <button onClick={openHeroes}><Sparkles size={18} />Hero sections</button>
-              <button onClick={() => location.assign("/?collection=heroes2")}><Sparkles size={18} />Hero sections II</button>
+              <button onClick={() => location.assign("/?collection=heroes2")}><Sparkles size={18} />Hero sections</button>
+              <button onClick={() => location.assign("/?collection=scenes")}><ImageIcon size={18} />Scenes</button>
+              <button onClick={() => location.assign("/?collection=components")}><LayoutGrid size={18} />Components</button>
+              <button onClick={() => location.assign("/?collection=spirits")}><Sparkles size={18} />Spirits</button>
+              <button onClick={openAsciiPage}><Sparkles size={18} />ASCII studies</button>
               <button onClick={openMotion}>
                 <Sparkles size={18} /> Motion templates{" "}
                 <span className="new-dot" />
@@ -892,105 +923,6 @@ export default function App() {
             <div className="dash-content">
               {dashTab !== "projects" && (
                 <>
-                  <div className="welcome-line">
-                    <span className="eyebrow">
-                      <span /> YOUR NEXT LITTLE OBSESSION
-                    </span>
-                    <span className="edition">THE CREATIVE WEBSITE STUDIO</span>
-                  </div>
-                  <div className="welcome">
-                    <div>
-                      <h1>
-                        A little space.
-                        <br />A lot of <span>possibility.</span>
-                        <svg viewBox="0 0 300 18" aria-hidden="true">
-                          <path d="M4 11Q125-2 295 10M15 16Q145 5 280 16" />
-                        </svg>
-                      </h1>
-                      <p>
-                        Make a website that feels like you.
-                        <br />
-                        Pick a world, move things around, make it your own.
-                      </p>
-                      <div className="welcome-actions">
-                        <button
-                          className="primary"
-                          onClick={() =>
-                            void openProject(createProject("pixel"))
-                          }
-                        >
-                          Make something yours <ArrowUpRight size={17} />
-                        </button>
-                        <button
-                          className="text-button"
-                          onClick={() =>
-                            void openProject(createProject("editorial", true))
-                          }
-                        >
-                          or start from scratch <ArrowUpRight size={14} />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="welcome-art" aria-hidden="true">
-                      <div className="art-window">
-                        <div className="art-window-bar">
-                          <i />
-                          <i />
-                          <i />
-                          <span>your-little-internet.html</span>
-                        </div>
-                        <div className="art-landscape">
-                          <span className="art-sun" />
-                          <div className="art-hill hill-back" />
-                          <div className="art-hill hill-front" />
-                          <span className="art-star">✳</span>
-                          <span className="art-message">
-                            hello,
-                            <br />
-                            <em>little world.</em>
-                          </span>
-                          <img src="/assets/decor/sprout.svg" alt="" />
-                        </div>
-                      </div>
-                      <span className="art-sticker">
-                        100%
-                        <br />
-                        <b>YOU</b>
-                      </span>
-                      <span className="art-caption">
-                        a browser-sized daydream ↗
-                      </span>
-                    </div>
-                  </div>
-                  <button className="motion-launch" onClick={openLibrary}>
-                    <div>
-                      <span className="motion-launch-icon">▦</span>
-                      <strong>
-                        A library of possibility.
-                        <small>
-                          Templates, color palettes, UI, and experiments. Six
-                          collections in their own space.
-                        </small>
-                      </strong>
-                    </div>
-                    <ArrowUpRight size={24} />
-                  </button>
-                  <button className="motion-launch" onClick={openHeroes}>
-                    <div><span className="motion-launch-icon"><Sparkles size={24}/></span><strong>Make an entrance.<small>Five original, one-screen hero sections. Live shaders, ASCII and pixel worlds, ready to reuse.</small></strong></div><ArrowUpRight size={24}/>
-                  </button>
-                  <button className="motion-launch" onClick={openMotion}>
-                    <div>
-                      <span className="motion-launch-icon">✳</span>
-                      <strong>
-                        Made to move you.
-                        <small>
-                          Twelve immersive GSAP templates. A separate collection
-                          of scroll-led worlds.
-                        </small>
-                      </strong>
-                    </div>
-                    <ArrowUpRight size={24} />
-                  </button>
                   <div className="section-heading">
                     <div>
                       <span className="eyebrow muted">
@@ -1049,29 +981,6 @@ export default function App() {
                     ))}
                   </div>
                 </>
-              )}
-              {dashTab !== "projects" && (
-                <button
-                  className="ascii-dashboard-banner"
-                  onClick={() => setModal("ascii")}
-                >
-                  <span className="ascii-banner-glyphs" aria-hidden="true">
-                    .:;*
-                    <br />
-                    +x@%
-                  </span>
-                  <div>
-                    <span className="eyebrow">NEW / ASCII MOTION STUDIES</span>
-                    <strong>Characters. With a life of their own.</strong>
-                    <p>
-                      Sharks, a dusk murmuration, synchronising fireflies, and
-                      real incense smoke. Find your atmosphere.
-                    </p>
-                  </div>
-                  <span className="ascii-banner-cta">
-                    Explore 4 living backgrounds <ArrowUpRight size={17} />
-                  </span>
-                </button>
               )}
               {dashTab !== "worlds" && (
                 <section className="projects-section">
@@ -1187,7 +1096,7 @@ export default function App() {
             </div>
           </main>
         </div>
-      ) : (
+      )) : (
         <div className={`editor ${preview ? "is-preview" : ""}`}>
           <header className="editor-top">
             <div className="editor-project">
@@ -2600,6 +2509,7 @@ export default function App() {
           )}
         </div>
       )}
+      {asciiOpen && <AsciiPage onClose={closeAsciiPage} onUse={(b) => { closeAsciiPage(); useAscii(b); }} />}
       {heroOpen && <Suspense fallback={<div className="vl-close-loading" role="status">Opening hero sections…<button onClick={closeHeroes}>Back to Patchwork</button></div>}><HeroStudio onClose={closeHeroes}/></Suspense>}
       {libraryOpen && (
         <Suspense

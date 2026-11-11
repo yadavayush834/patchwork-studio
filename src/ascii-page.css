@@ -1,0 +1,26 @@
+.ap{position:fixed;inset:0;z-index:60;overflow:auto;background:#0f0e13;color:#f4efe6;font:16px/1.55 "HM Bricolage",system-ui,sans-serif}
+.ap-wrap{max-width:1680px;margin:0 auto;padding:40px clamp(20px,3vw,48px) 90px}
+.ap-top{padding-bottom:34px;margin-bottom:40px;border-bottom:2px dashed #2a2733}
+.ap-top h1{margin:0;font:800 clamp(46px,5.4vw,84px)/.95 "HM Bricolage",sans-serif;font-stretch:85%;letter-spacing:-.045em}
+.ap-top h1 em{font:400 1.08em/0 "HM Serif",Georgia,serif;font-style:italic;letter-spacing:-.02em;color:#b79bff}
+.ap-top p{max-width:62ch;margin:16px 0 0;color:#a49cb3}
+.ap-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:72px 32px}
+.ap-card{display:grid;align-content:start;gap:12px;min-width:0}
+.ap-cover{position:relative;aspect-ratio:16/10;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 0 0 1px #2a2733;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.ap-card:hover .ap-cover{transform:translateY(-4px);box-shadow:0 0 0 2px #f4efe6,0 30px 60px -30px #000}
+.ap-cover>*:not(.ap-live){position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ap-cover iframe{border:0}
+.ap-live{position:absolute;left:14px;top:14px;display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(15,14,19,.75);font:11px "HM Mono",monospace;letter-spacing:.1em}
+.ap-live i{width:7px;height:7px;border-radius:50%;background:#6fe3b5;animation:ap-blink 1.4s steps(1) infinite}
+@keyframes ap-blink{50%{opacity:.2}}
+.ap-meta{display:flex;justify-content:space-between;gap:16px;margin-top:10px;font:11px "HM Mono",monospace;letter-spacing:.06em;text-transform:uppercase;color:#a49cb3}
+.ap-card h2{margin:0;font:700 clamp(30px,2.6vw,40px)/1 "HM Bricolage",sans-serif;letter-spacing:-.03em}
+.ap-card p{margin:0;max-width:58ch;color:#a49cb3}
+.ap-actions{display:flex;gap:12px;align-items:center;margin-top:4px}
+.ap-use{padding:11px 18px;border:0;border-radius:999px;background:#f4efe6;color:#0f0e13;font:600 14px "HM Bricolage",sans-serif;cursor:pointer;transition:background-color .2s,transform .18s cubic-bezier(.2,.7,.2,1)}
+.ap-use:hover{background:#b79bff;transform:translateY(-2px)}
+.ap-dl{color:#a49cb3;font-size:14px}
+.ap-dl:hover{color:#f4efe6}
+.ap :focus-visible{outline:3px solid #ffc23d;outline-offset:3px}
+@media (max-width:900px){.ap-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.ap *{transition:none!important;animation:none!important}}

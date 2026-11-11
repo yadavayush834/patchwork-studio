@@ -95,7 +95,7 @@ try {
         .innerWidth === 390,
   );
   for (const id of ids) {
-    await page.goto(`${base}/?collection=heroes&hero=${id}`);
+    await page.goto(`${base}/?collection=heroes&hero=${id}&edit=1`);
     await page
       .getByText("Live preview", { exact: true })
       .waitFor({ timeout: 20000 });

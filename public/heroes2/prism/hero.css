@@ -1,0 +1,18 @@
+:root{--bg:#07070a;--ink:#f4f2ee;--muted:#9a98a6;--accent:#ffffff;--display:"Syne",system-ui,sans-serif;--body:"Instrument Sans",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--spectrum:linear-gradient(90deg,#ff3b3b,#ff9f2e,#ffe53d,#4dff7a,#3dd9ff,#5b6bff,#b45bff,#ff3b3b);--radius:999px;--focus:#9fd8ff}
+.hx-prism{background:var(--bg)}
+.hx-prism .hx-brand{font:700 18px var(--display);letter-spacing:.02em}
+.p-mark{width:16px;height:14px;background:var(--spectrum);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.p-copy{position:absolute;z-index:2;left:clamp(20px,5vw,84px);bottom:clamp(40px,9vh,96px);width:min(640px,44vw);display:grid;gap:24px}
+.p-title{margin:0;font:800 clamp(44px,4.7vw,84px)/.95 var(--display);letter-spacing:-.03em;color:var(--ink)}
+.p-line{display:block}
+.p-line+.p-line .w>span{background:var(--spectrum);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:p-shift 9s linear infinite}
+@keyframes p-shift{to{background-position:200% 0}}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}.w>span{display:inline-block}
+.p-foot{display:flex;align-items:flex-end;gap:36px;flex-wrap:wrap}
+.p-sub{margin:0;max-width:38ch;font-size:clamp(16px,1.2vw,18px);line-height:1.55;color:var(--muted)}
+.hx-prism .hx-btn:not(.hx-ghost){background:var(--ink);color:#0a0a0d;position:relative}
+.hx-prism .hx-btn:not(.hx-ghost)::before{content:"";position:absolute;inset:-2px;z-index:-1;border-radius:inherit;background:var(--spectrum);background-size:200% 100%;filter:blur(10px);opacity:0;transition:opacity .3s ease;animation:p-shift 4s linear infinite}
+.hx-prism .hx-btn:not(.hx-ghost):hover::before{opacity:.85}
+.p-read{position:absolute;z-index:2;padding:8px 12px;border-radius:6px;background:rgba(7,7,10,.72);backdrop-filter:blur(6px);right:clamp(20px,4vw,64px);bottom:clamp(22px,4vh,40px);margin:0;display:flex;gap:18px;font:400 12px var(--mono);color:var(--muted);letter-spacing:.04em}
+.p-read b{font-weight:500;color:var(--ink);white-space:pre}
+@media (max-width:760px){.p-copy{left:20px;right:20px;width:auto}.hx-nav nav{display:none}.p-read{display:none}}

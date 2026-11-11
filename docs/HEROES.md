@@ -58,3 +58,7 @@ node scripts/verify-heroes.mjs
 ```
 
 The test uses a fresh browser context, downloads and extracts all five ZIPs, rebuilds the shipped source, serves exports on an independent local origin, blocks external requests, and checks rendering, edits, persistence, keyboard actions, motion controls, one-screen layouts, multiple elements, cleanup and WebGL failure. It never clears the user's browser profile or IndexedDB.
+
+## Opening behavior
+
+Gallery covers, titles and Open hero links open the full website in a new tab, without Patchwork chrome or an iframe. **Customize & download** remains a separate explicit editing action. Shared `?collection=heroes&hero=ID` links also open standalone by default; append `&edit=1` for the customizer. `?view=hero&hero=ID` always opens the independent website. Saved customization remains shared between both views.

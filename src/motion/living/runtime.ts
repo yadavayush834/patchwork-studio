@@ -1,3 +1,4 @@
+import { specimen } from "./specimens";
 import gsap from "gsap";
 import { LivingArt, type Look, type Subject } from "./look";
 import { butterfly } from "./butterfly";
@@ -6,6 +7,10 @@ import { lotus } from "./lotus";
 import type { LivingId } from "./pages";
 
 const looks: Record<LivingId, [() => Subject, Look]> = {
+  volute: [()=>specimen("volute"), {cell:3,shape:"streak",gap:.12,levels:6,twinkle:.2,bloom:[.35,.4,.65],background:"#160d10"}],
+  vernant: [()=>specimen("vernant"), {cell:3,shape:"pixel",gap:.12,levels:6,twinkle:.2,bloom:[.35,.4,.65],background:"#07130e"}],
+  zephyr: [()=>specimen("zephyr"), {cell:3,shape:"pixel",gap:.12,levels:6,twinkle:.2,bloom:[.35,.4,.65],background:"#11110f"}],
+  nereid: [()=>specimen("nereid"), {cell:3,shape:"led",gap:.12,levels:6,twinkle:.2,bloom:[.35,.4,.65],background:"#070e1a"}],
   halcyon: [butterfly, { cell: 5, shape: "pixel", gap: 0.06, levels: 4, saturation: 1.25, exposure: 0.9, twinkle: 0.45, bloom: [0.35, 0.4, 0.62], background: "#141414" }],
   bloomfield: [meadow, { cell: 7, shape: "pixel", gap: 0.13, levels: 7, mono: { ink: "#f2f2ee", paper: "#0b0b0b" }, contrast: 1.2, exposure: 1.05, twinkle: 0.25, bloom: [0.32, 0.4, 0.55], background: "#050505" }],
   aurelle: [lotus, { cell: 4, shape: "streak", gap: 0.1, levels: 5, smear: 0.045, rays: 0.5, saturation: 1.15, exposure: 0.85, twinkle: 0.35, bloom: [0.7, 0.6, 0.45], background: "#0a0809" }],

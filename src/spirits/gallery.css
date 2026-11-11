@@ -1,0 +1,88 @@
+@font-face{font-family:"SP Bricolage";src:url("/heroes2/fonts/BricolageGrotesque.woff2") format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"SP Mono";src:url("/spirits/fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+@font-face{font-family:"PW Space Grotesk";src:url("/fonts/SpaceGrotesk.ttf") format("truetype");font-weight:300 700;font-display:swap}
+@font-face{font-family:"PW Outfit";src:url("/fonts/Outfit.ttf") format("truetype");font-weight:100 900;font-display:swap}
+:root{--bg:#121019;--card:#1b1824;--line:#2c2838;--ink:#f3eefe;--muted:#a79fbd;--accent:#c6f36b;--stage:#262139;--stage-light:#efe9da}
+html,body.spg-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "SP Bricolage",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.spg{max-width:1360px;margin:0 auto;padding:40px clamp(20px,3vw,44px) 80px}
+.spg-top{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;padding-bottom:34px;margin-bottom:34px;border-bottom:1px solid var(--line)}
+.spg-top h1{margin:0;font:800 clamp(44px,5vw,76px)/.95 "SP Bricolage",sans-serif;letter-spacing:-.04em}
+.spg-top h1 em{font-style:normal;color:var(--accent)}
+.spg-top p{max-width:60ch;margin:16px 0 0;color:var(--muted)}
+.spg-top p b{color:var(--ink)}
+.spg-logo{display:flex;align-items:center;gap:10px;flex:none;color:var(--ink);text-decoration:none;font:700 25px/1 "PW Space Grotesk",sans-serif;letter-spacing:-1.2px}
+.spg-logo-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:#795be6;color:#fff;font:400 37px/1 "PW Outfit",sans-serif}
+.spg-logo-dot{align-self:flex-start;margin:4px 0 0 -6px;font-size:9px}
+.spg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.spg-card{display:grid;grid-template-rows:auto 1fr;padding:12px;border-radius:22px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s ease}
+.spg-card:hover{transform:translateY(-3px);box-shadow:inset 0 0 0 1px #4a4262}
+.spg-stage{position:relative;aspect-ratio:5/4;border-radius:14px;overflow:hidden;background:var(--stage-light) radial-gradient(circle,#0000001a 1px,transparent 1.5px) 0 0/14px 14px}
+.spg-stage.is-dark{background:var(--stage) radial-gradient(circle,#ffffff14 1px,transparent 1.5px) 0 0/14px 14px}
+.spg-branch{position:absolute;left:10%;right:10%;top:18px;height:6px;border-radius:3px;background:#7a5232}
+.spg-stage.is-dark .spg-branch{background:#5a4a6e}
+.spg-air{position:absolute;inset:0 0 26px}
+.spg-ground{position:absolute;left:0;right:0;bottom:0;height:26px;background:#d9cfb8;box-shadow:inset 0 3px 0 #c4b796}
+.spg-stage.is-dark .spg-ground{background:#1d1929;box-shadow:inset 0 3px 0 #332c45}
+.spg-air .spg-ground{bottom:-26px}
+.spg-words{position:absolute;left:18px;top:40%;margin:0;font:600 17px/1.3 "SP Bricolage",sans-serif;color:#2a2230}
+.spg-flower{position:absolute;left:50%;top:58%;transform:translateX(-50%);padding:8px 14px;border-radius:999px;background:#2a2230;color:#fff;font-size:13px;text-decoration:none}
+.spg-info{display:grid;align-content:start;gap:6px;padding:14px 6px 4px}
+.spg-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.spg-info h2{margin:0;font:700 24px/1.1 "SP Bricolage",sans-serif;letter-spacing:-.02em}
+.spg-info code{font:11px "SP Mono",monospace;color:var(--muted);letter-spacing:.06em}
+.spg-info p{margin:0 0 10px;color:var(--muted);font-size:14px;min-height:3.1em}
+.spg-use{align-self:end;padding:12px;border:0;border-radius:12px;background:var(--ink);color:var(--bg);font:700 15px "SP Bricolage",sans-serif;cursor:pointer;transition:background-color .2s ease,transform .15s ease}
+.spg-use:hover{background:var(--accent)}
+.spg-use:active{transform:translateY(1px)}
+.spg a:focus-visible,.spg button:focus-visible,.spg-dialog button:focus-visible,.spg-dialog input:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.spg-dialog{width:min(620px,92vw);padding:0;border:0;border-radius:22px;background:var(--card);color:var(--ink);box-shadow:0 40px 120px -30px #000}
+.spg-dialog::backdrop{background:rgba(8,6,12,.72);backdrop-filter:blur(4px)}
+.spg-d{display:grid;gap:14px;padding:26px}
+.spg-d-head{display:flex;justify-content:space-between;align-items:center}
+.spg-d h2{margin:0;font:800 34px/1 "SP Bricolage",sans-serif;letter-spacing:-.03em}
+.spg-x{width:38px;height:38px;border:0;border-radius:50%;background:var(--line);color:var(--ink);font-size:22px;cursor:pointer}
+.spg-d-line{margin:0;color:var(--muted)}
+.spg-d-color{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--muted)}
+.spg-d-color[hidden]{display:none}
+.spg-d-color input{width:54px;height:34px;padding:2px;border:1px solid var(--line);border-radius:8px;background:var(--bg)}
+.spg-code{position:relative;margin:0;padding:20px 22px;border-radius:14px;background:#0b0a10;color:#dcd6ea;font:13px/1.65 "SP Mono",monospace;white-space:pre-wrap;overflow:auto}
+.spg-d-actions{display:flex;align-items:center;gap:16px}
+.spg-dl{padding:12px 18px;border:0;border-radius:12px;background:var(--accent);color:#16130c;font:700 15px "SP Bricolage",sans-serif;cursor:pointer}
+.spg-status{font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.spg *{transition:none!important}}
+.spg-branch:empty{display:none}
+.spg-card{min-width:0}
+.spg-row{flex-wrap:wrap}
+.spg-info code{white-space:nowrap}
+.spg-brandc{padding:7px 12px;border:0;border-radius:999px;background:var(--line);color:var(--ink);font:600 13px inherit;cursor:pointer}
+.spg-brandc[hidden]{display:none}
+.spg-maker-art{display:grid;place-items:center;background:repeating-linear-gradient(45deg,#1b1922 0 14px,#211e2a 14px 28px)}
+.spg-maker-art span{display:grid;place-items:center;width:84px;height:84px;border-radius:18px;border:3px dashed #4a4262;color:#ffc23d;font:300 64px/1 "SP Bricolage",sans-serif}
+.spg-make{background:#ffc23d!important;color:#16130c!important}
+.spg-mine-actions{display:flex;gap:8px}.spg-mine-actions .spg-use{flex:1}
+.spg-edit,.spg-del{padding:12px 14px;border:0;border-radius:12px;background:var(--line);color:var(--ink);font:600 14px "SP Bricolage",sans-serif;cursor:pointer}
+.spg-del:hover{background:#5a2130}
+.pm-dialog{width:min(860px,94vw)}
+.pm-body{display:grid;grid-template-columns:auto 1fr;gap:24px}
+.pm-left{display:grid;gap:12px;justify-items:start}
+.pm-frames{display:flex;gap:6px}
+.pm-frames button{padding:8px 12px;border:0;border-radius:999px;background:var(--line);color:var(--ink);font:600 13px "SP Bricolage",sans-serif;cursor:pointer}
+.pm-frames button[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.pm-frames .pm-copy{background:none;text-decoration:underline;color:var(--muted)}
+.pm-grid{width:308px;border-radius:10px;cursor:crosshair;touch-action:none;image-rendering:pixelated;box-shadow:0 0 0 1px var(--line)}
+.pm-inks{display:flex;gap:8px;align-items:center}
+.pm-ink{position:relative;display:grid;place-items:center}
+.pm-ink input[type=radio]{position:absolute;opacity:0}
+.pm-ink input[type=color]{width:38px;height:38px;padding:2px;border:2px solid transparent;border-radius:10px;background:var(--bg);cursor:pointer}
+.pm-ink input[type=radio]:checked+input[type=color]{border-color:var(--ink)}
+.pm-erase span{padding:9px 12px;border-radius:10px;background:var(--line);font-size:13px;cursor:pointer;border:2px solid transparent}
+.pm-erase input:checked+span{border-color:var(--ink)}
+.pm-ink:focus-within{outline:3px solid var(--accent);outline-offset:2px;border-radius:10px}
+.pm-right{display:grid;align-content:start;gap:12px}
+.pm-right label{display:grid;gap:6px;font-size:13px;color:var(--muted)}
+.pm-right input,.pm-right select{padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:15px "SP Bricolage",sans-serif}
+.pm-stage{aspect-ratio:4/3}
+.pm-tip{margin:0;font-size:13px;color:var(--muted)}
+.pm-live{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.pm-branch{display:none}
+.pm-frames{align-items:center}

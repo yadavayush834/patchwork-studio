@@ -5,10 +5,10 @@ import { heroes2, normalizeHero2, defaultHero2 } from "../src/heroes2/catalog";
 import { hero2Document, hero2Files } from "../src/heroes2/document";
 import { heroes2Route } from "../src/heroes2/route";
 
-test("hero sections II: five distinct heroes, each a complete one-screen page", () => {
-  assert.equal(heroes2.length, 5);
-  assert.equal(new Set(heroes2.map((h) => h.id)).size, 5);
-  assert.equal(new Set(heroes2.map((h) => h.technique)).size, 5, "every hero uses its own technique");
+test("hero sections II: seven distinct heroes, each a complete one-screen page", () => {
+  assert.equal(heroes2.length, 7);
+  assert.equal(new Set(heroes2.map((h) => h.id)).size, 7);
+  assert.equal(new Set(heroes2.map((h) => h.technique)).size, 7, "every hero uses its own technique");
   for (const h of heroes2) {
     const html = hero2Document(h.id);
     assert.match(html, /<h1/);
@@ -39,4 +39,18 @@ test("hero sections II routes stay separate from the first hero section", () => 
 });
 test("hero sections II route list matches the catalog", () => {
   for (const h of heroes2) assert.equal(heroes2Route(`?hero2=${h.id}`), "page");
+});
+test("hero sections: any hero takes only a safe picture of your own", () => {
+  const png = "data:image/png;base64,iVBORw0KGgo=";
+  assert.equal(normalizeHero2({ image: png }, "dots").image, png);
+  // Every hero takes a picture now: Specimen builds itself from it, the others get a dot-art layer.
+  assert.equal(normalizeHero2({ image: png }, "prism").image, png);
+  assert.match(hero2Document("prism", { image: png }), /class="hx-dotphoto"[^>]*data-image=/);
+  assert.match(hero2Document("prism", { image: png }), /dotphoto\.js/);
+  assert.ok(!hero2Document("prism").includes("dotphoto"));
+  assert.equal(normalizeHero2({ image: "data:text/html;base64,PHNjcmlwdD4=" }, "dots").image, "");
+  assert.equal(normalizeHero2({ image: 'data:image/png;base64,AA"><script>' }, "dots").image, "");
+  assert.equal(normalizeHero2({ image: "data:image/png;base64," + "A".repeat(800_000) }, "dots").image, "");
+  assert.match(hero2Document("dots", { image: png }), /data-image="data:image\/png;base64,iVBORw0KGgo="/);
+  assert.ok(!hero2Document("dots").includes("data-image"));
 });

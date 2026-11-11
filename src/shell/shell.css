@@ -1,0 +1,65 @@
+/* Patchwork's own look for every collection page: the quilt from the home page. */
+@font-face{font-family:"HM Bricolage";src:url("/heroes2/fonts/BricolageGrotesque.woff2") format("woff2");font-weight:200 800;font-stretch:75% 100%;font-display:swap}
+@font-face{font-family:"HM Serif";src:url("/heroes2/fonts/InstrumentSerif-Italic.woff2") format("woff2");font-style:italic;font-display:swap}
+@font-face{font-family:"HM Mono";src:url("/heroes2/fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+body.pw-shell{--pw-ink:#0f0e13;--pw-ink2:#1b1922;--pw-line:#2a2733;--pw-paper:#f4efe6;--pw-muted:#a49cb3;--pw-patch:#ff5b3a;
+  --g-bg:var(--pw-ink);--g-panel:var(--pw-ink2);--g-line:var(--pw-line);--g-ink:var(--pw-paper);--g-muted:var(--pw-muted);--g-accent:var(--pw-patch);
+  --g-serif:"HM Bricolage",system-ui,sans-serif;--g-sans:"HM Bricolage",system-ui,sans-serif;--g-mono:"HM Mono",ui-monospace,monospace;
+  --bg:var(--pw-ink);--card:var(--pw-ink2);--line:var(--pw-line);--ink:var(--pw-paper);--muted:var(--pw-muted);--accent:var(--pw-patch);
+  background:var(--pw-ink)!important;color:var(--pw-paper)}
+body.pw-in-heroes{--pw-patch:#ff5b3a}
+body.pw-in-scenes{--pw-patch:#7fa8ff}
+body.pw-in-components{--pw-patch:#6fe3b5}
+body.pw-in-spirits{--pw-patch:#ffc23d}
+body.pw-in-ascii{--pw-patch:#b79bff}
+
+/* Top bar */
+.pw-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:22px;padding:14px clamp(20px,3vw,44px);background:rgba(15,14,19,.86);backdrop-filter:blur(12px);border-bottom:1px solid #2a2733;font:15px "HM Bricolage",system-ui,sans-serif}
+.pw-bar-logo{display:flex;align-items:center;gap:11px;color:#f4efe6;text-decoration:none;font:800 22px "HM Bricolage",sans-serif;letter-spacing:-.04em}
+.pw-mark{display:grid;grid-template-columns:repeat(2,12px);gap:2px}
+.pw-mark i{width:12px;height:12px;border-radius:3px;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.pw-mark i:nth-child(1){background:#ff5b3a}.pw-mark i:nth-child(2){background:#ffc23d}.pw-mark i:nth-child(3){background:#7fa8ff}.pw-mark i:nth-child(4){background:#6fe3b5}
+.pw-bar-logo:hover .pw-mark i:nth-child(1){transform:rotate(90deg)}
+.pw-bar nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto}
+.pw-bar nav a{padding:8px 13px;border-radius:999px;color:#cfc8dc;text-decoration:none;white-space:nowrap;transition:background-color .2s ease,color .2s ease}
+.pw-bar nav a:hover{background:#1b1922;color:#f4efe6}
+.pw-bar nav a[aria-current="page"]{background:#f4efe6;color:#0f0e13}
+.pw-bar-brand{display:inline-flex;align-items:center;gap:9px;padding:9px 15px;border:0;border-radius:999px;background:#1b1922;color:#f4efe6;font:600 14px "HM Bricolage",sans-serif;cursor:pointer;box-shadow:inset 0 0 0 1px #2a2733;transition:box-shadow .2s}
+.pw-bar-brand:hover{box-shadow:inset 0 0 0 1px #f4efe6}
+.pw-bar-swatch{width:14px;height:14px;border-radius:4px;background:conic-gradient(#ff5b3a 0 25%,#ffc23d 0 50%,#7fa8ff 0 75%,#6fe3b5 0)}
+.pw-bar a:focus-visible,.pw-bar button:focus-visible{outline:3px solid #ffc23d;outline-offset:2px}
+
+/* Collection headers: big Bricolage, a serif italic accent in the collection's patch colour, no old logos. */
+.pw-shell .h2g-logo,.pw-shell .sxg-logo,.pw-shell .cpg-logo,.pw-shell .spg-logo{display:none}
+.pw-shell .h2g-top h1,.pw-shell .sxg-top h1,.pw-shell .cpg-top h1,.pw-shell .spg-top h1{font:800 clamp(46px,5.4vw,84px)/.95 "HM Bricolage",sans-serif;font-stretch:85%;letter-spacing:-.045em;color:#f4efe6}
+.pw-shell .h2g-top h1 em,.pw-shell .sxg-top h1 em,.pw-shell .cpg-top h1 em,.pw-shell .spg-top h1 em{font:400 1.08em/0 "HM Serif",Georgia,serif;font-style:italic;letter-spacing:-.02em;color:var(--pw-patch)}
+.pw-shell .h2g-top,.pw-shell .sxg-top,.pw-shell .cpg-top,.pw-shell .spg-top{border-bottom:2px dashed #2a2733}
+.pw-shell .h2g-card-title,.pw-shell .sxg-card-title,.pw-shell .cpg-card-title{font:700 clamp(30px,2.6vw,40px)/1 "HM Bricolage",sans-serif;letter-spacing:-.03em}
+.pw-shell .h2g-card-customize,.pw-shell .sxg-card-customize,.pw-shell .cpg-card-customize{background:#f4efe6;color:#0f0e13}
+.pw-shell .h2g-card-customize:hover,.pw-shell .sxg-card-customize:hover,.pw-shell .cpg-card-customize:hover{background:var(--pw-patch)}
+.pw-shell .h2g-cover,.pw-shell .sxg-cover,.pw-shell .cpg-cover{box-shadow:0 0 0 1px #2a2733}
+.pw-shell .h2g-cover:hover,.pw-shell .sxg-cover:hover,.pw-shell .cpg-cover:hover{box-shadow:0 0 0 2px #f4efe6,0 30px 60px -30px #000}
+.pw-shell .spg-use:hover{background:var(--pw-patch)}
+.pw-shell .spg-card{background:#1b1922}
+
+/* Brand kit dialog */
+.pw-brand-dialog{width:min(520px,92vw);padding:0;border:0;border-radius:18px;background:#f4efe6;color:#0f0e13;box-shadow:0 40px 120px -30px #000;font:15px "HM Bricolage",system-ui,sans-serif}
+.pw-brand-dialog::backdrop{background:rgba(8,6,12,.7);backdrop-filter:blur(4px)}
+.pw-brand-form{position:relative;display:grid;gap:14px;padding:28px}
+.pw-brand-form::before{content:"";position:absolute;inset:9px;border:2px dashed rgba(15,14,19,.2);border-radius:12px;pointer-events:none}
+.pw-brand-head{display:flex;justify-content:space-between;align-items:center}
+.pw-brand-head h2{margin:0;font:800 34px/1 "HM Bricolage",sans-serif;letter-spacing:-.04em}
+.pw-brand-x{width:36px;height:36px;border:0;border-radius:50%;background:#e4dccd;font-size:22px;cursor:pointer}
+.pw-brand-lede{margin:0;color:#5a5366;font-size:14px}
+.pw-brand-form label{display:grid;gap:6px;font-size:13px;color:#5a5366}
+.pw-brand-form input:not([type]),.pw-brand-form select{padding:11px 12px;border:1px solid #d6ccba;border-radius:10px;background:#fff;color:#0f0e13;font:inherit;font-size:15px}
+.pw-brand-form input[type=color]{width:100%;height:44px;padding:3px;border:1px solid #d6ccba;border-radius:10px;background:#fff}
+.pw-brand-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pw-brand-form .pw-brand-on{display:flex;align-items:center;gap:10px;color:#0f0e13}
+.pw-brand-sample{display:flex;align-items:center;gap:8px;padding:16px;border-radius:12px;background:#0f0e13}
+.pw-brand-sample b{margin-right:auto;font-size:30px;font-weight:800;letter-spacing:-.03em}
+.pw-brand-sample i{width:26px;height:26px;border-radius:7px}
+.pw-brand-actions{display:flex;justify-content:flex-end;gap:10px}
+.pw-brand-reset{padding:12px 16px;border:0;border-radius:999px;background:none;color:#5a5366;text-decoration:underline;cursor:pointer;font:inherit}
+.pw-brand-save{padding:12px 22px;border:0;border-radius:999px;background:#0f0e13;color:#f4efe6;font:700 15px "HM Bricolage",sans-serif;cursor:pointer}
+.pw-brand-dialog :focus-visible{outline:3px solid #ff5b3a;outline-offset:2px}

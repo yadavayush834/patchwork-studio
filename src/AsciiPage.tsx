@@ -1,0 +1,66 @@
+import { useEffect, useMemo, useRef, useState } from "react";
+import { asciiBackgrounds, createProject, defaultAscii } from "./catalog";
+import type { Background } from "./types";
+import Preview from "./Preview";
+import { COLLECTIONS } from "./shell/collections";
+import { openBrandKit } from "./shell/brand";
+import "./shell/shell.css";
+import "./ascii-page.css";
+
+/** ASCII studies as a collection page of its own, in Patchwork's look: two live cards a row. */
+function Card({ b, i, onUse }: { b: Background; i: number; onUse: (b: Background) => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [on, setOn] = useState(false);
+  useEffect(() => {
+    const io = new IntersectionObserver(([e]) => setOn(e.isIntersecting), { rootMargin: "150px" });
+    io.observe(ref.current!);
+    return () => io.disconnect();
+  }, []);
+  const project = useMemo(() => {
+    const p = createProject("terminal");
+    p.sections = p.sections.slice(0, 1);
+    p.sections[0].background = b.id;
+    p.sections[0].ascii = { ...defaultAscii(b), intensity: 100 };
+    p.sections[0].elements = [];
+    return p;
+  }, [b]);
+  const hint = b.scene === "starlings" ? "Your cursor is a hawk. Click to startle the flock." : b.scene === "fireflies" ? "They fall into sync. Click to scatter them." : b.scene === "sharks" ? "Move your cursor. The ocean reacts." : "Move to stir the air. Click to puff.";
+  return (
+    <article className="ap-card">
+      <div className="ap-cover" ref={ref}>
+        {on ? <Preview project={project} artOnly preview width={1080} /> : <img src={b.preview} alt="" />}
+        <span className="ap-live"><i />LIVE ASCII</span>
+      </div>
+      <div className="ap-meta"><span>{String(i + 1).padStart(2, "0")} / {b.scene}</span><span>{hint}</span></div>
+      <h2>{b.name}</h2>
+      <p>{b.description}</p>
+      <div className="ap-actions">
+        <button className="ap-use" onClick={() => onUse(b)}>Make a site with this</button>
+        <a className="ap-dl" href={b.source} download={`${b.name.toLowerCase().replaceAll(" ", "-")}.webm`}>Video loop</a>
+      </div>
+    </article>
+  );
+}
+
+export default function AsciiPage({ onClose, onUse }: { onClose: () => void; onUse: (b: Background) => void }) {
+  useEffect(() => {
+    document.body.classList.add("pw-shell", "pw-in-ascii");
+    return () => document.body.classList.remove("pw-shell", "pw-in-ascii");
+  }, []);
+  return (
+    <div className="ap" role="region" aria-label="ASCII studies">
+      <header className="pw-bar">
+        <a className="pw-bar-logo" href="/" onClick={(e) => { e.preventDefault(); onClose(); }} aria-label="Patchwork home"><span className="pw-mark" aria-hidden="true"><i /><i /><i /><i /></span>patchwork</a>
+        <nav aria-label="Collections">{COLLECTIONS.map((c) => <a key={c.key} href={c.href} aria-current={c.key === "ascii" ? "page" : undefined}>{c.label}</a>)}</nav>
+        <button type="button" className="pw-bar-brand" onClick={() => openBrandKit()}><span aria-hidden="true" className="pw-bar-swatch" />Brand kit</button>
+      </header>
+      <div className="ap-wrap">
+        <header className="ap-top">
+          <h1>ASCII studies, <em>a life between the letters</em></h1>
+          <p>Living backgrounds drawn entirely in characters. Each one answers your cursor and a click. Put one behind any section of your site.</p>
+        </header>
+        <section className="ap-grid">{asciiBackgrounds.map((b, i) => <Card key={b.id} b={b} i={i} onUse={onUse} />)}</section>
+      </div>
+    </div>
+  );
+}

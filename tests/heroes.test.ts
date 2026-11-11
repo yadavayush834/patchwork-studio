@@ -70,7 +70,8 @@ test("hero configuration limits text/numbers, escapes markup and blocks executab
 });
 test("hero standalone routes are explicit and do not hijack normal studio collections", () => {
   assert.equal(standaloneHero("?view=hero&hero=facet"), "facet");
-  assert.equal(standaloneHero("?collection=heroes&hero=facet"), null);
+  assert.equal(standaloneHero("?collection=heroes&hero=facet"), "facet");
+  assert.equal(standaloneHero("?collection=heroes&hero=facet&edit=1"), null);
   assert.equal(standaloneHero("?view=hero&hero=unknown"), null);
   assert.equal(standaloneHero("?view=motion&motion=aether"), null);
 });
