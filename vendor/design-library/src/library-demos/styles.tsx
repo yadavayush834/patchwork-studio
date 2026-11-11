@@ -4,10 +4,15 @@ import "./styles.css";
 export default function Demo({ id, onBack }: { id: string; onBack: () => void }) {
   const study = websitesRegistry.find((entry) => entry.id === id);
   useEffect(() => {
-    if (!study || !new URLSearchParams(location.search).has("preview") || parent === window) return;
-    const readyFrame = requestAnimationFrame(() => parent.postMessage({ type: "style-preview-ready", id }, location.origin));
+    if (!study || parent === window) return;
+    const readyFrame = requestAnimationFrame(() => {
+      parent.postMessage({ type: "style-study-ready", id }, location.origin);
+      parent.postMessage({ type: "style-preview-ready", id }, location.origin);
+    });
+    if (!new URLSearchParams(location.search).has("preview")) return () => cancelAnimationFrame(readyFrame);
     const reduced = matchMedia("(prefers-reduced-motion: reduce)");
     let frame = 0, last = 0, position = 0, direction = 1, pauseUntil = 0;
+    let visible = true;
     let target: Element | null = null, axis: "x" | "y" = "y", nextScan = 0;
 
     // Most studies scroll the document; a few use their own vertical or horizontal panel.
@@ -35,7 +40,7 @@ export default function Demo({ id, onBack }: { id: string; onBack: () => void })
       }
     };
     const tick = (now: number) => {
-      if (document.hidden || reduced.matches) { frame = 0; last = 0; return; }
+      if (document.hidden || !visible || reduced.matches) { frame = 0; last = 0; return; }
       if (now >= nextScan) { findScrollArea(); nextScan = now + 1500; }
       const delta = last ? Math.min(now - last, 50) : 0;
       last = now;
@@ -50,17 +55,24 @@ export default function Demo({ id, onBack }: { id: string; onBack: () => void })
       frame = requestAnimationFrame(tick);
     };
     const sync = () => {
-      if (document.hidden || reduced.matches) {
+      if (document.hidden || !visible || reduced.matches) {
         cancelAnimationFrame(frame); frame = 0; last = 0;
       } else if (!frame) {
         frame = requestAnimationFrame(tick);
       }
     };
+    const receive = (event: MessageEvent) => {
+      if (event.origin === location.origin && event.source === parent && event.data?.type === "style-preview-visibility") {
+        visible = event.data.active === true; sync();
+      }
+    };
+    addEventListener("message", receive);
     document.addEventListener("visibilitychange", sync);
     reduced.addEventListener("change", sync);
     sync();
     return () => {
       cancelAnimationFrame(readyFrame); cancelAnimationFrame(frame);
+      removeEventListener("message", receive);
       document.removeEventListener("visibilitychange", sync);
       reduced.removeEventListener("change", sync);
     };
@@ -68,5 +80,5 @@ export default function Demo({ id, onBack }: { id: string; onBack: () => void })
   if (!study) return <div role="alert">This style study could not be found.</div>;
   const Study = study.component;
   const thumbnail = new URLSearchParams(location.search).has("preview");
-  return <div className="style-study" data-study={study.id} style={{ "--study-accent": study.palette[2]?.hex || "#7857b5" } as CSSProperties}><Study onBackToGallery={thumbnail ? undefined : onBack} /></div>;
+  return <div className="style-study" data-study={study.id} style={{ "--study-accent": study.palette[2]?.hex || "#7857b5" } as CSSProperties}><Study onBackToGallery={thumbnail || new URLSearchParams(location.search).has("embedded") ? undefined : onBack} /></div>;
 }

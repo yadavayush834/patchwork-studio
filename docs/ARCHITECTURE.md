@@ -133,3 +133,8 @@ The two glyph studies share semantic markup and scoped styles in glyph-studies.t
 ## Replacement resource collections — November 2026
 
 `src/resource-library` owns the native motion, SVG and primitives workspace. The canonical 25 sources and control/API catalog are `vendor/design-library/src/resources`. `portable.ts` creates both isolated preview documents and standalone embed markup; `resources.ts` bundles the common base and one component in a scoped classic-script IIFE. Exports contain index.html, component.js, metadata, integration notes and MIT license. SVG resources additionally expose getSVG. Shadow DOM scopes component styles; the preview bridge verifies message source and component ID. These collections replace the old experiment labs; shared vendor UI modules remain internal dependencies of retained templates.
+
+
+## Native Style studies
+
+`src/style-library/catalog.ts` derives the 28 studies from the canonical vendor inventory; it does not duplicate metadata. `StyleStudio` owns filters, shared namespaced favorites, `study` deep links and the responsive preview workbench. `LiveStudy` scales a real iframe viewport rather than resizing a screenshot. It verifies ready messages by origin, source and study ID, exposes loading/retry states, and unmounts thumbnail contexts on exit. The vendored `library-demos/styles.tsx` emits readiness for both interactive pages and optional thumbnail tours, authenticates parent visibility messages, and stops its tour on reduced motion or hidden documents. Render routes remain independent website documents; legacy gallery routes hand off to the native host. Original editor, motion templates and other collections remain separate.

@@ -155,3 +155,8 @@ Verify hover playback and teardown, card click staying in Patchwork, real 1080/7
 ## Mosslight
 
 Normal dev/build runs `scripts/build-mosslight.mjs` to copy the canonical source HTML and package its standalone source ZIP. Edit `src/motion/mosslight.html` for the page and `public/motion/mosslight/` for the component/styles/fonts. Shared customization lives in `src/motion/mosslight-document.ts`. Use `scripts/browser-mosslight.js` for focused UI checks; changes to export also require an extracted-site check on a separate origin. The old collection/build helpers are no longer in this repository.
+
+
+## Style studies browser regression
+
+After `npm run build`, serve the build on a separate port/profile (for example `node node_modules/vite/bin/vite.js preview --host 127.0.0.1 --port 5188 --strictPort`). Run `PATCHWORK_QA_URL=http://127.0.0.1:5188 PATCHWORK_CHROME=/path/to/chromium node scripts/verify-style-studies.mjs`. If Playwright's default Chromium is installed, omit PATCHWORK_CHROME. This launches an isolated context and checks all 28 studies, live tours, saved-state reload, search/filter empty state, keyboard project disclosure, viewport sizing, independent tabs, full-source ZIP, clipboard and reduced-motion behavior. Never use the user's browser profile or clear its local storage for QA.

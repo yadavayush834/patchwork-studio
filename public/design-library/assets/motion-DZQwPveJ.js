@@ -1,1 +1,0 @@
-import{t as e}from"./index-D-y6uPV_.js";import{t}from"./resource-handoff-B47OCdT2.js";var n=e();function r({id:e}){return(0,n.jsx)(t,{kind:`motion`,id:e})}export{r as default};

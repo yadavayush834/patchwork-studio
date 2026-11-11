@@ -113,7 +113,7 @@ export function ArtDecoWebsite({ onBackToGallery }: { onBackToGallery?: () => vo
             THE MAJESTIC
           </h1>
 
-          <div className="flex items-center gap-8 text-xs font-mono uppercase tracking-[0.25em] text-[#d4af37] pt-2">
+          <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-3 sm:gap-8 text-xs font-mono uppercase tracking-[0.25em] text-[#d4af37] pt-2">
             <a href="#suites" className="hover:text-white transition-colors">Grand Suites</a>
             <span>·</span>
             <a href="#salon" className="hover:text-white transition-colors">The Palm Court</a>

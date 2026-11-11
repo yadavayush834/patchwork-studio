@@ -109,3 +109,8 @@ All fourteen redesigned sites have refreshed captures and a reviewed phone readi
 ## Mosslight
 
 Keep the original living pixel horizon, Instrument Serif / DM Sans typography, radio observatory, ringed planet, fireflies and responsive dock. It belongs to Motion Templates as an independent scene, not a forced scroll story. Its card uses an actual rendered page capture. Scene controls and the reusable-component install dialog remain functional.
+
+
+## Style studies workspace
+
+The native Style studies gallery keeps the lavender workbench, local Space Grotesk/DM Sans typography, and real website covers. The websites provide the visual variety. Cards have separate Explore, Live preview and Save actions; only one live card mounts at a time, and it unmounts offscreen. Live card tours stop under reduced motion. The detail workspace prioritizes the interactive website, with 1280/768/390 CSS-pixel viewport controls, restart, expanded view and independent website opening. Design notes, palette, type direction and the full-library source download sit below the preview. Keep example product actions clearly distinguished from real transactions.

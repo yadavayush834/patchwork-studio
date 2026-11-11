@@ -1,8 +1,12 @@
 # Current state and context
 
-Last verified: 11 November 2026 (standalone motion opening; earlier feature evidence remains historical). This file is the short entry point for a fresh chat or a different coding agent.
+Last verified: 11 November 2026 (native Style studies workspace; earlier feature evidence remains historical). This file is the short entry point for a fresh chat or a different coding agent.
 
 Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/patchwork-studio), private, branch `main`. The local checkout uses `origin` for this repository. Check `git status`, the current commit, and the remote before continuing; do not infer present synchronization from this dated note.
+
+## Native Style studies — 11 November 2026
+
+Style studies now uses a native gallery and interactive workbench at `?collection=library&library=styles`, preserving all 28 websites. Cards expose hover/button live tours, bookmarks and direct exploration. The workbench supports desktop/tablet/phone viewport sizes, restart, expanded preview, shareable `study` links, standalone website tabs, design notes and the complete library source ZIP. Favorite IDs remain compatible with the original vendor collection. Preview loading/retry and authenticated readiness/visibility messages are implemented. Art Deco navigation and contemporary-art controls/table were repaired for narrow screens; minimalist project rows now use keyboard-operable buttons.
 
 ## Current resource rebuild — 11 November 2026
 

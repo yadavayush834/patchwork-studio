@@ -185,9 +185,12 @@ export function MinimalistWebsite({ onBackToGallery }: { onBackToGallery?: () =>
               const isOpen = activeProject === project.id;
               return (
                 <div key={project.id} className="py-6 transition-colors">
-                  <div
+                  <button
+                    type="button"
+                    aria-expanded={isOpen}
+                    aria-controls={`project-${project.id}`}
                     onClick={() => setActiveProject(isOpen ? null : project.id)}
-                    className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 cursor-pointer group"
+                    className="w-full text-left flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 cursor-pointer group"
                   >
                     <div className="flex items-baseline gap-4">
                       <span className="text-xs font-mono text-[#a3a3a3] w-10">
@@ -206,11 +209,11 @@ export function MinimalistWebsite({ onBackToGallery }: { onBackToGallery?: () =>
                         }`}
                       />
                     </div>
-                  </div>
+                  </button>
 
                   {/* Expandable Case Detail */}
                   {isOpen && (
-                    <div className="mt-6 pl-0 sm:pl-14 space-y-4 text-xs leading-relaxed text-[#525252]">
+                    <div id={`project-${project.id}`} className="mt-6 pl-0 sm:pl-14 space-y-4 text-xs leading-relaxed text-[#525252]">
                       <p className="text-sm text-[#333333] max-w-2xl leading-relaxed">
                         {project.summary}
                       </p>

@@ -175,3 +175,8 @@ Completed: make Style Study hover previews tour the website instead of remaining
 ## 11 November 2026 — resource rebuild checkpoint
 
 Implemented new Motion/SVG/UI collections (8/8/9), original Web Component source, native inspector, standalone exports and actual preview covers. User requested pushing the work immediately and retaining the collections. Stop further redesign/interaction QA at this checkpoint.
+
+
+## 11 November 2026 — Style studies
+
+Repaired the Style studies section with a native gallery, explicit live previews, responsive interactive website workbench, loading/retry, saved studies, source access and shareable links. Preserved all 28 studies and existing collections. Browser regression is `scripts/verify-style-studies.mjs`.
