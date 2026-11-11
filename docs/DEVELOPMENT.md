@@ -109,6 +109,10 @@ Do not rebuild or edit app modules between these staged probes: HMR intentionall
 For packaged-app checks, open a separate production-preview session and run `scripts/browser-studio-production.js` after the quality probe has saved its source fixture. It covers both GIF exports, cancelling an export, and retaining results across closing/reopening.
 
 
+## Motion website opening
+
+Cover, title, and Explore links open top-level websites at `/?view=motion&motion=ID`. Use `scripts/browser-motion-opening.js` in an isolated profile to verify all catalog routes and native scrolling. Existing motion probes that inspect `.motion-preview iframe` must use `?collection=motion&motion=ID&edit=1`, the explicit customization workspace. Website opening does not mount that iframe. Keep customizer and standalone configuration consistent.
+
 ## Motion collection development and QA
 
 `npm ci` installs the pinned GSAP/Three.js dependencies. `npm run build:motion` bundles the standalone runtime and copies attribution; normal dev/build scripts run it automatically. Runtime edits do not use Vite's module HMR because the generated engine is a classic self-contained file: rebuild it explicitly after changing `runtime.ts` or `scene.ts`. Never edit `public/motion/engine.js` by hand. Public PNG covers are actual browser captures, not external stock images.

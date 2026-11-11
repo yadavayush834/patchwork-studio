@@ -218,6 +218,7 @@ export default function App() {
     const url = new URL(location.href);
     url.searchParams.delete("collection");
     url.searchParams.delete("motion");
+    url.searchParams.delete("edit");
     window.history.replaceState(null, "", url);
   }, []);
   const [videoLabOpen, setVideoLabOpen] = useState(

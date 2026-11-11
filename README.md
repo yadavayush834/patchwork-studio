@@ -76,6 +76,8 @@ The vendored upstream revision and adaptations are documented in `src/vendor/asc
 
 Open **Motion templates** or `?collection=motion` for nine independent scroll-driven websites: Æther, Offscript, Floraison, Monolith, Pelagic, Heliograph, Afterimage, Reverie, and Traverse. The three newest studies explore ocean descent and sonar mapping, orbital instruments and an eclipse, and mechanical optics with scroll-directed films.
 
+**Explore** opens the template as a complete website in its own tab, without the Patchwork interface. **Customize & download** keeps editing and ZIP export in the studio; saved changes also appear in the independent website.
+
 Each template supports brand/headline/accent/contact customization and downloads as a complete local website with fonts, artwork, runtime, and notices. Native scrolling drives GSAP timelines. Phone compositions, reduced-motion reading layouts, and illustrated graphics for unavailable WebGL are included. See `docs/DEVELOPMENT.md` for the focused browser probes.
 
 **Reverie** and **Traverse** add six original ChatGPT-generated environments to the motion collection. Their photographic worlds are choreographed into portals, turning galleries, image assembly, folding maps, and an alpine passage. Every download includes its three local WebP images and exact artwork-generation record; the exported website needs no AI service or remote media.

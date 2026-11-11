@@ -1,6 +1,6 @@
 # Current state and context
 
-Last verified: 30 October 2026. This file is the short entry point for a fresh chat or a different coding agent.
+Last verified: 11 November 2026 (standalone motion opening; earlier feature evidence remains historical). This file is the short entry point for a fresh chat or a different coding agent.
 
 Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/patchwork-studio), private, branch `main`. The local checkout uses `origin` for this repository. Check `git status`, the current commit, and the remote before continuing; do not infer present synchronization from this dated note.
 
@@ -9,6 +9,12 @@ Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/pa
 An interactive place where creators can build websites using ready-made sections, sprites, art styles, backgrounds, fonts, ASCII art, and extensive manual customization. The approved first release is a local studio with export, designed for beginners and creators. Page structure uses responsive sections; artwork and sprites can be freely positioned inside scenes. Simple controls come first, with advanced controls available.
 
 The user subsequently requested the real `stackedlol/ascii-sharks` library plus at least three more high-quality ASCII backgrounds. The four-scene collection is implemented and includes genuine downloadable videos. The user then requested a new GitHub repository, real commits, and enough context/style documentation for another agent or chat to continue the work.
+
+## Standalone motion opening — 11 November 2026
+
+Motion cover, title, and Explore links now open each website in its own tab at `/?view=motion&motion=ID`. The generated template document replaces the entire page; no Patchwork chrome, iframe, or editor bundle is mounted. Existing `?collection=motion&motion=ID` shared links also open standalone. The separate **Customize & download** action retains the studio inspector using `&edit=1`. Saved configurations and website ZIP rendering remain shared and unchanged.
+
+Verified: 39 unit tests, production build, all 12 standalone websites initializing and scrolling, saved customization/reload, and legacy direct links. No deployment or visibility change.
 
 ## Implemented
 

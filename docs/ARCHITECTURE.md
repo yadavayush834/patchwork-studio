@@ -4,6 +4,10 @@
 
 This is a static browser application. Vite serves/builds the studio; there is no backend, authentication, telemetry, database server, or hosted publishing API. IndexedDB is the durable store. Exported websites are separate static artifacts and do not depend on React, Vite, or the studio being running.
 
+## Application entry routes
+
+`src/main.tsx` checks motion routes before loading React or studio styles. A standalone template lazily loads `src/motion/standalone.ts`, reads the existing versioned configuration through `config-storage.ts`, and writes the trusted complete `motionDocument` as the top-level page. Normal routes load the previous React entry through `src/studio-entry.tsx`. `navigation.ts` defines shareable website URLs and keeps `&edit=1` routes in the studio. No IndexedDB schema or export rendering change.
+
 ## Main modules
 
 | Area | Source of truth | Responsibility |

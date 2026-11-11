@@ -1,4 +1,13 @@
-# Verification history — latest 28 October 2026
+# Verification history — latest 11 November 2026
+
+## Standalone motion websites — 11 November 2026
+
+- `npm test`: 39 passing tests, including standalone routes for every catalog template, legacy shared links, explicit edit routes, and invalid IDs.
+- `npm run build`: passed strict TypeScript and production bundling.
+- Isolated Chromium profile against production on port 5185: gallery click opens a new tab; all 12 templates initialized their real motion engine, scrolled natively, contained no iframe or studio root, and made no request for the editor bundle.
+- Customization saved through the studio was used by the independent website and survived reload. Legacy shared URLs also opened standalone. No page errors were observed.
+- Screenshot: ignored `output/playwright/standalone-motion.png`. Reusable opening probe: `scripts/browser-motion-opening.js`.
+- User projects/storage were not cleared or used as fixtures. No deployment or visibility change.
 
 ## Release gates — 27 October 2026
 

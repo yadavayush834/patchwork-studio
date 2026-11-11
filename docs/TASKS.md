@@ -1,5 +1,9 @@
 # Patchwork Studio implementation
 
+## Standalone motion opening (11 November 2026)
+
+Complete: cover/title/Explore links open top-level template websites in new tabs, independent of Patchwork. Customize/download remains explicit in the studio. Shared configuration, legacy direct links, and exported documents are preserved.
+
 ## Video Lab (28 October 2026, solo)
 
 | ID | Ownership / outcome | Depends on | Route | Acceptance | Status |

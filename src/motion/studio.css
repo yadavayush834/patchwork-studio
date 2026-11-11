@@ -306,7 +306,8 @@
 .motion-template-card h2 {
   margin: 0;
 }
-.motion-template-card h2 > button {
+.motion-template-card h2 > a {
+  text-decoration: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -635,7 +636,8 @@
   .motion-cover-top > span:last-child {
     display: none;
   }
-  .motion-template-card h2 > button {
+  .motion-template-card h2 > a {
+  text-decoration: none;
     font-size: 29px;
   }
   .motion-template-card > p {
@@ -750,7 +752,8 @@
   .motion-cover-top > span:last-child {
     display: block;
   }
-  .motion-template-card h2 > button {
+  .motion-template-card h2 > a {
+  text-decoration: none;
     font-size: 36px;
   }
   .motion-template-card > p {
@@ -819,3 +822,7 @@
   outline: 2px solid #60734d;
   outline-offset: 4px;
 }
+
+.motion-template-card-cover, .motion-explore { text-decoration: none; }
+.motion-card-customize { display: inline-flex; align-items: center; gap: 7px; border: 0; background: none; color: #68705d; padding: 13px 0 0; font: inherit; font-size: 10px; cursor: pointer; }
+.motion-card-customize:hover { color: #30382b; }

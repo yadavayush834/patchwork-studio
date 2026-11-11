@@ -18,27 +18,13 @@ import {
   type MotionConfig,
 } from "./catalog";
 import { motionDocument } from "./document";
+import { readMotionConfigs } from "./config-storage";
+import { motionWebsiteUrl } from "./navigation";
 import { exportMotion } from "./export";
 import { download } from "../storage";
 import "./studio.css";
 interface Props {
   onClose: () => void;
-}
-function readConfigs(): Partial<Record<MotionId, MotionConfig>> {
-  try {
-    const data = JSON.parse(
-      localStorage.getItem("patchwork-motion-v1") ?? "null",
-    );
-    if (data?.version !== 1) return {};
-    return Object.fromEntries(
-      motionTemplates.map((t) => [
-        t.id,
-        normalizeMotionConfig(data.configs?.[t.id] ?? {}, t.id),
-      ]),
-    );
-  } catch {
-    return {};
-  }
 }
 export default function MotionStudio({ onClose }: Props) {
   const panel = useRef<HTMLDivElement>(null),
@@ -49,7 +35,7 @@ export default function MotionStudio({ onClose }: Props) {
     const id = new URLSearchParams(location.search).get("motion");
     return isMotionId(id) ? id : null;
   });
-  const [configs, setConfigs] = useState(readConfigs),
+  const [configs, setConfigs] = useState(readMotionConfigs),
     [editing, setEditing] = useState(false),
     [draft, setDraft] = useState<MotionConfig>(defaultMotionConfig("aether"));
   const [busy, setBusy] = useState(false),
@@ -77,8 +63,8 @@ export default function MotionStudio({ onClose }: Props) {
     setReady(false);
     const url = new URL(location.href);
     url.searchParams.set("collection", "motion");
-    if (id) url.searchParams.set("motion", id);
-    else url.searchParams.delete("motion");
+    if (id) { url.searchParams.set("motion", id); url.searchParams.set("edit", "1"); }
+    else { url.searchParams.delete("motion"); url.searchParams.delete("edit"); }
     history.replaceState(null, "", url);
     root.current?.scrollTo(0, 0);
   }, []);
@@ -425,9 +411,11 @@ export default function MotionStudio({ onClose }: Props) {
                 className={`motion-template-card motion-${t.id}`}
                 key={t.id}
               >
-                <button
+                <a
                   className="motion-template-card-cover"
-                  onClick={() => choose(t.id)}
+                  href={motionWebsiteUrl(t.id)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={`Explore ${t.name}`}
                 >
                   <img
@@ -455,15 +443,15 @@ export default function MotionStudio({ onClose }: Props) {
                   <span className="motion-cover-open">
                     Step inside <ArrowUpRight size={16} />
                   </span>
-                </button>
+                </a>
                 <div className="motion-template-card-meta">
                   <span>{t.category}</span>
                   <span>{t.number}</span>
                 </div>
                 <h2>
-                  <button onClick={() => choose(t.id)}>
+                  <a href={motionWebsiteUrl(t.id)} target="_blank" rel="noopener noreferrer">
                     {t.name} <ArrowUpRight size={26} />
-                  </button>
+                  </a>
                 </h2>
                 <p>{t.description}</p>
                 <div className="motion-tags">
@@ -471,8 +459,15 @@ export default function MotionStudio({ onClose }: Props) {
                     <span key={tag}>{tag}</span>
                   ))}
                 </div>
-                <button className="motion-explore" onClick={() => choose(t.id)}>
+                <a className="motion-explore" href={motionWebsiteUrl(t.id)} target="_blank" rel="noopener noreferrer">
                   Explore this world <span>↗</span>
+                </a>
+                <button className="motion-card-customize" onClick={() => {
+                  choose(t.id);
+                  setDraft(configs[t.id] ?? defaultMotionConfig(t.id));
+                  setEditing(true);
+                }}>
+                  <SlidersHorizontal size={12} /> Customize & download
                 </button>
               </article>
             ))}
