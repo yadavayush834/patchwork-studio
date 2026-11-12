@@ -31,7 +31,7 @@ test("all four starters validate and expose six sections and a full launch catal
     assert.equal(new Set(p.sections.map((s) => s.kind)).size, 6);
     assert.match(renderSite(p), /data-section=/);
   }
-  assert.equal(backgrounds.length, 20);
+  assert.equal(backgrounds.length, 21); // 16 world backgrounds, 4 ASCII studies and Your painting
   assert.equal(decorations.length, 24);
   assert.equal(fontPairs.length, 8);
 });

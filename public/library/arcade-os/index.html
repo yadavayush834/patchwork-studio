@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Arcade OS — a pixel desktop UI kit</title>
+<style>
+@font-face{font-family:"Pixelify Sans";src:url("../fonts/PixelifySans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+:root{--px:"Pixelify Sans",monospace;--mono:"JetBrains Mono",monospace;--ink:#1b1430;--win:#f6f0e4;--bar:#6a4cff;--bar2:#ff5ea8;--hi:#ffffff;--lo:#8b7fa8;--hp:#ff4f6d;--xp:#ffcf3d;--mp:#3ee0b5;--sky1:#2a1d5c;--sky2:#7a3d8f;--sky3:#ff8f6b}
+.day{--bar:#2f8cff;--bar2:#ffa63d;--sky1:#5fb4ff;--sky2:#a6dcff;--sky3:#fff1c7}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font:16px/1.4 var(--px);color:var(--ink);background:var(--sky1);overflow:hidden}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:2px dashed #fff;outline-offset:2px}
+.desk{position:fixed;inset:0 0 46px;overflow:hidden;background:linear-gradient(var(--sky1),var(--sky2) 60%,var(--sky3));image-rendering:pixelated}
+.desk canvas.wall{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated}
+/* icons */
+.icons{position:absolute;left:14px;top:14px;display:grid;gap:14px;z-index:1}
+.icon{display:grid;justify-items:center;gap:4px;width:84px;padding:6px 4px;border:0;background:none;color:#fff;font:13px var(--px);text-shadow:1px 1px 0 var(--ink);cursor:pointer}
+.icon canvas{width:40px;height:40px;image-rendering:pixelated}
+.icon:hover span,.icon:focus-visible span{background:var(--bar);outline:1px dotted #fff}
+/* windows */
+.win{position:absolute;display:flex;flex-direction:column;min-width:240px;background:var(--win);box-shadow:inset -3px -3px 0 var(--lo),inset 3px 3px 0 var(--hi),0 0 0 3px var(--ink),6px 6px 0 3px #0005;animation:open .22s steps(4)}
+.win[hidden]{display:none}
+.win.top .title{background:repeating-linear-gradient(90deg,var(--bar) 0 6px,color-mix(in srgb,var(--bar) 85%,#000) 6px 8px)}
+.title{display:flex;align-items:center;gap:8px;height:30px;margin:6px 6px 0;padding:0 4px 0 8px;background:var(--lo);color:#fff;cursor:grab;user-select:none;touch-action:none}
+.title:active{cursor:grabbing}
+.title h2{flex:1;margin:0;font:600 15px var(--px);letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.title button{width:22px;height:20px;padding:0;border:0;background:var(--win);color:var(--ink);font:700 13px/1 var(--mono);box-shadow:inset -2px -2px 0 var(--lo),inset 2px 2px 0 var(--hi),0 0 0 2px var(--ink);cursor:pointer}
+.title button:active{box-shadow:inset 2px 2px 0 var(--lo),0 0 0 2px var(--ink)}
+.body{padding:12px;min-height:0}
+@keyframes open{from{transform:scale(.6);opacity:0}}
+/* pixel buttons */
+.pbtn{position:relative;padding:8px 14px 10px;border:3px solid var(--ink);background:var(--xp);font:600 15px var(--px);cursor:pointer;box-shadow:inset -3px -4px 0 #0003,inset 3px 3px 0 #fff8}
+.pbtn:hover{filter:brightness(1.08)}
+.pbtn:active,.pbtn[aria-pressed="true"]{box-shadow:inset 3px 4px 0 #0003;padding:10px 14px 8px}
+.pbtn.pink{background:var(--bar2);color:#fff}.pbtn.mint{background:var(--mp)}.pbtn.grey{background:#e2dbcf}
+.pbtn:disabled{background:#cfc8bb;color:#8b8494;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+/* pet */
+.pet{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+.tank{position:relative;width:140px;height:140px;background:linear-gradient(#bfe9ff,#e9f7ff 70%,#9fd37a 70%,#7fb85a);box-shadow:inset 0 0 0 3px var(--ink);overflow:hidden}
+.tank canvas{position:absolute;left:22px;bottom:12px;width:96px;height:96px;image-rendering:pixelated}
+.tank .crack{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none}
+.tank.cracked .crack{opacity:1}
+.tank .empty{position:absolute;left:0;right:0;bottom:0;margin:0;background:#fffc;box-shadow:inset 0 0 0 3px var(--ink);text-align:center;padding:12px;font:13px var(--px);color:var(--ink);opacity:0}
+.tank.cracked .empty{opacity:1}
+.bars{display:grid;gap:8px;min-width:170px}
+.bar{display:grid;grid-template-columns:30px 1fr 38px;align-items:center;gap:6px;font:600 13px var(--px)}
+.bar .track{height:16px;padding:2px;background:var(--ink);display:flex;gap:2px}
+.bar .track i{flex:1;background:#3a3150}
+.bar .track i.on{background:var(--c);box-shadow:inset 0 -3px 0 #0003,inset 0 2px 0 #fff6}
+.bar small{font:11px var(--mono);text-align:right}
+.mood{margin:4px 0 0;max-width:190px;min-height:2.8em;font:13px var(--px);color:#5b5070}
+/* creature on the loose */
+.loose{position:absolute;z-index:500;width:80px;height:80px;padding:0;border:0;background:none;cursor:pointer;image-rendering:pixelated}
+.loose canvas{width:100%;height:100%;image-rendering:pixelated;display:block}
+.loose .say{position:absolute;bottom:100%;left:50%;translate:-50% -6px;padding:4px 8px;background:#fff;box-shadow:0 0 0 2px var(--ink);font:12px var(--px);white-space:nowrap}
+/* dialogue */
+.talk{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:start}
+.portrait{width:64px;height:64px;background:var(--bar2);box-shadow:inset 0 0 0 3px var(--ink);image-rendering:pixelated}
+.box{position:relative;min-height:96px;padding:10px 12px 22px;background:var(--ink);color:#fff;font:16px/1.35 var(--px);box-shadow:0 0 0 3px var(--hi),0 0 0 6px var(--ink)}
+.box b{color:var(--xp)}
+.box .next{position:absolute;right:10px;bottom:6px;color:var(--xp);animation:blink 1s steps(2) infinite}
+@keyframes blink{50%{opacity:0}}
+.choices{display:flex;flex-direction:column;gap:6px;margin-top:12px}
+.choices button{text-align:left;padding:6px 10px;border:0;background:none;font:15px var(--px);cursor:pointer}
+.choices button::before{content:"  ";white-space:pre;display:inline-block;width:1.2em}
+.choices button:hover::before,.choices button:focus-visible::before{content:"▶";color:var(--bar2)}
+.choices button:focus-visible{outline:0;background:#0001}
+/* inventory */
+.inv{display:grid;grid-template-columns:repeat(4,52px);gap:6px;padding:6px;background:#d8cfbf;box-shadow:inset 3px 3px 0 var(--lo),inset -3px -3px 0 var(--hi)}
+.slot{position:relative;width:52px;height:52px;padding:0;border:0;background:#efe8da;box-shadow:inset 2px 2px 0 #fff,inset -2px -2px 0 var(--lo);cursor:pointer}
+.slot canvas{width:36px;height:36px;image-rendering:pixelated}
+.slot .n{position:absolute;right:3px;bottom:1px;font:600 11px var(--mono);text-shadow:1px 1px 0 #fff}
+.slot[aria-pressed="true"]{background:var(--xp);box-shadow:inset 0 0 0 3px var(--ink)}
+.slot:empty{cursor:default}
+.tip{position:absolute;z-index:999;pointer-events:none;max-width:200px;padding:8px 10px;background:var(--ink);color:#fff;font:13px/1.3 var(--px);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--ink);opacity:0;transition:opacity .1s steps(2)}
+.tip.on{opacity:1}
+.tip b{display:block;color:var(--xp);font-size:14px}
+.tip em{display:block;color:var(--mp);font-style:normal;font-size:12px;margin-top:4px}
+.inv-foot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:10px;font:13px var(--px)}
+/* settings */
+.set{display:grid;gap:14px;min-width:250px}
+.set .line{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.sw{position:relative;width:58px;height:28px;padding:0;border:0;background:#3a3150;box-shadow:0 0 0 3px var(--ink);cursor:pointer}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;background:#e2dbcf;box-shadow:inset -3px -3px 0 #0003;transition:transform .15s steps(3)}
+.sw[aria-checked="true"]{background:var(--mp)}
+.sw[aria-checked="true"]::after{transform:translateX(30px);background:#fff}
+.set input[type=range]{-webkit-appearance:none;appearance:none;width:140px;height:14px;background:repeating-linear-gradient(90deg,var(--bar2) 0 10px,transparent 10px 12px) 0 0/var(--v,60%) 100% no-repeat,repeating-linear-gradient(90deg,#3a3150 0 10px,transparent 10px 12px);box-shadow:0 0 0 3px var(--ink);cursor:pointer}
+.set input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:24px;background:#fff;box-shadow:inset -3px -3px 0 var(--lo),0 0 0 3px var(--ink)}
+.set input[type=range]::-moz-range-thumb{width:12px;height:22px;border:3px solid var(--ink);border-radius:0;background:#fff}
+.seg{display:flex;box-shadow:0 0 0 3px var(--ink)}
+.seg label{padding:3px 10px;cursor:pointer;font:14px var(--px);background:#e2dbcf}
+.seg input{position:absolute;opacity:0}
+.seg label:has(input:checked){background:var(--bar);color:#fff}
+.seg label:has(input:focus-visible){outline:2px dashed var(--ink);outline-offset:-4px}
+/* taskbar */
+.task{position:fixed;left:0;right:0;bottom:0;height:46px;display:flex;align-items:center;gap:6px;padding:0 8px;background:var(--win);box-shadow:inset 0 3px 0 var(--hi),0 -3px 0 var(--ink);z-index:600}
+.start{display:flex;align-items:center;gap:6px;font-weight:700}
+.tasks{display:flex;gap:6px;flex:1;overflow:auto}
+.tasks button{max-width:150px;padding:4px 10px;border:0;background:#e2dbcf;font:13px var(--px);white-space:nowrap;box-shadow:inset -2px -2px 0 var(--lo),inset 2px 2px 0 var(--hi),0 0 0 2px var(--ink);cursor:pointer}
+.tasks button[aria-pressed="true"]{box-shadow:inset 2px 2px 0 var(--lo),0 0 0 2px var(--ink);background:#d2c9b8}
+.clock{padding:4px 10px;font:13px var(--mono);box-shadow:inset 2px 2px 0 var(--lo),inset -2px -2px 0 var(--hi)}
+/* crt */
+.crt::after{content:"";position:fixed;inset:0;z-index:999;pointer-events:none;background:repeating-linear-gradient(transparent 0 2px,#0003 2px 3px),radial-gradient(ellipse at center,transparent 60%,#0007);mix-blend-mode:multiply;animation:flick .12s steps(2) infinite}
+.crt body,.crt .desk{filter:saturate(1.15) contrast(1.05)}
+@keyframes flick{50%{opacity:.88}}
+/* phone: windows become a stack */
+@media (max-width:760px){
+ html,body{overflow:visible;height:auto}
+ .desk{position:relative;inset:auto;min-height:100vh;padding:12px 12px 70px;display:flex;flex-direction:column;gap:22px;overflow:visible}
+ .desk canvas.wall{position:fixed}
+ .icons{position:relative;left:0;top:0;grid-auto-flow:column;justify-content:start}
+ .win{position:relative!important;left:auto!important;top:auto!important;min-width:0;width:auto!important}
+ .title{cursor:default}
+ .pet{grid-template-columns:1fr;justify-items:center}.bars{width:100%}
+ .task{position:fixed}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="desk" id="desk" aria-label="Arcade OS desktop">
+ <canvas class="wall" aria-hidden="true"></canvas>
+ <h1 style="position:absolute;left:-9999px">Arcade OS, a pixel desktop UI kit</h1>
+ <nav class="icons" aria-label="Desktop">
+  <button class="icon" data-open="w-pet" data-ic="egg"><canvas width="10" height="10"></canvas><span>pet.exe</span></button>
+  <button class="icon" data-open="w-talk" data-ic="note"><canvas width="10" height="10"></canvas><span>talk.txt</span></button>
+  <button class="icon" data-open="w-bag" data-ic="bag"><canvas width="10" height="10"></canvas><span>bag</span></button>
+  <button class="icon" data-open="w-set" data-ic="gear"><canvas width="10" height="10"></canvas><span>settings</span></button>
+ </nav>
+
+ <section class="win" id="w-pet" aria-labelledby="h-pet" style="left:130px;top:40px">
+  <div class="title"><h2 id="h-pet">pet.exe — Moss</h2><button type="button" data-min aria-label="Minimise pet.exe">_</button><button type="button" data-close aria-label="Close pet.exe">×</button></div>
+  <div class="body">
+   <div class="pet">
+    <div class="tank" id="tank"><canvas id="pet" width="16" height="16" role="img" aria-label="Moss, a small green slime with a sprout on its head"></canvas>
+     <svg class="crack" viewBox="0 0 140 140" aria-hidden="true"><path d="M70 0l-6 22 12 10-14 18 8 14-10 20M64 22l-18 6M76 32l20-4 6 12M62 50l-22 4-8 14" fill="none" stroke="#1b1430" stroke-width="3" shape-rendering="crispEdges"/></svg>
+     <p class="empty">Moss got out.<br>Click Moss to bring it home.</p></div>
+    <div>
+     <div class="bars">
+      <div class="bar" style="--c:var(--hp)"><span>HP</span><div class="track" id="hp" role="meter" aria-label="Health" aria-valuemin="0" aria-valuemax="10"></div><small></small></div>
+      <div class="bar" style="--c:var(--mp)"><span>JOY</span><div class="track" id="joy" role="meter" aria-label="Joy" aria-valuemin="0" aria-valuemax="10"></div><small></small></div>
+      <div class="bar" style="--c:var(--xp)"><span>XP</span><div class="track" id="xp" role="meter" aria-label="Experience" aria-valuemin="0" aria-valuemax="10"></div><small></small></div>
+     </div>
+     <p class="mood" aria-live="polite" id="mood">Moss is thinking about moss.</p>
+    </div>
+   </div>
+   <div class="row" style="margin-top:12px"><button class="pbtn" type="button" id="feed">Feed</button><button class="pbtn mint" type="button" id="play">Play</button><button class="pbtn grey" type="button" id="sleep" aria-pressed="false">Sleep</button></div>
+  </div>
+ </section>
+
+ <section class="win" id="w-talk" aria-labelledby="h-talk" style="left:560px;top:30px;width:400px">
+  <div class="title"><h2 id="h-talk">talk.txt</h2><button type="button" data-min aria-label="Minimise talk.txt">_</button><button type="button" data-close aria-label="Close talk.txt">×</button></div>
+  <div class="body">
+   <div class="talk"><canvas class="portrait" id="portrait" width="16" height="16" aria-hidden="true"></canvas>
+    <div><div class="box" id="box" tabindex="0" aria-live="polite"><span id="say"></span><span class="next" aria-hidden="true">▼</span></div>
+    <div class="choices" id="choices"></div></div></div>
+  </div>
+ </section>
+
+ <section class="win" id="w-bag" aria-labelledby="h-bag" style="left:560px;top:330px">
+  <div class="title"><h2 id="h-bag">bag — 7 / 12</h2><button type="button" data-min aria-label="Minimise bag">_</button><button type="button" data-close aria-label="Close bag">×</button></div>
+  <div class="body">
+   <div class="inv" id="inv" role="group" aria-label="Inventory"></div>
+   <div class="inv-foot"><span id="sel">Pick something.</span><button class="pbtn pink" type="button" id="use" disabled>Use</button></div>
+  </div>
+ </section>
+
+ <section class="win" id="w-set" aria-labelledby="h-set" style="left:150px;top:400px">
+  <div class="title"><h2 id="h-set">settings</h2><button type="button" data-min aria-label="Minimise settings">_</button><button type="button" data-close aria-label="Close settings">×</button></div>
+  <div class="body set">
+   <div class="line"><span id="l-crt">CRT screen</span><button class="sw" type="button" role="switch" aria-checked="false" aria-labelledby="l-crt" id="crt"></button></div>
+   <div class="line"><label for="vol">Volume</label><input type="range" id="vol" min="0" max="10" value="6"></div>
+   <div class="line"><span id="l-sky">Sky</span><div class="seg" role="radiogroup" aria-labelledby="l-sky"><label><input type="radio" name="sky" value="dusk" checked>Dusk</label><label><input type="radio" name="sky" value="day">Day</label></div></div>
+  </div>
+ </section>
+</main>
+<footer class="task">
+ <button class="pbtn start" type="button" id="startbtn" style="padding:4px 10px 6px">✦ Start</button>
+ <div class="tasks" id="tasks" role="group" aria-label="Open windows"></div>
+ <span class="clock" id="clock" aria-label="Time"></span>
+</footer>
+<div class="tip" id="tip" role="tooltip"></div>
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const phone = () => innerWidth <= 760;
+
+  /* ---------- sprites, drawn from tiny grids ---------- */
+  const PAL = { k: "#1b1430", g: "#5fbf5a", l: "#9be36f", d: "#3d8f45", w: "#ffffff", p: "#ff8fb0", y: "#c9f25a", o: "#ff9a3d", r: "#ff4f6d", b: "#5aa8ff", s: "#d8cfbf", n: "#8a5a3a", u: "#ffcf3d", v: "#b47cff", t: "#e9f7ff" };
+  const paint = (cv, rows) => { const g = cv.getContext("2d"); g.clearRect(0, 0, cv.width, cv.height); rows.forEach((row, y) => [...row].forEach((c, x) => { if (PAL[c]) { g.fillStyle = PAL[c]; g.fillRect(x, y, 1, 1); } })); };
+  // Moss, built from an ellipse so every frame squashes like a real slime
+  function moss({ squash = 0, eyes = "open", mouth = "smile", blush = true } = {}) {
+    const W = 16, H = 16, grid = Array.from({ length: H }, () => Array(W).fill("."));
+    const cx = 7.5, cy = 10.5 + squash * .6, rx = 6.6 + squash * .9, ry = 4.9 - squash;
+    const inside = (x, y) => ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2 <= 1 && y <= 15;
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) if (inside(x, y)) {
+      const edge = !inside(x - 1, y) || !inside(x + 1, y) || !inside(x, y - 1) || !inside(x, y + 1);
+      grid[y][x] = edge ? "k" : (x < cx - 1 && y < cy - 1) ? "l" : y > cy + 2 ? "d" : "g";
+    }
+    const top = Math.ceil(cy - ry);
+    grid[top - 1][8] = "d"; grid[top - 2][8] = "d"; grid[top - 3][7] = "y"; grid[top - 3][9] = "y"; grid[top - 2][7] = "y"; grid[top - 4][6] = "y";
+    const ey = Math.round(cy - .5);
+    if (eyes === "open") { for (const ex of [5, 10]) { grid[ey][ex] = "k"; grid[ey + 1][ex] = "k"; grid[ey][ex + (ex === 5 ? 0 : 0)] = "k"; } grid[ey][5] = "w"; grid[ey][10] = "w"; grid[ey + 1][5] = "k"; grid[ey + 1][10] = "k"; grid[ey - 1][5] = "k"; grid[ey - 1][10] = "k"; }
+    else { grid[ey][4] = "k"; grid[ey][5] = "k"; grid[ey][10] = "k"; grid[ey][11] = "k"; }
+    if (blush) { grid[ey + 2][3] = "p"; grid[ey + 2][12] = "p"; }
+    if (mouth === "smile") { grid[ey + 2][7] = "k"; grid[ey + 2][8] = "k"; grid[ey + 1][6] = grid[ey + 1][6] === "g" ? "g" : grid[ey + 1][6]; }
+    if (mouth === "o") { grid[ey + 2][7] = "k"; grid[ey + 2][8] = "k"; grid[ey + 3][7] = "k"; grid[ey + 3][8] = "k"; }
+    return grid.map((r) => r.join(""));
+  }
+  const ICONS = {
+    egg: ["...kkkk...", "..kwwwwk..", ".kwwgwwwk.", ".kwwwwgwk.", "kwgwwwwwwk", "kwwwwgwwwk", "kwwwwwwwwk", ".kwwgwwwk.", "..kwwwwk..", "...kkkk..."],
+    note: ["kkkkkkk...", "kwwwwwkk..", "kwkkkwwkk.", "kwwwwwwwk.", "kwkkkkkwk.", "kwwwwwwwk.", "kwkkkkkwk.", "kwwwwwwwk.", "kkkkkkkkk.", ".........."],
+    bag: ["...kkkk...", "..k....k..", "..k....k..", ".kkkkkkkk.", "knnnnnnnnk", "knnuunnnnk", "knnuunnnnk", "knnnnnnnnk", "knnnnnnnnk", ".kkkkkkkk."],
+    gear: ["....kk....", ".k.kssk.k.", "..kssssk..", ".kssksssk.", "kssk..kssk", "kssk..kssk", ".ksssksk..", "..kssssk..", ".k.kssk.k.", "....kk...."],
+  };
+  const ITEMS = [
+    { id: "berry", name: "Mossberry", note: "Tart. Moss likes them more than it should.", fx: "+3 HP", n: 4, art: ["....d.....", "...dd.....", "..kkkkk...", ".krrrrrk..", "krwrrrrrk.", "krrrrrrrk.", "krrrrrrrk.", ".krrrrrk..", "..kkkkk...", ".........."] },
+    { id: "ball", name: "Bouncy ball", note: "Has never once gone where it was thrown.", fx: "+3 JOY", n: 1, art: ["..kkkkk...", ".kbbbbbk..", "kbwbbbbbk.", "kbbbuubbk.", "kbbuubbbk.", "kbbbbbbbk.", ".kbbbbbk..", "..kkkkk...", "..........", ".........."] },
+    { id: "potion", name: "Fizzy potion", note: "Tastes purple. Moss glows a bit after.", fx: "+5 XP", n: 2, art: ["...kkk....", "...kwk....", "...kwk....", "..kvvvk...", ".kvwvvvk..", "kvvvvvvvk.", "kvvvvwvvk.", "kvvvvvvvk.", ".kkkkkkk..", ".........."] },
+    { id: "key", name: "Small key", note: "Opens something small. Nobody knows what.", fx: "Can't use yet", n: 1, art: ["..........", ".kkk......", "kuuuk.....", "kuwuk.....", "kuuukkkkkk", ".kkkuuuuuk", "....kkuk.k", ".....kuk..", "......k...", ".........."] },
+    { id: "coin", name: "Old coin", note: "Worth one wish, or one gumball.", fx: "×12", n: 12, art: ["..kkkkk...", ".kuuuuuk..", "kuwuuuuuk.", "kuukkkuuk.", "kuukuuuuk.", "kuukkkuuk.", "kuuuuuuuk.", ".kuuuuuk..", "..kkkkk...", ".........."] },
+    { id: "map", name: "Torn map", note: "Half a path to somewhere warm.", fx: "Read later", n: 1, art: ["kkkkkkkkk.", "kttttttk..", "kttrtttttk", "ktttrtttk.", "kttttrttk.", ".ktttttrk.", "kttttttttk", "kttttttk..", "kkkkkkkkk.", ".........."] },
+    { id: "leaf", name: "Lucky leaf", note: "Four corners. Moss found it.", fx: "+1 everything", n: 1, art: ["....k.....", "...kgk....", "..kglgk...", ".kglggk.kk", "kglgggkgk.", ".kgggdgk..", "..kgdgk...", "...kdk....", "...dk.....", "..d......."] },
+  ];
+  $$(".icon").forEach((b) => paint(b.querySelector("canvas"), ICONS[b.dataset.ic]));
+  paint($("#portrait"), moss({ mouth: "o" }));
+
+  /* ---------- wallpaper: a dithered dusk with pixel hills ---------- */
+  const wall = $(".wall"), wg = wall.getContext("2d");
+  const B4 = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
+  function drawWall() {
+    const day = document.body.classList.contains("day"), W = Math.ceil(innerWidth / 4), H = Math.ceil(innerHeight / 4);
+    wall.width = W; wall.height = H;
+    const sky = day ? ["#5fb4ff", "#8fcaff", "#bfe2ff", "#fff1c7"] : ["#2a1d5c", "#4b2a78", "#7a3d8f", "#c4547f", "#ff8f6b"];
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const t = (y / H) * (sky.length - 1) + (B4[y & 3][x & 3] / 16 - .5) * .9, i = Math.max(0, Math.min(sky.length - 1, Math.round(t))); wg.fillStyle = sky[i]; wg.fillRect(x, y, 1, 1); }
+    // sun
+    wg.fillStyle = day ? "#fff6c9" : "#ffd27a"; const sx = W * .72, sy = H * .55, R = Math.min(W, H) * .12;
+    for (let y = -R; y <= R; y++) for (let x = -R; x <= R; x++) if (x * x + y * y <= R * R && (y < R * .2 || (Math.floor(y) % 3 !== 0))) wg.fillRect(Math.round(sx + x), Math.round(sy + y), 1, 1);
+    // stars
+    if (!day) { let s = 7; wg.fillStyle = "#fff"; for (let i = 0; i < 90; i++) { s = (s * 16807) % 2147483647; const x = s % W; s = (s * 16807) % 2147483647; const y = s % Math.floor(H * .45); wg.fillRect(x, y, 1, 1); } }
+    // hills
+    const hills = day ? ["#7fc46a", "#5aa457", "#3f8a4a"] : ["#3d2a6b", "#2b1f52", "#1b1430"];
+    hills.forEach((c, k) => { wg.fillStyle = c; for (let x = 0; x < W; x++) { const h = H * (.72 + k * .08) + Math.sin(x * (.02 + k * .013) + k * 2) * H * .05 + Math.sin(x * .07 + k) * 2; wg.fillRect(x, Math.round(h), 1, H); } });
+  }
+  drawWall(); addEventListener("resize", drawWall);
+
+  /* ---------- windows: drag, raise, minimise, close, taskbar ---------- */
+  let z = 10;
+  const wins = $$(".win"), tasks = $("#tasks");
+  const raise = (w) => { w.style.zIndex = ++z; wins.forEach((x) => x.classList.toggle("top", x === w)); syncTasks(); };
+  function syncTasks() {
+    tasks.innerHTML = "";
+    wins.filter((w) => !w.dataset.closed).forEach((w) => {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = $("h2", w).textContent;
+      b.setAttribute("aria-pressed", String(!w.hidden && w.classList.contains("top")));
+      b.onclick = () => { if (!w.hidden && w.classList.contains("top")) { w.hidden = true; w.classList.remove("top"); syncTasks(); } else { w.hidden = false; raise(w); } };
+      tasks.append(b);
+    });
+  }
+  const clamp = (w) => { const d = $("#desk").getBoundingClientRect(); w.style.left = Math.max(-w.offsetWidth + 80, Math.min(d.width - 80, w.offsetLeft)) + "px"; w.style.top = Math.max(0, Math.min(d.height - 40, w.offsetTop)) + "px"; };
+  wins.forEach((w) => {
+    w.addEventListener("pointerdown", () => raise(w));
+    const bar = $(".title", w); bar.tabIndex = 0; bar.setAttribute("aria-label", `${$("h2", w).textContent}: drag, or use arrow keys to move`);
+    bar.addEventListener("pointerdown", (e) => {
+      if (phone() || e.target.closest("button")) return;
+      const ox = e.clientX - w.offsetLeft, oy = e.clientY - w.offsetTop; bar.setPointerCapture(e.pointerId);
+      const mv = (ev) => { w.style.left = ev.clientX - ox + "px"; w.style.top = ev.clientY - oy + "px"; };
+      const up = () => { bar.removeEventListener("pointermove", mv); bar.removeEventListener("pointerup", up); clamp(w); };
+      bar.addEventListener("pointermove", mv); bar.addEventListener("pointerup", up);
+    });
+    bar.addEventListener("keydown", (e) => { const d = { ArrowLeft: [-16, 0], ArrowRight: [16, 0], ArrowUp: [0, -16], ArrowDown: [0, 16] }[e.key]; if (d && !phone()) { e.preventDefault(); w.style.left = w.offsetLeft + d[0] + "px"; w.style.top = w.offsetTop + d[1] + "px"; clamp(w); } });
+    $("[data-min]", w).onclick = () => { w.hidden = true; w.classList.remove("top"); syncTasks(); };
+    $("[data-close]", w).onclick = () => { w.hidden = true; w.dataset.closed = "1"; syncTasks(); };
+  });
+  $$(".icon").forEach((b) => (b.onclick = () => { const w = $("#" + b.dataset.open); delete w.dataset.closed; w.hidden = false; raise(w); }));
+  // fit the default layout to smaller desktops
+  const layout = () => { if (phone()) return; const W = innerWidth, H = innerHeight - 46; if (W < 1100) { $("#w-talk").style.left = Math.max(120, W - 430) + "px"; $("#w-bag").style.left = Math.max(120, W - 300) + "px"; } wins.forEach(clamp); };
+  layout(); raise($("#w-pet"));
+  $("#startbtn").onclick = () => { wins.forEach((w) => { delete w.dataset.closed; w.hidden = false; }); raise($("#w-talk")); say(0); };
+  const tick = () => ($("#clock").textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })); tick(); setInterval(tick, 15000);
+
+  /* ---------- the pet ---------- */
+  const st = { hp: 6, joy: 4, xp: 7, asleep: false };
+  const petCv = $("#pet"), tank = $("#tank"), moodEl = $("#mood");
+  const meter = (id, v, max = 10) => { const t = $("#" + id); if (!t.children.length) for (let i = 0; i < max; i++) t.append(document.createElement("i")); [...t.children].forEach((c, i) => c.classList.toggle("on", i < v)); t.setAttribute("aria-valuenow", v); t.nextElementSibling.textContent = `${v}/${max}`; };
+  const render = () => { meter("hp", st.hp); meter("joy", st.joy); meter("xp", st.xp); };
+  const mood = (m) => (moodEl.textContent = m);
+  let frame = 0, hop = 0;
+  function draw() {
+    const blink = !st.asleep && frame % 40 > 37;
+    const squash = st.asleep ? .5 : hop > 0 ? -.6 : Math.sin(frame / 6) * .35;
+    paint(petCv, moss({ squash, eyes: st.asleep || blink ? "shut" : "open", mouth: hop > 0 ? "o" : "smile" }));
+    petCv.style.transform = hop > 0 ? `translateY(${-Math.sin((hop / 10) * Math.PI) * 26}px)` : "";
+    if (loose) paint(loose.querySelector("canvas"), moss({ squash: looseHop ? -.6 : Math.sin(frame / 6) * .35, eyes: blink ? "shut" : "open", mouth: looseHop ? "o" : "smile" }));
+    if (hop > 0) hop--;
+  }
+  setInterval(() => { frame++; if (!document.hidden) draw(); }, reduced ? 400 : 90);
+  const gain = (k, n) => { st[k] = Math.max(0, Math.min(10, st[k] + n)); };
+  const xp = (n) => { gain("xp", n); if (st.xp >= 10) { st.xp = 0; render(); breakOut(); } };
+  $("#feed").onclick = () => { if (st.asleep || loose) return; gain("hp", 2); hop = 10; mood(st.hp >= 10 ? "Moss is full. Very full." : "Nom. Moss wiggles."); xp(1); render(); };
+  $("#play").onclick = () => { if (st.asleep || loose) return; gain("joy", 2); gain("hp", -1); hop = 10; mood("Moss bounces off the glass. Again."); xp(1); render(); };
+  const sleepBtn = $("#sleep");
+  sleepBtn.onclick = () => { if (loose) return; st.asleep = !st.asleep; sleepBtn.setAttribute("aria-pressed", st.asleep); sleepBtn.textContent = st.asleep ? "Wake" : "Sleep"; mood(st.asleep ? "Zzz. Moss is dreaming in green." : "Moss is awake and suspicious."); if (st.asleep) gain("hp", 3); render(); };
+  render();
+
+  /* ---------- breaking out of the window ---------- */
+  let loose = null, looseHop = false, wander = null;
+  function breakOut() {
+    if (phone() || loose) { mood("Level up! Moss feels bigger on the inside."); return; }
+    tank.classList.add("cracked"); petCv.style.visibility = "hidden"; mood("LEVEL UP. Moss broke the glass…");
+    const d = $("#desk").getBoundingClientRect(), r = petCv.getBoundingClientRect();
+    loose = document.createElement("button"); loose.className = "loose"; loose.type = "button"; loose.setAttribute("aria-label", "Moss is loose on the desktop. Click to bring it home.");
+    loose.innerHTML = '<canvas width="16" height="16"></canvas><span class="say">free!!</span>';
+    loose.style.left = r.left - d.left + "px"; loose.style.top = r.top - d.top + "px"; $("#desk").append(loose);
+    loose.onclick = home;
+    let x = r.left - d.left, y = r.top - d.top;
+    const jump = () => {
+      // land on the title bar of some open window, or somewhere on the desktop
+      const open = wins.filter((w) => !w.hidden && w.id !== "w-pet" && w.offsetTop > 90);
+      let tx, ty;
+      if (open.length && Math.random() < .6) { const w = open[Math.floor(Math.random() * open.length)]; tx = w.offsetLeft + 20 + Math.random() * Math.max(10, w.offsetWidth - 110); ty = w.offsetTop + 10 - 80; }
+      else { tx = 40 + Math.random() * (d.width - 140); ty = d.height - 120 - Math.random() * 120; }
+      const x0 = x, y0 = y, peak = Math.min(y0, ty) - 90, t0 = performance.now(), dur = reduced ? 1 : 700;
+      looseHop = true; loose.querySelector(".say").textContent = ["wheee", "boing", "hi!!", "!!!", "free!!"][Math.floor(Math.random() * 5)];
+      const step = (now) => { if (!loose) return; const t = Math.min(1, (now - t0) / dur), q = Math.round(t * 8) / 8; // stepped, like a sprite
+        x = x0 + (tx - x0) * q; y = (1 - q) * (1 - q) * y0 + 2 * (1 - q) * q * peak + q * q * ty; loose.style.left = x + "px"; loose.style.top = y + "px";
+        if (t < 1) requestAnimationFrame(step); else { looseHop = false; x = tx; y = ty; } };
+      requestAnimationFrame(step);
+    };
+    setTimeout(jump, 200); wander = setInterval(jump, 2200);
+  }
+  function home() {
+    clearInterval(wander); loose?.remove(); loose = null; tank.classList.remove("cracked"); petCv.style.visibility = ""; hop = 10;
+    mood("Moss is home. The glass fixed itself, somehow."); st.joy = 10; render(); raise($("#w-pet"));
+  }
+
+  /* ---------- dialogue with a typewriter ---------- */
+  const script = [
+    { t: "Oh! A <b>visitor</b>. Nobody opens talk.txt anymore.", c: [["Who are you?", 1], ["Just looking around.", 2]] },
+    { t: "I'm the desktop. Well, the bit of it that talks. Moss is the green one. Feed it enough and it <b>levels up</b>…", c: [["What happens then?", 3], ["Bye, desktop.", 4]] },
+    { t: "Look all you like. Every window drags by its title bar, and the arrow keys move it too.", c: [["Tell me about Moss.", 1], ["Bye, desktop.", 4]] },
+    { t: "It gets out. Glass everywhere. It'll hop across your windows until you <b>click it</b> to bring it home.", c: [["I'll try it.", 4], ["Start again.", 0]] },
+    { t: "See you around. Press <b>Start</b> if you want me again.", c: [] },
+  ];
+  const sayEl = $("#say"), choices = $("#choices"), box = $("#box");
+  let typing = null, full = "";
+  function say(i) {
+    const line = script[i]; full = line.t; choices.innerHTML = ""; clearInterval(typing);
+    const plain = full.replace(/<[^>]+>/g, ""); let n = 0;
+    const done = () => { clearInterval(typing); typing = null; sayEl.innerHTML = full; line.c.forEach(([label, to]) => { const b = document.createElement("button"); b.type = "button"; b.textContent = label; b.onclick = () => say(to); choices.append(b); }); };
+    if (reduced) return done();
+    // type the plain text, then swap in the formatted line
+    typing = setInterval(() => { n += 1; sayEl.textContent = plain.slice(0, n); if (frame % 2) paint($("#portrait"), moss({ mouth: n % 4 < 2 ? "o" : "smile" })); if (n >= plain.length) { done(); paint($("#portrait"), moss()); } }, 28);
+    box.onclick = () => typing && done();
+    box.onkeydown = (e) => { if ((e.key === " " || e.key === "Enter") && typing) { e.preventDefault(); done(); } };
+  }
+  say(0);
+
+  /* ---------- inventory with tooltips ---------- */
+  const inv = $("#inv"), tip = $("#tip"), sel = $("#sel"), use = $("#use");
+  let picked = null;
+  for (let i = 0; i < 12; i++) {
+    const it = ITEMS[i], b = document.createElement("button"); b.type = "button"; b.className = "slot";
+    if (it) { b.innerHTML = `<canvas width="10" height="10"></canvas><span class="n">${it.n > 1 ? it.n : ""}</span>`; paint(b.querySelector("canvas"), it.art); b.setAttribute("aria-label", `${it.name}, ${it.n}. ${it.note}`); b.setAttribute("aria-pressed", "false"); b.dataset.i = i; }
+    else { b.setAttribute("aria-label", "Empty slot"); b.disabled = true; }
+    inv.append(b);
+  }
+  const showTip = (b) => { const it = ITEMS[b.dataset.i]; if (!it) return; tip.innerHTML = `<b></b><span></span><em></em>`; tip.querySelector("b").textContent = it.name; tip.querySelector("span").textContent = it.note; tip.querySelector("em").textContent = it.fx; const r = b.getBoundingClientRect(); tip.style.left = Math.min(innerWidth - 220, r.right + 10) + scrollX + "px"; tip.style.top = r.top + scrollY + "px"; tip.classList.add("on"); };
+  const hideTip = () => tip.classList.remove("on");
+  $$(".slot[data-i]").forEach((b) => {
+    b.onpointerenter = () => showTip(b); b.onpointerleave = hideTip; b.onfocus = () => showTip(b); b.onblur = hideTip;
+    b.onclick = () => { picked = +b.dataset.i; $$(".slot[data-i]").forEach((x) => x.setAttribute("aria-pressed", x === b)); const it = ITEMS[picked]; sel.textContent = `${it.name} · ${it.fx}`; use.disabled = !["berry", "ball", "potion", "leaf"].includes(it.id) || it.n < 1; };
+  });
+  const slots = $$(".slot");
+  inv.addEventListener("keydown", (e) => { const i = slots.indexOf(document.activeElement); const d = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: 4, ArrowUp: -4 }[e.key]; if (i < 0 || !d) return; e.preventDefault(); let j = i + d; while (slots[j] && slots[j].disabled) j += d; slots[j]?.focus(); });
+  use.onclick = () => {
+    const it = ITEMS[picked]; if (!it || it.n < 1) return; it.n--;
+    if (it.id === "berry") gain("hp", 3); if (it.id === "ball") gain("joy", 3); if (it.id === "leaf") { gain("hp", 1); gain("joy", 1); }
+    hop = 10; mood(`Moss used the ${it.name.toLowerCase()}. Delighted.`);
+    if (it.id === "potion") xp(5); else xp(1);
+    render(); const b = slots[picked]; b.querySelector(".n").textContent = it.n > 1 ? it.n : ""; if (it.n < 1) { b.innerHTML = ""; b.disabled = true; b.setAttribute("aria-label", "Empty slot"); use.disabled = true; sel.textContent = "All gone."; hideTip(); }
+    $("#h-bag").textContent = `bag — ${ITEMS.filter((x) => x.n > 0).length} / 12`; syncTasks();
+  };
+
+  /* ---------- settings ---------- */
+  const crt = $("#crt"); crt.onclick = () => { const on = crt.getAttribute("aria-checked") !== "true"; crt.setAttribute("aria-checked", on); document.documentElement.classList.toggle("crt", on); };
+  const vol = $("#vol"), v = () => { vol.style.setProperty("--v", vol.value * 10 + "%"); vol.setAttribute("aria-valuetext", vol.value == 0 ? "muted" : `${vol.value} of 10`); }; vol.oninput = v; v();
+  $$('input[name="sky"]').forEach((r) => (r.onchange = () => { document.body.classList.toggle("day", r.value === "day" && r.checked); drawWall(); }));
+})();
+</script>
+</body>
+</html>

@@ -1,4 +1,5 @@
 import { type AsciiScene, type CellFrame, type RGB, clamp, hexRgb } from "./cells";
+import { type Daylight, NIGHT } from "./daylight";
 import { Light, noise2, rand } from "./kit";
 
 /**
@@ -27,6 +28,8 @@ export class NeonRain implements AsciiScene {
   private splashes: { x: number; y: number; life: number }[] = [];
   private ptr = { x: -99, y: -99, on: false };
   private density: number;
+  private day: Daylight = NIGHT;
+  daylight(d: Daylight) { this.day = d; }
 
   constructor(color: string, density: number) {
     this.palette = [hexRgb(color), [80, 230, 255], [255, 184, 80], [255, 214, 140], [44, 36, 70], [150, 170, 230], [240, 240, 255], [255, 70, 80], [70, 60, 110]];
@@ -77,6 +80,7 @@ export class NeonRain implements AsciiScene {
   /** How a sign is lit right now: steady hum, with the odd broken flicker. */
   private hum(s: Sign) {
     const n = noise2(this.t * 6, s.seed, 3);
+    if (rand(s.seed * 1.7) > 0.2 + 0.8 * Math.max(this.day.night, this.day.twilight)) return 0.12;
     return n < -0.72 ? 0.15 : 0.85 + 0.15 * Math.sin(this.t * 50 + s.seed);
   }
   render(frame: CellFrame) {
@@ -96,7 +100,7 @@ export class NeonRain implements AsciiScene {
         if (edge) { L.set(x, y, 0.22 + f * 0.4, WALL, "|"); continue; }
         const wx = (x - b.x0) % 3, wy = (y - b.top) % 3;
         if (wx === 1 && wy === 1) {
-          const on = noise2(x * 0.7 + b.seed, y * 0.9 + this.t * 0.04, 5) > 0.1;
+          const on = noise2(x * 0.7 + b.seed, y * 0.9 + this.t * 0.04, 5) > 0.1 + 0.55 * (1 - this.day.night);
           L.set(x, y, on ? 0.55 + 0.1 * Math.sin(this.t + x) : 0.1 + f * 0.3, on ? WIN : WALL, on ? "#" : "=");
         } else L.set(x, y, b.shade * 0.5 + f * 0.3, WALL, " ");
       }
@@ -144,11 +148,15 @@ export class NeonRain implements AsciiScene {
     // lightning
     if (f > 0.2) for (const [x, y] of this.bolt) L.set(x, y, f, WHITE, "\\/|"[(x + y) % 3]);
     L.emit(frame, " .:-=+*#", 0.8);
+    frame.bloom = this.bloom * (0.3 + 0.7 * Math.max(this.day.night, this.day.twilight));
   }
   underlay(ctx: CanvasRenderingContext2D) {
     const { W, H } = this;
     const sky = ctx.createLinearGradient(0, 0, 0, H);
-    sky.addColorStop(0, `rgba(${40 + this.flash * 140},${20 + this.flash * 120},${70 + this.flash * 140},1)`); sky.addColorStop(0.75, "rgba(12,6,24,1)"); sky.addColorStop(1, "rgba(8,4,16,1)");
+    const dayAmt = 1 - this.day.night, tw = this.day.twilight;
+    sky.addColorStop(0, `rgba(${40 + dayAmt * 45 + tw * 50 + this.flash * 140},${20 + dayAmt * 60 + tw * 15 + this.flash * 120},${70 + dayAmt * 60 + this.flash * 140},1)`);
+    sky.addColorStop(0.45, `rgba(${20 + dayAmt * 70 + tw * 130},${10 + dayAmt * 75 + tw * 45},${40 + dayAmt * 70 + tw * 30},1)`);
+    sky.addColorStop(0.75, `rgba(${12 + dayAmt * 30},${6 + dayAmt * 30},${24 + dayAmt * 40},1)`); sky.addColorStop(1, "rgba(8,4,16,1)");
     ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
     // solid silhouettes, so the towers stand in front of the sky
     const street = Math.round(this.light.rows * 0.78) * this.ch;

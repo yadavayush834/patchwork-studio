@@ -35,6 +35,8 @@ export interface SiteSection {
     density: number;
     intensity: number;
     color: string;
+    /** "Your painting": the picture the paint scene turns into characters. */
+    image?: string;
   };
   video?: string;
   poster?: string;
@@ -74,6 +76,8 @@ export interface Project {
     font: string;
   };
   sections: SiteSection[];
+  /** Living site: the site changes with the visitor's time of day. */
+  living?: boolean;
 }
 export interface AssetRecord {
   id: string;
@@ -86,7 +90,7 @@ export interface Background {
   name: string;
   world: World;
   type: "css" | "svg" | "video" | "ascii";
-  scene?: "lotus" | "aurora" | "neon" | "koi";
+  scene?: "lotus" | "aurora" | "neon" | "koi" | "paint";
   description?: string;
   tint?: string;
   preview: string;
@@ -125,4 +129,8 @@ export interface RenderOptions {
   selectedElement?: string;
   reducedMotion?: boolean;
   mobile?: boolean;
+  /** Editor preview of a living site at a fixed hour (never exported). */
+  hour?: number;
+  /** Inline data URLs for pictures the ASCII runtime must read pixels from. */
+  pixelUrls?: Record<string, string>;
 }

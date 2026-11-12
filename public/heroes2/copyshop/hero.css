@@ -1,0 +1,31 @@
+/* Copyshop: a photocopier that loses a little more of the picture with every copy. */
+:root{--bg:#eeebe3;--ink:#171413;--muted:#5d5751;--accent:#ff3ea5;--display:"Bricolage Grotesque",system-ui,sans-serif;--body:"Instrument Sans",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--radius:0;--focus:#ff3ea5}
+.hx-copyshop{background:var(--bg) radial-gradient(circle at 1px 1px,#0000000d 1px,transparent 1.2px) 0 0/6px 6px;color:var(--ink)}
+.hx-copyshop .hx-brand{font:800 19px var(--display);font-stretch:75%;text-transform:uppercase;letter-spacing:.02em}
+.cs-logo{width:20px;height:14px;border:2px solid var(--ink);border-top-width:5px;box-shadow:3px 3px 0 var(--accent)}
+.cs-glass{position:absolute;z-index:2;right:2%;top:12%;width:56%;height:80%;display:block;cursor:grab;touch-action:none}
+.cs-glass:active{cursor:grabbing}
+.cs-scanbar{position:absolute;z-index:3;right:2%;width:56%;top:12%;height:3px;background:linear-gradient(90deg,transparent,#7dff9a,transparent);box-shadow:0 0 18px 4px #7dff9a88;opacity:0;pointer-events:none}
+.is-copying .cs-scanbar{animation:cs-scan .8s ease-in-out}
+@keyframes cs-scan{0%{opacity:.9;transform:translateY(0)}100%{opacity:0;transform:translateY(calc(80vh - 3px))}}
+.cs-copy-area{position:absolute;z-index:4;left:clamp(22px,5vw,84px);top:50%;transform:translateY(-46%);width:min(520px,38vw)}
+.cs-kicker{margin:0 0 18px;font:500 11px var(--mono);letter-spacing:.14em;text-transform:uppercase}
+.cs-kicker b{background:var(--ink);color:var(--bg);padding:3px 6px;font-weight:500}
+.cs-title{margin:0;font:800 clamp(52px,5.4vw,96px)/.9 var(--display);font-stretch:72%;text-transform:uppercase;letter-spacing:-.01em}
+.cs-hl{position:relative;display:inline-block;z-index:0}
+.cs-mark-hl{position:absolute;z-index:-1;left:-.06em;right:-.08em;top:.18em;bottom:.02em;background:var(--accent);transform:rotate(-1.5deg)}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em;margin-bottom:-.06em}.w>span{display:inline-block}
+.cs-sub{margin:24px 0 28px;max-width:38ch;font-size:clamp(15px,1.05vw,17px);line-height:1.6;color:var(--muted)}
+.hx-copyshop .hx-btn{border-radius:0}
+.hx-copyshop .hx-btn:not(.hx-ghost){background:var(--ink);color:var(--bg);box-shadow:4px 4px 0 var(--accent)}
+.hx-copyshop .hx-btn:not(.hx-ghost):hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--accent)}
+.cs-panel{position:absolute;z-index:4;right:3%;bottom:4%;display:flex;align-items:stretch;gap:0;border:2px solid var(--ink);background:var(--bg);font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;box-shadow:5px 5px 0 var(--ink)}
+.cs-panel > div{padding:10px 14px;border-right:2px solid var(--ink);display:grid;gap:4px;min-width:120px}
+.cs-panel b{font:800 22px var(--display);font-stretch:75%;letter-spacing:0}
+.cs-bar{height:5px;background:#0001}.cs-bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .5s}
+.cs-panel button{border:0;border-right:2px solid var(--ink);background:transparent;padding:0 16px;font:inherit;letter-spacing:inherit;cursor:pointer;color:var(--ink)}
+.cs-panel button:last-child{border-right:0}
+.cs-panel .cs-copy{background:#7dff9a}
+.cs-panel button:hover{background:var(--ink);color:var(--bg)}
+.cs-hint{position:absolute;z-index:4;right:3%;top:calc(12% - 28px);margin:0;font:400 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:760px){.cs-glass,.cs-scanbar{right:4%;width:92%;top:12%;height:42%}.cs-copy-area{left:20px;right:20px;width:auto;top:auto;bottom:96px;transform:none}.cs-panel{left:12px;right:12px;bottom:12px;overflow-x:auto}.cs-hint,.hx-nav nav{display:none}.cs-title{font-size:44px}}

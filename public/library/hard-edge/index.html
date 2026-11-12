@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hard Edge — a brutalist UI kit</title>
+<style>
+@font-face{font-family:"Unbounded";src:url("../fonts/Unbounded.woff2") format("woff2");font-weight:200 900;font-display:swap}
+@font-face{font-family:"Instrument Sans";src:url("../fonts/InstrumentSans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+:root{--bg:#f2ede3;--ink:#111;--card:#fff;--lime:#c6f432;--pink:#ff6fb5;--blue:#5b8cff;--orange:#ff8a3d;--yellow:#ffd93d;--b:3px solid var(--ink);--sh:6px 6px 0 var(--ink);--display:"Unbounded",system-ui,sans-serif;--mono:"JetBrains Mono",monospace}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg) radial-gradient(#0002 1px,transparent 1.5px) 0 0/18px 18px;color:var(--ink);font:16px/1.45 "Instrument Sans",system-ui,sans-serif;padding:clamp(14px,3vw,36px)}
+.wrap{max-width:1200px;margin:0 auto}
+button,input{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.logo{display:flex;align-items:center;gap:10px;font:800 20px var(--display);letter-spacing:-.03em}
+.logo i{display:grid;place-items:center;width:40px;height:40px;background:var(--lime);border:var(--b);box-shadow:3px 3px 0 var(--ink);font-style:normal;transform:rotate(-6deg)}
+h1{margin:0 0 6px;font:900 clamp(40px,7vw,96px)/.9 var(--display);letter-spacing:-.05em;text-transform:uppercase}
+h1 span{display:inline-block;padding:0 .12em;background:var(--pink);border:var(--b);box-shadow:var(--sh);transform:rotate(-2deg)}
+.lede{max-width:56ch;margin:14px 0 32px;font-size:17px}
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px}
+.card{grid-column:span 4;background:var(--card);border:var(--b);box-shadow:var(--sh);padding:20px;min-width:0}
+.span-5{grid-column:span 5}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-6{grid-column:span 6}
+.label{display:inline-block;margin:0 0 14px;padding:3px 8px;background:var(--ink);color:#fff;font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase}
+/* buttons */
+.btns{display:flex;flex-wrap:wrap;gap:14px}
+.btn{position:relative;padding:12px 20px;border:var(--b);background:var(--lime);box-shadow:4px 4px 0 var(--ink);font:700 15px var(--display);letter-spacing:-.02em;cursor:pointer;transition:transform .08s,box-shadow .08s,background .15s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn:active,.btn[aria-pressed="true"]{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+.btn.pink{background:var(--pink)}.btn.white{background:#fff}.btn.ink{background:var(--ink);color:#fff;box-shadow:4px 4px 0 var(--orange)}
+.btn.ink:hover{box-shadow:6px 6px 0 var(--orange)}
+.btn[disabled]{background:repeating-linear-gradient(45deg,#eee 0 6px,#ddd 6px 12px);color:#777;cursor:not-allowed;transform:none;box-shadow:4px 4px 0 #999;border-color:#999}
+.btn .ct{display:inline-block;min-width:1.5ch;margin-left:6px;padding:0 6px;background:var(--ink);color:var(--lime);font:600 12px var(--mono)}
+/* toggle */
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:2px dashed #0003}
+.row:last-child{border-bottom:0}
+.tog{position:relative;width:66px;height:36px;flex:none;border:var(--b);background:#fff;box-shadow:3px 3px 0 var(--ink);cursor:pointer;padding:0}
+.tog::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;background:var(--ink);transition:transform .2s cubic-bezier(.5,1.8,.5,1),background .2s}
+.tog[aria-checked="true"]{background:var(--lime)}
+.tog[aria-checked="true"]::after{transform:translateX(30px);background:var(--ink)}
+.tog::before{content:"OFF";position:absolute;right:6px;top:50%;translate:0 -50%;font:700 9px var(--mono)}
+.tog[aria-checked="true"]::before{content:"ON";left:7px;right:auto}
+/* stat */
+.stat{background:var(--yellow)}
+.stat .big{display:flex;align-items:baseline;gap:10px;font:900 clamp(44px,5vw,64px)/1 var(--display);letter-spacing:-.05em}
+.delta{padding:2px 8px;border:var(--b);background:var(--lime);font:700 13px var(--mono);letter-spacing:0}
+.spark-wrap{position:relative;margin-top:14px;border:var(--b);background:#fff}
+.spark{display:block;width:100%;height:90px}
+.spark-dot{position:absolute;width:14px;height:14px;border:3px solid var(--ink);background:var(--lime);translate:-50% -50%;transition:left .3s,top .3s}
+.spark polyline{fill:none;stroke:var(--ink);stroke-width:3;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.spark .area{fill:var(--pink);stroke:none}
+.ranges{display:flex;gap:0;margin-top:12px;border:var(--b);width:max-content;background:#fff}
+.ranges button{padding:6px 12px;border:0;border-right:var(--b);background:none;font:700 12px var(--mono);cursor:pointer}
+.ranges button:last-child{border-right:0}
+.ranges button[aria-checked="true"]{background:var(--ink);color:var(--yellow)}
+/* tabs */
+.tabs{display:flex;gap:0;margin-bottom:-3px;position:relative;z-index:1}
+.tabs button{padding:10px 16px;border:var(--b);border-bottom:0;margin-right:-3px;background:#e8e2d6;font:700 14px var(--display);cursor:pointer;transform:translateY(4px);transition:transform .12s}
+.tabs button[aria-selected="true"]{background:#fff;transform:none;padding-bottom:13px}
+.tabpanel{border:var(--b);padding:18px;background:#fff;min-height:170px}
+.list{list-style:none;margin:0;padding:0}
+.list li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;padding:10px 0;border-bottom:2px solid #0001}
+.list li:last-child{border-bottom:0}
+.chip{display:inline-block;padding:2px 8px;border:2px solid var(--ink);font:700 11px var(--mono);text-transform:uppercase}
+.sq{width:30px;height:30px;border:var(--b)}
+/* slider */
+.range-wrap{position:relative;padding-top:42px}
+.bubble{position:absolute;top:0;left:0;padding:4px 10px;border:var(--b);background:var(--lime);font:700 14px var(--mono);translate:-50% 0;white-space:nowrap;box-shadow:3px 3px 0 var(--ink)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:24px;margin:0;border:var(--b);background:linear-gradient(90deg,var(--pink) var(--p,50%),#fff var(--p,50%));cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:30px;height:38px;border:var(--b);background:var(--ink);box-shadow:3px 3px 0 var(--lime)}
+input[type=range]::-moz-range-thumb{width:24px;height:32px;border:var(--b);border-radius:0;background:var(--ink);box-shadow:3px 3px 0 var(--lime)}
+.checks{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 0;padding:0;border:0}
+.checks legend{padding:0;margin:0 0 12px;font:700 15px var(--display)}
+.checks label{position:relative;display:inline-flex;align-items:center;gap:8px;padding:8px 14px 8px 10px;border:var(--b);background:#fff;box-shadow:3px 3px 0 var(--ink);font:600 14px var(--mono);cursor:pointer;transition:transform .08s,box-shadow .08s,background .15s}
+.checks input{appearance:none;-webkit-appearance:none;width:18px;height:18px;margin:0;border:var(--b);background:#fff;display:grid;place-items:center;cursor:pointer}
+.checks input:checked{background:var(--ink)}
+.checks input:checked::after{content:"";width:8px;height:4px;border:solid var(--lime);border-width:0 0 3px 3px;transform:translateY(-2px) rotate(-45deg)}
+.checks label:has(input:checked){background:var(--yellow);transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.checks label:has(input:focus-visible){outline:3px solid var(--blue);outline-offset:3px}
+.checks input:focus-visible{outline:0}
+.ticks{display:flex;justify-content:space-between;margin-top:8px;font:600 11px var(--mono)}
+/* profile */
+.profile{background:var(--blue);color:#fff}
+.avatar{width:86px;height:86px;border:var(--b);background:var(--orange);box-shadow:4px 4px 0 var(--ink);display:grid;place-items:center;transform:rotate(-4deg)}
+.profile h3{margin:16px 0 2px;font:800 24px var(--display);letter-spacing:-.03em}
+.profile p{margin:0 0 14px;font:500 13px var(--mono)}
+.profile .btn{color:var(--ink)}
+.profile .meta{display:grid;grid-template-columns:repeat(3,1fr);border:var(--b);background:#fff;color:var(--ink);margin-bottom:14px}
+.profile .meta div{padding:8px;border-right:var(--b);text-align:center}.profile .meta div:last-child{border-right:0}
+.profile .meta b{display:block;font:800 20px var(--display)}.profile .meta small{font:600 10px var(--mono);text-transform:uppercase}
+/* accordion */
+.acc details{border:var(--b);margin-top:-3px;background:#fff}
+.acc details:first-of-type{margin-top:0}
+.acc summary{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 16px;font:700 15px var(--display);cursor:pointer;list-style:none}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";display:grid;place-items:center;width:28px;height:28px;flex:none;border:var(--b);background:var(--yellow);font:800 18px var(--mono);transition:transform .2s}
+.acc details[open] summary{background:var(--lime);border-bottom:var(--b)}
+.acc details[open] summary::after{content:"−";background:#fff}
+.acc .body{padding:14px 16px}
+/* toasts */
+.toasts{position:fixed;right:18px;bottom:18px;z-index:50;display:flex;flex-direction:column-reverse;gap:12px;width:min(340px,calc(100vw - 36px))}
+.toast{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:12px 14px;border:var(--b);background:#fff;box-shadow:var(--sh);animation:slam .35s cubic-bezier(.3,1.6,.5,1)}
+.toast.out{animation:out .25s ease-in forwards}
+.toast i{width:26px;height:26px;border:var(--b);display:grid;place-items:center;font:800 14px var(--mono);font-style:normal}
+.toast button{border:0;background:none;font:800 18px var(--mono);cursor:pointer}
+@keyframes slam{from{transform:translate(120%,0) rotate(6deg)}}
+@keyframes out{to{transform:translate(0,30px);opacity:0}}
+/* dialog */
+dialog{padding:0;border:var(--b);box-shadow:10px 10px 0 var(--ink);width:min(440px,calc(100vw - 32px));background:#fff;color:var(--ink)}
+dialog[open]{animation:pop .3s cubic-bezier(.3,1.6,.5,1)}
+dialog::backdrop{background:repeating-linear-gradient(45deg,#1118 0 10px,#111a 10px 20px)}
+dialog header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--orange);border-bottom:var(--b);font:800 16px var(--display)}
+dialog .db{padding:18px 16px}
+dialog .db p{margin:0 0 16px}
+dialog footer{display:flex;gap:12px;justify-content:flex-end;padding:0 16px 18px}
+dialog input[type=text]{width:100%;padding:10px 12px;border:var(--b);background:var(--bg);font:600 15px var(--mono)}
+@keyframes pop{from{transform:scale(.85) rotate(-3deg)}}
+.foot{margin:34px 0 0;font:600 12px var(--mono)}
+@media (max-width:980px){.card,.span-5,.span-7,.span-8,.span-6{grid-column:span 12}}
+@media (min-width:600px) and (max-width:980px){.half-md{grid-column:span 6}}
+@media (max-width:600px){.tabs button{padding:8px 10px;font-size:12px;white-space:nowrap}.tabs button[aria-selected="true"]{padding-bottom:11px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="top"><div class="logo"><i aria-hidden="true">✶</i>SPOKE&nbsp;CO-OP</div><span class="label" style="margin:0">UI kit · 9 components</span></div>
+ <h1>Hard <span>edge</span></h1>
+ <p class="lede">A dashboard kit with nothing soft about it: thick borders, flat colour and hard shadows that you press into. Built for a bike co-op’s volunteer desk. Every control is native HTML underneath.</p>
+ <div class="grid">
+  <section class="card span-5" aria-labelledby="l-btn"><p class="label" id="l-btn">Buttons</p>
+   <div class="btns">
+    <button class="btn" type="button" id="b-log">Log a repair <span class="ct" aria-live="polite">0</span></button>
+    <button class="btn pink" type="button" aria-pressed="false" id="b-star">☆ Star</button>
+    <button class="btn white" type="button" id="b-toast">Pop a toast</button>
+    <button class="btn ink" type="button" id="b-open">Close the shop…</button>
+    <button class="btn" type="button" disabled>Out of tubes</button>
+   </div></section>
+  <section class="card stat span-7" aria-labelledby="l-stat"><p class="label" id="l-stat">Stat card</p>
+   <div class="big"><span id="stat-n">128</span><span class="delta" id="stat-d">+12%</span></div>
+   <div style="font:600 13px var(--mono)" id="stat-cap">bikes fixed this month</div>
+   <div class="spark-wrap"><svg class="spark" viewBox="0 0 300 90" preserveAspectRatio="none" role="img" aria-label="Bikes fixed per day"><polygon class="area"/><polyline/></svg><i class="spark-dot" aria-hidden="true"></i></div>
+   <div class="ranges" role="radiogroup" aria-label="Range"><button role="radio" aria-checked="false" data-r="7">7D</button><button role="radio" aria-checked="true" data-r="30">30D</button><button role="radio" aria-checked="false" data-r="90">90D</button></div></section>
+  <section class="card half-md" aria-labelledby="l-tog"><p class="label" id="l-tog">Toggles</p>
+   <div class="row"><span id="t1">Open on Sundays</span><button class="tog" role="switch" aria-checked="true" aria-labelledby="t1"></button></div>
+   <div class="row"><span id="t2">Email new volunteers</span><button class="tog" role="switch" aria-checked="false" aria-labelledby="t2"></button></div>
+   <div class="row"><span id="t3">Kids’ bike day</span><button class="tog" role="switch" aria-checked="false" aria-labelledby="t3"></button></div></section>
+  <section class="card span-8" aria-labelledby="l-tabs"><p class="label" id="l-tabs">Tabs</p>
+   <div class="tabs" role="tablist" aria-label="Queue"><button role="tab" aria-selected="true" aria-controls="q0" id="qt0">Waiting</button><button role="tab" aria-selected="false" aria-controls="q1" id="qt1" tabindex="-1">On the stand</button><button role="tab" aria-selected="false" aria-controls="q2" id="qt2" tabindex="-1">Ready</button></div>
+   <div class="tabpanel" role="tabpanel" id="q0" aria-labelledby="qt0"><ul class="list"><li><span class="sq" style="background:var(--pink)"></span>Red road bike · flat rear<span class="chip">10 min</span></li><li><span class="sq" style="background:var(--blue)"></span>Blue cargo bike · brakes squeal<span class="chip">25 min</span></li><li><span class="sq" style="background:var(--yellow)"></span>Kid’s BMX · chain off<span class="chip">5 min</span></li></ul></div>
+   <div class="tabpanel" role="tabpanel" id="q1" aria-labelledby="qt1" hidden><ul class="list"><li><span class="sq" style="background:var(--lime)"></span>Green tourer · new cables<span class="chip">Sam</span></li><li><span class="sq" style="background:var(--orange)"></span>Orange fixie · true wheel<span class="chip">Ade</span></li></ul></div>
+   <div class="tabpanel" role="tabpanel" id="q2" aria-labelledby="qt2" hidden><ul class="list"><li><span class="sq" style="background:#fff"></span>White commuter · tuned up<span class="chip">Paid</span></li></ul></div></section>
+  <section class="card span-7" aria-labelledby="l-sl"><p class="label" id="l-sl">Slider</p>
+   <label for="psi" style="display:block;font:700 15px var(--display)">Tyre pressure</label>
+   <div class="range-wrap"><output class="bubble" for="psi" id="psi-out">60 psi</output><input type="range" id="psi" min="20" max="120" value="60" step="5"></div>
+   <div class="ticks" aria-hidden="true"><span>20 · mountain</span><span>70 · hybrid</span><span>120 · road</span></div>
+   <fieldset class="checks"><legend>What needs doing?</legend><label><input type="checkbox" checked>Brakes</label><label><input type="checkbox">Gears</label><label><input type="checkbox" checked>Tyres</label><label><input type="checkbox">Lights</label><label><input type="checkbox">Chain</label></fieldset>
+   <p id="est" style="margin:16px 0 0;font:600 13px var(--mono)" aria-live="polite"></p></section>
+  <section class="card profile span-5 half-md" aria-labelledby="l-pr"><p class="label" id="l-pr" style="background:#fff;color:var(--ink)">Profile card</p>
+   <div class="avatar" aria-hidden="true"><svg width="56" height="56" viewBox="0 0 16 16" shape-rendering="crispEdges"><path fill="#111" d="M4 3h8v1H4zM3 4h1v6H3zM12 4h1v6h-1zM5 6h2v2H5zM9 6h2v2H9zM6 10h4v1H6zM4 10h1v1H4zM11 10h1v1h-1zM5 11h6v1H5zM2 13h12v3H2z"/><path fill="#fff" d="M5 6h1v1H5zM9 6h1v1H9z"/></svg></div>
+   <h3>Rosa Ilunga</h3><p>Head mechanic · since 2019</p>
+   <div class="meta"><div><b>412</b><small>Repairs</small></div><div><b>37</b><small>Lessons</small></div><div><b>5★</b><small>Rating</small></div></div>
+   <button class="btn white" type="button" aria-pressed="false" id="b-follow">+ Follow</button></section>
+  <section class="card span-12" style="grid-column:1/-1" aria-labelledby="l-acc"><p class="label" id="l-acc">Accordion</p>
+   <div class="acc">
+    <details open name="faq"><summary>Do I need to book?</summary><div class="body">No. Turn up during open hours and write your name on the board. Busy Saturdays can mean a short wait, so bring a coffee.</div></details>
+    <details name="faq"><summary>What does it cost?</summary><div class="body">Labour is free; parts at cost. If you can, leave something in the jar for the next person.</div></details>
+    <details name="faq"><summary>Can you teach me to fix it myself?</summary><div class="body">That’s the whole idea. A volunteer will stand next to you and hand you the right spanner at the right moment.</div></details>
+   </div></section>
+ </div>
+ <p class="foot">Hard Edge · Patchwork Design Library · Spoke Co-op and its people are made up.</p>
+</div>
+<div class="toasts" aria-live="polite"></div>
+<dialog id="dlg" aria-labelledby="dlg-h">
+ <form method="dialog">
+  <header><span id="dlg-h">Close the shop early?</span><button class="btn white" value="cancel" style="padding:2px 10px;box-shadow:2px 2px 0 var(--ink)" aria-label="Cancel">×</button></header>
+  <div class="db"><p>Three bikes are still waiting. Type <b>CLOSE</b> to let their owners know.</p><label for="confirm" style="position:absolute;left:-9999px">Type CLOSE</label><input type="text" id="confirm" autocomplete="off" placeholder="CLOSE"></div>
+  <footer><button class="btn white" value="cancel">Keep open</button><button class="btn pink" value="close" id="dlg-ok" disabled>Close shop</button></footer>
+ </form>
+</dialog>
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  // toasts
+  const box = $(".toasts");
+  const toast = (msg, colour = "var(--lime)", mark = "✓") => {
+    const t = document.createElement("div"); t.className = "toast"; t.setAttribute("role", "status");
+    t.innerHTML = `<i style="background:${colour}" aria-hidden="true">${mark}</i><span></span><button type="button" aria-label="Dismiss">×</button>`;
+    t.querySelector("span").textContent = msg; box.append(t);
+    const go = () => { t.classList.add("out"); setTimeout(() => t.remove(), 250); };
+    t.querySelector("button").onclick = go; setTimeout(go, 4200);
+    while (box.children.length > 3) box.firstChild.remove();
+  };
+  // buttons
+  let repairs = 0; $("#b-log").onclick = () => { $("#b-log .ct").textContent = ++repairs; };
+  const pressy = (b, on, off, msg) => b.onclick = () => { const p = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", p); b.textContent = p ? on : off; if (p && msg) toast(msg); };
+  pressy($("#b-star"), "★ Starred", "☆ Star", "Starred. You’ll see it first.");
+  pressy($("#b-follow"), "✓ Following", "+ Follow", "Following Rosa.");
+  const msgs = [["Tube patched. Off it goes.", "var(--lime)", "✓"], ["Out of 700c tubes.", "var(--orange)", "!"], ["New volunteer: Mo.", "var(--blue)", "+"], ["Saddle found in lost property.", "var(--pink)", "?"]];
+  let mi = 0; $("#b-toast").onclick = () => toast(...msgs[mi++ % msgs.length]);
+  // toggles
+  $$(".tog").forEach((t) => t.onclick = () => t.setAttribute("aria-checked", t.getAttribute("aria-checked") !== "true"));
+  // stat + sparkline
+  const series = (n, seed) => { let v = 4, out = []; for (let i = 0; i < n; i++) { seed = (seed * 9301 + 49297) % 233280; v = Math.max(1, v + (seed / 233280 - .42) * 3); out.push(v); } return out; };
+  const svg = $(".spark"), line = $("polyline", svg), area = $("polygon", svg), dot = $(".spark-dot");
+  const draw = (r) => {
+    const d = series(r, r * 7 + 3), max = Math.max(...d) * 1.15, pts = d.map((v, i) => [(i / (d.length - 1)) * 300, 90 - (v / max) * 84]);
+    const s = pts.map((p) => p.map((n) => n.toFixed(1)).join(",")).join(" ");
+    line.setAttribute("points", s); area.setAttribute("points", `0,90 ${s} 300,90`);
+    const [x, y] = pts.at(-1); dot.style.left = `calc(${x / 3}% - 6px)`; dot.style.top = `${y / .9}%`;
+    $("#stat-n").textContent = Math.round(d.reduce((a, b) => a + b, 0));
+    $("#stat-d").textContent = { 7: "+4%", 30: "+12%", 90: "+31%" }[r];
+    $("#stat-cap").textContent = `bikes fixed in the last ${r} days`;
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) line.animate([{ strokeDasharray: "0 2000" }, { strokeDasharray: "2000 0" }], { duration: 700, easing: "ease-out" });
+  };
+  const rs = $$(".ranges button");
+  rs.forEach((b, i) => { b.onclick = () => { rs.forEach((x) => x.setAttribute("aria-checked", x === b)); b.focus(); draw(+b.dataset.r); }; b.onkeydown = (e) => { const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (k) rs[(i + k + 3) % 3].click(); }; b.tabIndex = b.getAttribute("aria-checked") === "true" ? 0 : -1; });
+  draw(30);
+  // tabs
+  const tabs = $$('[role="tab"]');
+  const sel = (i) => tabs.forEach((t, k) => { t.setAttribute("aria-selected", k === i); t.tabIndex = k === i ? 0 : -1; $("#" + t.getAttribute("aria-controls")).hidden = k !== i; if (k === i) t.focus(); });
+  tabs.forEach((t, i) => { t.onclick = () => sel(i); t.onkeydown = (e) => { const k = { ArrowRight: 1, ArrowLeft: -1 }[e.key]; if (k) sel((i + k + tabs.length) % tabs.length); }; });
+  // slider
+  const psi = $("#psi"), out = $("#psi-out");
+  const kind = (v) => v < 45 ? "mountain" : v < 85 ? "hybrid" : "road";
+  const upd = () => { const p = (psi.value - psi.min) / (psi.max - psi.min); psi.style.setProperty("--p", p * 100 + "%"); out.textContent = `${psi.value} psi`; out.style.left = `calc(15px + ${p} * (100% - 30px))`; psi.setAttribute("aria-valuetext", `${psi.value} psi, ${kind(+psi.value)}`); };
+  psi.oninput = upd; upd();
+  // checkboxes → time estimate
+  const est = () => { const n = $$(".checks input:checked").length; $("#est").textContent = n ? `≈ ${n * 15} min on the stand · ${n} job${n > 1 ? "s" : ""}` : "Nothing ticked. Lucky bike."; };
+  $$(".checks input").forEach((c) => (c.onchange = est)); est();
+  // dialog
+  const dlg = $("#dlg"), inp = $("#confirm"), ok = $("#dlg-ok");
+  $("#b-open").onclick = () => { inp.value = ""; ok.disabled = true; dlg.showModal(); inp.focus(); };
+  inp.oninput = () => (ok.disabled = inp.value.trim().toUpperCase() !== "CLOSE");
+  dlg.addEventListener("close", () => { if (dlg.returnValue === "close") toast("Shop closed. Three owners texted.", "var(--orange)", "!"); });
+})();
+</script>
+</body>
+</html>

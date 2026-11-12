@@ -47,6 +47,8 @@ import {
   Heart,
   CircleHelp,
   ExternalLink,
+  Wand2,
+  Sunrise,
 } from "lucide-react";
 import type {
   Project,
@@ -85,6 +87,8 @@ import {
 import { exportWebsite } from "./export";
 import Preview from "./Preview";
 import AsciiGallery from "./AsciiGallery";
+import PaintStudio from "./PaintStudio";
+import { PREVIEW_HOURS, type Daypart } from "./ascii/daylight";
 const VideoLab = lazy(() => import("./video-lab/VideoLab"));
 import Home from "./home/Home";
 import AsciiPage from "./AsciiPage";
@@ -242,7 +246,9 @@ export default function App() {
     [preview, setPreview] = useState(false),
     [reduced, setReduced] = useState(false),
     [showAdvanced, setShowAdvanced] = useState(false),
-    [modal, setModal] = useState<"export" | "help" | "delete" | "ascii" | null>(
+    [modal, setModal] = useState<
+      "export" | "help" | "delete" | "ascii" | "paint" | null
+    >(
       () =>
         new URLSearchParams(location.search).get("gallery") === "ascii"
           ? "ascii"
@@ -254,6 +260,7 @@ export default function App() {
     [saveStatus, setSaveStatus] = useState("Saved locally"),
     [assets, setAssets] = useState<Record<string, string>>({}),
     [dashTab, setDashTab] = useState("home"),
+    [skyPreview, setSkyPreview] = useState<Daypart | "now">("now"),
     [dashSearch, setDashSearch] = useState("");
   const [deleteTarget, setDeleteTarget] = useState<Project | null>(null),
     [focusPreview, setFocusPreview] = useState(false);
@@ -442,6 +449,41 @@ export default function App() {
     setQuery("ascii");
     setWorldFilter("all");
     setToast(`${b.name} is now part of your little world.`);
+  }
+  /** Open the paint studio for the selected section (making a section, or a site, if needed). */
+  function openPainter() {
+    const paint = findBackground("ascii-paint")!;
+    if (!project || !section) useAscii(paint);
+    setModal("paint");
+  }
+  async function savePainting(png: Blob) {
+    const live = currentProject.current,
+      target = live?.sections.find((s) => s.id === selection);
+    if (!live || !target) throw new Error("Choose a section for your painting first.");
+    const a: AssetRecord = {
+      id: `asset:${uid()}`,
+      name: "ascii-painting.png",
+      type: "image/png",
+      blob: png,
+    };
+    await storeAsset(a);
+    const now = currentProject.current;
+    if (!now || now.id !== live.id || !now.sections.some((s) => s.id === target.id))
+      throw new Error("The section for this painting is no longer available.");
+    assetUrls.current[a.id] = URL.createObjectURL(png);
+    setAssets({ ...assetUrls.current });
+    const paint = findBackground("ascii-paint")!;
+    const kept = target.background === paint.id ? target.ascii : undefined;
+    commit(
+      updateSection(now, target.id, {
+        background: paint.id,
+        ascii: { ...defaultAscii(paint), ...kept, mode: "live", image: a.id },
+        video: undefined,
+        poster: undefined,
+      }),
+    );
+    setModal(null);
+    setToast("Your painting is alive. Hover over it in the preview.");
   }
   function patchElement(changes: Partial<SceneElement>) {
     if (section && element)
@@ -1383,6 +1425,17 @@ export default function App() {
                         <ArrowUpRight size={15} />
                       </button>
                       <button
+                        className="ascii-library-entry"
+                        onClick={openPainter}
+                      >
+                        <Wand2 size={19} />
+                        <span>
+                          <strong>Paint your own</strong>
+                          <small>Draw or use a photo; it turns to living ASCII</small>
+                        </span>
+                        <ArrowUpRight size={15} />
+                      </button>
+                      <button
                         className={`background-none ${section?.background === "none" ? "chosen" : ""}`}
                         disabled={!section}
                         onClick={() =>
@@ -1405,15 +1458,17 @@ export default function App() {
                               className={`asset-card ${section?.background === b.id ? "chosen" : ""}`}
                               disabled={!section}
                               onClick={() =>
-                                patch({
-                                  background: b.id,
-                                  ascii:
-                                    b.type === "ascii"
-                                      ? defaultAscii(b)
-                                      : undefined,
-                                  video: undefined,
-                                  poster: undefined,
-                                })
+                                b.scene === "paint"
+                                  ? openPainter()
+                                  : patch({
+                                      background: b.id,
+                                      ascii:
+                                        b.type === "ascii"
+                                          ? defaultAscii(b)
+                                          : undefined,
+                                      video: undefined,
+                                      poster: undefined,
+                                    })
                               }
                             >
                               <img src={b.preview} alt="" loading="lazy" />
@@ -1614,6 +1669,11 @@ export default function App() {
               selected={selection}
               element={elementId}
               reduced={reduced}
+              hour={
+                project.living && skyPreview !== "now"
+                  ? PREVIEW_HOURS[skyPreview]
+                  : undefined
+              }
               focus={focusPreview}
               preview={preview}
               onSelect={select}
@@ -1702,6 +1762,45 @@ export default function App() {
                       ),
                     )}
                   </div>
+                  <label className="living-toggle">
+                    <input
+                      type="checkbox"
+                      checked={!!project.living}
+                      onChange={(e) =>
+                        commit({ ...project, living: e.target.checked })
+                      }
+                    />
+                    <span>
+                      <strong>
+                        <Sunrise size={13} /> Living site
+                      </strong>
+                      <small>
+                        Changes with each visitor’s time of day: dawn colours,
+                        a starry night, the aurora only after dark.
+                      </small>
+                    </span>
+                  </label>
+                  {project.living && (
+                    <div
+                      className="sky-preview"
+                      role="radiogroup"
+                      aria-label="Preview the time of day"
+                    >
+                      {(["now", "dawn", "day", "dusk", "night"] as const).map(
+                        (k) => (
+                          <button
+                            key={k}
+                            role="radio"
+                            aria-checked={skyPreview === k}
+                            className={skyPreview === k ? "on" : ""}
+                            onClick={() => setSkyPreview(k)}
+                          >
+                            {k === "now" ? "Now" : k[0].toUpperCase() + k.slice(1)}
+                          </button>
+                        ),
+                      )}
+                    </div>
+                  )}
                 </details>
                 {section ? (
                   <>
@@ -2090,6 +2189,18 @@ export default function App() {
                                     <ArrowUpRight size={14} />
                                   </button>
                                 </div>
+                                {bg.scene === "paint" && (
+                                  <button
+                                    className="upload-library"
+                                    onClick={() => setModal("paint")}
+                                  >
+                                    <Wand2 size={15} />
+                                    {cfg.image
+                                      ? "Edit your painting"
+                                      : "Paint your own picture"}
+                                  </button>
+                                )}
+                                {bg.scene !== "paint" && (
                                 <Field label="Animation source">
                                   <select
                                     value={cfg.mode}
@@ -2108,6 +2219,7 @@ export default function App() {
                                     </option>
                                   </select>
                                 </Field>
+                                )}
                                 <Slider
                                   label="ASCII speed"
                                   value={cfg.speed * 100}
@@ -2147,14 +2259,16 @@ export default function App() {
                                   unit="%"
                                   onChange={(v) => change({ intensity: v })}
                                 />
-                                <a
-                                  className="ascii-inspector-download"
-                                  href={bg.source}
-                                  download={`${bg.scene}.webm`}
-                                >
-                                  <Download size={13} />
-                                  Download this video loop
-                                </a>
+                                {bg.source && (
+                                  <a
+                                    className="ascii-inspector-download"
+                                    href={bg.source}
+                                    download={`${bg.scene}.webm`}
+                                  >
+                                    <Download size={13} />
+                                    Download this video loop
+                                  </a>
+                                )}
                                 <p>
                                   Live scenes respond to their environment.
                                   Recorded loops work anywhere video does.
@@ -2521,7 +2635,7 @@ export default function App() {
           )}
         </div>
       )}
-      {asciiOpen && <AsciiPage onClose={closeAsciiPage} onUse={(b) => { closeAsciiPage(); useAscii(b); }} />}
+      {asciiOpen && <AsciiPage onClose={closeAsciiPage} onUse={(b) => { closeAsciiPage(); useAscii(b); }} onPaint={() => { closeAsciiPage(); openPainter(); }} />}
       {heroOpen && <Suspense fallback={<div className="vl-close-loading" role="status">Opening hero sections…<button onClick={closeHeroes}>Back to Patchwork</button></div>}><HeroStudio onClose={closeHeroes}/></Suspense>}
       {libraryOpen && (
         <Suspense
@@ -2571,9 +2685,24 @@ export default function App() {
           hasProject={!!project}
           onClose={() => setModal(null)}
           onUse={useAscii}
+          onPaint={openPainter}
         />
       )}
-      {modal && modal !== "ascii" && (
+      {modal === "paint" && (
+        <PaintStudio
+          accent={
+            section?.ascii?.color ??
+            findBackground("ascii-paint")?.tint ??
+            "#ffd08a"
+          }
+          initial={
+            section?.ascii?.image ? assets[section.ascii.image] : undefined
+          }
+          onClose={() => setModal(null)}
+          onSave={savePainting}
+        />
+      )}
+      {modal && modal !== "ascii" && modal !== "paint" && (
         <div
           className="modal-backdrop"
           onMouseDown={(e) => {

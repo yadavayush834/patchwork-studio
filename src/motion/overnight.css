@@ -1,0 +1,115 @@
+/* Overnight: a night on a sleeper train, four pixel paintings rendered in depth. */
+.mt-overnight {
+  --on-ink: #f5ecda;
+  --on-muted: #b9b3cc;
+  --on-night: #070b1c;
+  --on-line: #ffffff24;
+  background: var(--on-night);
+  color: var(--on-ink);
+}
+.on-nav { color: var(--on-ink); height: 88px; }
+.on-nav .mt-brand { display: flex; align-items: center; gap: 12px; font: 400 20px "Silkscreen", monospace; letter-spacing: .02em; }
+.on-logo { width: 22px; height: 14px; background: var(--accent); clip-path: polygon(0 20%, 80% 20%, 100% 50%, 100% 100%, 0 100%); box-shadow: 0 0 14px var(--accent); }
+.on-nav nav { font: 10px "Space Mono", monospace; letter-spacing: .1em; text-transform: uppercase; gap: 30px; }
+
+/* Stages: one painting per stop, filling the screen, drawn in pixels. */
+.on-chapter { position: relative; height: 100svh; min-height: 600px; overflow: hidden; isolation: isolate; background: #000; }
+.on-stage { position: absolute; inset: 0; }
+.on-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+.on-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, #04071acc 0%, #04071a88 28%, #04071a00 55%), linear-gradient(0deg, #04071aaa 0%, #04071a00 28%); }
+.on-shade-dawn { background: linear-gradient(90deg, #0b1230c8 0%, #0b123070 30%, #0b123000 58%); }
+.on-shade-day { background: linear-gradient(90deg, #fff4e6e8 0%, #fff4e6a0 30%, #fff4e600 56%); }
+.on-copy { position: absolute; z-index: 4; left: clamp(20px, 6vw, 100px); }
+.on-hero-copy { bottom: 14%; max-width: min(760px, 56vw); }
+.on-side { top: 50%; transform: translateY(-50%); max-width: min(520px, 40vw); }
+.on-label { display: flex; align-items: center; gap: 10px; margin: 0 0 22px; font: 400 11px "Space Mono", monospace; letter-spacing: .14em; color: var(--accent); }
+.on-dot { width: 8px; height: 8px; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: on-blink 1.2s steps(1) infinite; }
+@keyframes on-blink { 50% { opacity: .2; } }
+.on-title { margin: 0 0 34px; font: 400 calc(clamp(44px, 6vw, 98px) * var(--title-scale, 1)) / .98 "Playfair Display", serif; letter-spacing: -.03em; text-shadow: 0 4px 30px #000c; }
+.on-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .1em; margin-bottom: -.1em; }
+.on-w > span { display: inline-block; }
+.on-lede, .on-copy > p:not(.on-label):not(.on-altitude) { margin: 0; max-width: 46ch; font-size: 16px; line-height: 1.7; color: var(--on-muted); text-shadow: 0 1px 12px #000a; }
+.on-copy h2 { margin: 0 0 22px; font: 400 clamp(40px, 4.6vw, 74px) / 1 "Playfair Display", serif; letter-spacing: -.03em; text-shadow: 0 4px 30px #000b; }
+.on-copy h2 em, .on-berths h2 em, .on-contact h2 em { display: block; font-style: italic; color: var(--accent); }
+.on-light { color: #22192a; }
+.on-light h2 { text-shadow: none; }
+.on-light > p:not(.on-label) { color: #5b4a52 !important; text-shadow: none !important; }
+.on-light .on-label { color: #c2541f; }
+.on-light .on-dot { background: #c2541f; box-shadow: none; }
+
+/* Departures board on the platform. */
+.on-board { position: absolute; z-index: 4; right: clamp(20px, 22vw, 380px); top: 120px; padding: 12px 14px; background: #0b0d14e6; border: 2px solid #2a2f45; box-shadow: 6px 6px 0 #00000088; font: 400 13px "Silkscreen", monospace; color: #ffcf5a; display: grid; gap: 6px; }
+.on-board-row { display: grid; grid-template-columns: 54px 120px 22px 100px; gap: 12px; }
+.on-dim { color: #8a7f5a; }
+.on-status { color: #7dffb0; }
+.on-scroll { position: absolute; z-index: 4; left: 50%; bottom: 26px; transform: translateX(-50%); margin: 0; font: 400 10px "Space Mono", monospace; letter-spacing: .2em; color: var(--on-muted); animation: on-bob 2s ease-in-out infinite; }
+@keyframes on-bob { 50% { transform: translate(-50%, 6px); } }
+
+/* The compartment window over the lake. */
+.on-window { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.on-window::before { content: ""; position: absolute; inset: 9% 8% 12% 44%; border-radius: 26px; box-shadow: 0 0 0 4000px #120d1c, inset 0 0 0 10px #3b2c45, inset 0 0 0 14px #1d1626, inset 0 0 60px #000a; }
+.on-glass { position: absolute; inset: 9% 8% 12% 44%; border-radius: 26px; background: linear-gradient(115deg, #ffffff10 0%, #ffffff00 30%, #ffffff0a 46%, #ffffff00 60%); }
+.on-curtain { position: absolute; top: 7%; bottom: 10%; width: 25%; background: repeating-linear-gradient(90deg, #6b2333 0 14px, #7d2b3d 14px 28px, #5a1c2b 28px 36px); box-shadow: inset 0 -40px 40px #00000066; }
+.on-curtain.on-left { left: 43%; transform-origin: left center; }
+.on-curtain.on-right { right: 7%; transform-origin: right center; }
+.on-forest .on-side { max-width: min(460px, 34vw); }
+.on-facts { list-style: none; padding: 0; margin: 30px 0 0; display: grid; gap: 10px; }
+.on-facts li { display: flex; gap: 12px; align-items: baseline; padding: 12px 14px; border: 1px solid var(--on-line); background: #ffffff08; font-size: 13px; color: var(--on-muted); }
+.on-facts b { font: 400 12px "Silkscreen", monospace; color: var(--on-ink); min-width: 64px; }
+.on-altitude { margin: 34px 0 0; display: flex; align-items: baseline; gap: 12px; font: 400 10px "Space Mono", monospace; letter-spacing: .12em; color: var(--on-muted); }
+.on-altitude b { font: 400 54px "Silkscreen", monospace; color: var(--on-ink); }
+
+/* The ticket that travels with you. */
+.on-ticket { position: fixed; z-index: 30; right: 24px; top: 50%; transform: translateY(-50%); width: 210px; padding: 16px 16px 14px; background: #f4ead6; color: #2a1d24; font: 400 10px "Space Mono", monospace; box-shadow: 6px 6px 0 #00000066; clip-path: polygon(0 0, 100% 0, 100% 46%, 96% 50%, 100% 54%, 100% 100%, 0 100%, 0 54%, 4% 50%, 0 46%); }
+.on-ticket-head { display: flex; justify-content: space-between; padding-bottom: 10px; border-bottom: 1px dashed #2a1d2466; font: 400 11px "Silkscreen", monospace; }
+.on-ticket-route { display: flex; align-items: center; gap: 8px; margin: 12px 0; font: 400 12px "Silkscreen", monospace; }
+.on-ticket-route i { flex: 1; height: 2px; background: repeating-linear-gradient(90deg, #2a1d24 0 4px, transparent 4px 8px); }
+.on-stops { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 8px; }
+.on-stops li { display: grid; grid-template-columns: 14px 40px 1fr; gap: 8px; align-items: center; opacity: .55; transition: opacity .3s; }
+.on-stops li.is-done, .on-stops li.is-now { opacity: 1; }
+.on-punch { width: 12px; height: 12px; border: 2px solid #2a1d24; border-radius: 50%; }
+.on-stops li.is-done .on-punch { background: #2a1d24; }
+.on-stops li.is-now .on-punch { background: var(--accent); border-color: #2a1d24; animation: on-blink 1s steps(1) infinite; }
+.on-ticket-foot { display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px dashed #2a1d2466; }
+.on-clock { font: 400 20px "Silkscreen", monospace; }
+.on-berth-label { font-size: 8px; letter-spacing: .1em; }
+
+/* Berths and booking. */
+.on-berths { padding: 140px 6% 80px; background: radial-gradient(ellipse at 80% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 60%), #0b0f22; }
+.on-berths h2, .on-contact h2 { margin: 18px 0 60px; font: 400 clamp(44px, 5.6vw, 92px) / 1 "Playfair Display", serif; letter-spacing: -.03em; max-width: 16ch; }
+.on-berth-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1100px; }
+.on-berth { display: grid; gap: 10px; text-align: left; padding: 24px 22px 20px; background: #ffffff08; border: 2px solid var(--on-line); color: var(--on-ink); cursor: pointer; box-shadow: 6px 6px 0 #00000055; transition: transform .2s, border-color .2s, background .2s; }
+.on-berth:hover { transform: translateY(-4px); }
+.on-berth[aria-checked="true"] { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.on-berth-name { font: 400 15px "Silkscreen", monospace; }
+.on-berth-price { font: 400 48px "Playfair Display", serif; color: var(--accent); }
+.on-berth-note { font-size: 13px; line-height: 1.6; color: var(--on-muted); }
+.on-berth-pick { margin-top: 8px; font: 400 10px "Space Mono", monospace; letter-spacing: .14em; color: var(--on-muted); }
+.on-berth[aria-checked="true"] .on-berth-pick { color: var(--accent); }
+.on-contact { padding: 100px 6% 120px; background: #0b0f22; }
+.on-book { display: flex; justify-content: space-between; align-items: center; max-width: 560px; padding: 22px 26px; background: var(--accent); color: #1a0e08; font: 500 18px "DM Sans", sans-serif; box-shadow: 6px 6px 0 #000; transition: transform .18s; }
+.on-book:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 #000; }
+.on-book b { font-weight: 700; }
+.on-contact > p { margin-top: 22px; font-size: 13px; color: var(--on-muted); }
+.on-footer { font: 9px/1.6 "Space Mono", monospace; color: var(--on-muted); border-color: var(--on-line); background: #0b0f22; }
+
+/* Reduced motion: every stop as a still picture with its words, in reading order. */
+.mt-reduced .on-curtain { display: none; }
+.mt-reduced .on-scroll { display: none; }
+
+@media (max-width: 760px) {
+  .on-nav nav { display: none; }
+  .on-ticket { top: auto; bottom: 14px; right: 14px; left: 14px; transform: none; width: auto; display: flex; align-items: center; gap: 14px; padding: 10px 14px; clip-path: none; }
+  .on-ticket-head, .on-ticket-route, .on-stops { display: none; }
+  .on-ticket-foot { flex: 1; border: 0; padding: 0; }
+  .on-hero-copy, .on-side { left: 20px; right: 20px; max-width: none; }
+  .on-side { top: 90px; transform: none; }
+  .on-board { display: none; }
+  .on-window::before, .on-glass { inset: 52% 6% 14% 6%; }
+  .on-curtain { top: 50%; width: 46%; }
+  .on-curtain.on-left { left: 5%; }
+  .on-curtain.on-right { right: 5%; }
+  .on-berth-list { grid-template-columns: 1fr; }
+  .on-shade, .on-shade-dawn { background: linear-gradient(180deg, #04071ad0 0%, #04071a80 45%, #04071a00 70%); }
+  .on-shade-day { background: linear-gradient(180deg, #fff4e6f0 0%, #fff4e690 45%, #fff4e600 70%); }
+}

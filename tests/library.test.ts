@@ -4,9 +4,9 @@ import { existsSync, readFileSync } from "node:fs";
 import { shelves, pieces, piecesOn } from "../src/library/catalog";
 import { fontsIn, licenseFor, portable } from "../src/library/export";
 
-test("the library has three pieces on each of its five shelves", () => {
-  assert.equal(shelves.length, 5);
-  for (const s of shelves) assert.equal(piecesOn(s.id).length, 3, s.id);
+test("the library has three pieces on each of its first five shelves and four UI kits", () => {
+  assert.equal(shelves.length, 6);
+  for (const s of shelves) assert.equal(piecesOn(s.id).length, s.id === "kits" ? 4 : 3, s.id);
   assert.equal(new Set(pieces.map((p) => p.id)).size, pieces.length);
 });
 

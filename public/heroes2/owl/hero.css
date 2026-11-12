@@ -1,0 +1,22 @@
+/* Nocturne: an owl rebuilt as a point cloud. */
+:root{--bg:#020308;--ink:#eef0ff;--muted:#9097bd;--accent:#38d6e0;--display:"Instrument Serif",Georgia,serif;--body:"Instrument Sans",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--radius:999px;--focus:#38d6e0}
+.hx-owl[data-mode="0"]{--accent:#f2b25c}.hx-owl[data-mode="2"]{--accent:#ff6a3a}
+.hx-owl{background:var(--bg);color:var(--ink);cursor:crosshair}
+.ow-art{position:absolute;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.2s ease}
+.ow-art[data-ready="true"]{opacity:1}
+.hx-owl .hx-brand{font:italic 400 24px var(--display)}
+.ow-mark{width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 16px var(--accent);transition:background .5s}
+.ow-copy{position:absolute;z-index:4;left:clamp(24px,5vw,84px);bottom:clamp(36px,8vh,80px);width:min(470px,36vw)}
+.ow-label{margin:0 0 18px;font:400 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);transition:color .5s}
+.ow-title{margin:0;font:400 clamp(56px,6vw,104px)/.92 var(--display);letter-spacing:-.03em}
+.ow-title em{font-style:italic;color:var(--accent);transition:color .5s}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}.w>span{display:inline-block}
+.ow-sub{margin:22px 0 28px;max-width:38ch;font-size:clamp(15px,1.1vw,17px);line-height:1.6;color:var(--muted)}
+.hx-owl .hx-btn:not(.hx-ghost){background:var(--ink);color:#020308}
+.hx-owl .hx-btn:not(.hx-ghost):hover{background:var(--accent)}
+.ow-panel{position:absolute;z-index:4;right:clamp(24px,4vw,64px);bottom:clamp(36px,8vh,80px);display:grid;gap:12px;justify-items:end;font:400 11px var(--mono);letter-spacing:.1em;color:var(--muted)}
+.ow-modes{display:flex;gap:4px;padding:4px;border:1px solid #ffffff22;border-radius:999px;background:#0a0c18cc;backdrop-filter:blur(6px)}
+.ow-mode{padding:9px 14px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:500 12px var(--body);cursor:pointer;transition:background .3s,color .3s}
+.ow-mode[aria-checked="true"]{background:var(--ink);color:#020308}
+.ow-stat b{color:var(--ink);font-weight:500}
+@media (max-width:760px){.ow-copy{left:22px;right:22px;width:auto;bottom:40px}.ow-panel{left:22px;right:22px;top:84px;bottom:auto;justify-items:start}.hx-nav nav{display:none}}

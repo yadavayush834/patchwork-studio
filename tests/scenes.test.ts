@@ -1,13 +1,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
-import { scenes, normalizeScene, defaultScene } from "../src/scenes/catalog";
+import { scenes, normalizeScene, defaultScene, isDioramaScene, isTitleCardScene } from "../src/scenes/catalog";
 import { sceneDocument, sceneFiles } from "../src/scenes/document";
 import { scenesRoute } from "../src/scenes/route";
 
-test("scenes: ten distinct living places, each a complete page", () => {
-  assert.equal(scenes.length, 10);
-  assert.equal(new Set(scenes.map((s) => s.id)).size, 10);
+test("scenes: sixteen distinct living places, each a complete page", () => {
+  assert.equal(scenes.length, 16);
+  assert.equal(new Set(scenes.map((s) => s.id)).size, 16);
   for (const s of scenes) {
     const html = sceneDocument(s.id);
     assert.match(html, /<h1/);
@@ -18,12 +18,13 @@ test("scenes: ten distinct living places, each a complete page", () => {
     for (const f of sceneFiles(s.id)) assert.ok(existsSync(`public/scenes/${f}`), `${s.id}: missing ${f}`);
     // Every scene answers the pointer and a click, through the shared runtime.
     const src = readFileSync(`public/scenes/${s.id}/scene.js`, "utf8");
+    if (isDioramaScene(s.id)) { assert.match(src, /DioramaScene\(/); assert.match(src, /onClick/); continue; }
     assert.match(src, /PixelScene\(/);
     assert.match(src, /uMouse/);
     assert.match(src, /uClick|st\.click/);
   }
   // Palettes are capped at what the shader can hold.
-  for (const s of scenes) {
+  for (const s of scenes.filter((x) => !isDioramaScene(x.id))) {
     const src = readFileSync(`public/scenes/${s.id}/scene.js`, "utf8");
     const pal = src.match(/palette:\s*\[([^\]]*)\]/)![1].match(/#[0-9a-f]{6}/gi)!;
     assert.ok(pal.length >= 1 && pal.length <= 16, `${s.id}: palette size ${pal.length}`);
@@ -61,8 +62,8 @@ test("scenes routes stay separate from every hero collection", () => {
 
 test("scene expansion preserves the original six in order and adds exactly four original places", () => {
   assert.deepEqual(scenes.slice(0, 6).map(s => s.id), ["lastbus", "kelp", "longnight", "rooftops", "riso", "lanterns"]);
-  assert.deepEqual(scenes.slice(6).map(s => s.id), ["tidewatch", "cloudline", "glasshouse", "courtyard"]);
-  for (const s of scenes.slice(6)) {
+  assert.deepEqual(scenes.slice(6, 10).map(s => s.id), ["tidewatch", "cloudline", "glasshouse", "courtyard"]);
+  for (const s of scenes.slice(6, 10)) {
     const source = readFileSync(`public/scenes/${s.id}/scene.js`, "utf8");
     assert.match(source, /controls:\s*"[^"]+"/);
     assert.doesNotMatch(source, /piixpal|https?:\/\//i);
@@ -70,5 +71,49 @@ test("scene expansion preserves the original six in order and adds exactly four 
     assert.match(exported, /sx-bare/);
     assert.match(exported, /data-pixel="6"/);
     assert.ok(exported.includes(`${s.id}/scene.js`));
+  }
+});
+
+test("painted scenes: a generated painting and its depth map in pixels, with working controls", () => {
+  assert.deepEqual(scenes.slice(10, 13).map((s) => s.id), ["onsen", "arcade", "skyisle"]);
+  const engine = readFileSync("public/scenes/diorama.js", "utf8");
+  assert.match(engine, /prefers-reduced-motion/);
+  assert.match(engine, /IntersectionObserver/);
+  assert.match(engine, /visibilitychange/);
+  const shared = readFileSync("public/scenes/diorama-scene.js", "utf8");
+  assert.match(shared, /data(set)?\.?pixel/i);
+  assert.match(shared, /Pause motion/);
+  for (const s of scenes.slice(10)) {
+    assert.ok(isDioramaScene(s.id));
+    const html = sceneDocument(s.id, { pixel: 5 });
+    assert.match(html, /diorama\.js/);
+    assert.doesNotMatch(html, /pixel\.js/);
+    assert.match(html, /data-pixel="5"/);
+    for (const f of sceneFiles(s.id)) assert.ok(existsSync(`public/scenes/${f}`), `${s.id}: missing ${f}`);
+    assert.match(readFileSync(`public/scenes/${s.id}/scene.js`, "utf8"), /action: "[^"]+"/);
+  }
+});
+
+test("title-card scenes paint the headline into the picture and keep it in the page", () => {
+  const cards = scenes.filter((s) => isTitleCardScene(s.id)).map((s) => s.id);
+  assert.deepEqual(cards, ["hayfield", "aquarium", "nighttrain"]);
+  const engine = readFileSync("src/diorama/engine.ts", "utf8");
+  assert.match(engine, /setTitle\(/);
+  assert.match(engine, /uTitleP/);
+  const runtime = readFileSync("public/scenes/titlecard.js", "utf8");
+  assert.match(runtime, /prefers-reduced-motion/);
+  assert.match(runtime, /Skip intro/);
+  assert.match(runtime, /Escape/);
+  for (const id of cards) {
+    const html = sceneDocument(id, { headline: "Our <b>Film</b>" });
+    // the words stay real text for search and screen readers
+    assert.match(html, /<h1 class="sx-title sx-sr">Our &lt;b&gt;Film&lt;\/b&gt;<\/h1>/);
+    assert.match(html, /titlecard\.js/);
+    assert.ok(sceneFiles(id).includes("titlecard.js"));
+    const src = readFileSync(`public/scenes/${id}/scene.js`, "utf8");
+    assert.match(src, /title: \{ depth:/);
+    assert.match(src, /TitleCard\(/);
+    // with the words off there is no title card at all
+    assert.doesNotMatch(sceneDocument(id, { text: false }), /class="sx-title/);
   }
 });

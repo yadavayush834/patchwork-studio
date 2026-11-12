@@ -1,53 +1,52 @@
-# Patchwork Studio — agent entry point
+# Patchwork Studio — notes for whoever works on this next
 
-Read this file, `docs/STATE.md`, and `docs/ARCHITECTURE.md` before changing code. Read `docs/DESIGN.md` for UI/artwork changes and `docs/DEVELOPMENT.md` for setup and verification. `docs/TASKS.md` and `docs/VERIFICATION.md` record the build history and evidence.
+Patchwork is a local, browser-based studio for making websites. You pick a world, change the words and colours, and download a site that works on its own. It also has collections of ready pieces (hero sections, scenes, motion templates, components, spirits, ASCII backgrounds, a design library) that open on their own page, customise in place and download as a folder.
 
-## Product and authorized scope
-
-Patchwork is a desktop-first, local creative website studio for beginners, artists, and students. The promise is: choose a world, customize it, and export a working website. The current version is implemented, including four ASCII motion studies. Work from the current files; do not restart or replace the app with a new scaffold.
-
-- Preserve local-first operation, browser projects, working exports, and the existing creative library.
-- Keep accounts, cloud storage, hosting, AI generation, collaboration, and multi-page sites as future work until the user requests them.
-- Work solo unless the current user explicitly authorizes subagents. If delegation is authorized, use only `gpt-6.1-sol` / low or `gpt-6-luna` / high when supported. Assign bounded ownership; workers must preserve other edits. If those routes are unavailable, continue solo.
-- Do not deploy, change repository visibility, or publish anything beyond the user's current authorization. The GitHub repository is private; the website is local.
-
-## Development
-
-Use Node.js 22 and the committed npm lockfile. Run `npm ci`, then `npm run dev`. Normal development and production builds regenerate the ASCII runtime automatically; Python is only needed for optional artwork/video regeneration.
-
-The original desktop preview uses `http://127.0.0.1:5174`. Browser projects belong to their exact origin and profile: changing host/port/profile creates a different local workspace. Do not clear IndexedDB or remove user drafts to make a test pass. Use a separate browser profile for QA.
-
-Required gates for source changes:
+## Run it
 
 ```sh
-npm test
-npm run build
+npm ci
+npm run dev        # http://127.0.0.1:5174 — also rebuilds the generated engines
+npm test           # node test runner, tests/*.test.ts
+npm run build      # type-check + production build into dist/
 ```
 
-There are currently 64 unit tests. For changes to editing, persistence, media, motion, or export, also exercise the relevant real browser flow. A successful build alone does not verify those behaviors. See the browser QA recipes and their prerequisites in `docs/DEVELOPMENT.md`.
+Run `npm test` and `npm run build` before calling a change done. For anything visual or interactive, also open it in a browser and look at it: a passing build says nothing about whether a scroll story or a shader looks right. Headless Chromium renders WebGL in software unless you pass `--use-angle=vulkan --enable-gpu --ignore-gpu-blocklist`; judge frame rate with the GPU on.
 
-## Architecture rules
+## Where things are
 
-- The project document and registry interfaces are in `src/types.ts` and `src/catalog.ts`. Preserve version 1 compatibility; new ASCII settings are optional for old projects.
-- `src/render.ts` produces the same site markup for editor previews and exports. Do not introduce a second renderer or editor-only site behavior.
-- Website styles live in `src/site.css` and `src/ascii.css`; editor styles live in `src/studio.css` and `src/ascii-studio.css`. Keep site selectors scoped under `.pw-*`.
-- The canvas iframe hosts trusted generated markup and the standalone runtime. Escape user text, constrain links, validate imported documents, and keep arbitrary scripts/SVG uploads unsupported.
-- IndexedDB stores project documents and uploaded blobs. Asset references are `asset:UUID`; browser object URLs are temporary and must never appear in exported websites or project documents.
-- Update documents immutably. Preserve undo/redo and merge asynchronous uploads into the current project, rather than an old captured snapshot.
-- `src/ascii/runtime.generated.js` is generated from `src/ascii/entry.ts` and its dependencies. Edit source, then run `npm run build:ascii`; do not hand-edit generated output.
-- `public/motion/engine.js` is generated from `src/motion/runtime.ts` and `scene.ts` by `npm run build:motion`; edit source and rebuild. Motion templates are independent authored sites, not version-1 editor section documents.
-- Preserve third-party notices and font licenses. The ASCII engine and its four scenes (Night lotus, Aurora, Neon rain, Koi pond) are original CC0 work; every website export carries `licenses/ASCII-SCENES.txt`. The former ascii-sharks code was removed on request; do not reintroduce it.
+| Area | Source | Served / packaged from |
+|---|---|---|
+| Home, editor, routing | `src/App.tsx`, `src/home/`, `src/main.tsx` | — |
+| Website renderer + export | `src/render.ts`, `src/export.ts`, `src/site.css` | one renderer for preview and export |
+| Project storage | `src/storage.ts` (IndexedDB, validation, bundles) | — |
+| Hero sections | `src/heroes2/` | `public/heroes2/<id>/` |
+| Scenes | `src/scenes/` | `public/scenes/<id>/` |
+| Motion templates | `src/motion/` | `public/motion/` (+ `engine.js`) |
+| ASCII backgrounds + paint studio | `src/ascii/`, `src/PaintStudio.tsx` | `src/ascii/runtime.generated.js` |
+| Diorama engine | `src/diorama/engine.ts` | `public/diorama/diorama.js` (+ copies in `heroes2/vendor/` and `scenes/`) |
+| Components, spirits, library, video lab | `src/components/`, `src/spirits/`, `src/library/`, `src/video-lab/` | `public/…` |
 
-## Visual and interaction rules
+Generated files — edit the source, never the output:
+- `src/ascii/runtime.generated.js` ← `npm run build:ascii`
+- `public/motion/engine.js` ← `npm run build:motion`
+- `public/diorama/diorama.js` and its two copies ← `npm run build:diorama`
 
-The shell is a quiet lavender workbench. The user's website and its creative assets provide the personality. Preserve the coordinated worlds, deliberate typography, restrained controls, live previews, and meaningful empty/error states. Follow `docs/DESIGN.md` instead of applying a generic dashboard theme.
+`npm run dev` and `npm run build` regenerate all of them.
 
-Every visible control must perform its advertised action. Preserve keyboard focus, responsive site layouts, reduced-motion posters, and offscreen/hidden animation pausing. Library items must preview, apply, save, and export.
+## Things that must stay true
 
-## Handoff discipline
+- **Local first.** Projects live in IndexedDB on the visitor's device. Exported sites and downloaded pieces make no network requests: fonts, engines and images travel with them.
+- **One renderer.** `render.ts` produces the same markup for the editor preview and the export. Don't add editor-only site behaviour.
+- **Escape everything a person types.** Links go through `safeLink`; imported projects go through `validateProject`. Uploaded assets are referenced as `asset:<uuid>`; blob URLs never end up in a saved project or an export.
+- **Old projects keep opening.** The project format is version 1; new fields are optional. Retired backgrounds map to their replacements (`legacyBackgroundIds`).
+- **Motion is optional.** Everything animated pauses offscreen and in hidden tabs, and shows a still frame for `prefers-reduced-motion`.
+- **Don't clear someone's local data to make a test pass.** Use a fresh browser profile for QA.
+- **Licences travel.** Font OFL files, the GSAP and Three.js notices, and `licenses/ARTWORK.txt` / `ASCII-SCENES.txt` ship with whatever uses them.
+- Don't deploy, push, or change repository settings unless the person you're working for asks (pushing `main` deploys; see `docs/DEPLOYMENT.md`).
 
-Inspect `git status` and the current diff before work. Preserve unrelated changes. Update `docs/STATE.md` when the actual implementation changes, `docs/TASKS.md` when scope/status changes, and `docs/VERIFICATION.md` when new checks produce evidence. Describe failures and unverified limitations honestly. Do not copy credentials, browser storage, downloads, caches, or machine-specific output into commits.
+## Generated artwork
 
-## Collection boundaries
+Some pieces use paintings made with ChatGPT image generation (through the local Codex CLI). Their prompts are kept next to the images (`artwork.json`) or in `docs/DIORAMA.md`. Paintings that move in 3D also need a depth map; `docs/DIORAMA.md` has the whole recipe.
 
-Mosslight belongs to Motion Templates as an independent interactive scene, with its original component and fonts under public/motion/mosslight. Its canonical HTML is src/motion/mosslight.html; preview and customized export share mosslightDocument. The former reference collection was extracted to the private yadavayush834/reference-studies repository. Do not reintroduce its gallery, source/assets, build helpers, or deployment redirect into Patchwork. Preserve this separation test and the local-first document/export contracts.
+More: `docs/ARCHITECTURE.md` (how the app fits together), `docs/DIORAMA.md` (the painted-depth engine), `docs/DEPLOYMENT.md`.

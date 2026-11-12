@@ -1,14 +1,16 @@
 import { useMemo, useState } from "react";
-import { X, ArrowUpRight, Download, Pause, Play, Sparkles } from "lucide-react";
-import { asciiBackgrounds, createProject, defaultAscii } from "./catalog";
+import { X, ArrowUpRight, Download, Pause, Play, Sparkles, Wand2 } from "lucide-react";
+import { asciiStudies as asciiBackgrounds, createProject, defaultAscii } from "./catalog";
 import type { Background } from "./types";
 import Preview from "./Preview";
 interface Props {
   onClose: () => void;
   onUse: (background: Background) => void;
   hasProject: boolean;
+  /** Open the paint studio to make a background of your own. */
+  onPaint?: () => void;
 }
-export default function AsciiGallery({ onClose, onUse, hasProject }: Props) {
+export default function AsciiGallery({ onClose, onUse, hasProject, onPaint }: Props) {
   const [index, setIndex] = useState(0),
     [paused, setPaused] = useState(false);
   const active = asciiBackgrounds[index];
@@ -87,7 +89,7 @@ export default function AsciiGallery({ onClose, onUse, hasProject }: Props) {
           className="ascii-scene-tabs"
           role="tablist"
           aria-label="ASCII scenes"
-          onKeyDown={e=>{let next=index;if(e.key==='ArrowRight')next=(index+1)%4;else if(e.key==='ArrowLeft')next=(index+3)%4;else if(e.key==='Home')next=0;else if(e.key==='End')next=3;else return;e.preventDefault();setIndex(next);e.currentTarget.querySelectorAll('button')[next]?.focus()}}
+          onKeyDown={e=>{let next=index;if(e.key==='ArrowRight')next=(index+1)%asciiBackgrounds.length;else if(e.key==='ArrowLeft')next=(index+asciiBackgrounds.length-1)%asciiBackgrounds.length;else if(e.key==='Home')next=0;else if(e.key==='End')next=asciiBackgrounds.length-1;else return;e.preventDefault();setIndex(next);e.currentTarget.querySelectorAll('button')[next]?.focus()}}
         >
           {asciiBackgrounds.map((b, i) => (
             <button
@@ -116,6 +118,12 @@ export default function AsciiGallery({ onClose, onUse, hasProject }: Props) {
             </small>
           </div>
           <div className="ascii-gallery-actions">
+            {onPaint && (
+              <button className="ascii-download" onClick={onPaint}>
+                <Wand2 size={15} />
+                Paint your own
+              </button>
+            )}
             <a
               className="ascii-download"
               href={active.source}

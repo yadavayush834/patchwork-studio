@@ -11,8 +11,8 @@ import {
 import { renderMotion } from "../src/motion/templates";
 
 test("motion collection retains eighteen scroll stories alongside the independent Mosslight scene", () => {
-  assert.equal(motionTemplates.length, 23);
-  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 23);
+  assert.equal(motionTemplates.length, 25);
+  assert.equal(new Set(motionTemplates.map((t) => t.id)).size, 25);
   for (const t of motionTemplates) {
     if (t.id === "mosslight") continue;
     const html = renderMotion(t.id);
@@ -147,4 +147,27 @@ test("living-art landing pages escape customisation in every headline layout", (
     assert.match(html, /&lt;script&gt;two/);
     assert.match(html, /href="mailto:a@b.co"/);
   }
+});
+
+
+test("Overnight: four painted stops rendered in depth, packaged with the template", () => {
+  const html = renderMotion("overnight");
+  const stops = [...html.matchAll(/class="on-art" data-stop="(\w+)"/g)].map((m) => m[1]);
+  assert.deepEqual(stops, ["platform", "forest", "viaduct", "coast"]);
+  const files = imageMotionAssets("overnight");
+  assert.equal(files.length, 8);
+  for (const f of files) assert.equal(readFileSync(new URL(`../public/${f}`, import.meta.url)).subarray(8, 12).toString(), "WEBP");
+  assert.equal((html.match(/role="radio"/g) ?? []).length, 3);
+  assert.match(readFileSync(new URL("../public/motion/engine.js", import.meta.url), "utf8"), /steep|uDepth/);
+});
+
+test("Atrium: five new paintings, a working loupe, detail zoom and ticket desk", () => {
+  const html = renderMotion("atrium");
+  const files = imageMotionAssets("atrium");
+  assert.equal(files.length, 5);
+  for (const f of files) assert.equal(readFileSync(new URL(`../public/${f}`, import.meta.url)).subarray(8, 12).toString(), "WEBP");
+  assert.equal((html.match(/class="at-spot"/g) ?? []).length, 4);
+  assert.equal((html.match(/data-loupe=/g) ?? []).length, 5);
+  assert.equal((html.match(/class="at-ticket"/g) ?? []).length, 3);
+  assert.match(html, /artists are fictional/);
 });

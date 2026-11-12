@@ -1,4 +1,5 @@
 import { type AsciiScene, type CellFrame, type RGB, clamp, hexRgb } from "./cells";
+import { type Daylight, NIGHT } from "./daylight";
 import { Light, fbm, noise2, rand } from "./kit";
 
 /**
@@ -23,6 +24,8 @@ export class Aurora implements AsciiScene {
   private stars: { x: number; y: number; p: number; b: number }[] = [];
   private density: number;
   private art: HTMLCanvasElement | null = null;
+  private day: Daylight = NIGHT;
+  daylight(d: Daylight) { this.day = d; }
 
   constructor(color: string, density: number) {
     this.palette = [hexRgb(color), [80, 230, 210], [170, 120, 255], [230, 236, 255], [220, 236, 255], [40, 48, 70], [255, 120, 190], [60, 120, 150]];
@@ -75,7 +78,7 @@ export class Aurora implements AsciiScene {
     const lake = Math.round(rows * 0.7);
     for (const s of this.stars) {
       const tw = 0.25 + 0.5 * Math.abs(Math.sin(this.t * (0.8 + s.b) + s.p));
-      L.add(s.x, s.y, tw * (0.35 + s.b * 0.4), STAR, s.b > 0.93 ? "*" : s.b > 0.7 ? "+" : ".");
+      L.add(s.x, s.y, tw * (0.35 + s.b * 0.4) * (0.06 + 0.94 * this.day.night), STAR, s.b > 0.93 ? "*" : s.b > 0.7 ? "+" : ".");
     }
     // the aurora: painted as soft vertical curtains, then read back as rays of characters
     const px = this.paintSky();
@@ -115,6 +118,8 @@ export class Aurora implements AsciiScene {
       }
     }
     L.emit(frame, " .'`:!|", 0.95);
+    // daylight is already bright: glow mostly belongs to the night
+    frame.bloom = this.bloom * (0.25 + 0.75 * this.day.night);
   }
   /** Curtains as real gradients, one pixel per cell (null without a DOM). */
   private paintSky(): Uint8ClampedArray | null {
@@ -131,6 +136,7 @@ export class Aurora implements AsciiScene {
       const foot = rows * (0.26 + k * 0.1 + 0.08 * noise2(u * 2.2 + k * 3 + this.wind * 0.6, t * 0.08 + k, 1) + 0.03 * Math.sin(u * 9 + t * 0.6 + k * 2));
       const h = rows * (0.14 + 0.12 * (noise2(u * 3 + k * 7, t * 0.05, 3) + 1) / 2);
       let a = (0.25 + 0.75 * Math.max(0, noise2(u * 14 + t * (0.5 + this.wind), t * 0.25 + k * 4, 7) * 0.9 + 0.3)) * (0.75 - k * 0.18);
+      a *= 0.1 + 0.9 * this.day.night;
       if (this.surge >= 0) a *= 1 + 1.4 * Math.exp(-((u - (this.surgeX + (this.surge - 0.3) * 1.4)) ** 2) / 0.012);
       const gr = g.createLinearGradient(0, foot + 1, 0, foot - h);
       gr.addColorStop(0, `rgba(170,255,190,${Math.min(1, a)})`);
@@ -146,6 +152,14 @@ export class Aurora implements AsciiScene {
   underlay(ctx: CanvasRenderingContext2D) {
     const { W, H } = this, cols = this.light.cols, rows = this.light.rows;
     if (!cols) return;
+    // by day a pale sky, at dawn and dusk a warm horizon: the aurora waits for the dark
+    const dayAmt = 1 - this.day.night, tw = this.day.twilight;
+    if (dayAmt > 0.02 || tw > 0.02) {
+      const s = ctx.createLinearGradient(0, 0, 0, H * 0.7);
+      s.addColorStop(0, `rgba(${60 + tw * 40},${110 - tw * 40},${190 - tw * 30},${0.5 * dayAmt + 0.25 * tw})`);
+      s.addColorStop(1, `rgba(${170 + tw * 85},${200 - tw * 70},${225 - tw * 120},${0.5 * dayAmt + 0.4 * tw})`);
+      ctx.fillStyle = s; ctx.fillRect(0, 0, W, H * 0.7);
+    }
     // the painted curtains themselves, scaled up smooth: the glow the characters sit in
     if (this.art) { ctx.save(); ctx.globalCompositeOperation = "lighter"; ctx.globalAlpha = 0.5; ctx.imageSmoothingEnabled = true; ctx.drawImage(this.art, 0, 0, cols * this.cw, rows * this.ch);
       // and its reflection in the lake, flipped and fainter

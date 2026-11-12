@@ -3,9 +3,35 @@ import { Lotus } from "./lotus";
 import { Aurora } from "./aurora";
 import { NeonRain } from "./neon";
 import { Koi } from "./koi";
+import { Paint } from "./paint";
+import { type Daylight, NIGHT, daylightAt } from "./daylight";
 
-export type SceneKind = "lotus" | "aurora" | "neon" | "koi";
-const SCENES: Record<SceneKind, new (color: string, density: number) => AsciiScene> = { lotus: Lotus, aurora: Aurora, neon: NeonRain, koi: Koi };
+export type SceneKind = "lotus" | "aurora" | "neon" | "koi" | "paint";
+const SCENES: Record<SceneKind, new (color: string, density: number, image?: string) => AsciiScene> = { lotus: Lotus, aurora: Aurora, neon: NeonRain, koi: Koi, paint: Paint };
+
+/**
+ * Living sites follow the visitor's clock: the site root gets data-daypart and
+ * --night / --twilight for CSS, and every scene hears the time of day.
+ * The editor previews a chosen hour through data-hour.
+ */
+let today: Daylight = NIGHT;
+const listeners = new Set<(d: Daylight) => void>();
+function living() {
+  const root = document.querySelector<HTMLElement>(".pw-site");
+  if (!root || root.dataset.living !== "true") return;
+  const tick = () => {
+    const fixed = root.dataset.hour;
+    const now = new Date();
+    today = daylightAt(fixed ? Number(fixed) : now.getHours() + now.getMinutes() / 60);
+    root.dataset.daypart = today.part;
+    root.style.setProperty("--night", today.night.toFixed(3));
+    root.style.setProperty("--twilight", today.twilight.toFixed(3));
+    listeners.forEach((fn) => fn(today));
+  };
+  tick();
+  const timer = setInterval(tick, 60000);
+  addEventListener("pagehide", () => clearInterval(timer), { once: true });
+}
 
 interface Settings {
   speed: number;
@@ -30,7 +56,12 @@ const settings = (canvas: HTMLCanvasElement): Settings => ({
 function simulation(canvas: HTMLCanvasElement, kind: SceneKind): Controller {
   const cfg = settings(canvas);
   const Scene = SCENES[kind] ?? Lotus;
-  const scene: AsciiScene = new Scene(cfg.color, cfg.density);
+  const scene: AsciiScene = new Scene(cfg.color, cfg.density, canvas.dataset.image || undefined);
+  if (scene.daylight) {
+    const hear = scene.daylight.bind(scene);
+    if (today !== NIGHT) hear(today);
+    listeners.add(hear);
+  }
   const frame = new CellFrame(canvas, scene.palette);
   frame.background = scene.background;
   let width = 0,
@@ -90,6 +121,7 @@ function simulation(canvas: HTMLCanvasElement, kind: SceneKind): Controller {
 }
 
 function mount() {
+  living();
   const canvases = [
     ...document.querySelectorAll<HTMLCanvasElement>("canvas[data-ascii]"),
   ];

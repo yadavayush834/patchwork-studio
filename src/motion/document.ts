@@ -7,6 +7,8 @@ import cloudwhaleCSS from "./cloudwhale.css?raw";
 import burrowCSS from "./burrow.css?raw";
 import glyphCSS from "./glyph-studies.css?raw";
 import imageStudiesCSS from "./image-studies.css?raw";
+import overnightCSS from "./overnight.css?raw";
+import atriumCSS from "./atrium.css?raw";
 import studiesCSS from "./studies.css?raw";
 import templateCSS from "./template.css?raw";
 import { renderMotion } from "./templates";
@@ -54,7 +56,7 @@ export function motionCSS(base = "") {
     "\n" +
     studiesCSS +
     "\n" +
-    imageStudiesCSS + "\n" + glyphCSS + "\n" + lightkeeperCSS + "\n" + goldseamCSS + "\n" + livingCSS + "\n" + cloudwhaleCSS + "\n" + burrowCSS
+    imageStudiesCSS + "\n" + glyphCSS + "\n" + lightkeeperCSS + "\n" + goldseamCSS + "\n" + livingCSS + "\n" + cloudwhaleCSS + "\n" + burrowCSS + "\n" + overnightCSS + "\n" + atriumCSS
   );
 }
 export function motionDocument(

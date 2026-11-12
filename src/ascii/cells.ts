@@ -226,4 +226,6 @@ export interface AsciiScene {
   grid?: number;
   pointer(x: number, y: number, active: boolean): void;
   poke(x: number, y: number): void;
+  /** Living sites: the time of day where the visitor is. Scenes without it stay at night. */
+  daylight?(d: import("./daylight").Daylight): void;
 }

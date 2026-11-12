@@ -1,0 +1,37 @@
+{
+  "generator": "OpenAI image generation via the Codex CLI (ChatGPT built-in ImageGen)",
+  "created": "2026-11-12",
+  "use": "Original generated starter pictures for the Patchwork paint studio. Fictional scenes; no external request at runtime.",
+  "assets": [
+    {
+      "id": "jellyfish",
+      "name": "Jellyfish",
+      "prompt": "Deep black ocean with a swarm of bioluminescent jellyfish drifting upward, glowing pink, violet and cyan bells with long trailing luminous tentacles, tiny glowing plankton specks. Wide 16:9 landscape. Designed to be converted into glowing ASCII characters: the background must be very dark (near black), with bright luminous light sources and strong contrast, glowing highlights, soft bloom, rich saturated colours. Painterly digital illustration, cinematic, no text, no letters, no logos, no watermark, no people's faces.",
+      "file": "assets/paint/jellyfish.webp"
+    },
+    {
+      "id": "lanterns",
+      "name": "Lantern canal",
+      "prompt": "A quiet canal at night lined with dark silhouetted wooden houses, hundreds of warm glowing paper lanterns floating on black water and rising into the night sky, their long golden reflections in the water. Wide 16:9 landscape. Designed to be converted into glowing ASCII characters: the background must be very dark (near black), with bright luminous light sources and strong contrast, glowing highlights, soft bloom, rich saturated colours. Painterly digital illustration, cinematic, no text, no letters, no logos, no watermark, no people's faces.",
+      "file": "assets/paint/lanterns.webp"
+    },
+    {
+      "id": "blossom",
+      "name": "Night blossom",
+      "prompt": "A single ancient cherry blossom tree at night on a black background, its blossoms glowing soft pink and white like lights, petals drifting and glowing in the dark, a faint mirrored reflection in still black water below. Wide 16:9 landscape. Designed to be converted into glowing ASCII characters: the background must be very dark (near black), with bright luminous light sources and strong contrast, glowing highlights, soft bloom, rich saturated colours. Painterly digital illustration, cinematic, no text, no letters, no logos, no watermark, no people's faces.",
+      "file": "assets/paint/blossom.webp"
+    },
+    {
+      "id": "moon",
+      "name": "Desert moon",
+      "prompt": "An enormous luminous full moon low over dark desert sand dunes at night, a single tiny silhouetted traveller with a camel on a ridge, faint stars, the moon's pale gold glow rimming the dune crests. Wide 16:9 landscape. Designed to be converted into glowing ASCII characters: the background must be very dark (near black), with bright luminous light sources and strong contrast, glowing highlights, soft bloom, rich saturated colours. Painterly digital illustration, cinematic, no text, no letters, no logos, no watermark, no people's faces.",
+      "file": "assets/paint/moon.webp"
+    },
+    {
+      "id": "greenhouse",
+      "name": "Greenhouse",
+      "prompt": "Use your image generation tool to create one image: a cozy pixel-art night scene of a tiny greenhouse on a hill under a starry violet sky, glowing warm windows, fireflies, 16:9 landscape, rich limited palette, no text.",
+      "file": "assets/paint/greenhouse.webp"
+    }
+  ]
+}

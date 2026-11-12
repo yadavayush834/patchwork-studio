@@ -1,0 +1,84 @@
+/* Keepsake: a snow globe made for someone, sent as a link, unwrapped on scroll. */
+@font-face { font-family: "Instrument Serif"; src: url("/heroes2/fonts/InstrumentSerif.woff2") format("woff2"); font-display: swap; }
+@font-face { font-family: "Instrument Serif"; src: url("/heroes2/fonts/InstrumentSerif-Italic.woff2") format("woff2"); font-style: italic; font-display: swap; }
+@font-face { font-family: "Instrument Sans"; src: url("/heroes2/fonts/InstrumentSans.woff2") format("woff2"); font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("/heroes2/fonts/JetBrainsMono.woff2") format("woff2"); font-weight: 300 700; font-display: swap; }
+.ks {
+  --ks-top: #0b1236; --ks-bottom: #2a2f6b; --ink: #f6f1e8; --muted: #c9c3d8; --gold: #e8c77e; --panel: #0d1024d9;
+  margin: 0; min-height: 100vh; color: var(--ink); font: 16px/1.5 "Instrument Sans", system-ui, sans-serif;
+  background: radial-gradient(ellipse 80% 70% at 62% 40%, color-mix(in srgb, var(--ks-bottom) 80%, #fff 6%), transparent 70%), linear-gradient(180deg, var(--ks-top), var(--ks-bottom));
+  background-attachment: fixed; transition: background .8s ease;
+}
+.ks[data-sky="day"] { --ink: #1c2433; --muted: #4c5568; --panel: #f6f8fbe0; --gold: #9a6a1c; }
+.ks *, .ks *::before, .ks *::after { box-sizing: border-box; }
+.ks-bar { position: fixed; z-index: 10; inset: 0 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 22px clamp(20px, 3vw, 40px); }
+.ks-logo { display: flex; align-items: center; gap: 10px; color: var(--ink); text-decoration: none; font-weight: 600; }
+.ks-logo em { font: italic 400 20px "Instrument Serif", serif; opacity: .8; }
+.ks-mark { width: 18px; height: 18px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff, #bcd 45%, #6a7ea8); box-shadow: 0 0 0 2px var(--gold); }
+.ks-step { font: 400 11px "JetBrains Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+/* maker */
+.ks-make .ks-stage { position: fixed; inset: 0 0 0 min(460px, 36vw); }
+.ks-canvas { display: block; width: 100%; height: 100%; cursor: grab; touch-action: none; }
+.ks-canvas.is-grabbing { cursor: grabbing; }
+.ks-drag { position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); margin: 0; display: flex; gap: 10px; align-items: center; font: 400 11px "JetBrains Mono", monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
+.ks-drag span { width: 26px; height: 14px; border: 1.5px solid currentColor; border-radius: 8px; position: relative; }
+.ks-drag span::after { content: ""; position: absolute; top: 3px; left: 4px; width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: ks-wiggle 1.2s ease-in-out infinite; }
+@keyframes ks-wiggle { 50% { left: 14px; } }
+.ks-panel { position: fixed; z-index: 5; left: 0; top: 0; bottom: 0; width: min(460px, 36vw); overflow: auto; padding: 100px clamp(22px, 2.6vw, 40px) 36px; background: var(--panel); backdrop-filter: blur(14px); border-right: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); display: flex; flex-direction: column; gap: 22px; scrollbar-width: thin; }
+.ks-kicker { margin: 0; font: 400 11px "JetBrains Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+.ks-h { margin: -8px 0 0; font: 400 clamp(38px, 3.4vw, 54px)/1 "Instrument Serif", serif; letter-spacing: -.02em; }
+.ks-h em { color: var(--gold); }
+.ks fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.ks legend, .ks-field > span { display: flex; justify-content: space-between; width: 100%; margin-bottom: 10px; font: 500 12px "Instrument Sans", sans-serif; letter-spacing: .04em; color: var(--muted); }
+.ks-field small { font: 400 11px "JetBrains Mono", monospace; }
+.ks-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.ks-tiles button { display: grid; justify-items: center; gap: 6px; padding: 14px 6px 10px; border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent); border-radius: 12px; background: color-mix(in srgb, var(--ink) 4%, transparent); color: var(--ink); font: 500 12px "Instrument Sans", sans-serif; cursor: pointer; transition: border-color .2s, background .2s, transform .2s; }
+.ks-tiles button:hover { transform: translateY(-2px); }
+.ks-tiles svg { width: 34px; height: 34px; }
+.ks-tiles [aria-checked="true"] { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 14%, transparent); }
+.ks-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ks-swatches { display: flex; gap: 10px; }
+.ks-swatches button { width: 36px; height: 36px; border-radius: 50%; border: 2px solid transparent; box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 25%, transparent); cursor: pointer; transition: transform .2s; }
+.ks-swatches [aria-checked="true"] { border-color: var(--panel); box-shadow: 0 0 0 2px var(--gold); transform: scale(1.08); }
+.ks-field { display: block; }
+.ks-field input { width: 100%; padding: 13px 14px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent); background: color-mix(in srgb, var(--ink) 5%, transparent); color: var(--ink); font: italic 400 20px "Instrument Serif", serif; }
+.ks-field input:focus { outline: 2px solid var(--gold); outline-offset: 1px; }
+.ks-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.ks-primary, .ks-ghost { display: inline-flex; align-items: center; justify-content: center; padding: 14px 20px; border-radius: 999px; font: 600 15px "Instrument Sans", sans-serif; cursor: pointer; text-decoration: none; transition: transform .18s, background .2s, box-shadow .2s; }
+.ks-primary { border: 0; background: var(--gold); color: #1c1407; }
+.ks-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px -10px var(--gold); }
+.ks-ghost { border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent); background: transparent; color: var(--ink); }
+.ks-ghost:hover { border-color: var(--ink); }
+.ks-share { padding: 16px; border-radius: 14px; border: 1px dashed var(--gold); background: color-mix(in srgb, var(--gold) 8%, transparent); }
+.ks-share-h { margin: 0 0 10px; font: italic 400 22px "Instrument Serif", serif; }
+.ks-linkrow { display: flex; gap: 8px; }
+.ks-link { flex: 1; min-width: 0; padding: 11px 12px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent); background: color-mix(in srgb, var(--ink) 6%, transparent); color: var(--ink); font: 400 12px "JetBrains Mono", monospace; }
+.ks-share-note { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+.ks-share-note a { color: var(--gold); }
+.ks button:focus-visible, .ks a:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+/* receiver */
+.ks-track { height: 420vh; }
+.ks-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.ks-receive .ks-canvas { position: absolute; inset: 0; }
+.ks-arrive { position: absolute; left: 0; right: 0; top: 9vh; text-align: center; pointer-events: none; }
+.ks-to { margin: 8px 0 6px; font: 400 clamp(64px, 9vw, 140px)/.95 "Instrument Serif", serif; letter-spacing: -.03em; }
+.ks-tag { display: inline-block; margin: 0; padding: 6px 14px; border: 1px solid var(--gold); border-radius: 999px; font: italic 400 20px "Instrument Serif", serif; color: var(--muted); }
+.ks-tag b { font-weight: 400; color: var(--gold); }
+.ks-scroll { margin-top: 26px; font: 400 11px "JetBrains Mono", monospace; letter-spacing: .16em; color: var(--muted); animation: ks-bob 2s ease-in-out infinite; }
+@keyframes ks-bob { 50% { transform: translateY(6px); } }
+.ks-open { position: absolute; left: clamp(22px, 6vw, 110px); top: 50%; translate: 0 -50%; max-width: min(440px, 36vw); opacity: 0; pointer-events: none; }
+.ks-message { margin: 14px 0 10px; font: italic 400 clamp(34px, 3.4vw, 56px)/1.05 "Instrument Serif", serif; letter-spacing: -.01em; }
+.ks-sign { margin: 0 0 28px; font: 400 18px "Instrument Serif", serif; color: var(--gold); }
+.ks-drag-r { opacity: 0; }
+.ks-still .ks-track { height: 100vh; }
+
+@media (max-width: 820px) {
+  .ks-make .ks-stage { inset: 0 0 46vh 0; }
+  .ks-panel { top: auto; height: 50vh; width: auto; right: 0; padding-top: 24px; border-right: 0; border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent); }
+  .ks-open { left: 20px; right: 20px; top: auto; bottom: 30px; translate: none; max-width: none; }
+  .ks-drag-r { display: none; }
+  .ks-make .ks-drag { bottom: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .ks-drag span::after, .ks-scroll { animation: none; } }

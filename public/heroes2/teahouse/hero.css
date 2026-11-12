@@ -1,0 +1,28 @@
+/* Tea House: a painted bamboo grove in depth, mist breathing between the stems. */
+:root{--bg:#dfe5dd;--ink:#1d2a22;--muted:#4c5d51;--accent:#b5652c;--display:"Fraunces",Georgia,serif;--body:"Instrument Sans",system-ui,sans-serif;--radius:999px;--focus:#b5652c}
+.hx-teahouse{background:var(--bg)}
+.hx-teahouse .hx-art{opacity:0}
+.hx-teahouse .hx-art[data-ready="true"]{opacity:1;transition:opacity 2.4s ease}
+.t-wash{position:absolute;inset:0;z-index:1;pointer-events:none;background:radial-gradient(ellipse 70% 90% at 12% 52%,#e7ece4f2 0%,#e7ece4b0 40%,#e7ece400 72%)}
+.hx-teahouse .hx-brand{font:600 21px var(--display);font-variation-settings:"SOFT" 100,"WONK" 1;letter-spacing:-.01em}
+.t-mark{width:20px;height:20px;border-radius:50% 50% 50% 0;background:var(--accent);transform:rotate(-45deg)}
+.t-copy{position:absolute;z-index:3;left:clamp(20px,6vw,104px);top:50%;transform:translateY(-48%);width:min(560px,44vw)}
+.t-label{margin:0 0 24px;font:500 13px var(--body);letter-spacing:.08em;color:var(--accent)}
+.t-title{margin:0;font:330 clamp(56px,6.6vw,112px)/.92 var(--display);font-variation-settings:"SOFT" 100,"opsz" 144;letter-spacing:-.035em;color:var(--ink)}
+.t-title em{font-style:italic;font-weight:300;color:var(--accent)}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}.w>span{display:inline-block}
+.t-sub{margin:28px 0 34px;max-width:36ch;font-size:clamp(16px,1.15vw,18px);line-height:1.65;color:var(--muted)}
+.hx-teahouse .hx-btn:not(.hx-ghost){background:var(--ink);color:#eef1ea}
+.hx-teahouse .hx-btn:not(.hx-ghost):hover{background:var(--accent)}
+.t-steep{position:absolute;z-index:3;right:clamp(20px,4vw,64px);bottom:clamp(24px,5vh,44px);display:flex;align-items:center;gap:14px;padding:10px 18px 10px 10px;border:0;border-radius:999px;background:#f3f1e9e6;backdrop-filter:blur(8px);box-shadow:0 10px 40px -16px #1d2a2266;font:500 14px var(--body);color:var(--ink);cursor:pointer;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.t-steep:hover{transform:translateY(-2px)}
+.t-ring{width:44px;height:44px;flex:none}
+.t-ring circle{fill:none;stroke-width:3}
+.t-ring .t-track{stroke:#1d2a221f}
+.t-ring .t-fill{stroke:var(--accent);stroke-linecap:round;stroke-dasharray:113.1;stroke-dashoffset:113.1;transform:rotate(-90deg);transform-origin:center}
+.t-steep span{display:grid;text-align:left;gap:2px}
+.t-steep small{font-weight:400;font-size:12px;color:var(--muted)}
+.t-time{font-variant-numeric:tabular-nums}
+@media (max-width:760px){.t-copy{left:22px;right:22px;width:auto;top:96px;transform:none}.hx-nav nav{display:none}.t-wash{background:linear-gradient(180deg,#e7ece4f5 0%,#e7ece4c0 55%,#e7ece400 85%)}}
+.t-title em .w{padding-right:.12em;margin-right:-.12em}
+.hx-teahouse .hx-nav nav{padding:8px 18px;border-radius:999px;background:#eef1eab8;backdrop-filter:blur(8px)}

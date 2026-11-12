@@ -178,7 +178,7 @@ export default function DesignLibrary({ onClose }: { onClose: () => void }) {
               <div className="lb-hero-copy">
                 <p className="lb-kicker">The Design Library · {pieces.length} pieces · 0 dependencies</p>
                 <h1>Library, <em>made by hand.</em></h1>
-                <p>Fifteen pieces we would be proud to ship: three whole websites, three style studies, three motion experiments, three SVG experiments and three small controls. Every one is live below, opens full size, and downloads as a single page you can drop into any site.</p>
+                <p>Pieces we would be proud to ship: three whole websites, three style studies, three motion experiments, three SVG experiments, three small controls and four complete UI kits. Every one is live below, opens full size, and downloads as a single page you can drop into any site.</p>
               </div>
               <div className="lb-hero-grid" role="group" aria-label="Every piece">
                 {[0, 1, 2].flatMap((row) => shelves.map((sh) => piecesOn(sh.id)[row])).map((p, i) => (
@@ -202,7 +202,7 @@ export default function DesignLibrary({ onClose }: { onClose: () => void }) {
                   <p>{s.line}</p>
                 </div>
                 <div className="lb-cards">
-                  {piecesOn(s.id).map((p, i) => <Card key={p.id} p={p} n={i} big={i === 0} onOpen={openPiece} />)}
+                  {piecesOn(s.id).map((p, i, all) => <Card key={p.id} p={p} n={i} big={i === 0 && all.length % 2 === 1} onOpen={openPiece} />)}
                 </div>
               </section>
             ))}

@@ -170,16 +170,27 @@ export const asciiBackgrounds: Background[] = [
       "A garden pond from above. Patterned koi glide under lily pads while light ripples over the floor. Drag ripples through the water; click to drop food and they come for it.",
     tint: "#ff7a2f",
   },
+  {
+    id: "ascii-paint",
+    name: "Your painting",
+    scene: "paint",
+    description:
+      "Paint anything, or start from a photo, and it becomes living light made of characters: a shimmer, a sweeping beam, sparkles on the bright strokes. The cursor stirs it; click to send a ripple through.",
+    tint: "#ffd08a",
+  },
 ].map((b) => ({
   ...b,
   scene: b.scene as NonNullable<Background["scene"]>,
   type: "ascii",
   world: "terminal",
   preview: `/assets/ascii/${b.scene}.png`,
-  source: `/assets/ascii/${b.scene}.webm`,
+  // a painting is live only: there is no recorded loop of someone's own picture
+  source: b.scene === "paint" ? undefined : `/assets/ascii/${b.scene}.webm`,
   css: "",
   license: "CC0-1.0",
 }));
+/** The authored studies (everything except "Your painting", which people make themselves). */
+export const asciiStudies = asciiBackgrounds.filter((b) => b.scene !== "paint");
 /** Retired ASCII studies map to their replacements, so saved projects keep a living background. */
 export const legacyBackgroundIds: Record<string, string> = {
   "ascii-sharks": "ascii-koi",

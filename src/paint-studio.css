@@ -1,0 +1,193 @@
+/* Paint in light: the easel and its live ASCII twin, inside the dark gallery shell. */
+.paint-studio {
+  width: 1120px;
+}
+.ps-stage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 0 20px;
+}
+.ps-pane {
+  margin: 0;
+  position: relative;
+  border-radius: 9px;
+  overflow: hidden;
+  border: 1px solid #282032;
+  background: #000;
+  aspect-ratio: 16 / 9;
+}
+.ps-pane canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+.ps-live canvas {
+  cursor: pointer;
+  font-family: "Space Mono", monospace;
+}
+.ps-pane figcaption {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font: 8px "Space Mono";
+  letter-spacing: 1px;
+  color: #cfc7d8;
+  background: #0b0910b8;
+  border: 1px solid #ffffff14;
+  padding: 5px 8px;
+  border-radius: 99px;
+  pointer-events: none;
+}
+.ps-pane figcaption i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6dffb0;
+  box-shadow: 0 0 8px #6dffb0;
+}
+.ps-tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+  margin: 14px 20px 0;
+}
+.ps-tools-2 {
+  margin-top: 10px;
+}
+.ps-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.ps-tools button:not(.on):not([style]),
+.ps-group button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #3c3443;
+  background: #0f0e13;
+  color: #c3bbca;
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 10px;
+  cursor: pointer;
+}
+.ps-group button:hover {
+  border-color: #6a5c78;
+  color: #ece6f2;
+}
+.ps-group button.on {
+  background: #ece6f2;
+  color: #17141b;
+  border-color: #ece6f2;
+}
+.ps-undo:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.ps-undo {
+  margin-left: auto;
+}
+.ps-size {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: #aea5b5;
+}
+.ps-size input {
+  width: 110px;
+  accent-color: #ece6f2;
+}
+.ps-swatches {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ps-swatches button {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #18151b;
+  outline: 1px solid #3c3443;
+  cursor: pointer;
+  padding: 0;
+}
+.ps-swatches button.on {
+  outline: 2px solid #ece6f2;
+}
+.ps-swatches input[type="color"] {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 1px solid #3c3443;
+  border-radius: 6px;
+  background: none;
+  cursor: pointer;
+}
+.paint-studio .ps-error {
+  color: #ff9a8a;
+}
+.paint-studio footer .primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+@media (max-width: 860px) {
+  .ps-stage {
+    grid-template-columns: 1fr;
+  }
+}
+.ps-starters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 20px 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+.ps-starters > span {
+  font: 8px "Space Mono";
+  letter-spacing: 1px;
+  color: #9d95a6;
+  flex-shrink: 0;
+  margin-right: 4px;
+}
+.ps-starters button {
+  position: relative;
+  flex-shrink: 0;
+  width: 112px;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: 1px solid #3c3443;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #000;
+  cursor: pointer;
+  transition: transform 0.18s, border-color 0.18s;
+}
+.ps-starters button:hover,
+.ps-starters button:focus-visible {
+  transform: translateY(-2px);
+  border-color: #ece6f2;
+}
+.ps-starters img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.ps-starters b {
+  position: absolute;
+  left: 6px;
+  bottom: 5px;
+  font: 600 9px "Space Grotesk";
+  color: #fff;
+  text-shadow: 0 1px 4px #000;
+}

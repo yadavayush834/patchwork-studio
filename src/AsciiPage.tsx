@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { asciiBackgrounds, createProject, defaultAscii } from "./catalog";
+import { asciiStudies as asciiBackgrounds, createProject, defaultAscii, findBackground } from "./catalog";
 import type { Background } from "./types";
 import Preview from "./Preview";
 import { COLLECTIONS } from "./shell/collections";
@@ -42,7 +42,8 @@ function Card({ b, i, onUse }: { b: Background; i: number; onUse: (b: Background
   );
 }
 
-export default function AsciiPage({ onClose, onUse }: { onClose: () => void; onUse: (b: Background) => void }) {
+export default function AsciiPage({ onClose, onUse, onPaint }: { onClose: () => void; onUse: (b: Background) => void; onPaint?: () => void }) {
+  const painting = findBackground("ascii-paint");
   useEffect(() => {
     document.body.classList.add("pw-shell", "pw-in-ascii");
     return () => document.body.classList.remove("pw-shell", "pw-in-ascii");
@@ -60,6 +61,17 @@ export default function AsciiPage({ onClose, onUse }: { onClose: () => void; onU
           <p>Living backgrounds drawn entirely in characters. Each one answers your cursor and a click. Put one behind any section of your site.</p>
         </header>
         <section className="ap-grid">{asciiBackgrounds.map((b, i) => <Card key={b.id} b={b} i={i} onUse={onUse} />)}</section>
+        {painting && onPaint && (
+          <section className="ap-paint">
+            <img src={painting.preview} alt="" />
+            <div>
+              <span className="ap-paint-kicker">05 / YOURS</span>
+              <h2>Paint your own</h2>
+              <p>Draw with light, or start from a photo. Patchwork turns it into a living background made of characters, with a shimmer, a sweeping beam and sparkles, that your visitors can stir.</p>
+              <button className="ap-use" onClick={onPaint}>Open the paint studio</button>
+            </div>
+          </section>
+        )}
       </div>
     </div>
   );

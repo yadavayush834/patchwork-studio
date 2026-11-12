@@ -88,6 +88,48 @@ export const scenes = [
     palette: ["#393d47", "#986b58", "#edcca0", "#698e91", "#72854b", "#bd543c"], layout: "top-left",
     defaults: { brand: "Pomegranate", eyebrow: "An afternoon, unhurried", headline: "Meet me by the fountain.", sub: "A little shade, a place to sit and nowhere else you need to be for a while.", cta: "Step into the court", cta2: "A few stories" },
   },
+  {
+    id: "onsen", name: "Onsen", mood: "Hot spring in the snow",
+    description: "An outdoor hot spring high in the mountains, painted in pixels and rendered in real depth: snow falls in front of and behind the inn, steam rolls off the turquoise pool and the lanterns breathe. Move to look across the water; click the pool to drop a pebble.",
+    interaction: "Move: look across the pool · Click: drop a pebble",
+    palette: ["#0b1530", "#2b4a86", "#e9f0fb", "#1fb3a5", "#ffb45e", "#3c2a22"], layout: "top-left", engine: "diorama",
+    defaults: { brand: "Yukimi", eyebrow: "Mountain inn · Winter only", headline: "Warm water, falling snow.", sub: "Six rooms, one outdoor spring and a long quiet night above the clouds.", cta: "Reserve a night", cta2: "The springs" },
+  },
+  {
+    id: "arcade", name: "Arcade", mood: "Neon arcade after hours",
+    description: "A small arcade after closing time, in pixels and real depth. Cabinets flicker down the aisle, rain runs down the front window and neon hums on the ceiling. Insert a coin and every screen flares while pixel confetti flies.",
+    interaction: "Move: walk the aisle · Click: insert a coin",
+    palette: ["#140a24", "#ff3fae", "#2fe8f0", "#7b3cff", "#ffd23f", "#f5f0ff"], layout: "top-left", engine: "diorama",
+    defaults: { brand: "Continue?", eyebrow: "Indie games night · Thursdays", headline: "One more go.", sub: "A night of small games made by small studios. Bring friends, bring coins, stay until the lights go up.", cta: "Get a ticket", cta2: "This week's games" },
+  },
+  {
+    id: "skyisle", name: "Sky Isle", mood: "Floating temple at sunrise",
+    description: "A temple on a floating island above a sea of cloud, in pixels and real depth: the rocks hang at different distances, so the whole place turns as you move. The sunrise throws rays through the trees and blossom drifts by. Send a gust for a cloud of petals.",
+    interaction: "Move: turn the island · Click: send a gust",
+    palette: ["#2a1f3d", "#d9725b", "#ffc98a", "#fff1d6", "#5f8f4a", "#e88aa8"], layout: "top-left", engine: "diorama",
+    defaults: { brand: "Skyward", eyebrow: "A game in progress", headline: "There is land above the clouds.", sub: "A small exploration game about islands, weather and the temples someone left up there.", cta: "Wishlist it", cta2: "Devlog" },
+  },
+  {
+    id: "hayfield", name: "Hayfield", mood: "Title card at golden hour",
+    description: "The page's headline as a film title, hung in the sky of a late-summer valley at a real depth: the old oak's leaves pass in front of the letters as you look around. The scene opens like a film, with a credit, a push-in and the title writing itself on. Click the meadow for a gust of petals.",
+    interaction: "Move: look around the title · Click: a gust of petals",
+    palette: ["#3b2a4a", "#c77c8f", "#ffb36b", "#fff2da", "#7a8a3a", "#a8362f"], layout: "titlecard", engine: "diorama",
+    defaults: { brand: "Long Grass", eyebrow: "A summer film festival", headline: "Late Summer", sub: "Seven evenings of films outdoors, on a hill above the valley. Bring a blanket; we bring the projector.", cta: "See the programme", cta2: "Getting there" },
+  },
+  {
+    id: "aquarium", name: "Blue Room", mood: "Title card in an aquarium",
+    description: "An aquarium after closing, and a title floating inside the tank: the nearest jellyfish drift in front of it and the far ones behind, while it glows a little in the water. Opens with a credit and a slow push-in. Tap the glass for a ripple and a burst of bubbles.",
+    interaction: "Move: look through the glass · Click: tap the glass",
+    palette: ["#03111f", "#0d3a66", "#2f86c4", "#9fe3ff", "#e6f8ff", "#b49cff"], layout: "titlecard", engine: "diorama",
+    defaults: { brand: "Deepwater", eyebrow: "Late opening · Fridays", headline: "The Blue Room", sub: "The aquarium after dark: half the lights, twice the jellyfish and a quiet hour to sit with them.", cta: "Book a late visit", cta2: "What's in the tanks" },
+  },
+  {
+    id: "nighttrain", name: "Night Train", mood: "Title card under the stars",
+    description: "A sleeper train crosses a viaduct above a lake town, and the title hangs among the stars: in front of the mountains, behind the oak and the old signal on the hill. It opens like a film and writes itself on. Click to wake the fireflies.",
+    interaction: "Move: look across the valley · Click: wake the fireflies",
+    palette: ["#060b24", "#1d2f63", "#4a6aa8", "#ffd27a", "#ffeab8", "#3f7a3a"], layout: "titlecard", engine: "diorama",
+    defaults: { brand: "Sleeper", eyebrow: "Overnight routes", headline: "Night Train", sub: "Go to sleep in one country and wake up in another. Cabins, timetables and the best windows to watch from.", cta: "Find a route", cta2: "The cabins" },
+  },
 ] as const;
 
 export type SceneId = (typeof scenes)[number]["id"];
@@ -96,6 +138,10 @@ export interface SceneConfig { brand: string; eyebrow: string; headline: string;
 export const MAX_SCENE_IMAGE = 700_000;
 export const isScene = (v: unknown): v is SceneId => scenes.some((s) => s.id === v);
 export const scene = (id: SceneId) => scenes.find((s) => s.id === id)!;
+/** Scenes made from a generated painting and its depth map, rendered by the Diorama engine. */
+export const isDioramaScene = (id: SceneId) => (scene(id) as { engine?: string }).engine === "diorama";
+/** Scenes whose headline is painted into the picture as a film title (public/scenes/titlecard.js). */
+export const isTitleCardScene = (id: SceneId) => scene(id).layout === "titlecard";
 export const PIXEL_SIZES = [3, 4, 5, 6] as const;
 export function defaultScene(id: SceneId): SceneConfig {
   return { ...scene(id).defaults, href: "#", pixel: 4, text: true, image: "" };

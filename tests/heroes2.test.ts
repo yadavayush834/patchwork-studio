@@ -5,10 +5,10 @@ import { heroes2, normalizeHero2, defaultHero2 } from "../src/heroes2/catalog";
 import { hero2Document, hero2Files } from "../src/heroes2/document";
 import { heroes2Route } from "../src/heroes2/route";
 
-test("hero sections II: seven distinct heroes, each a complete one-screen page", () => {
-  assert.equal(heroes2.length, 7);
-  assert.equal(new Set(heroes2.map((h) => h.id)).size, 7);
-  assert.equal(new Set(heroes2.map((h) => h.technique)).size, 7, "every hero uses its own technique");
+test("hero sections II: eighteen distinct heroes, each a complete one-screen page", () => {
+  assert.equal(heroes2.length, 18);
+  assert.equal(new Set(heroes2.map((h) => h.id)).size, 18);
+  assert.equal(new Set(heroes2.map((h) => h.technique)).size, 18, "every hero uses its own technique");
   for (const h of heroes2) {
     const html = hero2Document(h.id);
     assert.match(html, /<h1/);
@@ -53,4 +53,45 @@ test("hero sections: any hero takes only a safe picture of your own", () => {
   assert.equal(normalizeHero2({ image: "data:image/png;base64," + "A".repeat(800_000) }, "dots").image, "");
   assert.match(hero2Document("dots", { image: png }), /data-image="data:image\/png;base64,iVBORw0KGgo="/);
   assert.ok(!hero2Document("dots").includes("data-image"));
+});
+
+test("painted heroes ship their painting, depth map and the Diorama engine", () => {
+  for (const id of ["library", "forge", "teahouse"] as const) {
+    const html = hero2Document(id);
+    assert.match(html, /vendor\/diorama\.js/);
+    assert.match(html, new RegExp(`data-base="${id}/"`));
+    const files = hero2Files(id);
+    for (const f of ["vendor/diorama.js", `${id}/painting.webp`, `${id}/depth.webp`]) assert.ok(files.includes(f), `${id} packages ${f}`);
+    const bytes = readFileSync(`public/heroes2/${id}/depth.webp`);
+    assert.equal(bytes.subarray(8, 12).toString(), "WEBP");
+    const js = readFileSync(`public/heroes2/${id}/hero.js`, "utf8");
+    assert.match(js, /new Diorama\(/);
+  }
+  // the forge's interaction is real: holding works the bellows, the gauge reads the heat
+  assert.match(readFileSync("public/heroes2/forge/hero.js", "utf8"), /pumping/);
+  assert.match(hero2Document("forge"), /class="f-temp"/);
+  assert.match(hero2Document("teahouse"), /<button class="t-steep" type="button">/);
+});
+
+test("particle heroes ship a self-contained bundle, their art and the three.js licence", () => {
+  for (const id of ["runner", "owl"] as const) {
+    const files = hero2Files(id);
+    assert.ok(files.includes("licenses/three-MIT.txt"));
+    for (const f of files) assert.ok(existsSync(`public/heroes2/${f}`), `${id}: missing ${f}`);
+    const js = readFileSync(`public/heroes2/${id}/hero.js`, "utf8");
+    assert.ok(js.length > 100000, "three.js is bundled in, no CDN");
+    assert.doesNotMatch(js, /https:\/\/(cdn|unpkg)/);
+  }
+  assert.match(hero2Document("runner"), /class="rn-play"/);
+  assert.match(hero2Document("owl"), /role="radiogroup" aria-label="Colour"/);
+});
+
+test("art-effect heroes package their pictures and run on their own engines", () => {
+  for (const id of ["lateset", "afterglow", "copyshop"] as const) {
+    for (const f of hero2Files(id)) assert.ok(existsSync(`public/heroes2/${f}`), `${id}: missing ${f}`);
+    assert.match(readFileSync(`public/heroes2/${id}/hero.js`, "utf8"), /prefers-reduced-motion/);
+  }
+  assert.match(hero2Document("lateset"), /class="ls-key"/);
+  assert.match(hero2Document("copyshop"), /class="cs-copy"/);
+  assert.match(hero2Document("afterglow"), /ag-strip/);
 });

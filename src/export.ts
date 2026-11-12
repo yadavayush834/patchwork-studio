@@ -16,6 +16,13 @@ const fontNames = [
   "Outfit",
   "LibreBaskerville",
 ];
+const dataUrl = (blob: Blob) =>
+  new Promise<string>((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(String(r.result));
+    r.onerror = () => reject(new Error("Could not read your painting."));
+    r.readAsDataURL(blob);
+  });
 export async function exportWebsite(p: Project): Promise<Blob> {
   const zip = new JSZip();
   const urls: Record<string, string> = {};
@@ -30,7 +37,15 @@ export async function exportWebsite(p: Project): Promise<Blob> {
     urls[a.id] = path;
     zip.file(path, a.blob);
   }
-  const html = renderSite(p, { assetUrls: urls });
+  // Paintings are read pixel by pixel by the ASCII runtime. A browser refuses that
+  // for files opened straight from disk, so the runtime gets them inline.
+  const pixelUrls: Record<string, string> = {};
+  for (const s of p.sections) {
+    const id = s.ascii?.image;
+    const blob = id && assets.find((a) => a.id === id)?.blob;
+    if (id && blob && !pixelUrls[id]) pixelUrls[id] = await dataUrl(blob);
+  }
+  const html = renderSite(p, { assetUrls: urls, pixelUrls });
   const paths = [
     ...new Set(
       [

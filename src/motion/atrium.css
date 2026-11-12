@@ -1,0 +1,121 @@
+/* Atrium: an imagined museum where the paintings are the interface. */
+.mt-atrium {
+  --at-wall: #1d2b25;
+  --at-ink: #f3ecdf;
+  --at-muted: #b9b29f;
+  --at-line: #f3ecdf33;
+  --at-gold: #c9a45c;
+  background: #121a16;
+  color: var(--at-ink);
+}
+.at-nav { color: #fff; height: 86px; mix-blend-mode: difference; }
+.at-nav .mt-brand { font: 500 26px "Playfair Display", serif; letter-spacing: .02em; }
+.at-nav nav { font: 11px "Space Mono", monospace; letter-spacing: .1em; text-transform: uppercase; gap: 30px; }
+
+/* gilded frames, all CSS: a moulding, a liner, then the canvas */
+.at-frame {
+  position: relative; margin: 0; padding: clamp(10px, 1.4vw, 22px);
+  background: linear-gradient(135deg, #f6dd94 0%, #a8792f 22%, #e9c873 45%, #7c5420 70%, #d8b062 100%);
+  box-shadow: inset 0 0 0 2px #5a3c14, inset 0 0 0 5px #e7c77a, inset 0 0 0 7px #6b4a1a, 0 30px 60px -20px #000c, 0 4px 10px #0007;
+}
+.at-frame::after { content: ""; position: absolute; inset: clamp(8px, 1.1vw, 18px); box-shadow: inset 0 0 0 3px #2a1d0b, inset 0 0 14px #000a; pointer-events: none; }
+.at-canvas { aspect-ratio: var(--ar); overflow: hidden; background: #000; }
+.at-canvas img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* 1. inside a painting */
+.at-hero { position: relative; height: 100svh; overflow: hidden; isolation: isolate; background: #0d1411; }
+.at-wall { position: absolute; inset: 0; background: radial-gradient(ellipse 45% 55% at 50% 42%, #2f4a3d 0%, var(--at-wall) 55%, #0f1714 100%), repeating-linear-gradient(90deg, #ffffff05 0 2px, transparent 2px 9px); }
+.at-wall::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 14%; background: linear-gradient(#0000, #0a0f0c); border-top: 1px solid #ffffff10; }
+.at-lead { position: absolute; z-index: 2; left: 50%; top: 44%; width: min(46vw, 760px); translate: -50% -50%; transform-origin: 50% 50%; }
+.at-side { position: absolute; z-index: 1; top: 46%; width: min(20vw, 330px); translate: 0 -50%; }
+.at-left { left: 3%; } .at-right { right: 3%; }
+.at-label { position: absolute; z-index: 2; left: calc(50% + min(23vw, 380px) + 30px); top: 58%; display: grid; gap: 4px; padding: 14px 16px; background: #f4efe4; color: #1c1a16; font: 12px/1.5 "DM Sans", sans-serif; box-shadow: 0 10px 24px -10px #000c; }
+.at-label b { font: 500 16px "Playfair Display", serif; }
+.at-ui { position: absolute; inset: 0; z-index: 3; pointer-events: none; color: #fff; text-shadow: 0 2px 20px #0008; }
+.at-grid { position: absolute; inset: 86px 5% 60px; border: 1px solid #ffffff40; }
+.at-grid i { position: absolute; top: 0; bottom: 0; width: 1px; background: #ffffff26; }
+.at-grid i:nth-child(1) { left: 25%; } .at-grid i:nth-child(2) { left: 50%; } .at-grid i:nth-child(3) { left: 75%; }
+.at-room { position: absolute; left: calc(5% + 18px); top: 104px; margin: 0; font: 11px "Space Mono", monospace; letter-spacing: .14em; text-transform: uppercase; }
+.at-name { position: absolute; left: 0; right: 0; top: 18%; margin: 0; text-align: center; font: 400 clamp(80px, 13vw, 220px)/.9 "Playfair Display", serif; letter-spacing: .02em; color: #fff; mix-blend-mode: overlay; opacity: .9; }
+.at-hero-copy { position: absolute; left: calc(5% + 18px); bottom: 90px; max-width: 520px; pointer-events: auto; }
+.at-hero-copy h1 { margin: 0 0 14px; font: italic 400 clamp(38px, 3.6vw, 58px)/1.02 "Playfair Display", serif; letter-spacing: -.01em; }
+.at-hero-copy p { margin: 0; font: 15px/1.6 "DM Sans", sans-serif; max-width: 40ch; }
+.at-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .12em; margin-bottom: -.12em; } .at-w > span { display: inline-block; }
+.at-cat { position: absolute; left: 5%; right: 5%; bottom: 30px; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); font: 10px "Space Mono", monospace; letter-spacing: .1em; text-transform: uppercase; }
+.at-cat span { padding: 10px 18px; border-left: 1px solid #ffffff40; }
+.at-cat span:last-child { text-align: right; }
+
+/* 2. now showing */
+.at-show { position: relative; height: 100svh; overflow: hidden; background: radial-gradient(ellipse 80% 70% at 50% 60%, #2a3f35, #121a16 75%); }
+.at-show-head { position: absolute; left: 5%; top: 104px; z-index: 2; }
+.at-kicker { margin: 0 0 12px; font: 11px "Space Mono", monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--at-gold); }
+.at-show-head h2, .at-guide h2, .at-visit-head h2 { margin: 0; font: 400 clamp(40px, 4.4vw, 72px)/1 "Playfair Display", serif; letter-spacing: -.02em; }
+.at-show-head h2 em, .at-visit-head h2 em { color: var(--at-gold); }
+.at-track { position: absolute; left: 0; top: 0; bottom: 0; display: flex; align-items: center; gap: 8vw; padding: 120px 8vw 40px 44vw; perspective: 1400px; }
+.at-work { flex: none; display: grid; justify-items: center; gap: 22px; }
+.at-work .at-frame { width: min(38vw, 620px); transform-style: preserve-3d; }
+.at-work .at-frame[style*="3/4"] { width: min(24vw, 380px); }
+.at-caption { text-align: center; font: 13px/1.5 "DM Sans", sans-serif; color: var(--at-muted); }
+.at-caption span { font: 10px "Space Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--at-gold); }
+.at-caption h3 { margin: 6px 0 2px; font: 400 26px "Playfair Display", serif; color: var(--at-ink); }
+.at-caption p { margin: 0; }
+.at-loupe { position: fixed; left: 0; top: 0; z-index: 50; width: 190px; height: 190px; border-radius: 50%; pointer-events: none; opacity: 0; background-repeat: no-repeat; box-shadow: 0 0 0 3px var(--at-gold), 0 0 0 4px #000, 0 20px 50px #000c; transition: opacity .2s; }
+.at-loupe.is-on { opacity: 1; }
+.at-show .at-canvas { cursor: zoom-in; }
+.at-hint { position: absolute; right: 5%; top: 112px; margin: 0; font: 10px "Space Mono", monospace; letter-spacing: .12em; text-transform: uppercase; color: var(--at-muted); }
+
+/* 3. look closer */
+.at-closer { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .9fr); gap: 6vw; align-items: center; padding: 120px 6% 120px; background: #16201b; }
+.at-closer-art { overflow: hidden; box-shadow: 0 0 0 clamp(10px, 1.2vw, 18px) #b8913f, 0 0 0 calc(clamp(10px, 1.2vw, 18px) + 3px) #3a2810, 0 40px 80px -30px #000; max-width: 560px; justify-self: center; width: 100%; }
+.at-zoom { position: relative; aspect-ratio: var(--ar); transform-origin: 50% 50%; }
+.at-zoom img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.at-spot { position: absolute; width: 34px; height: 34px; translate: -50% -50%; border-radius: 50%; border: 2px solid #fff; background: #1c1a16cc; color: #fff; font: 600 13px "DM Sans", sans-serif; cursor: pointer; box-shadow: 0 0 0 6px #ffffff22; transition: background .2s, transform .2s; }
+.at-spot:hover, .at-spot[aria-pressed="true"] { background: var(--at-gold); color: #1c1a16; transform: scale(1.1); }
+.at-zoom.is-zoomed .at-spot { opacity: 0; pointer-events: none; }
+.at-by { margin: 8px 0 26px; color: var(--at-muted); font: 15px "DM Sans", sans-serif; }
+.at-notes { list-style: none; padding: 0; margin: 0 0 26px; display: grid; gap: 2px; border-top: 1px solid var(--at-line); }
+.at-notes button { display: flex; gap: 16px; width: 100%; padding: 14px 0; border: 0; border-bottom: 1px solid var(--at-line); background: none; color: var(--at-ink); font: 16px "DM Sans", sans-serif; text-align: left; cursor: pointer; }
+.at-notes button b { font: 11px "Space Mono", monospace; color: var(--at-gold); padding-top: 3px; }
+.at-notes button[aria-pressed="true"], .at-notes button:hover { color: var(--at-gold); }
+.at-note { min-height: 130px; padding: 18px 20px; background: #f4efe4; color: #1c1a16; }
+.at-note-h { margin: 0 0 6px; font: italic 400 22px "Playfair Display", serif; }
+.at-note-t { margin: 0; font: 15px/1.6 "DM Sans", sans-serif; color: #4a463c; }
+.at-back { margin-top: 16px; padding: 12px 18px; border: 1px solid var(--at-ink); background: transparent; color: var(--at-ink); font: 14px "DM Sans", sans-serif; cursor: pointer; }
+
+/* 4. visit */
+.at-visit { padding: 120px 6% 110px; background: #f4efe4; color: #1c1a16; }
+.at-visit .at-kicker { color: #8a6526; }
+.at-visit-head h2 em { color: #8a6526; }
+.at-visit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6vw; margin-top: 60px; }
+.at-hours { margin: 0; border-top: 1px solid #1c1a1633; }
+.at-hours div { display: flex; justify-content: space-between; padding: 18px 0; border-bottom: 1px solid #1c1a1633; font: 17px "DM Sans", sans-serif; }
+.at-hours dd { margin: 0; font-family: "Space Mono", monospace; font-size: 14px; }
+.at-tickets { display: grid; gap: 10px; }
+.at-ticket { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; border: 1px solid #1c1a1633; background: #fff9; font: 17px "DM Sans", sans-serif; }
+.at-ticket small { display: block; font: 12px "Space Mono", monospace; color: #8a6526; }
+.at-step { display: flex; align-items: center; gap: 14px; }
+.at-step button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid #1c1a16; background: transparent; font: 18px "DM Sans", sans-serif; cursor: pointer; }
+.at-step button:hover { background: #1c1a16; color: #f4efe4; }
+.at-step output { min-width: 1ch; font: 16px "Space Mono", monospace; text-align: center; }
+.at-total { display: flex; justify-content: space-between; align-items: baseline; padding: 10px 2px; font: 15px "DM Sans", sans-serif; }
+.at-total b { font: 400 34px "Playfair Display", serif; }
+.at-book { display: flex; justify-content: space-between; padding: 18px 20px; background: #1c1a16; color: #f4efe4; font: 17px "DM Sans", sans-serif; transition: background .2s; }
+.at-book:hover { background: #8a6526; }
+.at-footer { background: #121a16; color: var(--at-muted); font: 10px/1.6 "Space Mono", monospace; border-color: var(--at-line); }
+
+/* reduced motion: everything still and in order; the collection scrolls sideways by hand */
+.mt-reduced .at-hero .at-wall { opacity: 1; }
+.mt-reduced .at-show { height: auto; padding: 200px 0 80px; }
+.mt-reduced .at-track { position: static; overflow-x: auto; padding: 0 6%; }
+
+@media (max-width: 760px) {
+  .at-nav nav { display: none; }
+  .at-lead { width: 86vw; top: 40%; }
+  .at-side, .at-label, .at-hint { display: none; }
+  .at-cat { grid-template-columns: 1fr 1fr; }
+  .at-cat span:nth-child(n+3) { display: none; }
+  .at-hero-copy { bottom: 100px; right: 5%; }
+  .at-work .at-frame { width: 74vw; } .at-work .at-frame[style*="3/4"] { width: 54vw; }
+  .at-track { padding-left: 14vw; gap: 14vw; }
+  .at-closer, .at-visit-grid { grid-template-columns: 1fr; }
+}

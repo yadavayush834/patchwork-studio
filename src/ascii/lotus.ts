@@ -1,4 +1,5 @@
 import { type AsciiScene, type CellFrame, type RGB, clamp, hexRgb } from "./cells";
+import { type Daylight, NIGHT } from "./daylight";
 import { Light, noise2, rand } from "./kit";
 
 /**
@@ -20,6 +21,8 @@ export class Lotus implements AsciiScene {
   private t = 0; private yaw = 0; private tilt = 0.3;
   private ptr = { x: 0.5, y: 0.5, on: false };
   private open = 0; private pulse = 0;
+  private day: Daylight = NIGHT;
+  daylight(d: Daylight) { this.day = d; }
   private motes: { x: number; y: number; v: number; s: number }[] = [];
   private sparks: { x: number; y: number; vx: number; vy: number; life: number }[] = [];
 
@@ -44,7 +47,7 @@ export class Lotus implements AsciiScene {
     this.yaw += (wantYaw - this.yaw) * Math.min(1, dt * 2);
     this.tilt += (wantTilt - this.tilt) * Math.min(1, dt * 2);
     this.pulse = Math.max(0, this.pulse - dt * 0.45);
-    this.open = 0.08 * Math.sin(this.t * 0.6) + this.pulse * 0.32;
+    this.open = 0.08 * Math.sin(this.t * 0.6) + this.pulse * 0.32 + (1 - this.day.night) * 0.16;
     for (const m of this.motes) { m.y -= m.v * dt; m.x += Math.sin(this.t * 0.7 + m.s * 9) * 0.004 * dt; if (m.y < -0.05) { m.y = 1.05; m.x = rand(m.s * 99 + this.t); } }
     for (const s of this.sparks) { s.x += s.vx * dt; s.y += s.vy * dt; s.vy += 60 * dt; s.vx *= 0.98; s.life -= dt * 0.8; }
     this.sparks = this.sparks.filter((s) => s.life > 0);
@@ -130,14 +133,23 @@ export class Lotus implements AsciiScene {
       if (d === 0) for (let x = 0; x < L.cols; x++) if ((x + (this.t * 4 | 0)) % 5 === 0) L.add(x, y, 0.08, WATER, "-");
     }
     L.emit(frame, " .:-=+*#%", 0.8);
+    frame.bloom = this.bloom * (0.4 + 0.6 * this.day.night);
   }
   underlay(ctx: CanvasRenderingContext2D) {
     const { W, H } = this;
     const L = this.light, { cx, cy, scale } = this.geom();
     const x = cx * this.cw, y = (cy - scale * 0.06 * this.cw / this.ch * 4) * this.ch, R = scale * this.cw;
     // A warm halo and slow god rays from the heart of the flower.
+    const dayAmt = 1 - this.day.night, tw = this.day.twilight;
+    if (dayAmt > 0.02 || tw > 0.02) {
+      const s = ctx.createLinearGradient(0, 0, 0, H);
+      s.addColorStop(0, `rgba(${90 + tw * 120},${60 + dayAmt * 70},${110 + dayAmt * 60},${0.22 * dayAmt + 0.2 * tw})`);
+      s.addColorStop(0.7, `rgba(${200 + tw * 55},${110 + tw * 40},${140 - tw * 40},${0.16 * dayAmt + 0.24 * tw})`);
+      s.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = s; ctx.fillRect(0, 0, W, H);
+    }
     const g = ctx.createRadialGradient(x, y, 0, x, y, R * 3.2);
-    g.addColorStop(0, `rgba(255,170,190,${0.28 + this.pulse * 0.25})`); g.addColorStop(0.3, "rgba(190,70,120,0.12)"); g.addColorStop(1, "rgba(0,0,0,0)");
+    g.addColorStop(0, `rgba(255,${170 + tw * 50},${190 - tw * 70},${0.28 + this.pulse * 0.25 + dayAmt * 0.1})`); g.addColorStop(0.3, "rgba(190,70,120,0.12)"); g.addColorStop(1, "rgba(0,0,0,0)");
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
     ctx.save(); ctx.translate(x, y); ctx.globalCompositeOperation = "lighter";
     for (let i = 0; i < 20; i++) {

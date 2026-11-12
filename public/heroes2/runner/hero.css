@@ -1,0 +1,21 @@
+/* Night Run: a particle fox in a wireframe forest. */
+:root{--bg:#05060d;--ink:#eef0ff;--muted:#9aa0c4;--accent:#ff8a3d;--display:"Unbounded",system-ui,sans-serif;--body:"Instrument Sans",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--radius:999px;--focus:#ff8a3d}
+.hx-runner{background:var(--bg);color:var(--ink);cursor:pointer}
+.rn-art{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hx-runner .hx-brand{font:700 16px var(--display);letter-spacing:.02em}
+.rn-mark{width:16px;height:16px;background:var(--accent);clip-path:polygon(0 30%,30% 0,50% 30%,70% 0,100% 30%,80% 100%,20% 100%);box-shadow:0 0 14px var(--accent)}
+.rn-hud{position:absolute;z-index:4;left:50%;top:92px;transform:translateX(-50%);text-align:center;pointer-events:none}
+.rn-count{display:block;min-height:1em;font:300 clamp(40px,4.4vw,64px)/1 var(--display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.rn-state{display:block;margin-top:10px;font:400 10px var(--mono);letter-spacing:.18em;color:var(--muted)}
+.rn-meta{display:flex;gap:16px;justify-content:center;margin-top:8px;font:400 10px var(--mono);letter-spacing:.14em;color:var(--accent)}
+.rn-copy{position:absolute;z-index:4;left:clamp(24px,5vw,84px);bottom:clamp(36px,8vh,80px);width:min(560px,46vw);transition:opacity .5s ease,transform .5s ease}
+.hx-runner.is-playing .rn-copy{opacity:.25;transform:translateY(10px)}
+.rn-title{margin:0;font:400 clamp(40px,4.4vw,72px)/1 var(--display);letter-spacing:-.04em}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}.w>span{display:inline-block}
+.rn-sub{margin:20px 0 28px;max-width:40ch;font-size:clamp(15px,1.1vw,17px);line-height:1.6;color:var(--muted)}
+.hx-runner .hx-btn:not(.hx-ghost){background:var(--ink);color:#05060d}
+.hx-runner .hx-btn:not(.hx-ghost):hover{background:var(--accent)}
+.rn-play{position:absolute;z-index:4;right:clamp(24px,4vw,64px);bottom:clamp(36px,8vh,80px);display:flex;align-items:center;gap:10px;padding:12px 16px;border:1px solid #ffffff30;border-radius:999px;background:#0b0e1fcc;color:var(--ink);font:500 12px var(--mono);letter-spacing:.1em;cursor:pointer;backdrop-filter:blur(6px)}
+.rn-play kbd{padding:3px 7px;border:1px solid #ffffff40;border-radius:5px;font:inherit}
+.rn-play:hover{border-color:var(--accent)}
+@media (max-width:760px){.rn-copy{left:22px;right:22px;width:auto}.hx-nav nav{display:none}.rn-play{display:none}}

@@ -10,6 +10,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MotionScene, type Pose } from "./scene";
 import { StudyScene } from "./study-scene";
 import { animateImageStudy } from "./image-runtime";
+import { animateOvernight } from "./overnight-runtime";
+import { animateAtrium } from "./atrium-runtime";
 import { animateStudy } from "./study-runtime";
 import { isMotionId } from "./catalog";
 gsap.registerPlugin(ScrollTrigger);
@@ -851,6 +853,8 @@ if (root && isMotionId(id)) {
         const burrowCleanup = id === "burrow" ? animateBurrow(reduced) : undefined;
         const cloudwhaleCleanup = id === "cloudwhale" ? animateCloudwhale(reduced, mobile) : undefined;
         const goldseamCleanup = id === "goldseam" ? animateGoldseam(reduced, mobile) : undefined;
+        const overnightCleanup = id === "overnight" ? animateOvernight(reduced, mobile) : undefined;
+        const atriumCleanup = id === "atrium" ? animateAtrium(reduced, mobile) : undefined;
         const glyphCleanup = id === "nullsignal" || id === "bitquest" ? animateGlyphStudy(reduced) : undefined;
 
         if (!reduced) {
@@ -861,7 +865,7 @@ if (root && isMotionId(id)) {
           else if (id === "monolith" && scene) monolith(scene, mobile);
           else if (id === "reverie" || id === "traverse")
             animateImageStudy(id, mobile);
-          else if (!isLiving(id) && id !== "burrow" && id !== "cloudwhale" && id !== "goldseam" && id !== "lightkeeper" && id !== "nullsignal" && id !== "bitquest") animateStudy(id, scene, mobile);
+          else if (!isLiving(id) && id !== "burrow" && id !== "cloudwhale" && id !== "goldseam" && id !== "lightkeeper" && id !== "nullsignal" && id !== "bitquest" && id !== "overnight" && id !== "atrium") animateStudy(id, scene, mobile);
           gsap.utils.toArray<HTMLElement>(".mt-reveal").forEach((el) =>
             gsap.from(el, {
               y: 70,
@@ -902,6 +906,8 @@ if (root && isMotionId(id)) {
           if (disposed) return;
           disposed = true;
           glyphCleanup?.();
+          overnightCleanup?.();
+          atriumCleanup?.();
           lightkeeperCleanup?.();
           goldseamCleanup?.();
           cloudwhaleCleanup?.();

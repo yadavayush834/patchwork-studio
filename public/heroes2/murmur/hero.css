@@ -1,0 +1,30 @@
+/* Murmuration: a flock of starlings flows through a giant word; the cursor is a falcon. */
+:root{--bg:#f4d9c3;--sky2:#c9b6d9;--ink:#1b1626;--muted:#5b4f63;--accent:#c4271b;--display:"Fraunces",Georgia,serif;--body:"Instrument Sans",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--note:"Instrument Serif",Georgia,serif;--radius:4px;--focus:#c4271b}
+.hx-murmur[data-theme="dark"]{--bg:#141a33;--sky2:#2b2347;--ink:#efe9ff;--muted:#a79fc4;--accent:#ff6a55}
+.hx-murmur{background:linear-gradient(180deg,var(--sky2) 0%,var(--bg) 70%);color:var(--ink);transition:color .6s ease}
+.hx-murmur::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0000 63%,color-mix(in srgb,var(--ink) 12%,transparent) 63.2%,#0000 65.5%);pointer-events:none;z-index:0}
+.mm-back,.mm-front{position:absolute;inset:0;width:100%;height:100%;display:block}
+.mm-back{z-index:1}.mm-front{z-index:3;pointer-events:none}
+.mm-word{position:absolute;z-index:2;left:50%;top:17vh;width:max-content;translate:-50% 0;margin:0;text-align:center;font:900 200px/.8 var(--display);font-variation-settings:"SOFT" 0,"WONK" 1,"opsz" 144;letter-spacing:-.04em;color:var(--ink);white-space:nowrap;user-select:none;pointer-events:none}
+.hx-murmur .hx-brand{font:700 20px var(--display);font-style:italic}
+.mm-mark{width:22px;height:12px;background:currentColor;clip-path:polygon(0 60%,45% 30%,50% 0,55% 30%,100% 60%,55% 50%,50% 100%,45% 50%)}
+.mm-issue{position:absolute;z-index:4;left:clamp(24px,4vw,64px);top:100px;margin:0;font:500 11px/1.6 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.mm-copy{position:absolute;z-index:4;left:clamp(24px,4vw,64px);bottom:clamp(36px,7vh,72px);width:min(480px,40vw)}
+.mm-title{margin:0 0 16px;font:400 clamp(30px,2.7vw,44px)/1.05 var(--display);font-style:italic;letter-spacing:-.02em}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.1em;margin-bottom:-.1em}.w>span{display:inline-block}
+.mm-sub{margin:0 0 26px;max-width:40ch;font-size:clamp(15px,1.05vw,17px);line-height:1.6;color:var(--muted)}
+.hx-murmur .hx-btn:not(.hx-ghost){background:var(--ink);color:var(--bg)}
+.hx-murmur .hx-btn:not(.hx-ghost):hover{background:var(--accent);color:#fff}
+.mm-panel{position:absolute;z-index:4;right:clamp(24px,4vw,64px);bottom:clamp(36px,7vh,72px);display:grid;gap:12px;width:250px;padding:16px;border:1px solid color-mix(in srgb,var(--ink) 25%,transparent);background:color-mix(in srgb,var(--bg) 70%,transparent);backdrop-filter:blur(6px);font:400 11px var(--mono);letter-spacing:.05em;color:var(--muted)}
+.mm-row{display:flex;justify-content:space-between;align-items:baseline}
+.mm-row b{font:500 15px var(--mono);color:var(--ink)}
+.mm-meter{height:4px;background:color-mix(in srgb,var(--ink) 15%,transparent)}
+.mm-meter i{display:block;height:100%;width:50%;background:var(--accent);transition:width .3s linear}
+.mm-spell{margin-top:4px;padding:11px 12px;border:1px solid var(--ink);background:transparent;color:var(--ink);font:500 12px var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
+.mm-spell:hover,.mm-spell[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.mm-ring{position:absolute;z-index:4;left:0;top:0;width:260px;height:150px;pointer-events:none;overflow:visible;color:var(--accent)}
+.mm-ring ellipse{fill:none;stroke:currentColor;stroke-width:1.8;stroke-dasharray:4 0;stroke-linecap:round}
+.mm-ring text{font:italic 400 20px var(--note);fill:currentColor}
+.mm-theme{display:inline-grid;place-items:center;width:40px;height:40px;margin-left:8px;border:1px solid color-mix(in srgb,var(--ink) 30%,transparent);border-radius:50%;background:transparent;color:var(--ink);cursor:pointer}
+.mm-theme svg{width:18px;height:18px}
+@media (max-width:760px){.mm-copy{left:22px;right:22px;width:auto}.mm-panel,.mm-issue,.hx-nav nav{display:none}.mm-word{top:24vh}}

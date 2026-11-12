@@ -3,6 +3,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   asciiBackgrounds,
+  asciiStudies,
   createProject,
   defaultAscii,
 } from "../src/catalog.ts";
@@ -28,8 +29,9 @@ function run(scene: AsciiScene, seconds: number) {
   scene.render(frame);
   return frame;
 }
-test("four ASCII scenes render with safe defaults, a poster, and editable data", () => {
-  assert.equal(asciiBackgrounds.length, 4);
+test("four ASCII studies and Your painting render with safe defaults, a poster, and editable data", () => {
+  assert.equal(asciiBackgrounds.length, 5);
+  assert.deepEqual(asciiStudies.map((b) => b.scene), ["lotus", "aurora", "neon", "koi"]);
   for (const bg of asciiBackgrounds) {
     const p = createProject("terminal");
     p.sections[0].background = bg.id;

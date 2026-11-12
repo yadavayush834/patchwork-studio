@@ -612,3 +612,60 @@
     visibility: hidden;
   }
 }
+
+/* Living site: the visitor's time of day washes over each section. */
+.pw-sky,
+.pw-stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 2.5s ease;
+}
+.pw-sky {
+  mix-blend-mode: multiply;
+}
+/* Sections are isolated, so the tint needs the page colour inside each one to blend with. */
+.pw-site[data-living="true"] .pw-section {
+  background-color: var(--paper);
+}
+.pw-site[data-daypart="dawn"] .pw-sky {
+  opacity: 1;
+  background: linear-gradient(180deg, #ffd6c4 0%, #ffe6e2 40%, #fff9f4 100%);
+}
+.pw-site[data-daypart="dusk"] .pw-sky {
+  opacity: 1;
+  background: linear-gradient(180deg, #d4bff0 0%, #f6c6c8 45%, #ffd9bd 100%);
+}
+.pw-site[data-daypart="night"] .pw-sky {
+  opacity: 1;
+  background: linear-gradient(180deg, #a9b2e6 0%, #c3c8ee 100%);
+}
+.pw-site[data-daypart="night"] .pw-stars {
+  opacity: 0.75;
+  mix-blend-mode: screen;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 14%, #fff 50%, transparent 52%),
+    radial-gradient(1px 1px at 21% 32%, #fff 50%, transparent 52%),
+    radial-gradient(2px 2px at 37% 9%, #fff 50%, transparent 52%),
+    radial-gradient(1px 1px at 52% 24%, #fff 50%, transparent 52%),
+    radial-gradient(1.5px 1.5px at 66% 12%, #fff 50%, transparent 52%),
+    radial-gradient(1px 1px at 78% 36%, #fff 50%, transparent 52%),
+    radial-gradient(2px 2px at 91% 18%, #fff 50%, transparent 52%),
+    radial-gradient(1px 1px at 14% 58%, #fff 50%, transparent 52%),
+    radial-gradient(1.5px 1.5px at 86% 62%, #fff 50%, transparent 52%);
+  background-size: 100% 520px;
+  animation: pw-twinkle 6s ease-in-out infinite alternate;
+}
+.pw-ascii-section > .pw-sky,
+.pw-ascii-section > .pw-stars {
+  display: none;
+}
+@keyframes pw-twinkle {
+  from { opacity: 0.45; }
+  to { opacity: 0.85; }
+}
+.pw-reduced .pw-stars {
+  animation: none;
+}

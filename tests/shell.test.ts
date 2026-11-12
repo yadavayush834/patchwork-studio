@@ -32,7 +32,7 @@ test("scenes take a safe photo, painted by the runtime through the palette", () 
   assert.match(rt, /uImgOn>\.5\?photo\(uv\):scene\(uv,px\)/);
 });
 test("one shell: every collection is linked, heroes are one collection, ASCII is a page", () => {
-  assert.deepEqual(COLLECTIONS.map((c) => c.key), ["heroes", "scenes", "components", "spirits", "ascii", "motion", "library"]);
+  assert.deepEqual(COLLECTIONS.map((c) => c.key), ["heroes", "scenes", "components", "spirits", "ascii", "keepsakes", "motion", "library"]);
   const app = readFileSync("src/App.tsx", "utf8");
   assert.ok(!app.includes("Hero sections II"), "no second hero entry in the studio");
   assert.match(app, /<AsciiPage/);

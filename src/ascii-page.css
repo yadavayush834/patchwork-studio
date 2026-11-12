@@ -24,3 +24,9 @@
 .ap :focus-visible{outline:3px solid #ffc23d;outline-offset:3px}
 @media (max-width:900px){.ap-grid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.ap *{transition:none!important;animation:none!important}}
+.ap-paint{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:36px;align-items:center;margin-top:80px;padding:28px;border:2px dashed #2a2733;border-radius:18px}
+.ap-paint img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;box-shadow:0 0 0 1px #2a2733}
+.ap-paint-kicker{font:11px "HM Mono",monospace;letter-spacing:.06em;color:#a49cb3}
+.ap-paint h2{margin:10px 0 12px;font:700 clamp(30px,2.6vw,40px)/1 "HM Bricolage",sans-serif;letter-spacing:-.03em}
+.ap-paint p{margin:0 0 20px;max-width:52ch;color:#a49cb3}
+@media (max-width:900px){.ap-paint{grid-template-columns:1fr}}

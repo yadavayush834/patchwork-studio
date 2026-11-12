@@ -1,4 +1,5 @@
 import { type AsciiScene, type CellFrame, type RGB, clamp, hexRgb } from "./cells";
+import { type Daylight, NIGHT } from "./daylight";
 import { Light, noise2, rand } from "./kit";
 
 /**
@@ -27,6 +28,8 @@ export class Koi implements AsciiScene {
   private food: { x: number; y: number; life: number }[] = [];
   private last = { x: -1, y: -1 };
   private count: number;
+  private day: Daylight = NIGHT;
+  daylight(d: Daylight) { this.day = d; }
 
   constructor(color: string, density: number) {
     this.palette = [hexRgb(color), [250, 244, 232], [24, 22, 30], [255, 204, 90], [90, 200, 200], [70, 150, 80], [120, 190, 100], [255, 150, 190], [170, 230, 230], [210, 160, 90], [2, 10, 12]];
@@ -96,7 +99,7 @@ export class Koi implements AsciiScene {
     for (let y = 0; y < rows; y++) for (let x = 0; x < cols; x++) {
       const a = Math.abs(noise2(x * 0.09 + this.t * 0.12, y * 0.16, 1)), b = Math.abs(noise2(x * 0.11 - this.t * 0.09, y * 0.19 + this.t * 0.05, 2));
       const c = Math.pow(1 - Math.min(a, b) * 3.2, 4);
-      if (c > 0.12) L.set(x, y, Math.min(0.42, c * 0.36), CAUSTIC, c > 0.6 ? "~" : c > 0.35 ? "-" : ".");
+      if (c > 0.12) L.set(x, y, Math.min(0.42, c * 0.36) * (0.75 + 0.6 * (1 - this.day.night)), CAUSTIC, c > 0.6 ? "~" : c > 0.35 ? "-" : ".");
     }
     // ripples
     for (const r of this.ripples) for (let k = 0; k < 64; k++) {
@@ -150,8 +153,16 @@ export class Koi implements AsciiScene {
   underlay(ctx: CanvasRenderingContext2D) {
     const { W, H } = this;
     const g = ctx.createRadialGradient(W * 0.5, H * 0.45, 0, W * 0.5, H * 0.5, Math.max(W, H) * 0.75);
-    g.addColorStop(0, "#0b3a3e"); g.addColorStop(0.6, "#062428"); g.addColorStop(1, "#020c0e");
+    const n = this.day.night, tw = this.day.twilight, lerp = (a: number, b: number) => Math.round(a + (b - a) * (1 - n));
+    g.addColorStop(0, `rgb(${lerp(11, 30)},${lerp(58, 120)},${lerp(62, 112)})`); g.addColorStop(0.6, `rgb(${lerp(6, 18)},${lerp(36, 80)},${lerp(40, 80)})`); g.addColorStop(1, `rgb(${lerp(2, 8)},${lerp(12, 40)},${lerp(14, 42)})`);
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    if (tw > 0.03) { ctx.fillStyle = `rgba(255,150,90,${0.14 * tw})`; ctx.fillRect(0, 0, W, H); }
+    // the moon, mirrored in still water
+    if (n > 0.3) {
+      const mx = W * 0.72, my = H * 0.3, m = ctx.createRadialGradient(mx, my, 0, mx, my, H * 0.32);
+      m.addColorStop(0, `rgba(220,240,255,${0.32 * n})`); m.addColorStop(0.18, `rgba(200,230,255,${0.12 * n})`); m.addColorStop(1, "rgba(200,230,255,0)");
+      ctx.fillStyle = m; ctx.fillRect(0, 0, W, H);
+    }
     // soft shadows of the fish on the pond floor
     ctx.fillStyle = "rgba(0,0,0,0.28)";
     for (const f of this.fish) for (let i = 0; i < SEG; i += 2) { const [x, y] = f.spine[i]; ctx.beginPath(); ctx.ellipse((x + 1.6) * this.cw, (y + 1.2) * this.ch, this.cw * 2.2 * f.size, this.ch * 0.9 * f.size, 0, 0, 6.283); ctx.fill(); }

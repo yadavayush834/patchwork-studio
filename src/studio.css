@@ -2575,3 +2575,53 @@ input::placeholder,textarea::placeholder{color:#7a7287}
 input[type="range"]{accent-color:#ff5b3a}
 .editor-project input{background:transparent!important;border-color:transparent}
 .editor-project input:hover,.editor-project input:focus{border-color:#2a2733}
+/* Living site switch and its time-of-day preview. */
+.living-toggle {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 12px 0 4px;
+  padding: 10px 11px;
+  border: 1px solid #3a3140;
+  border-radius: 7px;
+  background: #131016;
+  cursor: pointer;
+}
+.living-toggle input {
+  margin-top: 2px;
+  accent-color: #b79bff;
+}
+.living-toggle strong {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  color: #e3dcea;
+}
+.living-toggle small {
+  display: block;
+  margin-top: 4px;
+  font-size: 9px;
+  line-height: 1.55;
+  color: #a39cab;
+}
+.sky-preview {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  margin: 8px 0 6px;
+}
+.sky-preview button {
+  font-size: 9px;
+  padding: 6px 0;
+  border-radius: 5px;
+  border: 1px solid #3a3140;
+  background: #0f0e13;
+  color: #b8b0c0;
+  cursor: pointer;
+}
+.sky-preview button.on {
+  background: #e9e2f2;
+  border-color: #e9e2f2;
+  color: #17141b;
+}

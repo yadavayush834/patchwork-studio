@@ -15,6 +15,8 @@ interface Props {
   focus?: boolean;
   preview?: boolean;
   thumbnail?: boolean;
+  /** Living sites: preview a fixed hour instead of the real clock. */
+  hour?: number;
   artOnly?: boolean;
   onSelect?: (section: string, element?: string) => void;
   onMove?: (section: string, element: string, x: number, y: number) => void;
@@ -51,6 +53,7 @@ export default function Preview(props: Props) {
     selectedElement: preview || thumbnail ? undefined : element,
     reducedMotion: reduced || thumbnail,
     mobile: width <= 600 && !thumbnail,
+    hour: props.hour,
   });
   const srcDoc = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}html{scrollbar-width:thin;scrollbar-color:#b9b1ce transparent}${css}${props.artOnly ? ".pw-content,.pw-scene,.pw-ascii-scrim,.pw-ascii-dimmer{display:none}.pw-section{min-height:100vh;padding:0}.pw-ascii-canvas{opacity:1}html{overflow:hidden}" : ""}${props.focus ? ".pw-site a{outline:2px solid var(--accent);outline-offset:4px}" : ""}${!preview && !thumbnail ? ".pw-section:hover{outline:1px solid #ff5b3a88;outline-offset:-2px}.pw-selected{outline:2px solid #ff5b3a!important;outline-offset:-2px}.pw-decor{cursor:grab}" : ""}</style></head><body>${html}${!thumbnail ? `<script>${siteRuntime}</script>` : ""}</body></html>`;
   function loaded() {

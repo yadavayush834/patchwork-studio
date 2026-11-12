@@ -4,8 +4,16 @@ import { heroes2Route } from "./heroes2/route";
 import { scenesRoute } from "./scenes/route";
 import { componentsRoute } from "./components/route";
 import { spiritsRoute } from "./spirits/route";
+import { keepsakeRoute } from "./keepsake/route";
 
 async function start() {
+  // Keepsakes: make a snow globe for someone, send it as a link, unwrap it.
+  if (keepsakeRoute(location.search)) {
+    const { startKeepsake } = await import("./keepsake/entry");
+    startKeepsake();
+    addEventListener("hashchange", () => location.reload());
+    return;
+  }
   // Hero Sections II: its own studio and standalone pages, kept separate from the first hero section.
   if (heroes2Route(location.search)) {
     const { startHeroes2 } = await import("./heroes2/entry");

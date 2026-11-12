@@ -5,6 +5,7 @@ export const COLLECTIONS = [
   { key: "components", label: "Components", href: "/?collection=components" },
   { key: "spirits", label: "Spirits", href: "/?collection=spirits" },
   { key: "ascii", label: "ASCII", href: "/?collection=ascii" },
+  { key: "keepsakes", label: "Keepsakes", href: "/?keepsake=globe" },
   { key: "motion", label: "Motion", href: "/?collection=motion" },
   { key: "library", label: "Library", href: "/?collection=library" },
 ] as const;

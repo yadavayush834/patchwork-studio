@@ -64,6 +64,7 @@ export function assetIds(p: Project) {
           s.image,
           s.video,
           s.poster,
+          s.ascii?.image,
           ...s.items.map((i) => i.image),
         ])
         .filter((x): x is string => !!x && x.startsWith("asset:")),
@@ -111,7 +112,8 @@ export function validateProject(value: unknown): Project {
     !hex(p.theme.foreground) ||
     !text(p.theme.font, 50) ||
     !Array.isArray(p.sections) ||
-    p.sections.length > 100
+    p.sections.length > 100 ||
+    (p.living !== undefined && typeof p.living !== "boolean")
   )
     throw new Error("This project contains invalid project settings.");
   const seen = new Set<string>();
@@ -167,7 +169,8 @@ export function validateProject(value: unknown): Project {
         !numeric(s.ascii.speed, 0.25, 2) ||
         !numeric(s.ascii.density, 0.6, 1.4) ||
         !numeric(s.ascii.intensity, 20, 100) ||
-        !hex(s.ascii.color))
+        !hex(s.ascii.color) ||
+        !fileRef(s.ascii.image))
     )
       throw new Error("This project contains invalid ASCII settings.");
     for (const i of s.items)
@@ -302,6 +305,7 @@ export async function importBundle(
   for (const s of project.sections) {
     for (const k of ["image", "video", "poster"] as const)
       if (s[k]) s[k] = mapping.get(s[k]!)!;
+    if (s.ascii?.image) s.ascii.image = mapping.get(s.ascii.image)!;
     for (const item of s.items)
       if (item.image) item.image = mapping.get(item.image)!;
   }
