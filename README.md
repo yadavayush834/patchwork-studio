@@ -61,18 +61,18 @@ Future work: additional worlds, multi-page sites, dedicated asset editors, optio
 
 Open **Explore 4 living backgrounds** on the dashboard, or **Scenes → ASCII in motion** in the editor. The gallery previews one scene at a time; choose **Use this background** to apply it to the selected section. Blank projects receive a hero section. Search `ascii` in the background library to see all four studies.
 
-- **Sharkwater** uses the actual `stackedlol/ascii-sharks` World/AsciiRenderer: hammerhead, mako, thresher, schooling fish, and luminous wakes. Move or click over the scene to disturb the ocean.
-- **Starling hour** is a 1,400-bird murmuration (boids) over a lake at dusk. A falcon patrols and stoops; panic spreads bird to bird as a visible wave. The cursor is a second predator; click to startle the flock.
-- **Firefly field** is a night meadow of pulse-coupled fireflies (Mirollo–Strogatz) that drift from random blinking into synchronized flashes, lighting the wind-combed grass. The cursor parts the grass; click to scatter them and break the rhythm.
-- **Incense** is a real-time stable-fluids smoke simulation with buoyancy and vorticity confinement, rising from an ember through a window light shaft. Moving the cursor stirs the air; click to puff.
+- **Night lotus**: a lotus painted with real gradients on a one-pixel-per-cell canvas, read back as glowing characters, smeared into vertical light streaks, with god rays, pollen, bloom and a rippled reflection. The cursor tilts it; a click makes it open.
+- **Aurora**: painted curtains of light over a mountain lake, shown both as a soft glow and as rays of characters, mirrored in the water. The cursor steers the wind; a click sends a surge.
+- **Neon rain**: a night street with flickering boxed neon signs, windows that switch on and off, slanted rain, splashes and long reflections in the wet road. The cursor carries an umbrella; a click brings lightning.
+- **Koi pond**: patterned koi (chains of segments that follow their heads) glide under lily pads over moving caustics. The cursor drags ripples; a click drops food and the koi swim for it.
 
-The three originals share `src/ascii/cells.ts` (a reference-style cell grid with shaded blocks and colour-bucketed glyphs). Projects saved with the retired Moon jellies, Spiral atlas and Velvet terrain backgrounds open as Firefly field, Starling hour and Incense respectively.
+All four are original Patchwork work (CC0) and share `src/ascii/cells.ts` (the cell grid, colour-bucketed glyphs and a cheap bloom) and `src/ascii/kit.ts` (noise, ramps, a light buffer with streak smearing). Projects saved with any retired ASCII background open with its replacement (see `legacyBackgroundIds` in `src/catalog.ts`).
 
 The section inspector offers live canvas / recorded WebM, speed, detail, glow color, and brightness. Recorded loops retain their baked detail/color; live mode exposes all controls. The gallery and inspector both offer video downloads. These are real, silent WebM assets, not links to external video services.
 
-Live animation is capped at 30 fps and 1.5 device-pixel ratio. Offscreen and hidden canvases stop; reduced motion displays a poster. Exported sites include the same self-contained canvas runtime plus the relevant poster or video and the MIT/CC0 notices. No CDN or source-repo request is needed.
+Live animation is capped at 30 fps and 1.5 device-pixel ratio. Offscreen and hidden canvases stop; reduced motion displays a poster. Exported sites include the same self-contained canvas runtime plus the relevant poster or video and the CC0 notice. No CDN or source-repo request is needed.
 
-The vendored upstream revision and adaptations are documented in `src/vendor/ascii-sharks/NOTICE.md`. Original scene code is in `src/ascii/field.ts`; lifecycle/rendering is in `src/ascii/entry.ts`. `npm run build:ascii` regenerates the standalone runtime; normal dev/build commands do this automatically. To regenerate video assets, prepare `scripts/prepare-ascii-capture.mjs`, run the `scripts/browser-record-ascii.js` Playwright CLI workflow against a dev server on port 5175, then run `python scripts/finish-ascii-loops.py` (Pillow/imageio-ffmpeg are optional asset-generation dependencies, not runtime dependencies).
+Scene code is in `src/ascii/{lotus,aurora,neon,koi}.ts`; lifecycle/rendering is in `src/ascii/entry.ts`. `npm run build:ascii` regenerates the standalone runtime; normal dev/build commands do this automatically. To regenerate video assets, prepare `scripts/prepare-ascii-capture.mjs`, run the `scripts/browser-record-ascii.js` Playwright CLI workflow against a dev server on port 5175, then run `python scripts/finish-ascii-loops.py` (Pillow/imageio-ffmpeg are optional asset-generation dependencies, not runtime dependencies).
 
 ## Motion templates
 

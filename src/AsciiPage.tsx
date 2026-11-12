@@ -24,7 +24,7 @@ function Card({ b, i, onUse }: { b: Background; i: number; onUse: (b: Background
     p.sections[0].elements = [];
     return p;
   }, [b]);
-  const hint = b.scene === "starlings" ? "Your cursor is a hawk. Click to startle the flock." : b.scene === "fireflies" ? "They fall into sync. Click to scatter them." : b.scene === "sharks" ? "Move your cursor. The ocean reacts." : "Move to stir the air. Click to puff.";
+  const hint = ({ lotus: "Move to tilt the flower. Click and it opens.", aurora: "Your cursor steers the wind. Click to send a surge.", neon: "Your cursor carries an umbrella. Click for lightning.", koi: "Drag ripples through the pond. Click to feed the koi." } as Record<string, string>)[b.scene ?? ""] ?? "";
   return (
     <article className="ap-card">
       <div className="ap-cover" ref={ref}>

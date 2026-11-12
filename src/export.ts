@@ -43,7 +43,6 @@ export async function exportWebsite(p: Project): Promise<Blob> {
     ...fontNames.map((n) => `/fonts/${n}.ttf`),
     ...fontNames.map((n) => `/licenses/${n}-OFL.txt`),
     "/licenses/ARTWORK.txt",
-    "/licenses/ascii-sharks-MIT.txt",
     "/licenses/ASCII-SCENES.txt",
   ];
   await Promise.all(

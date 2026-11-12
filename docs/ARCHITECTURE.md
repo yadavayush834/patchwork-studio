@@ -53,7 +53,7 @@ The runtime includes vendored ASCII code even when a website uses other backgrou
 
 ## ASCII rendering pipeline
 
-`src/ascii/entry.ts` mounts controllers on `canvas[data-ascii]`. Sharkwater uses the vendored `World` and `AsciiRenderer` in `src/vendor/ascii-sharks/`. `src/ascii/field.ts` generates cells for the three original scenes. The controller rasterizes them as glyphs, caps rendering at 30 fps and DPR at 1.5, observes visibility/size/motion preferences, and cleans up with the document lifecycle.
+`src/ascii/entry.ts` mounts controllers on `canvas[data-ascii]` for four original scenes (`lotus.ts`, `aurora.ts`, `neon.ts`, `koi.ts`). `cells.ts` is the cell grid (colour-bucketed glyphs, shaded blocks, cheap downsample bloom, underlay/overlay hooks); `kit.ts` holds noise, glyph ramps and a light buffer with vertical streak smearing. Lotus and Aurora paint their art with canvas gradients on a one-pixel-per-cell canvas and read it back as characters (the "looks like ASCII" trick); Neon rain and Koi pond are procedural. The controller caps rendering at 30 fps and DPR at 1.5, observes visibility/size/motion preferences, and cleans up with the document lifecycle.
 
 `scripts/build-ascii.mjs` bundles that entry into `src/ascii/runtime.generated.js`. `site-runtime.ts` imports the generated script as raw text and embeds it in both previews and exports. Edit TypeScript source and regenerate; do not hand-patch the generated file.
 

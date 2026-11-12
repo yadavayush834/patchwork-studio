@@ -9,7 +9,7 @@ except ImportError:
  ff=shutil.which('ffmpeg')
  if not ff:raise SystemExit('Install imageio-ffmpeg or put ffmpeg on PATH.')
 # Pass scene names to finish only those recordings.
-for scene in sys.argv[1:] or ['sharks','starlings','fireflies','incense']:
+for scene in sys.argv[1:] or ['lotus','aurora','neon','koi']:
  source=root/f'output/playwright/ascii-{scene}-raw.webm'
  target=root/f'public/assets/ascii/{scene}.webm'
  # The final frame and first frame both land on source time 1.5s.

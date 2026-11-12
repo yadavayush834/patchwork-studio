@@ -1,4 +1,3 @@
-Patchwork ASCII motion studies: Moon jellies, Spiral atlas, and Velvet terrain.
-Original scene algorithms, artwork, recorded loops, and poster images by Patchwork Studio contributors, 2026. Dedicated to the public domain under CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
-
-Sharkwater incorporates the World and AsciiRenderer from stackedlol/ascii-sharks, copyright (c) 2026 drewdi, under the MIT License. Its full notice is in ascii-sharks-MIT.txt and accompanies these exports. Source: https://github.com/stackedlol/ascii-sharks at a0074c16a106f0abc665fe9712ca445f8f98ad8e. Patchwork adaptations add lifecycle controls and configurable accent colors.
+Patchwork ASCII backgrounds: Night lotus, Aurora, Neon rain and Koi pond.
+Original scene algorithms, artwork, recorded loops and poster images by Patchwork Studio contributors, 2026. Dedicated to the public domain under CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/
+No third-party code is included in the ASCII runtime.

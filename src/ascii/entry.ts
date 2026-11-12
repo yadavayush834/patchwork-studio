@@ -1,11 +1,11 @@
-import { World } from "../vendor/ascii-sharks/world";
-import { AsciiRenderer } from "../vendor/ascii-sharks/renderer";
 import { CellFrame, type AsciiScene } from "./cells";
-import { Starlings } from "./starlings";
-import { Fireflies } from "./fireflies";
-import { Incense } from "./incense";
+import { Lotus } from "./lotus";
+import { Aurora } from "./aurora";
+import { NeonRain } from "./neon";
+import { Koi } from "./koi";
 
-export type SceneKind = "starlings" | "fireflies" | "incense";
+export type SceneKind = "lotus" | "aurora" | "neon" | "koi";
+const SCENES: Record<SceneKind, new (color: string, density: number) => AsciiScene> = { lotus: Lotus, aurora: Aurora, neon: NeonRain, koi: Koi };
 
 interface Settings {
   speed: number;
@@ -26,87 +26,11 @@ const settings = (canvas: HTMLCanvasElement): Settings => ({
   density: Number(canvas.dataset.density) || 1,
   color: canvas.dataset.color || "#90d7e9",
 });
-function ocean(canvas: HTMLCanvasElement): Controller {
-  const cfg = settings(canvas);
-  const world = new World(
-    [
-      { kind: "hammerhead", size: 1 },
-      { kind: "mako", size: 0.77 },
-      { kind: "thresher", size: 0.82 },
-    ],
-    Math.round(115 * cfg.density),
-  );
-  const renderer = new AsciiRenderer(canvas);
-  renderer.setFontFamily('"Space Mono", monospace');
-  renderer.setAccent(cfg.color);
-  let width = 0,
-    height = 0;
-  const control: Controller = {
-    canvas,
-    visible: true,
-    time: 0,
-    frame: 0,
-    destroy: () => {},
-    resize() {
-      const rect = canvas.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-      // CSS-scaled editor frames report local CSS pixels here, keeping exported framing consistent.
-      width = canvas.clientWidth || rect.width;
-      height = canvas.clientHeight || rect.height;
-      renderer.resize(width, height, Math.min(devicePixelRatio || 1, 1.5));
-      world.resize(width, height, renderer.cellWidth, renderer.cellHeight);
-      if (control.time === 0) {
-        for (let i = 0; i < 120; i++) world.step(1 / 60);
-        control.time = 2;
-      }
-      renderer.render(world, 1 / 30);
-    },
-    draw(dt) {
-      const steps = Math.max(1, Math.round(dt * 60));
-      for (let i = 0; i < steps; i++) world.step((dt * cfg.speed) / steps);
-      renderer.render(world, dt);
-      control.time += dt * cfg.speed;
-      control.frame++;
-    },
-  };
-  const pointer = (e: PointerEvent) => {
-    const r = canvas.getBoundingClientRect();
-    world.pointer = {
-      x: ((e.clientX - r.left) * width) / r.width,
-      y: ((e.clientY - r.top) * height) / r.height,
-      active:
-        e.clientX >= r.left &&
-        e.clientX <= r.right &&
-        e.clientY >= r.top &&
-        e.clientY <= r.bottom &&
-        e.pointerType !== "touch",
-    };
-  };
-  const splash = (e: PointerEvent) => {
-    pointer(e);
-    if (world.pointer.active) world.splash(world.pointer.x, world.pointer.y);
-  };
-  canvas.ownerDocument.addEventListener("pointermove", pointer, {
-    passive: true,
-  });
-  canvas.ownerDocument.addEventListener("pointerdown", splash, {
-    passive: true,
-  });
-  control.destroy = () => {
-    canvas.ownerDocument.removeEventListener("pointermove", pointer);
-    canvas.ownerDocument.removeEventListener("pointerdown", splash);
-  };
-  return control;
-}
-/** The three original Patchwork simulations share one cell renderer and controller. */
+/** Every Patchwork ASCII scene shares one cell renderer and controller. */
 function simulation(canvas: HTMLCanvasElement, kind: SceneKind): Controller {
   const cfg = settings(canvas);
-  const scene: AsciiScene =
-    kind === "starlings"
-      ? new Starlings(cfg.color, cfg.density)
-      : kind === "fireflies"
-        ? new Fireflies(cfg.color, cfg.density)
-        : new Incense(cfg.color, cfg.density);
+  const Scene = SCENES[kind] ?? Lotus;
+  const scene: AsciiScene = new Scene(cfg.color, cfg.density);
   const frame = new CellFrame(canvas, scene.palette);
   frame.background = scene.background;
   let width = 0,
@@ -114,7 +38,7 @@ function simulation(canvas: HTMLCanvasElement, kind: SceneKind): Controller {
   const paint = () => {
     frame.clear();
     scene.render(frame);
-    frame.draw(scene.underlay ? (ctx) => scene.underlay!(ctx, frame) : undefined);
+    frame.draw(scene.underlay ? (ctx) => scene.underlay!(ctx, frame) : undefined, scene.overlay ? (ctx) => scene.overlay!(ctx, frame) : undefined);
   };
   const control: Controller = {
     canvas,
@@ -127,6 +51,8 @@ function simulation(canvas: HTMLCanvasElement, kind: SceneKind): Controller {
       height = canvas.clientHeight;
       if (width < 1 || height < 1) return;
       frame.resize(width, height, cfg.density);
+      frame.bloom = scene.bloom ?? 0;
+      frame.gridAlpha = scene.grid ?? frame.gridAlpha;
       scene.resize(width, height, frame);
       paint();
     },
@@ -223,10 +149,7 @@ function mount() {
   }
   for (const canvas of canvases) {
     try {
-      const c =
-        canvas.dataset.ascii === "sharks"
-          ? ocean(canvas)
-          : simulation(canvas, canvas.dataset.ascii as SceneKind);
+      const c = simulation(canvas, canvas.dataset.ascii as SceneKind);
       controllers.push(c);
       c.resize();
       canvas.dataset.ready = "true";

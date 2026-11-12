@@ -56,7 +56,7 @@ export default function AsciiGallery({ onClose, onUse, hasProject }: Props) {
           <p>
             Living backgrounds, drawn entirely in ASCII.
             <br />
-            {active.scene==='sharks'?'Move your cursor. The ocean reacts.':active.scene==='starlings'?'Your cursor is a hawk. Click to startle the flock.':active.scene==='fireflies'?'Watch them fall into sync. Click to scatter them.':'Move your cursor to stir the air. Click to puff.'}
+            {({ lotus: "Move to tilt the flower. Click and it opens.", aurora: "Your cursor steers the wind. Click to send a surge.", neon: "Your cursor carries an umbrella. Click for lightning.", koi: "Drag ripples through the pond. Click to feed the koi." } as Record<string, string>)[active.scene ?? ""]}
           </p>
         </div>
         <div className="ascii-gallery-stage">
@@ -111,9 +111,7 @@ export default function AsciiGallery({ onClose, onUse, hasProject }: Props) {
             <h3>{active.name}</h3>
             <p>{active.description}</p>
             <small>
-              {active.scene === "sharks"
-                ? "Built with stackedlol/ascii-sharks · MIT"
-                : "An original Patchwork motion study · CC0"}{" "}
+              An original Patchwork motion study · CC0{" "}
               · Live canvas + WebM loop
             </small>
           </div>

@@ -139,36 +139,36 @@ const bgNames: Record<World, string[]> = {
 };
 export const asciiBackgrounds: Background[] = [
   {
-    id: "ascii-sharks",
-    name: "Sharkwater",
-    scene: "sharks",
+    id: "ascii-lotus",
+    name: "Night lotus",
+    scene: "lotus",
     description:
-      "A living ocean. Three sharks weave through schooling fish and luminous wakes.",
-    tint: "#91dbe8",
+      "A lotus of light over black water. Its petals glow from the heart and smear into long streaks; rays turn slowly behind it. Tilt it with the cursor, click to make it open.",
+    tint: "#ff7aa8",
   },
   {
-    id: "ascii-starlings",
-    name: "Starling hour",
-    scene: "starlings",
+    id: "ascii-aurora",
+    name: "Aurora",
+    scene: "aurora",
     description:
-      "A murmuration at dusk. Nine hundred birds fold over a lake; a falcon stoops and panic ripples through the flock.",
-    tint: "#e9e1ff",
+      "Northern lights over a mountain lake. Curtains of green and violet rays ripple across the sky and break up in the water. The cursor steers the wind; click to send a surge.",
+    tint: "#7dff9b",
   },
   {
-    id: "ascii-fireflies",
-    name: "Firefly field",
-    scene: "fireflies",
+    id: "ascii-neon",
+    name: "Neon rain",
+    scene: "neon",
     description:
-      "A meadow at night. Fireflies blink at random, then slowly fall into one heartbeat, lighting the grass as they pass.",
-    tint: "#b9f27c",
+      "A city street at night: humming neon signs, windows switching on and off, rain on a slant and a wet street full of reflections. Your cursor carries an umbrella; click for lightning.",
+    tint: "#ff4fa3",
   },
   {
-    id: "ascii-incense",
-    name: "Incense",
-    scene: "incense",
+    id: "ascii-koi",
+    name: "Koi pond",
+    scene: "koi",
     description:
-      "Real smoke physics in characters. A thread rises from a glowing ember, curls, and drifts through window light.",
-    tint: "#9fb4e8",
+      "A garden pond from above. Patterned koi glide under lily pads while light ripples over the floor. Drag ripples through the water; click to drop food and they come for it.",
+    tint: "#ff7a2f",
   },
 ].map((b) => ({
   ...b,
@@ -178,13 +178,17 @@ export const asciiBackgrounds: Background[] = [
   preview: `/assets/ascii/${b.scene}.png`,
   source: `/assets/ascii/${b.scene}.webm`,
   css: "",
-  license: b.scene === "sharks" ? "MIT / CC0-1.0" : "CC0-1.0",
+  license: "CC0-1.0",
 }));
 /** Retired ASCII studies map to their replacements, so saved projects keep a living background. */
 export const legacyBackgroundIds: Record<string, string> = {
-  "ascii-jellies": "ascii-fireflies",
-  "ascii-galaxy": "ascii-starlings",
-  "ascii-terrain": "ascii-incense",
+  "ascii-sharks": "ascii-koi",
+  "ascii-starlings": "ascii-aurora",
+  "ascii-fireflies": "ascii-lotus",
+  "ascii-incense": "ascii-neon",
+  "ascii-jellies": "ascii-lotus",
+  "ascii-galaxy": "ascii-aurora",
+  "ascii-terrain": "ascii-neon",
 };
 export const findBackground = (id: string | undefined) =>
   id ? backgrounds.find((b) => b.id === (legacyBackgroundIds[id] ?? id)) : undefined;

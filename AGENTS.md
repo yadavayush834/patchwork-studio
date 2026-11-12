@@ -36,7 +36,7 @@ There are currently 64 unit tests. For changes to editing, persistence, media, m
 - Update documents immutably. Preserve undo/redo and merge asynchronous uploads into the current project, rather than an old captured snapshot.
 - `src/ascii/runtime.generated.js` is generated from `src/ascii/entry.ts` and its dependencies. Edit source, then run `npm run build:ascii`; do not hand-edit generated output.
 - `public/motion/engine.js` is generated from `src/motion/runtime.ts` and `scene.ts` by `npm run build:motion`; edit source and rebuild. Motion templates are independent authored sites, not version-1 editor section documents.
-- Preserve third-party notices, font licenses, and the pinned upstream source attribution. Exported scripts contain the ASCII engine, so every website export carries its MIT notice.
+- Preserve third-party notices and font licenses. The ASCII engine and its four scenes (Night lotus, Aurora, Neon rain, Koi pond) are original CC0 work; every website export carries `licenses/ASCII-SCENES.txt`. The former ascii-sharks code was removed on request; do not reintroduce it.
 
 ## Visual and interaction rules
 

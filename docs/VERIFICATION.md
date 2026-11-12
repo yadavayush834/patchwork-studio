@@ -272,3 +272,6 @@ Hearthstone: browser-reviewed the initial poster and an intermediate vertical sc
 
 
 2026-11-12 subsequent release checkpoint: rebuilt standalone Design Library and current shell/collection changes pass all 77 tests and the full production build. User requested publishing all current changes to the existing GitHub main branch and Vercel production project. Historical test counts above describe earlier snapshots.
+
+
+2026-11-12 ASCII release checkpoint: all 79 tests and the full production build pass for the current four-background replacement. User requested pushing all current changes to GitHub and the existing Vercel production project.

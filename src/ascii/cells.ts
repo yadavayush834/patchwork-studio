@@ -1,5 +1,5 @@
 /**
- * A frame of ASCII cells, drawn the way ascii-sharks draws its ocean: a dark
+ * A frame of ASCII cells: a dark
  * grid, optional shaded cell blocks, then glyphs batched by colour and
  * brightness so each frame costs one fillStyle change per bucket.
  */
@@ -48,6 +48,10 @@ export class CellFrame {
   private font = "";
   background = "#020306";
   gridAlpha = 0.045;
+  /** Strength of the light bloom drawn over the glyphs (0 = none). */
+  bloom = 0;
+  private glowA: HTMLCanvasElement | null = null;
+  private glowB: HTMLCanvasElement | null = null;
 
   constructor(private canvas: HTMLCanvasElement, palette: RGB[]) {
     const ctx = canvas.getContext("2d", { alpha: false });
@@ -135,7 +139,7 @@ export class CellFrame {
     for (let i = 0; i < n; i++) order[counts[bucket[i]]++] = i;
     // counts[b] now holds the end of bucket b.
   }
-  draw(underlay?: (ctx: CanvasRenderingContext2D) => void) {
+  draw(underlay?: (ctx: CanvasRenderingContext2D) => void, overlay?: (ctx: CanvasRenderingContext2D) => void) {
     const { ctx, cols, rows, cw, ch, width, height } = this;
     ctx.fillStyle = this.background;
     ctx.fillRect(0, 0, width, height);
@@ -178,7 +182,31 @@ export class CellFrame {
       }
       start = end;
     }
+    overlay?.(ctx);
+    if (this.bloom > 0 && typeof document !== "undefined") this.glow();
     void rows;
+  }
+  /** Cheap bloom: shrink the frame twice (the smoothing blurs it) and add it back over itself. */
+  private glow() {
+    const src = this.canvas, ctx = this.ctx;
+    const a = (this.glowA ??= document.createElement("canvas")), b = (this.glowB ??= document.createElement("canvas"));
+    const w1 = Math.max(1, Math.ceil(src.width / 5)), h1 = Math.max(1, Math.ceil(src.height / 5));
+    const w2 = Math.max(1, Math.ceil(src.width / 14)), h2 = Math.max(1, Math.ceil(src.height / 14));
+    if (a.width !== w1 || a.height !== h1) { a.width = w1; a.height = h1; }
+    if (b.width !== w2 || b.height !== h2) { b.width = w2; b.height = h2; }
+    const ac = a.getContext("2d")!, bc = b.getContext("2d")!;
+    ac.imageSmoothingEnabled = bc.imageSmoothingEnabled = true;
+    ac.drawImage(src, 0, 0, w1, h1);
+    bc.drawImage(a, 0, 0, w2, h2);
+    ctx.save();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.globalCompositeOperation = "lighter";
+    ctx.imageSmoothingEnabled = true;
+    ctx.globalAlpha = this.bloom * 0.55;
+    ctx.drawImage(a, 0, 0, src.width, src.height);
+    ctx.globalAlpha = this.bloom;
+    ctx.drawImage(b, 0, 0, src.width, src.height);
+    ctx.restore();
   }
 }
 
@@ -190,6 +218,12 @@ export interface AsciiScene {
   step(dt: number): void;
   render(frame: CellFrame, ctx?: CanvasRenderingContext2D): void;
   underlay?(ctx: CanvasRenderingContext2D, frame: CellFrame): void;
+  /** Drawn after the glyphs, before the bloom. */
+  overlay?(ctx: CanvasRenderingContext2D, frame: CellFrame): void;
+  /** Bloom strength for this scene. */
+  bloom?: number;
+  /** Grid line strength (defaults to the frame's). */
+  grid?: number;
   pointer(x: number, y: number, active: boolean): void;
   poke(x: number, y: number): void;
 }
