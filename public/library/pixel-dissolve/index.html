@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pixel Dissolve — a motion experiment</title>
+<style>
+@font-face{font-family:"Bricolage";src:url("../fonts/BricolageGrotesque.woff2") format("woff2");font-weight:200 800;font-stretch:75% 100%;font-display:swap}
+@font-face{font-family:"Instrument Serif";src:url("../fonts/InstrumentSerif-Italic.woff2") format("woff2");font-style:italic;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{overflow:hidden;font:15px/1.5 "Bricolage",system-ui,sans-serif;background:#0f0e13}
+.page{position:fixed;inset:0;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;gap:40px;padding:clamp(24px,6vw,90px);visibility:hidden}
+.page.on{visibility:visible}
+.page h1{margin:0;font:800 clamp(64px,10vw,170px)/.82 "Bricolage";font-stretch:78%;letter-spacing:-.05em;text-transform:uppercase}
+.page h1 em{display:block;font:400 .62em/1 "Instrument Serif",serif;text-transform:none;letter-spacing:-.02em}
+.page p{max-width:38ch;margin:24px 0 0;font-size:18px;opacity:.85}
+.page .k{font:12px "JetBrains Mono";letter-spacing:.14em;text-transform:uppercase;opacity:.7}
+.art{justify-self:center;width:min(100%,460px);aspect-ratio:1;image-rendering:pixelated}
+.p0{background:#ffc23d;color:#2a1306}.p1{background:#7fa8ff;color:#0d1640}.p2{background:#1d1640;color:#f4efe6}
+canvas.veil{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;image-rendering:pixelated;z-index:5}
+nav{position:fixed;left:50%;bottom:24px;z-index:10;transform:translateX(-50%);display:flex;gap:6px;align-items:center;padding:7px;border-radius:999px;background:#0f0e13d9;backdrop-filter:blur(10px)}
+nav button{padding:10px 16px;border:0;border-radius:999px;background:transparent;color:#cfc8dc;font:600 14px "Bricolage";cursor:pointer}
+nav button[aria-current="true"]{background:#f4efe6;color:#0f0e13}
+nav select{margin-left:6px;padding:9px 12px;border:0;border-radius:999px;background:#1b1922;color:#f4efe6;font:13px "JetBrains Mono"}
+:focus-visible{outline:2px solid #ff5b3a;outline-offset:3px}
+@media (max-width:800px){.page{grid-template-columns:1fr}.art{width:60%}}
+</style>
+</head>
+<body>
+<section class="page p0 on" aria-label="Morning"><div><span class="k">01 · page transition study</span><h1>Morning<em>comes in squares</em></h1><p>Click a page below. The screen breaks into pixels in a dithered order, fills with the next page's colours, and settles.</p></div><canvas class="art" width="24" height="24" data-art="0" aria-hidden="true"></canvas></section>
+<section class="page p1" aria-label="Noon"><div><span class="k">02 · ordered dither</span><h1>Noon<em>every block knows its turn</em></h1><p>A 4×4 Bayer matrix decides which block goes first, so the change feels woven rather than wiped.</p></div><canvas class="art" width="24" height="24" data-art="1" aria-hidden="true"></canvas></section>
+<section class="page p2" aria-label="Night"><div><span class="k">03 · pick a pattern</span><h1>Night<em>stitched shut</em></h1><p>Try the other patterns: a sweep that rolls like a blind, or a ripple from wherever you clicked.</p></div><canvas class="art" width="24" height="24" data-art="2" aria-hidden="true"></canvas></section>
+<canvas class="veil" id="veil" aria-hidden="true"></canvas>
+<nav aria-label="Pages"><button aria-current="true" data-i="0">Morning</button><button aria-current="false" data-i="1">Noon</button><button aria-current="false" data-i="2">Night</button>
+<select id="mode" aria-label="Pattern"><option value="bayer">dither</option><option value="sweep">sweep</option><option value="ripple">ripple</option></select></nav>
+<script>
+(() => {
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const pages = [...document.querySelectorAll(".page")], buttons = [...document.querySelectorAll("nav button")];
+const veil = document.getElementById("veil"), g = veil.getContext("2d");
+const BAYER = [0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
+const tones = [["#ffc23d","#ff8a3d","#ff5b3a","#2a1306"],["#7fa8ff","#b79bff","#6fe3b5","#0d1640"],["#1d1640","#3b2a7a","#b79bff","#f4efe6"]];
+const B = 24; let cols, rows, cur = 0, busy = false, origin = { x: .5, y: .5 };
+const size = () => { cols = Math.ceil(innerWidth/B); rows = Math.ceil(innerHeight/B); veil.width = cols; veil.height = rows; };
+size(); addEventListener("resize", size);
+
+/* little pixel pictures, one per page: sun, cloud, moon */
+const arts = [
+  (x,y) => { const d = Math.hypot(x-11.5,y-11.5); return d<6?"#ff5b3a":d<7.2?"#ff8a3d":(d<11 && (Math.round(Math.atan2(y-11.5,x-11.5)*4/Math.PI+8)%2===0) && d>8.5)?"#2a1306":null; },
+  (x,y) => { const c = [[8,13,5],[13,11,6],[17,14,4],[12,15,5]].some(([cx,cy,r]) => Math.hypot(x-cx,y-cy)<r); return c ? (y<12?"#f4efe6":"#dfe8ff") : (y>18 && (x+y)%3===0) ? "#0d1640" : null; },
+  (x,y) => { const a = Math.hypot(x-12,y-11)<7, b = Math.hypot(x-15,y-9)<6; if(a && !b) return "#f4efe6"; if([[4,4],[19,5],[6,18],[20,19],[3,12]].some(([sx,sy]) => sx===x&&sy===y)) return "#ffc23d"; return null; },
+];
+document.querySelectorAll(".art").forEach(c => { const ctx = c.getContext("2d"), f = arts[+c.dataset.art]; for(let y=0;y<24;y++) for(let x=0;x<24;x++){ const col = f(x,y); if(col){ ctx.fillStyle = col; ctx.fillRect(x,y,1,1); } } });
+
+function order(x, y, mode){
+  if(mode === "sweep") return (y/rows)*0.85 + (BAYER[(y&3)*4+(x&3)]/16)*0.15;
+  if(mode === "ripple") return Math.min(1, Math.hypot(x/cols - origin.x, (y/rows - origin.y)*rows/cols*1.0) / 1.15)*0.8 + (BAYER[(y&3)*4+(x&3)]/16)*0.2;
+  // dither: coarse Bayer over 4x4 blocks of blocks, then fine
+  return (BAYER[((y>>2)&3)*4+((x>>2)&3)]/16)*0.6 + (BAYER[(y&3)*4+(x&3)]/16)*0.4;
+}
+function go(next, ev){
+  if(busy || next === cur) return;
+  if(ev && ev.clientX){ origin = { x: ev.clientX/innerWidth, y: ev.clientY/innerHeight }; } else origin = { x: Math.random(), y: Math.random() };
+  buttons.forEach((b,i) => b.setAttribute("aria-current", String(i===next)));
+  if(reduced){ pages[cur].classList.remove("on"); pages[next].classList.add("on"); cur = next; return; }
+  busy = true; const mode = document.getElementById("mode").value, pal = tones[next], start = performance.now(), D = 1150;
+  const ord = new Float32Array(cols*rows); for(let y=0;y<rows;y++) for(let x=0;x<cols;x++) ord[y*cols+x] = order(x,y,mode);
+  let swapped = false;
+  const step = now => {
+    const t = Math.min(1, (now-start)/D);
+    g.clearRect(0,0,cols,rows);
+    // first half: blocks cover in the next page's tones; second half: they lift away the same way
+    const cover = t < .5 ? t*2 : 1, lift = t < .5 ? 0 : (t-.5)*2;
+    if(t >= .5 && !swapped){ pages[cur].classList.remove("on"); pages[next].classList.add("on"); cur = next; swapped = true; }
+    for(let y=0;y<rows;y++) for(let x=0;x<cols;x++){ const o = ord[y*cols+x];
+      if(o < cover*1.05 && o >= lift*1.05){ const age = cover - o; g.fillStyle = age < .06 ? pal[2] : age < .14 ? pal[1] : (t>.5 && o < lift*1.05+.08) ? pal[1] : pal[0]; g.fillRect(x,y,1,1); } }
+    if(t < 1) requestAnimationFrame(step); else { g.clearRect(0,0,cols,rows); busy = false; }
+  };
+  requestAnimationFrame(step);
+}
+buttons.forEach((b,i) => b.addEventListener("click", e => { idle = 0; go(i, e); }));
+addEventListener("keydown", e => { if(e.key === "ArrowRight") go((cur+1)%3); if(e.key === "ArrowLeft") go((cur+2)%3); });
+// turns pages on its own when nobody is touching it
+let idle = 0; setInterval(() => { idle += 1; if(idle >= 3 && !document.hidden){ idle = 0; const m = document.getElementById("mode"); m.selectedIndex = (m.selectedIndex + (cur===2?1:0)) % 3; go((cur+1)%3); } }, 1000);
+addEventListener("pointermove", () => idle = 0);
+})();
+</script>
+</body>
+</html>

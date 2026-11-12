@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quilt Flip — a motion experiment</title>
+<style>
+@font-face{font-family:"Bricolage";src:url("../fonts/BricolageGrotesque.woff2") format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Instrument Serif";src:url("../fonts/InstrumentSerif-Italic.woff2") format("woff2");font-style:italic;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{display:grid;grid-template-rows:auto 1fr;gap:18px;padding:clamp(16px,3vw,36px);background:#0f0e13;color:#f4efe6;font:15px/1.5 "Bricolage",system-ui,sans-serif;overflow:hidden}
+header{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+h1{margin:0;font:800 clamp(34px,4.4vw,64px)/.9 "Bricolage";letter-spacing:-.045em}
+h1 em{font:400 1.1em/0 "Instrument Serif",serif;color:#ff5b3a}
+header p{margin:6px 0 0;color:#a49cb3;max-width:52ch}
+.ctl{display:flex;gap:8px}
+.ctl button{padding:10px 16px;border:0;border-radius:999px;background:#1b1922;color:#f4efe6;font:600 14px "Bricolage";cursor:pointer;box-shadow:inset 0 0 0 1px #2a2733}
+.ctl button:hover{box-shadow:inset 0 0 0 1px #f4efe6}
+.ctl button.main{background:#f4efe6;color:#0f0e13}
+:focus-visible{outline:2px solid #ffc23d;outline-offset:3px}
+.quilt{position:relative;display:grid;gap:3px;place-self:center;width:min(100%,calc((100svh - 170px)*1.6));aspect-ratio:16/10;perspective:900px;padding:10px;border-radius:14px;background:#1b1922;box-shadow:0 0 0 2px #2a2733,0 40px 80px -30px #000}
+.quilt::after{content:"";position:absolute;inset:4px;border:2px dashed #ffffff26;border-radius:10px;pointer-events:none}
+.t{position:relative;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,1.5,.4,1);transition-delay:var(--d,0s);cursor:pointer}
+.t.flip{transform:rotateY(180deg)}
+.t i{position:absolute;inset:0;border-radius:3px;backface-visibility:hidden}
+.t i:last-child{transform:rotateY(180deg);background:var(--px)}
+/* the patches: five fabrics in the quilt colours */
+.f0{background:repeating-linear-gradient(45deg,#ff5b3a 0 5px,#e94a2b 5px 10px)}
+.f1{background:radial-gradient(circle,#0f0e13 22%,transparent 24%) 0 0/9px 9px,#ffc23d}
+.f2{background:linear-gradient(90deg,#6fe3b5 50%,#5bd1a4 50%) 0 0/8px 8px}
+.f3{background:conic-gradient(#7fa8ff 25%,#6a93ea 0 50%,#7fa8ff 0 75%,#6a93ea 0) 0 0/10px 10px}
+.f4{background:repeating-linear-gradient(0deg,#b79bff 0 3px,#a283ef 3px 6px)}
+.f5{background:#f4efe6}
+@media (prefers-reduced-motion:reduce){.t{transition:none}}
+</style>
+</head>
+<body>
+<header><div><h1>Quilt <em>flip</em></h1><p>Every patch is a card with a picture on its back. Your pointer sends a ripple across the quilt; click to turn the whole thing over.</p></div>
+<div class="ctl"><button class="main" id="all">Turn it over</button><button id="next">Another picture</button></div></header>
+<div class="quilt" id="q" role="img" aria-label="A grid of fabric patches that flip in ripples to reveal a pixel picture"></div>
+<script>
+(() => {
+const COLS = 32, ROWS = 20, q = document.getElementById("q"), reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+q.style.gridTemplateColumns = `repeat(${COLS},1fr)`;
+// pictures as 32x20 strings: fox, mountain at dusk, a heart
+const P = {
+  fox: { pal:{".":"#1d1640","o":"#ff7a2f","O":"#d9541f","w":"#f4efe6","k":"#0f0e13","g":"#6fe3b5","y":"#ffc23d"}, rows:[
+"................................","...............y................","..........o.........o...........",".........oo........oo...........","........ooo.......ooo...........","........oooooooooooo............",".......ooooooooooooo............",".......oookoooooookoo...........","......ooooooooooooooo...........","......wwooooooooooww............",".......wwwooookwwww.............","........wwwwwwwwww...OOO........",".........wwwwwwww..OOooOO.......","..........oooooo..OoooooO.......","..........oooooooOooooowO.......","..........ooooooooooowwwO.......","...........ooo..ooo..OOO........","...........kk...kk..............","ggggggggggggggggggggggggggggggg.","gggggggggggggggggggggggggggggggg"] },
+  dusk: { pal:{".":"#3b2a7a",",":"#b79bff",":":"#ff8a3d","s":"#ffc23d","m":"#1d1640","M":"#0f0e13","w":"#f4efe6"}, rows:[
+"................................","..........w.........w...........","...w............................","................................",",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,","::::::::::::ssss::::::::::::::::","::::::::::ssssssss::::::::::::::",":::::::::ssssssssss:::::::::::::","::::::m:::ssssssssss:::::m::::::",":::::mmm::ssssssssss::::mmm:::::","::::mmmmm:::ssssss:::::mmmmm::::",":::mmmwmmm:::::::::::mmmmmmmm:::","::mmmwwwmmm::::::::mmmmmmmmmmm::",":mmmmmmmmmmm:::::mmmmmmmmmmmmmm:","mmmmmmmmmmmmm:mmmmmmmmmmmmmmmmmm","MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM","MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM","MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM","MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"] },
+  heart: { pal:{".":"#0f0e13","r":"#ff5b3a","R":"#c93a20","w":"#f4efe6","y":"#ffc23d"}, rows:[
+"................................","...y........................y...","................................","..........rrrr....rrrr..........",".........rrrrrr..rrrrrr.........","........rrwwrrrrrrrrrrrr........","........rwwrrrrrrrrrrrrr........","........rrrrrrrrrrrrrrrr........","........rrrrrrrrrrrrrrrR........",".........rrrrrrrrrrrrrR.........","..........rrrrrrrrrrrR..........","...........rrrrrrrrrR...........","............rrrrrrrR............",".............rrrrrR.............","..............rrrR..............","...............rR...............","................................","....y......................y....","................................","................................"] },
+};
+const names = Object.keys(P); let pic = 0;
+const tiles = [];
+for(let y=0;y<ROWS;y++) for(let x=0;x<COLS;x++){
+  const t = document.createElement("div"); t.className = "t";
+  const f = (x*7 + y*13 + ((x>>2)+(y>>2))*3) % 6; // a quilt-like layout of fabrics
+  t.innerHTML = `<i class="f${f}"></i><i></i>`; q.append(t); tiles.push({ el: t, x, y, flip: false, until: 0 });
+}
+function paint(){ const p = P[names[pic]]; tiles.forEach(t => t.el.style.setProperty("--px", p.pal[(p.rows[t.y]||"")[t.x]] || p.pal["."])); }
+paint();
+function set(t, on, delay){ if(t.flip === on) return; t.flip = on; t.el.style.setProperty("--d", delay + "s"); t.el.classList.toggle("flip", on); }
+// ripple: a ring that travels out from a point, flipping patches as it passes and letting them fall back after
+function ripple(cx, cy, hold){
+  const now = performance.now();
+  tiles.forEach(t => { const d = Math.hypot(t.x-cx, (t.y-cy)*1.1); if(d < 6){ set(t, true, d*.035); t.until = now + (hold||900) + d*60; } });
+}
+function wave(cx, cy){ const now = performance.now(); tiles.forEach(t => { const d = Math.hypot(t.x-cx, t.y-cy); set(t, true, d*.025); t.until = now + 2600 + d*25; }); }
+let lastCell = -1;
+q.addEventListener("pointermove", e => { const r = q.getBoundingClientRect(); const cx = (e.clientX-r.left)/r.width*COLS, cy = (e.clientY-r.top)/r.height*ROWS; const cell = (cy|0)*COLS + (cx|0); if(cell !== lastCell){ lastCell = cell; ripple(cx, cy); } idle = 0; });
+q.addEventListener("click", e => { const r = q.getBoundingClientRect(); wave((e.clientX-r.left)/r.width*COLS, (e.clientY-r.top)/r.height*ROWS); });
+document.getElementById("all").onclick = () => wave(COLS/2, ROWS/2);
+document.getElementById("next").onclick = () => { pic = (pic+1) % names.length; paint(); wave(0, ROWS/2); };
+// fall back when time is up, and wander on its own when idle
+let idle = 0, ang = 0;
+setInterval(() => { const now = performance.now(); tiles.forEach(t => { if(t.flip && now > t.until) set(t, false, 0); }); }, 120);
+setInterval(() => { if(reduced || document.hidden) return; idle += .12; if(idle > 2){ ang += .22; ripple(COLS/2 + Math.cos(ang)*COLS*.36, ROWS/2 + Math.sin(ang*1.3)*ROWS*.34, 700); if(Math.random() < .012){ pic = (pic+1) % names.length; paint(); wave(COLS*Math.random(), ROWS*Math.random()); } } }, 120);
+if(reduced){ tiles.forEach(t => { t.flip = true; t.el.classList.add("flip"); t.until = Infinity; }); }
+})();
+</script>
+</body>
+</html>

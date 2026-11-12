@@ -88,7 +88,6 @@ import AsciiGallery from "./AsciiGallery";
 const VideoLab = lazy(() => import("./video-lab/VideoLab"));
 import Home from "./home/Home";
 import AsciiPage from "./AsciiPage";
-import "./shell/overlays.css";
 const DesignLibrary = lazy(() => import("./DesignLibrary"));
 const MotionStudio = lazy(() => import("./motion/MotionStudio"));
 const HeroStudio = lazy(() => import("./heroes/HeroStudio"));
@@ -180,85 +179,58 @@ function Slider({
 const starters = worlds.map((w) => createProject(w.id));
 
 export default function App() {
-  const [heroOpen, setHeroOpen] = useState(() => new URLSearchParams(location.search).get("collection") === "heroes");
-  // ASCII studies: a collection page of their own (the in-editor picker stays a dialog).
-  const [asciiOpen, setAsciiOpen] = useState(() => new URLSearchParams(location.search).get("collection") === "ascii");
-  const openAsciiPage = useCallback(() => { const url = new URL(location.href); url.searchParams.set("collection", "ascii"); window.history.pushState(null, "", url); setAsciiOpen(true); }, []);
-  const closeAsciiPage = useCallback(() => { const url = new URL(location.href); url.searchParams.delete("collection"); window.history.replaceState(null, "", url); setAsciiOpen(false); }, []);
-  const openHeroes = useCallback(() => {
-    setHeroOpen(true); setLibraryOpen(false); setMotionOpen(false); setVideoLabOpen(false);
-    const url = new URL(location.href); url.searchParams.set("collection", "heroes");
-    for (const key of ["motion", "lab", "view", "edit"]) url.searchParams.delete(key);
-    window.history.replaceState(null, "", url);
-  }, []);
-  const closeHeroes = useCallback(() => {
-    setHeroOpen(false); const url = new URL(location.href);
-    url.searchParams.delete("collection");url.searchParams.delete("hero");
-    url.searchParams.delete("edit");
-    window.history.replaceState(null, "", url);
-  }, []);
-
-  const [libraryOpen, setLibraryOpen] = useState(
-    () => new URLSearchParams(location.search).get("collection") === "library",
-  );
-  const openLibrary = useCallback(() => {
-    setLibraryOpen(true);
-    setMotionOpen(false);
-    setVideoLabOpen(false);
-    const url = new URL(location.href);
-    url.searchParams.set("collection", "library");
-    url.searchParams.delete("motion");
-    url.searchParams.delete("lab");
-    window.history.replaceState(null, "", url);
-  }, []);
-  const closeLibrary = useCallback(() => {
-    setLibraryOpen(false);
-    const url = new URL(location.href);
-    url.searchParams.delete("collection");
-    url.searchParams.delete("template");
-    window.history.replaceState(null, "", url);
-  }, []);
-  const [motionOpen, setMotionOpen] = useState(
-    () =>
-      new URLSearchParams(location.search).get("collection") === "motion" ||
-      new URLSearchParams(location.search).has("motion"),
-  );
-  const openMotion = useCallback(() => {
-    setMotionOpen(true);
-    setVideoLabOpen(false);
-    const url = new URL(location.href);
-    url.searchParams.set("collection", "motion");
-    url.searchParams.delete("lab");
-    window.history.replaceState(null, "", url);
-  }, []);
-  const closeMotion = useCallback(() => {
-    setMotionOpen(false);
-    const url = new URL(location.href);
-    url.searchParams.delete("collection");
-    url.searchParams.delete("motion");
-    url.searchParams.delete("edit");
-    window.history.replaceState(null, "", url);
-  }, []);
-  const [videoLabOpen, setVideoLabOpen] = useState(
-    () =>
-      new URLSearchParams(location.search).get("lab") === "video" &&
-      !new URLSearchParams(location.search).has("motion") &&
-      new URLSearchParams(location.search).get("collection") !== "motion",
-  );
+  // Every collection is a real browser page: opening one pushes a history entry, Back/Forward redraw from the URL.
+  const route = () => {
+    const q = new URLSearchParams(location.search), c = q.get("collection");
+    return {
+      hero: c === "heroes", ascii: c === "ascii", library: c === "library",
+      motion: c === "motion" || q.has("motion"),
+      video: q.get("lab") === "video" && !q.has("motion") && c !== "motion",
+    };
+  };
+  const [heroOpen, setHeroOpen] = useState(() => route().hero);
+  const [asciiOpen, setAsciiOpen] = useState(() => route().ascii);
+  const [libraryOpen, setLibraryOpen] = useState(() => route().library);
+  const [motionOpen, setMotionOpen] = useState(() => route().motion);
+  const [videoLabOpen, setVideoLabOpen] = useState(() => route().video);
   const [videoLabLoaded, setVideoLabLoaded] = useState(videoLabOpen);
-  const openVideoLab = useCallback(() => {
-    setVideoLabLoaded(true);
-    setVideoLabOpen(true);
-    const url = new URL(location.href);
-    url.searchParams.set("lab", "video");
-    window.history.replaceState(null, "", url);
+  const applyRoute = useCallback(() => {
+    const r = route();
+    setHeroOpen(r.hero); setAsciiOpen(r.ascii); setLibraryOpen(r.library); setMotionOpen(r.motion); setVideoLabOpen(r.video);
+    if (r.video) setVideoLabLoaded(true);
   }, []);
-  const closeVideoLab = useCallback(() => {
-    setVideoLabOpen(false);
-    const url = new URL(location.href);
-    url.searchParams.delete("lab");
+  /** Go to a page inside the app: a new history entry, so the browser's Back button returns here. */
+  const goTo = useCallback((params: Record<string, string>) => {
+    const url = new URL(location.origin + location.pathname);
+    const site = new URLSearchParams(location.search).get("site");
+    if (site) url.searchParams.set("site", site);
+    for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
+    if (url.href !== location.href) window.history.pushState({ pw: 1 }, "", url);
+    applyRoute();
+  }, [applyRoute]);
+  /** Leave a collection: step back if we came from inside the app, otherwise land on the home page. */
+  const leave = useCallback(() => {
+    if (window.history.state?.pw) { window.history.back(); return; }
+    const url = new URL(location.origin + location.pathname);
+    const site = new URLSearchParams(location.search).get("site");
+    if (site) url.searchParams.set("site", site);
     window.history.replaceState(null, "", url);
-  }, []);
+    applyRoute();
+  }, [applyRoute]);
+  useEffect(() => {
+    addEventListener("popstate", applyRoute);
+    return () => removeEventListener("popstate", applyRoute);
+  }, [applyRoute]);
+  const openAsciiPage = useCallback(() => goTo({ collection: "ascii" }), [goTo]);
+  const closeAsciiPage = leave;
+  const openHeroes = useCallback(() => goTo({ collection: "heroes" }), [goTo]);
+  const closeHeroes = leave;
+  const openLibrary = useCallback(() => goTo({ collection: "library" }), [goTo]);
+  const closeLibrary = leave;
+  const openMotion = useCallback(() => goTo({ collection: "motion" }), [goTo]);
+  const closeMotion = leave;
+  const openVideoLab = useCallback(() => goTo({ lab: "video" }), [goTo]);
+  const closeVideoLab = leave;
   const [projects, setProjects] = useState<Project[]>([]),
     [project, setProject] = useState<Project | null>(null),
     [selection, setSelection] = useState(""),
@@ -303,7 +275,14 @@ export default function App() {
     element = section?.elements.find((e) => e.id === elementId);
   useEffect(() => {
     listProjects()
-      .then(setProjects)
+      .then((list) => {
+        setProjects(list);
+        // A reload on an open site (?site=ID) reopens that project.
+        const id = new URLSearchParams(location.search).get("site");
+        const saved = id && list.find((x) => x.id === id);
+        if (saved) void openProject(saved);
+        else if (id) dropSiteParam();
+      })
       .catch((e) => setError(`Could not open local projects: ${e.message}`));
     return () => Object.values(assetUrls.current).forEach(URL.revokeObjectURL);
   }, []);
@@ -514,6 +493,13 @@ export default function App() {
       assetUrls.current = urls;
       setAssets(urls);
       setProject(p);
+      // The editor is its own page in the browser history, so Back returns to where you were.
+      if (new URLSearchParams(location.search).get("site") !== p.id) {
+        const url = new URL(location.origin + location.pathname);
+        url.searchParams.set("site", p.id);
+        window.history.pushState({ pw: 1, site: 1 }, "", url);
+        applyRoute();
+      }
       setSelection(p.sections[0]?.id || "");
       setElementId("");
       history.current = [];
@@ -538,12 +524,37 @@ export default function App() {
       ]);
     }
   }
+  function dropSiteParam() {
+    const url = new URL(location.href);
+    url.searchParams.delete("site");
+    window.history.replaceState(window.history.state, "", url);
+  }
+  // Back/Forward in and out of the editor.
+  const siteNav = useRef<() => void>(() => {});
+  siteNav.current = () => {
+    const id = new URLSearchParams(location.search).get("site");
+    const open = currentProject.current;
+    if (!id && open) {
+      void flush().then(() => { setProject(null); setDashTab("home"); setQuery(""); }, (e) => setError(`Save failed: ${(e as Error).message}. Download a backup before leaving.`));
+    } else if (id && open?.id !== id) {
+      const saved = projects.find((x) => x.id === id);
+      if (saved) void openProject(saved);
+      else dropSiteParam();
+    }
+  };
+  useEffect(() => {
+    const on = () => siteNav.current();
+    addEventListener("popstate", on);
+    return () => removeEventListener("popstate", on);
+  }, []);
   async function home() {
     try {
       await flush();
       setProject(null);
       setDashTab("home");
       setQuery("");
+      if (window.history.state?.site) window.history.back();
+      else dropSiteParam();
     } catch (e) {
       setError(
         `Save failed: ${(e as Error).message}. Download a backup before leaving.`,
@@ -819,8 +830,7 @@ export default function App() {
                 setDashTab("home");
               }}
             >
-              <span className="logo-mark">✳</span>patchwork
-              <span className="logo-dot">®</span>
+              <span className="pw-mark" aria-hidden="true"><i /><i /><i /><i /></span>patchwork
             </a>
             <div className="studio-switch">
               <span className="avatar">A</span>
@@ -1103,7 +1113,9 @@ export default function App() {
               <IconButton label="Back to projects" onClick={() => void home()}>
                 <ArrowLeft size={18} />
               </IconButton>
-              <span className="logo-mark small">✳</span>
+              <a className="pw-bar-logo editor-logo" href="/" aria-label="Patchwork home" onClick={(e) => { e.preventDefault(); void home(); }}>
+                <span className="pw-mark" aria-hidden="true"><i /><i /><i /><i /></span>
+              </a>
               <div>
                 <input
                   aria-label="Project name"

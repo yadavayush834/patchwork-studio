@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cut Paper — a style study in layers</title>
+<style>
+@font-face{font-family:"Fraunces";src:url("../fonts/Fraunces.woff2") format("woff2");font-weight:100 900;font-display:swap}
+@font-face{font-family:"Instrument Sans";src:url("../fonts/InstrumentSans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+:root{--sky:#f6dcc4;--p1:#f2a07b;--p2:#e5735a;--p3:#b8475a;--p4:#6b2f55;--p5:#2f1d3d;--cream:#fff4e6;--sun:#ffd36e;--leaf:#5f8a5a;--ink:#2f1d3d}
+:root.night{--sky:#1f2347;--p1:#3a3f7a;--p2:#2c3068;--p3:#232655;--p4:#191b40;--p5:#0f1029;--cream:#e9e4ff;--sun:#f4f1d8;--leaf:#2e4a4a;--ink:#e9e4ff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--sky);color:var(--ink);font:17px/1.6 "Instrument Sans",system-ui,sans-serif;transition:background-color .8s ease,color .8s ease;overflow-x:clip}
+:focus-visible{outline:3px solid var(--p2);outline-offset:3px}
+/* paper fibre on everything */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;mix-blend-mode:soft-light;opacity:.7;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .4 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.top{position:absolute;inset:0 0 auto;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:24px clamp(18px,4vw,56px)}
+.logo{font:600 24px "Fraunces",serif;letter-spacing:-.02em;color:var(--ink)}
+.toggle{display:flex;align-items:center;gap:10px;padding:10px 16px;border:0;border-radius:999px;background:var(--cream);color:#2f1d3d;font:600 14px "Instrument Sans";cursor:pointer;box-shadow:0 3px 0 #0002,0 8px 20px -8px #0006;transition:transform .2s}
+.toggle:hover{transform:translateY(-2px) rotate(-2deg)}
+.scene{position:relative;height:100svh;min-height:620px;overflow:hidden}
+.layer{position:absolute;inset:-4%;will-change:transform;transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.layer svg{position:absolute;left:0;bottom:0;width:100%;height:100%;overflow:visible}
+.layer path,.layer circle,.layer ellipse{filter:url(#torn) drop-shadow(0 10px 8px rgba(40,10,40,.28));transition:fill .8s ease}
+.copy{position:absolute;z-index:10;left:clamp(18px,6vw,96px);top:22%;max-width:620px}
+.copy small{display:inline-block;padding:6px 12px;margin-bottom:18px;background:var(--cream);color:#2f1d3d;font:600 12px "Instrument Sans";letter-spacing:.12em;text-transform:uppercase;transform:rotate(-2deg);box-shadow:0 4px 8px -4px #0005}
+h1{margin:0;font:400 clamp(56px,7.6vw,124px)/.9 "Fraunces",serif;letter-spacing:-.04em;font-variation-settings:"SOFT" 100,"WONK" 1;color:var(--ink);transition:color .8s ease}
+h1 em{font-style:italic;color:var(--p3)}
+:root.night h1 em{color:var(--sun)}
+.copy p{max-width:40ch;margin:22px 0 28px;font-size:19px}
+.btn{display:inline-block;padding:16px 26px;background:var(--p4);color:var(--cream);border:0;font:600 16px "Instrument Sans";text-decoration:none;cursor:pointer;clip-path:polygon(2% 6%,98% 0,100% 92%,4% 100%);transition:transform .2s}
+.btn:hover{transform:rotate(-1.5deg) scale(1.03)}
+.hint{position:absolute;right:clamp(18px,4vw,56px);bottom:24px;z-index:10;font:600 12px "Instrument Sans";letter-spacing:.12em;text-transform:uppercase;color:var(--cream)}
+.cards{position:relative;z-index:5;display:grid;grid-template-columns:repeat(3,1fr);gap:34px;padding:80px clamp(18px,6vw,96px) 110px;background:var(--p5);color:var(--cream)}
+.card{position:relative;padding:30px 28px 34px;background:var(--cream);color:#2f1d3d;box-shadow:0 18px 30px -18px #000;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.card:nth-child(1){transform:rotate(-2deg)}.card:nth-child(2){transform:rotate(1.5deg) translateY(16px)}.card:nth-child(3){transform:rotate(-1deg)}
+.card:hover{transform:rotate(0) translateY(-8px)}
+.card::before{content:"";position:absolute;top:-14px;left:40%;width:90px;height:26px;background:#ffd36ecc;transform:rotate(-4deg)}
+.card .shape{width:70px;height:70px;margin-bottom:18px;filter:url(#torn)}
+.card h3{margin:0 0 8px;font:500 30px/1 "Fraunces",serif;letter-spacing:-.02em}
+.card p{margin:0;color:#5b4a63}
+@media (max-width:900px){.cards{grid-template-columns:1fr}.copy{top:16%}}
+@media (prefers-reduced-motion:reduce){.layer{transition:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="torn" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="3" seed="7"/><feDisplacementMap in="SourceGraphic" scale="9"/></filter>
+</svg>
+<header class="top"><span class="logo">Paperhouse</span><button class="toggle" id="toggle" aria-pressed="false">☾ Turn the page to night</button></header>
+<main>
+<div class="scene" id="scene" aria-label="A paper-cut landscape: layered hills, a sun, clouds and trees, moving gently with the pointer">
+  <div class="layer" data-d="6"><svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice"><circle cx="1080" cy="300" r="120" fill="var(--sun)"/><ellipse cx="300" cy="200" rx="120" ry="34" fill="var(--cream)"/><ellipse cx="380" cy="180" rx="70" ry="30" fill="var(--cream)"/><ellipse cx="1240" cy="140" rx="90" ry="24" fill="var(--cream)"/></svg></div>
+  <div class="layer" data-d="14"><svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice"><path d="M0 560 C 200 470 360 520 520 470 S 860 400 1040 470 S 1320 430 1440 470 L1440 900 L0 900Z" fill="var(--p1)"/></svg></div>
+  <div class="layer" data-d="24"><svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice"><path d="M0 640 C 180 560 320 610 500 580 S 820 520 980 590 S 1280 560 1440 600 L1440 900 L0 900Z" fill="var(--p2)"/><g fill="var(--leaf)"><path d="M1130 590 l26 -90 l26 90z"/><path d="M1170 600 l20 -70 l20 70z"/><path d="M1205 595 l24 -82 l24 82z"/></g></svg></div>
+  <div class="layer" data-d="38"><svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice"><path d="M0 720 C 240 650 420 720 620 690 S 1000 640 1180 700 S 1380 690 1440 700 L1440 900 L0 900Z" fill="var(--p3)"/><g fill="var(--leaf)"><circle cx="260" cy="660" r="44"/><rect x="252" y="680" width="14" height="60"/><circle cx="330" cy="676" r="30"/><rect x="324" y="690" width="11" height="40"/></g></svg></div>
+  <div class="layer" data-d="58"><svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMax slice"><path d="M0 800 C 300 740 520 800 760 780 S 1180 740 1440 790 L1440 900 L0 900Z" fill="var(--p4)"/><path d="M880 790 q 30 -60 60 0 q 30 -40 50 0z" fill="var(--p5)"/></svg></div>
+  <div class="copy">
+    <small>Paper studio · est. 2011</small>
+    <h1>Every hill is <em>cut by hand.</em></h1>
+    <p>We make picture books, window displays and the occasional wedding backdrop out of paper, glue and a lot of patience.</p>
+    <a class="btn" href="#cards">See what we make</a>
+  </div>
+  <span class="hint">move your pointer · the paper shifts</span>
+</div>
+<section class="cards" id="cards">
+  <article class="card"><svg class="shape" viewBox="0 0 70 70" aria-hidden="true"><circle cx="35" cy="35" r="30" fill="#f2a07b"/></svg><h3>Picture books</h3><p>Every spread built as a real diorama, then photographed in raking light.</p></article>
+  <article class="card"><svg class="shape" viewBox="0 0 70 70" aria-hidden="true"><path d="M5 65 L35 5 L65 65Z" fill="#5f8a5a"/></svg><h3>Window displays</h3><p>Three-metre forests for shop windows. They survive a season; the shop owners rarely do.</p></article>
+  <article class="card"><svg class="shape" viewBox="0 0 70 70" aria-hidden="true"><path d="M5 40 C 20 10 50 10 65 40 L65 65 L5 65Z" fill="#b8475a"/></svg><h3>Workshops</h3><p>Saturday mornings: scalpels, cutting mats, tea. Leave with a small hill of your own.</p></article>
+</section>
+</main>
+<script>
+(() => {
+const layers = [...document.querySelectorAll(".layer")], reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+addEventListener("pointermove", e => { if(reduced) return; const x = e.clientX/innerWidth - .5, y = e.clientY/innerHeight - .5;
+  layers.forEach(l => { const d = +l.dataset.d; l.style.transform = `translate(${(-x*d).toFixed(1)}px,${(-y*d*.5).toFixed(1)}px)`; }); });
+addEventListener("scroll", () => { if(reduced) return; const s = scrollY; layers.forEach(l => { l.style.translate = `0 ${(s*(+l.dataset.d)/90).toFixed(1)}px`; }); }, { passive:true });
+const t = document.getElementById("toggle");
+t.addEventListener("click", () => { const night = document.documentElement.classList.toggle("night"); t.setAttribute("aria-pressed", String(night)); t.textContent = night ? "☀ Turn the page to day" : "☾ Turn the page to night"; });
+})();
+</script>
+</body>
+</html>

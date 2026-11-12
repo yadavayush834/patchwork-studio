@@ -15,7 +15,7 @@
 }
 .ascii-banner-glyphs {
   font: 21px/1.1 "Space Mono";
-  color: #a2a8f0;
+  color: #a2a5d0;
   letter-spacing: 3px;
   padding-right: 6px;
   flex-shrink: 0;
@@ -23,7 +23,7 @@
 .ascii-dashboard-banner .eyebrow {
   font-size: 7px;
   letter-spacing: 1.5px;
-  color: #a19bb8;
+  color: #adabb7;
   margin-bottom: 8px;
 }
 .ascii-dashboard-banner strong {
@@ -33,7 +33,7 @@
 .ascii-dashboard-banner p {
   font-size: 10px;
   line-height: 1.6;
-  color: #8d89a1;
+  color: #a9a8b0;
   margin: 7px 0 0;
 }
 .ascii-banner-cta {
@@ -42,11 +42,11 @@
   align-items: center;
   gap: 17px;
   margin-left: auto;
-  color: #c2b3eb;
+  color: #b2a8cc;
   white-space: nowrap;
 }
 .ascii-dashboard-banner:hover {
-  border-color: #746189;
+  border-color: #453e4d;
 }
 .ascii-library-entry {
   display: flex;
@@ -62,7 +62,7 @@
   margin-bottom: 15px;
 }
 .ascii-library-entry > svg:first-child {
-  color: #c1a6eb;
+  color: #b4a5cd;
 }
 .ascii-library-entry > svg:last-child {
   margin-left: auto;
@@ -74,22 +74,22 @@
 }
 .ascii-library-entry small {
   font-size: 7px;
-  color: #9488a6;
+  color: #aba7b2;
   display: block;
   margin-top: 5px;
 }
 .ascii-inspector {
-  border: 1px solid #e4d9f0;
+  border: 1px solid #3b3245;
   border-radius: 7px;
   padding: 12px;
-  background: #fcfaff;
+  background: #121016;
   margin-bottom: 20px;
 }
 .ascii-inspector-title {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #8f70b4;
+  color: #aa9fb7;
   font-size: 10px;
   margin: 0 0 17px;
 }
@@ -99,7 +99,7 @@
 .ascii-inspector-title button {
   margin-left: auto;
   display: flex;
-  color: #a188bc;
+  color: #afa5b9;
 }
 .ascii-inspector-download {
   font-size: 9px;
@@ -108,15 +108,15 @@
   justify-content: center;
   gap: 8px;
   padding: 10px;
-  border: 1px solid #e6d9f1;
+  border: 1px solid #3c3245;
   border-radius: 4px;
-  color: #9b7bb5;
-  background: #fff;
+  color: #aea2b7;
+  background: #0f0f13;
 }
 .ascii-inspector p {
   font-size: 8px;
   line-height: 1.7;
-  color: #ac96bb;
+  color: #b2a9b8;
   margin: 11px 0 0;
 }
 .ascii-gallery-backdrop {
@@ -125,8 +125,8 @@
   padding: 24px;
 }
 .ascii-gallery {
-  background: #f6f4f9;
-  border: 1px solid #ffffff4d;
+  background: #18151b;
+  border: 1px solid rgba(33,31,40,0.302);
   border-radius: 16px;
   width: 1050px;
   max-width: 100%;
@@ -140,7 +140,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 15px 25px;
-  border-bottom: 1px solid #e5dfed;
+  border-bottom: 1px solid #393342;
 }
 .ascii-gallery-brand {
   display: flex;
@@ -148,7 +148,7 @@
   gap: 9px;
   font: 9px "Space Mono";
   letter-spacing: 1px;
-  color: #9b89ad;
+  color: #ada7b4;
 }
 .ascii-gallery-intro {
   display: flex;
@@ -158,7 +158,7 @@
   gap: 20px;
 }
 .ascii-gallery-intro .eyebrow {
-  color: #a08bb4;
+  color: #afa7b6;
   font-size: 7px;
   letter-spacing: 1.5px;
 }
@@ -166,12 +166,12 @@
   font: 400 28px "Space Grotesk";
   letter-spacing: -1px;
   margin: 10px 0 0;
-  color: #4c3e60;
+  color: #dcd6e5;
 }
 .ascii-gallery-intro p {
   font-size: 10px;
   line-height: 1.8;
-  color: #aa97b9;
+  color: #b1aab7;
   margin: 0;
 }
 .ascii-gallery-stage {
@@ -204,17 +204,17 @@
   gap: 6px;
   background: #070911a6;
   backdrop-filter: blur(8px);
-  border: 1px solid #ffffff15;
+  border: 1px solid rgba(33,31,40,0.082);
   border-radius: 4px;
   padding: 7px 9px;
   font: 7px "Space Mono";
-  color: #c2c5d9;
+  color: #b3b5c1;
   letter-spacing: 1.2px;
 }
 .ascii-live-badge > i {
   width: 4px;
   height: 4px;
-  background: #a9d5b8;
+  background: #26392c;
   border-radius: 50%;
 }
 .ascii-pause {
@@ -226,9 +226,9 @@
   justify-content: center;
   height: 30px;
   width: 30px;
-  border: 1px solid #ffffff25;
+  border: 1px solid rgba(33,31,40,0.145);
   border-radius: 50%;
-  color: #c2bfd7;
+  color: #b4b2c1;
   background: #05071188;
 }
 .ascii-stage-caption {
@@ -240,12 +240,12 @@
   justify-content: space-between;
   font: 7px "Space Mono";
   letter-spacing: 1.2px;
-  color: #6b6c86;
+  color: #a0a0a9;
   pointer-events: none;
 }
 .ascii-stage-caption > span {
   font-size: 6px;
-  color: #4c4f64;
+  color: #d7d8e0;
 }
 .ascii-scene-tabs {
   display: grid;
@@ -255,19 +255,19 @@
 }
 .ascii-scene-tabs > button {
   position: relative;
-  border: 1px solid #e5ddec;
+  border: 1px solid #3c3443;
   border-radius: 6px;
   display: flex;
   align-items: center;
   gap: 10px;
   text-align: left;
   padding: 8px;
-  background: #fff7;
+  background: rgba(15,15,19,0.467);
   min-width: 0;
 }
 .ascii-scene-tabs > button[aria-selected="true"] {
-  border-color: #b69ad2;
-  background: #eee7f7;
+  border-color: #32263d;
+  background: #1e1a24;
 }
 .ascii-scene-tabs img {
   width: 60px;
@@ -279,12 +279,12 @@
 .ascii-scene-tabs span {
   font: 6px "Space Mono";
   letter-spacing: 0.6px;
-  color: #aa91bf;
+  color: #b1a7ba;
   display: block;
 }
 .ascii-scene-tabs strong {
   font-size: 10px;
-  color: #80628f;
+  color: #a79dac;
   font-weight: 500;
   display: block;
   margin-top: 5px;
@@ -296,7 +296,7 @@
   top: 7px;
   width: 4px;
   height: 4px;
-  background: #aa8bc2;
+  background: #382c41;
   border-radius: 50%;
 }
 .ascii-gallery > footer {
@@ -310,11 +310,11 @@
   font: 400 19px "Space Grotesk";
   letter-spacing: -0.5px;
   margin: 0 0 7px;
-  color: #655072;
+  color: #dbd3e0;
 }
 .ascii-gallery footer p {
   font-size: 10px;
-  color: #9e86ac;
+  color: #afa6b4;
   line-height: 1.7;
   max-width: 480px;
   margin: 0;
@@ -322,7 +322,7 @@
 .ascii-gallery footer small {
   display: block;
   font-size: 7px;
-  color: #b3a0bf;
+  color: #b4acb9;
   margin-top: 9px;
 }
 .ascii-gallery-actions {
@@ -335,12 +335,12 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  border: 1px solid #ded2e9;
+  border: 1px solid #42384c;
   border-radius: 6px;
   padding: 12px 13px;
   font-size: 10px;
-  color: #9d82af;
-  background: #fff;
+  color: #aea5b5;
+  background: #0f0f13;
 }
 .ascii-gallery-actions .primary {
   font-size: 10px;

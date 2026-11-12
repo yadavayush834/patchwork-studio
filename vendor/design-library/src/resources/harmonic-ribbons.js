@@ -1,5 +1,0 @@
-class Resource extends Vector {
- heading='A shape held in harmony.';note='Frequency, phase and repetition become a single mark.';
- build(){const bands=this.number('detail',12,4,24),frequency=this.number('strength',3,2,7);let paths='';for(let band=0;band<bands;band++){let d='';for(let i=0;i<=500;i++){const t=i/500*Math.PI*2,phase=band/bands*Math.PI*2;const radius=105+Math.cos(t*frequency+phase)*35;const x=360+Math.cos(t)*radius*1.6+Math.sin(t*2+phase)*14,y=210+Math.sin(t)*radius+Math.cos(t*3+phase)*15;d+=(i?'L':'M')+x.toFixed(2)+' '+y.toFixed(2);}paths+=`<path d="${d}Z" fill="none" stroke="${band%4===0?'#ddba94':this.color}" stroke-width="${band%4===0?1.3:.65}" opacity="${.25+band/bands*.55}"/>`;}
- return this.svg(`<rect x="34" y="28" width="652" height="364" rx="18" fill="#22252b"/><circle cx="360" cy="210" r="160" fill="none" stroke="#e5d7be10"/>${paths}<path d="M360 51v15m0 288v15M101 210h15m488 0h15" stroke="#c9bd9d44"/><text x="360" y="385" text-anchor="middle" fill="#b1ad9d" font-family="monospace" font-size="8" letter-spacing="3">HARMONIC ${frequency} / ${bands} PHASES</text>`);}
-}

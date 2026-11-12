@@ -1,1 +1,0 @@
-import{t as e}from"./index-CWVR81uv.js";import{t}from"./resource-handoff-CqxFGRvo.js";var n=e();function r({id:e}){return(0,n.jsx)(t,{kind:`svg`,id:e})}export{r as default};

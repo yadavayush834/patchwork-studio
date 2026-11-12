@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Constellations — an SVG experiment</title>
+<style>
+@font-face{font-family:"Instrument Serif";src:url("../fonts/InstrumentSerif-Italic.woff2") format("woff2");font-style:italic;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(120% 90% at 50% 100%,#1d2a5a,#0a0e24 55%,#05060f);color:#eef0ff;font:14px/1.5 "JetBrains Mono",monospace;overflow:hidden;touch-action:none}
+svg{position:fixed;inset:0;width:100%;height:100%;cursor:grab}
+svg:active{cursor:grabbing}
+.star{fill:#eef0ff}
+.twinkle{animation:tw var(--t) ease-in-out var(--d) infinite}
+@keyframes tw{50%{opacity:.25}}
+.cline{fill:none;stroke:#ffc65c;stroke-width:1.4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.6s cubic-bezier(.5,0,.3,1),opacity .6s}
+.con.on .cline{stroke-dashoffset:0}
+.cstar{fill:#fff6d6;transition:r .4s}
+.con.on .cstar{filter:url(#glow)}
+.cname{font:italic 30px "Instrument Serif",serif;fill:#ffc65c;opacity:0;transition:opacity .8s .6s}
+.cmeta{font:11px "JetBrains Mono",monospace;fill:#8f93c4;letter-spacing:.12em;opacity:0;transition:opacity .8s .9s}
+.con.on .cname,.con.on .cmeta{opacity:1}
+.hit{fill:transparent;cursor:pointer}
+.ground{fill:#05060f}
+.meteor{stroke:#fff;stroke-width:1.6;stroke-linecap:round;opacity:0}
+header{position:fixed;left:clamp(18px,4vw,48px);top:clamp(18px,4vw,40px);pointer-events:none}
+h1{margin:0;font:italic 400 clamp(46px,6vw,92px)/.9 "Instrument Serif",serif;letter-spacing:-.02em}
+header p{margin:10px 0 0;max-width:40ch;color:#8f93c4}
+.list{position:fixed;right:clamp(18px,4vw,48px);top:clamp(18px,4vw,40px);display:grid;gap:4px;justify-items:end}
+.list button{padding:6px 12px;border:0;border-radius:999px;background:transparent;color:#8f93c4;font:12px "JetBrains Mono";letter-spacing:.06em;cursor:pointer}
+.list button:hover,.list button[aria-pressed="true"]{background:#ffc65c;color:#0a0e24}
+.hint{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);font-size:11px;letter-spacing:.14em;color:#8f93c4;text-transform:uppercase;pointer-events:none}
+:focus-visible{outline:2px solid #ffc65c;outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.twinkle{animation:none}.cline{transition:none}}
+</style>
+</head>
+<body>
+<svg id="sky" role="img" aria-label="A night sky that turns slowly. Constellations draw their lines and names when you point at them or pick one from the list.">
+  <defs><filter id="glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <g id="rot"><g id="field"></g><g id="cons"></g></g><g id="labels"></g>
+  <line class="meteor" id="meteor"/>
+  <path class="ground" id="ground"/>
+</svg>
+<header><h1>Constellations</h1><p>The sky turns around the pole star. Drag to turn it yourself; point at a cluster of stars and it remembers its name.</p></header>
+<nav class="list" id="list" aria-label="Constellations"></nav>
+<div class="hint">drag to turn the sky</div>
+<script>
+(() => {
+const NS = "http://www.w3.org/2000/svg", svg = document.getElementById("sky"), rot = document.getElementById("rot"), reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const el = (tag, a, p) => { const e = document.createElementNS(NS, tag); for(const k in a) e.setAttribute(k, a[k]); p.append(e); return e; };
+let W, H, R; let angle = 0, spin = .012, drag = null, lit = -1, auto = 0;
+// constellations as star positions in a 100x100 box, with lines between indices; placed on the dome by polar coordinates
+const CONS = [
+  { name:"Ursa Major", meta:"THE GREAT BEAR · 7 STARS", r:.26, a:200, s:[[0,30],[18,22],[34,24],[48,34],[52,52],[74,56],[78,36]], l:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]] },
+  { name:"Cassiopeia", meta:"THE QUEEN · 5 STARS", r:.24, a:20, s:[[0,20],[22,46],[42,26],[62,50],[84,18]], l:[[0,1],[1,2],[2,3],[3,4]] },
+  { name:"Cygnus", meta:"THE SWAN · 6 STARS", r:.55, a:300, s:[[50,0],[50,26],[50,52],[50,86],[16,40],[86,32]], l:[[0,1],[1,2],[2,3],[4,1],[1,5]] },
+  { name:"Orion", meta:"THE HUNTER · 8 STARS", r:.62, a:120, s:[[48,0],[24,14],[72,18],[40,50],[50,52],[60,55],[24,92],[74,90]], l:[[0,1],[0,2],[1,3],[2,5],[3,4],[4,5],[3,6],[5,7]] },
+  { name:"Lyra", meta:"THE LYRE · 5 STARS", r:.42, a:350, s:[[30,0],[40,30],[64,34],[56,74],[30,70]], l:[[0,1],[1,2],[2,3],[3,4],[4,1]] },
+  { name:"Leo", meta:"THE LION · 7 STARS", r:.6, a:220, s:[[10,40],[26,20],[44,12],[56,26],[50,44],[86,56],[60,70]], l:[[0,1],[1,2],[2,3],[3,4],[4,0],[4,6],[6,5],[5,3]] },
+];
+let seed = 7; const rnd = () => (seed = seed*16807 % 2147483647)/2147483647;
+const field = document.getElementById("field"), cons = document.getElementById("cons");
+function build(){
+  W = innerWidth; H = innerHeight; R = Math.hypot(W, H)*.62;
+  svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  field.innerHTML = ""; cons.innerHTML = ""; document.getElementById("labels").innerHTML = ""; seed = 7;
+  const cx = W*.5, cy = H*.84; rot.dataset.cx = cx; rot.dataset.cy = cy;
+  for(let i=0;i<620;i++){ const a = rnd()*Math.PI*2, d = Math.sqrt(rnd())*R, s = rnd();
+    el("circle", { class:"star" + (s>.6?" twinkle":""), cx:(cx+Math.cos(a)*d).toFixed(1), cy:(cy+Math.sin(a)*d).toFixed(1), r:(s>.97?1.8:s>.85?1.2:.7), opacity:(.35+s*.65).toFixed(2), style:`--t:${2+rnd()*4}s;--d:${-rnd()*5}s` }, field); }
+  el("circle", { class:"star", cx, cy:cy, r:2.6, filter:"url(#glow)" }, field); // the pole star, the sky's pivot
+  CONS.forEach((c, i) => {
+    const g = el("g", { class:"con", "data-i":i }, cons), a = c.a*Math.PI/180, d = c.r*Math.min(W,H)*.95, ox = cx + Math.cos(a)*d, oy = cy + Math.sin(a)*d, k = Math.min(W,H)/520*1.6;
+    const pts = c.s.map(([x,y]) => [ox + (x-50)*k, oy + (y-50)*k]);
+    c.l.forEach(([p,q]) => el("path", { class:"cline", d:`M${pts[p][0].toFixed(1)} ${pts[p][1].toFixed(1)} L${pts[q][0].toFixed(1)} ${pts[q][1].toFixed(1)}`, pathLength:1 }, g));
+    pts.forEach(([x,y],j) => el("circle", { class:"cstar", cx:x.toFixed(1), cy:y.toFixed(1), r: j%3===0 ? 2.6 : 2 }, g));
+    const lx = Math.min(...pts.map(p=>p[0])), ly = Math.max(...pts.map(p=>p[1])) + 34;
+    const lab = el("g", { class:"con", "data-i":i }, document.getElementById("labels")); c.center = [pts.reduce((a,p)=>a+p[0],0)/pts.length, pts.reduce((a,p)=>a+p[1],0)/pts.length]; c.span = Math.max(...pts.map(p=>Math.hypot(p[0]-c.center[0],p[1]-c.center[1]))); c.lab = lab;
+    el("text", { class:"cname", x:0, y:0, "text-anchor":"middle" }, lab).textContent = c.name; el("text", { class:"cmeta", x:0, y:18, "text-anchor":"middle" }, lab).textContent = c.meta;
+    el("circle", { class:"hit", cx:ox, cy:oy, r:62*k }, g).addEventListener("pointerenter", () => { light(i); auto = -4; });
+  });
+  // a hand-drawn treeline along the horizon
+  let d = `M0 ${H} L0 ${H*.9}`; for(let x=0;x<=W;x+=14){ const tree = Math.sin(x*.05)*.5+.5 > .7, h = H*.9 - (tree ? 18 + (x*37%23) : 4 + Math.sin(x*.02)*6); d += ` L${x} ${h.toFixed(1)}${tree ? ` L${x+7} ${(h-16).toFixed(1)} L${x+14} ${h.toFixed(1)}` : ""}`; }
+  document.getElementById("ground").setAttribute("d", d + ` L${W} ${H} Z`);
+}
+function light(i){ lit = i; auto = 0; document.querySelectorAll("#cons .con, #labels .con").forEach(g => g.classList.toggle("on", +g.dataset.i===i)); document.querySelectorAll("#list button").forEach((b,j) => b.setAttribute("aria-pressed", String(j===i))); }
+document.getElementById("list").innerHTML = CONS.map((c,i) => `<button data-i="${i}" aria-pressed="false">${c.name}</button>`).join("");
+document.getElementById("list").addEventListener("click", e => { const b = e.target.closest("button"); if(!b) return; const i = +b.dataset.i; light(i); auto = -6;
+  // turn the sky so the chosen one rides high
+  const want = -90 - CONS[i].a; let diff = ((want - angle) % 360 + 540) % 360 - 180; target = angle + diff; });
+let target = null;
+svg.addEventListener("pointerdown", e => { drag = { x: e.clientX, a: angle }; svg.setPointerCapture(e.pointerId); target = null; });
+svg.addEventListener("pointermove", e => { if(drag){ angle = drag.a + (e.clientX - drag.x)*.15; } });
+svg.addEventListener("pointerup", () => drag = null);
+const meteor = document.getElementById("meteor"); let mt = -1, m = null;
+let last = performance.now();
+function frame(now){
+  const dt = Math.min(.05,(now-last)/1000); last = now;
+  if(target !== null){ angle += (target-angle)*.06; if(Math.abs(target-angle) < .05) target = null; } else if(!drag) angle += spin;
+  rot.setAttribute("transform", `rotate(${angle.toFixed(2)} ${rot.dataset.cx} ${rot.dataset.cy})`);
+  // counter-rotate the names so they stay readable
+  const ra = angle*Math.PI/180, pcx = +rot.dataset.cx, pcy = +rot.dataset.cy;
+  CONS.forEach(c => { if(!c.lab) return; const dx = c.center[0]-pcx, dy = c.center[1]-pcy; const x = pcx + dx*Math.cos(ra) - dy*Math.sin(ra), y = pcy + dx*Math.sin(ra) + dy*Math.cos(ra); c.lab.setAttribute("transform", `translate(${x.toFixed(1)} ${(y + c.span + 34).toFixed(1)})`); });
+  auto += dt; if(auto > 4){ light((lit+1) % CONS.length); }
+  if(mt < 0 && Math.random() < .004){ mt = 0; m = { x: Math.random()*W*.8+W*.1, y: Math.random()*H*.3, dx: -260 - Math.random()*200, dy: 140 }; }
+  if(mt >= 0){ mt += dt; const p = mt/.7; meteor.setAttribute("x1", m.x + m.dx*p); meteor.setAttribute("y1", m.y + m.dy*p); meteor.setAttribute("x2", m.x + m.dx*Math.max(0,p-.18)); meteor.setAttribute("y2", m.y + m.dy*Math.max(0,p-.18)); meteor.style.opacity = String(Math.sin(Math.min(1,p)*Math.PI)); if(p >= 1){ mt = -1; meteor.style.opacity = 0; } }
+  if(!reduced) raf = requestAnimationFrame(frame);
+}
+build(); addEventListener("resize", build); light(0);
+let raf = requestAnimationFrame(frame);
+document.addEventListener("visibilitychange", () => { cancelAnimationFrame(raf); if(!document.hidden && !reduced){ last = performance.now(); raf = requestAnimationFrame(frame); } });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phosphor — a style study in green light</title>
+<style>
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+@font-face{font-family:"Pixelify";src:url("../fonts/PixelifySans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+:root{--glow:#7dff9b;--dim:#2f8f4a;--deep:#021208;--case:#1b1a17;--amber:#ffb347;--g:var(--glow)}
+:root.amber{--glow:#ffb347;--dim:#9a5f1c;--deep:#120a02}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:radial-gradient(120% 90% at 50% 40%,#2b2924,#0d0c0a);color:var(--glow);font:16px/1.5 "JetBrains Mono",monospace;display:grid;place-items:center;min-height:100svh;padding:clamp(10px,3vw,40px);overflow:hidden}
+:focus-visible{outline:2px solid var(--glow);outline-offset:3px}
+.case{position:relative;width:min(1180px,100%);height:min(780px,calc(100svh - 2*clamp(10px,3vw,40px)));padding:clamp(14px,2.6vw,34px);border-radius:34px;background:linear-gradient(160deg,#3a3731,#1b1a17 60%);box-shadow:inset 0 2px 0 #ffffff1a,inset 0 -6px 0 #0006,0 40px 90px -30px #000}
+.case::after{content:"PHOSPHOR · MODEL 7";position:absolute;right:46px;bottom:9px;font:700 10px "JetBrains Mono";letter-spacing:.3em;color:#ffffff40}
+.led{position:absolute;left:44px;bottom:12px;width:8px;height:8px;border-radius:50%;background:var(--glow);box-shadow:0 0 10px var(--glow);animation:led 3s steps(1) infinite}
+@keyframes led{92%{opacity:.3}}
+.screen{position:relative;height:100%;border-radius:24px/30px;overflow:hidden;background:radial-gradient(110% 100% at 50% 50%,color-mix(in srgb,var(--deep) 70%,var(--dim) 30%),var(--deep) 70%,#000);box-shadow:inset 0 0 80px #000,inset 0 0 12px #000}
+/* scanlines, flicker, vignette and a slow refresh bar */
+.screen::before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:repeating-linear-gradient(transparent 0 2px,#00000059 2px 3px);mix-blend-mode:multiply}
+.screen::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;background:linear-gradient(transparent,color-mix(in srgb,var(--glow) 9%,transparent) 50%,transparent);height:30%;animation:roll 7s linear infinite}
+@keyframes roll{from{transform:translateY(-100%)}to{transform:translateY(400%)}}
+.inner{position:absolute;inset:0;padding:clamp(18px,3vw,40px);overflow:auto;scrollbar-width:none;text-shadow:0 0 2px var(--glow),0 0 12px color-mix(in srgb,var(--glow) 55%,transparent);animation:flicker 4s infinite;transform:perspective(1200px) scale(1.005)}
+.inner::-webkit-scrollbar{display:none}
+@keyframes flicker{0%,100%{opacity:1}47%{opacity:.96}48%{opacity:.9}49%{opacity:.98}}
+.banner{margin:0 0 18px;font:400 clamp(30px,5.4vw,74px)/.95 "Pixelify",monospace;letter-spacing:.02em;white-space:pre}
+.out{white-space:pre-wrap;margin:0}
+.out .dim{color:var(--dim);text-shadow:none}
+.out .hi{background:var(--glow);color:var(--deep);text-shadow:none;padding:0 4px}
+.out a{color:inherit}
+.line{display:flex;gap:10px;align-items:center;margin-top:6px}
+.line label{white-space:nowrap}
+.line input{flex:1;min-width:0;border:0;background:transparent;color:var(--glow);font:inherit;caret-color:transparent;text-shadow:inherit;outline:none}
+.cursor{display:inline-block;width:.6em;height:1.1em;background:var(--glow);box-shadow:0 0 10px var(--glow);vertical-align:-3px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.keys{position:absolute;right:clamp(18px,3vw,40px);top:clamp(18px,3vw,40px);z-index:5;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;max-width:50%}
+.keys button{padding:5px 10px;border:1px solid var(--dim);border-radius:4px;background:transparent;color:var(--glow);font:12px "JetBrains Mono";cursor:pointer;text-shadow:0 0 6px var(--glow)}
+.keys button:hover{background:var(--glow);color:var(--deep);text-shadow:none}
+.bar{display:inline-block;width:22ch;white-space:pre}
+@media (max-width:700px){.keys{position:static;max-width:none;justify-content:flex-start;margin-bottom:12px}.inner{font-size:14px}}
+@media (prefers-reduced-motion:reduce){.screen::after,.inner,.cursor,.led{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="case">
+  <div class="screen">
+    <div class="inner" id="inner">
+      <div class="keys" aria-label="Quick commands"><button data-c="help">help</button><button data-c="about">about</button><button data-c="work">work</button><button data-c="weather">weather</button><button data-c="amber">amber</button><button data-c="clear">clear</button></div>
+      <pre class="banner" aria-label="Phosphor">PHOSPHOR</pre>
+      <pre class="out" id="out" aria-live="polite"></pre>
+      <form class="line" id="line" autocomplete="off"><label for="cmd">guest@phosphor:~$</label><input id="cmd" aria-label="Type a command" spellcheck="false"><span class="cursor" aria-hidden="true"></span></form>
+    </div>
+  </div>
+  <i class="led" aria-hidden="true"></i>
+</div>
+<script>
+(() => {
+const out = document.getElementById("out"), cmd = document.getElementById("cmd"), inner = document.getElementById("inner");
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const queue = []; let busy = false;
+const esc = s => s.replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+function say(html, speed = 6){ queue.push({ html, speed }); if(!busy) pump(); }
+async function pump(){
+  busy = true;
+  while(queue.length){
+    const { html, speed } = queue.shift(); const span = document.createElement("span"); out.append(span);
+    if(reduced || speed === 0){ span.innerHTML = html + "\n"; continue; }
+    // type the visible text, keeping tags intact
+    const parts = html.split(/(<[^>]+>)/); let shown = "";
+    for(const p of parts){ if(p.startsWith("<")){ shown += p; continue; } for(const ch of p){ shown += ch; span.innerHTML = shown; inner.scrollTop = inner.scrollHeight; await new Promise(r => setTimeout(r, speed)); } }
+    span.innerHTML = shown + "\n";
+  }
+  inner.scrollTop = inner.scrollHeight; busy = false;
+}
+async function progress(label){ const span = document.createElement("span"); out.append(span);
+  for(let i=0;i<=20;i++){ span.innerHTML = `${label} [<span class="bar">${"█".repeat(i)}${"░".repeat(20-i)}</span>] ${i*5}%\n`; await new Promise(r=>setTimeout(r, reduced?0:28)); } }
+const cmds = {
+  help: () => say(`<span class="dim">available commands</span>\n  about     who is behind the glass\n  work      three things worth showing\n  weather   the view from the window\n  time      what the clock says\n  amber     swap the phosphor\n  hello     be polite\n  clear     wipe the screen`),
+  about: () => say(`PHOSPHOR is a style study: a website that lives inside an old monitor.\nGreen light, scanlines, a little flicker, and a prompt that actually listens.\nEverything here is plain HTML, CSS and a few lines of script.`),
+  work: () => say(`<span class="hi"> 01 </span> NIGHT SHIFT ......... a radio station for insomniacs\n<span class="hi"> 02 </span> TIDE TABLES ......... the sea, printed every morning\n<span class="hi"> 03 </span> SMALL HOURS ......... a clock that only shows 3am\n<span class="dim">type a number to open one (pretend)</span>`),
+  1: () => say("Opening NIGHT SHIFT ... tuning ... 98.6 FM. Quiet, mostly."), 2: () => say("Opening TIDE TABLES ... high water 06:42, low 12:57."), 3: () => say("Opening SMALL HOURS ... it is 3:00. It is always 3:00."),
+  weather: () => say(`        .--.        \n     .-(    ).      ${new Date().toLocaleDateString(undefined,{weekday:"long"})}\n    (___.__)__)     light rain, 11°\n     ' ' ' ' '      wind  sw 12 km/h\n    ' ' ' ' '       good weather for staying in`, 2),
+  time: () => say(new Date().toLocaleTimeString() + "  <span class=\"dim\">(the tubes are warm)</span>"),
+  amber: () => { document.documentElement.classList.toggle("amber"); say(document.documentElement.classList.contains("amber") ? "Phosphor swapped: P3 amber." : "Phosphor swapped: P1 green."); },
+  hello: () => say("Hello. It has been a long time since anyone said that to me."),
+  clear: () => { out.innerHTML = ""; },
+};
+function run(raw){
+  const c = raw.trim().toLowerCase(); out.append(Object.assign(document.createElement("span"), { innerHTML: `<span class="dim">guest@phosphor:~$</span> ${esc(raw)}\n` }));
+  if(!c) return; (cmds[c] || (() => say(`command not found: ${esc(c)}  <span class="dim">(try help)</span>`)))();
+}
+document.getElementById("line").addEventListener("submit", e => { e.preventDefault(); run(cmd.value); cmd.value = ""; });
+document.querySelectorAll(".keys button").forEach(b => b.addEventListener("click", () => { run(b.dataset.c); cmd.focus(); }));
+inner.addEventListener("click", e => { if(!e.target.closest("button")) cmd.focus(); });
+// boot
+(async () => {
+  say(`<span class="dim">PHOSPHOR BIOS v7.02 · (c) a small studio</span>`, 0);
+  say(`<span class="dim">memory check ............ 640K, which is plenty</span>`, 0);
+  await new Promise(r => setTimeout(r, reduced ? 0 : 300)); while(busy) await new Promise(r=>setTimeout(r,30));
+  await progress("warming tubes");
+  say(`\nGood evening. This screen is a website.\nType <span class="hi">help</span> and press enter, or tap a key above.`, 14);
+  cmd.focus({ preventScroll: true });
+})();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Riso Club — a style study in two inks</title>
+<style>
+@font-face{font-family:"Bricolage";src:url("../fonts/BricolageGrotesque.woff2") format("woff2");font-weight:200 800;font-stretch:75% 100%;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+:root{--paper:#f4efe2;--a:#ff48b0;--b:#0078bf;--dx:3px;--dy:-2px;--display:"Bricolage",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--b);font:16px/1.5 var(--mono);-webkit-font-smoothing:antialiased;overflow-x:clip}
+:focus-visible{outline:3px solid var(--a);outline-offset:3px}
+/* paper grain and slight speckle, like a real drum print */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;mix-blend-mode:multiply;opacity:.55;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .5 0 0 0 0 .42 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.ink-a{color:var(--a)}.ink-b{color:var(--b)}
+/* each ink is its own layer; overlapping inks multiply, just like the press */
+.print{position:relative;isolation:isolate}
+.print>*{mix-blend-mode:multiply}
+.layer-a{transform:translate(var(--dx),var(--dy));transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.halftone-a{background:radial-gradient(circle,var(--a) 42%,transparent 44%) 0 0/9px 9px}
+.halftone-b{background:radial-gradient(circle,var(--b) 38%,transparent 40%) 0 0/7px 7px}
+
+.top{display:flex;justify-content:space-between;align-items:center;padding:22px clamp(18px,4vw,56px);font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.top b{font:800 20px var(--display);letter-spacing:-.02em;text-transform:none}
+.inks{display:flex;gap:8px;align-items:center}
+.inks button{display:flex;width:44px;height:26px;padding:0;border:2px solid var(--b);border-radius:999px;overflow:hidden;cursor:pointer;background:none}
+.inks button i{flex:1}
+.inks button[aria-pressed="true"]{outline:2px solid var(--a);outline-offset:2px}
+
+.hero{position:relative;min-height:calc(100svh - 74px);display:grid;grid-template-columns:1.3fr 1fr;align-items:center;gap:30px;padding:0 clamp(18px,4vw,56px) 40px}
+.big{position:relative;margin:0;font:800 clamp(80px,13vw,210px)/.8 var(--display);font-stretch:78%;letter-spacing:-.05em;text-transform:uppercase}
+.big span{display:block}
+.big .layer-a{position:absolute;inset:0;color:var(--a)}
+.big .layer-b{position:relative;color:var(--b)}
+.sub{max-width:44ch;margin:30px 0 0;font-size:15px;line-height:1.7}
+.poster{position:relative;aspect-ratio:3/4;max-height:76svh;justify-self:center;width:100%}
+.poster .layer-a,.poster .layer-b{position:absolute;inset:0}
+.sun{position:absolute;width:62%;aspect-ratio:1;left:19%;top:10%;border-radius:50%}
+.hill{position:absolute;left:-6%;right:-6%;bottom:0;height:46%;border-radius:50% 50% 0 0 / 70% 70% 0 0}
+.hill.two{left:30%;right:-20%;height:34%}
+.bird{position:absolute;font:800 46px var(--display)}
+.stamp{position:absolute;right:6%;top:4%;padding:8px 12px;border:3px solid var(--b);font:800 14px var(--display);letter-spacing:.04em;transform:rotate(8deg);text-transform:uppercase}
+.drag{position:absolute;left:0;bottom:-34px;font-size:12px;letter-spacing:.06em}
+
+.band{display:flex;overflow:hidden;border-block:3px solid var(--b);padding:12px 0;font:800 30px var(--display);text-transform:uppercase;white-space:nowrap}
+.band div{display:flex;gap:40px;animation:roll 26s linear infinite;padding-left:40px}
+.band span:nth-child(odd){color:var(--a)}
+@keyframes roll{to{transform:translateX(-50%)}}
+
+section{padding:90px clamp(18px,4vw,56px)}
+h2{position:relative;margin:0 0 40px;font:800 clamp(48px,6vw,96px)/.85 var(--display);font-stretch:80%;letter-spacing:-.04em;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.class{position:relative;padding:24px;border:3px solid var(--b);min-height:300px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.class .bg{position:absolute;inset:auto -20% -30% auto;width:70%;aspect-ratio:1;border-radius:50%;opacity:.9}
+.class h3{position:relative;margin:0;font:800 40px/.9 var(--display);text-transform:uppercase;letter-spacing:-.03em}
+.class p{position:relative;margin:12px 0 0;font-size:14px}
+.class .when{position:relative;display:flex;justify-content:space-between;font-size:13px;font-weight:700}
+.class button{position:relative;padding:12px 16px;border:0;background:var(--b);color:var(--paper);font:700 14px var(--mono);cursor:pointer;box-shadow:4px 4px 0 var(--a);transition:transform .15s,box-shadow .15s}
+.class button:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--a)}
+.class button[aria-pressed="true"]{background:var(--a);box-shadow:4px 4px 0 var(--b)}
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:3px solid var(--b)}
+.sw{aspect-ratio:1;display:flex;align-items:end;padding:12px;font-size:12px;font-weight:700;border-right:3px solid var(--b)}
+.sw:last-child{border-right:0}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:30px clamp(18px,4vw,56px) 40px;border-top:3px solid var(--b);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+@media (max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.swatches{grid-template-columns:1fr 1fr}.poster{max-width:420px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <b>Riso Club<span class="ink-a">*</span></b>
+  <span class="inks" role="group" aria-label="Ink pair">
+    <button aria-pressed="true" data-a="#ff48b0" data-b="#0078bf" aria-label="Fluorescent pink and blue"><i style="background:#ff48b0"></i><i style="background:#0078bf"></i></button>
+    <button aria-pressed="false" data-a="#ffe800" data-b="#00838a" aria-label="Yellow and teal"><i style="background:#ffe800"></i><i style="background:#00838a"></i></button>
+    <button aria-pressed="false" data-a="#ff6c2f" data-b="#5d3a9b" aria-label="Orange and purple"><i style="background:#ff6c2f"></i><i style="background:#5d3a9b"></i></button>
+    <button aria-pressed="false" data-a="#00a95c" data-b="#e4002b" aria-label="Green and red"><i style="background:#00a95c"></i><i style="background:#e4002b"></i></button>
+  </span>
+</header>
+
+<main>
+<div class="hero">
+  <div>
+    <h1 class="big print" aria-label="Print club">
+      <span class="layer-a" aria-hidden="true"><span>Print</span><span>Club</span></span>
+      <span class="layer-b"><span>Print</span><span>Club</span></span>
+    </h1>
+    <p class="sub">A community riso studio in a former laundrette. Two drums, forty inks, one rule: misregistration is a feature. <span class="ink-a">Move your pointer</span> and the pink drum slips.</p>
+  </div>
+  <div class="poster print" aria-label="A two-ink poster: a halftone sun over two hills, with birds">
+    <div class="layer-b"><div class="sun halftone-b"></div><div class="hill" style="background:var(--b)"></div><span class="bird ink-b" style="left:12%;top:38%">v</span><span class="bird ink-b" style="left:24%;top:30%;font-size:30px">v</span><span class="stamp ink-b">No. 041</span></div>
+    <div class="layer-a"><div class="sun" style="background:var(--a);width:46%;left:34%;top:20%"></div><div class="hill two halftone-a"></div></div>
+    <span class="drag">↖ overprint: where inks meet, a third colour appears</span>
+  </div>
+</div>
+
+<div class="band" aria-hidden="true"><div><span>Two inks</span><span>No rules</span><span>Open studio Thursdays</span><span>Zines</span><span>Posters</span><span>Two inks</span><span>No rules</span><span>Open studio Thursdays</span><span>Zines</span><span>Posters</span></div></div>
+
+<section>
+  <h2 class="print"><span class="layer-a ink-a" style="position:absolute;inset:0" aria-hidden="true">Classes</span><span class="ink-b" style="position:relative">Classes</span></h2>
+  <div class="grid" id="classes"></div>
+</section>
+
+<section style="padding-top:0">
+  <h2 class="print"><span class="layer-a ink-a" style="position:absolute;inset:0" aria-hidden="true">The overprint</span><span class="ink-b" style="position:relative">The overprint</span></h2>
+  <div class="swatches print" aria-label="Ink swatches">
+    <div class="sw" style="background:var(--a)">INK A · 100%</div>
+    <div class="sw halftone-a">INK A · 40%</div>
+    <div class="sw" style="background:var(--b);color:var(--paper)">INK B · 100%</div>
+    <div class="sw" style="background:var(--a);position:relative"><span style="position:absolute;inset:0;background:var(--b);mix-blend-mode:multiply"></span><span style="position:relative;color:var(--paper)">A × B</span></div>
+  </div>
+</section>
+</main>
+<footer><span>Riso Club · 9 Wash Lane</span><span>Thu 6–10pm · Sat 11–5</span><span>Bring paper. Leave inky.</span></footer>
+
+<script>
+(() => {
+const root = document.documentElement, reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+addEventListener("pointermove", e => { if(reduced) return; const x = (e.clientX/innerWidth - .5)*14, y = (e.clientY/innerHeight - .5)*10; root.style.setProperty("--dx", x.toFixed(1)+"px"); root.style.setProperty("--dy", y.toFixed(1)+"px"); });
+document.querySelectorAll(".inks button").forEach(b => b.addEventListener("click", () => {
+  root.style.setProperty("--a", b.dataset.a); root.style.setProperty("--b", b.dataset.b);
+  document.querySelectorAll(".inks button").forEach(o => o.setAttribute("aria-pressed", String(o===b)));
+}));
+const classes = [["Zine in a day","Fold, print, staple. Leave with fifty copies of something you made.","SAT 11:00","£35"],["Two-colour posters","Splitting an image into two drums, and the happy accidents in between.","THU 18:30","£40"],["Open press","Book a drum by the hour. We'll show you how to clear a jam.","ANY THU","£12/h"]];
+document.getElementById("classes").innerHTML = classes.map((c,i)=>`<article class="class print"><div class="bg ${i%2?"halftone-b":"halftone-a"} layer-a"></div><div><h3>${c[0]}</h3><p>${c[1]}</p></div><div><div class="when"><span>${c[2]}</span><span class="ink-a">${c[3]}</span></div><button aria-pressed="false" style="margin-top:14px;width:100%">Save me a seat</button></div></article>`).join("");
+document.getElementById("classes").addEventListener("click", e => { const b = e.target.closest("button"); if(!b) return; const on = b.getAttribute("aria-pressed")!=="true"; b.setAttribute("aria-pressed", String(on)); b.textContent = on ? "✓ Seat saved" : "Save me a seat"; });
+})();
+</script>
+</body>
+</html>

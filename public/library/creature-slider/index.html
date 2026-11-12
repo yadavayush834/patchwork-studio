@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Creature Slider — UI primitives</title>
+<style>
+@font-face{font-family:"Bricolage";src:url("../fonts/BricolageGrotesque.woff2") format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Instrument Serif";src:url("../fonts/InstrumentSerif-Italic.woff2") format("woff2");font-style:italic;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+@font-face{font-family:"Pixelify";src:url("../fonts/PixelifySans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+:root{--bg:#16132a;--card:#211d3a;--line:#332d55;--paper:#f4efe6;--muted:#a49cc8;--tomato:#ff5b3a;--sun:#ffc23d;--mint:#6fe3b5;--sky:#7fa8ff;--lilac:#b79bff}
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0}
+body{background:var(--bg);color:var(--paper);font:15px/1.5 "Bricolage",system-ui,sans-serif;padding:clamp(18px,4vw,56px)}
+header{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:34px}
+h1{margin:0;font:800 clamp(40px,5vw,76px)/.9 "Bricolage";letter-spacing:-.045em}
+h1 em{font:400 1.1em/0 "Instrument Serif",serif;color:var(--mint)}
+header p{margin:0;max-width:46ch;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:auto auto;gap:22px}
+.spec{border-radius:20px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);padding:28px}
+.spec.big{grid-row:span 2;display:grid;align-content:center;gap:24px}
+.spec h2{margin:0;font:700 26px "Bricolage";letter-spacing:-.03em}
+.spec h2 small{display:block;font:12px "JetBrains Mono";color:var(--muted);letter-spacing:.04em;margin-top:4px}
+svg.px{shape-rendering:crispEdges;display:block}
+:focus-visible{outline:3px solid var(--sun);outline-offset:4px}
+
+/* 1 · the spice slider, walked by a hedgehog */
+.track{position:relative;padding-top:120px}
+.hog{position:absolute;top:28px;left:0;width:96px;transform:translateX(-50%);transition:left .12s steps(3)}
+.hog.walk svg{animation:bob .3s steps(2) infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.bubble{position:absolute;top:-38px;left:50%;transform:translateX(-50%);padding:4px 10px;background:var(--paper);color:#16132a;font:14px "Pixelify";white-space:nowrap;box-shadow:3px 3px 0 #0006}
+.bubble::after{content:"";position:absolute;left:50%;bottom:-6px;width:8px;height:6px;margin-left:-4px;background:var(--paper);clip-path:polygon(0 0,100% 0,50% 100%)}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;margin:0;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:16px;background:linear-gradient(90deg,var(--mint),var(--sun) 50%,var(--tomato)) 0 0/var(--v,50%) 100% no-repeat,repeating-linear-gradient(90deg,#3b3466 0 10px,#2c2650 10px 12px);box-shadow:inset 0 0 0 3px #0f0c20}
+input[type=range]::-moz-range-track{height:16px;background:repeating-linear-gradient(90deg,#3b3466 0 10px,#2c2650 10px 12px);box-shadow:inset 0 0 0 3px #0f0c20}
+input[type=range]::-moz-range-progress{height:16px;background:linear-gradient(90deg,var(--mint),var(--sun),var(--tomato))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-6px;background:var(--paper);box-shadow:inset -4px -4px 0 #cfc8dc,0 0 0 3px #0f0c20}
+input[type=range]::-moz-range-thumb{width:28px;height:28px;border:0;border-radius:0;background:var(--paper);box-shadow:inset -4px -4px 0 #cfc8dc,0 0 0 3px #0f0c20}
+.ticks{display:flex;justify-content:space-between;margin-top:12px;font:13px "Pixelify";color:var(--muted)}
+.readout{display:flex;align-items:baseline;gap:12px}
+.readout b{font:400 64px/1 "Pixelify";color:var(--sun)}
+.readout span{color:var(--muted)}
+
+/* 2 · hearts */
+.hearts{display:flex;gap:8px;margin-top:20px}
+.hearts button{width:52px;height:52px;padding:0;border:0;background:none;cursor:pointer}
+.hearts button svg{width:52px;height:52px}
+.hearts button.pop svg{animation:pop .35s steps(4)}
+@keyframes pop{50%{transform:scale(1.35) rotate(-8deg)}}
+.hearts .full{display:none}.hearts button.on .full{display:block}.hearts button.on .empty{display:none}
+.say{margin:14px 0 0;font:15px "Pixelify";color:var(--lilac);min-height:1.5em}
+
+/* 3 · cookie jar stepper */
+.stepper{display:flex;align-items:center;gap:22px;margin-top:18px}
+.stepper button{width:52px;height:52px;border:0;background:var(--paper);color:#16132a;font:700 28px "Pixelify";cursor:pointer;box-shadow:inset -4px -4px 0 #cfc8dc,0 5px 0 #0f0c20;transition:transform .08s}
+.stepper button:active{transform:translateY(4px);box-shadow:inset -4px -4px 0 #cfc8dc,0 1px 0 #0f0c20}
+.stepper button:disabled{opacity:.35;cursor:not-allowed}
+.jar{width:110px}
+.count{font:400 44px/1 "Pixelify";min-width:2ch;text-align:center}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.spec.big{grid-row:auto}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><h1>Creature <em>slider</em></h1><p>Native form controls with a small resident each. The input underneath is the real thing, so keyboards, screen readers and forms all work; the creature only reacts.</p></header>
+<div class="grid">
+  <section class="spec big">
+    <h2>How spicy should it be?<small>&lt;input type="range"&gt; · 0–100</small></h2>
+    <div class="readout"><b id="val">35</b><span id="mood">a little warm</span></div>
+    <div class="track" id="track">
+      <div class="hog" id="hog"><span class="bubble" id="bubble">hm, nice</span><svg class="px" id="hogsvg" viewBox="0 0 16 12" aria-hidden="true"></svg></div>
+      <input type="range" id="spice" min="0" max="100" value="35" aria-label="Spice level" aria-valuetext="35, a little warm">
+      <div class="ticks" aria-hidden="true"><span>mild</span><span>warm</span><span>hot</span><span>volcano</span></div>
+    </div>
+  </section>
+  <section class="spec">
+    <h2>Rate this recipe<small>radio group · 5 hearts</small></h2>
+    <div class="hearts" role="radiogroup" aria-label="Rating" id="hearts"></div>
+    <p class="say" id="say" aria-live="polite">tap a heart</p>
+  </section>
+  <section class="spec">
+    <h2>How many cookies?<small>stepper · 0–12</small></h2>
+    <div class="stepper"><button id="minus" aria-label="One fewer cookie">−</button><svg class="px jar" id="jar" viewBox="0 0 22 26" aria-hidden="true"></svg><span class="count" id="count" aria-live="polite">3</span><button id="plus" aria-label="One more cookie">+</button></div>
+  </section>
+</div>
+<script>
+(() => {
+const rects = (grid, pal, ox = 0, oy = 0) => grid.map((row,y) => [...row].map((c,x) => c==="." ? "" : `<rect x="${x+ox}" y="${y+oy}" width="1" height="1" fill="${pal[c]}"/>`).join("")).join("");
+/* the hedgehog: body grid + a face that changes with the value */
+const body = ["....b.b.b.b.....","...bbbbbbbbbb...","..bbBbbBbbBbbb..",".bbbbbbbbbbbbbs.","bbBbbBbbBbbbssss","bbbbbbbbbbbssssn","bbbbbbbbbbssssss",".bbbbbbbbbssssm.","..ssssssssssss..","...f..f..f..f..."];
+const face = { calm:[[12,4,"e"]], warm:[[12,4,"e"],[10,7,"r"]], hot:[[12,4,"e"],[10,7,"r"],[14,2,"w"],[15,3,"w"]], fire:[[11,4,"e"],[13,4,"e"],[10,7,"r"],[14,2,"w"],[15,1,"w"],[15,3,"w"]] };
+const pal = { b:"#8a5a3b", B:"#5e3a24", s:"#f2c9a5", n:"#16132a", m:"#c4473a", f:"#5e3a24", e:"#16132a", r:"#ff8aa0", w:"#7fa8ff" };
+const hog = document.getElementById("hog"), svg = document.getElementById("hogsvg"), spice = document.getElementById("spice");
+const moods = [[0,"calm","mild as milk","zzz"],[25,"warm","a little warm","hm, nice"],[55,"hot","properly hot","phew!"],[80,"fire","volcanic","AAAH 🔥"]];
+let walkT = 0;
+function draw(){
+  const v = +spice.value, m = [...moods].reverse().find(m => v >= m[0]);
+  let s = rects(body, pal) + face[m[1]].map(([x,y,c]) => `<rect x="${x}" y="${y}" width="1" height="1" fill="${pal[c]}"/>`).join("");
+  if(m[1]==="fire") s += `<rect x="15" y="0" width="1" height="1" fill="#ff5b3a"/><rect x="14" y="-1" width="1" height="1" fill="#ffc23d"/>`;
+  svg.innerHTML = s;
+  spice.style.setProperty("--v", v + "%");
+  const w = spice.getBoundingClientRect().width; hog.style.left = (14 + (w-28)*v/100) + "px";
+  document.getElementById("val").textContent = v; document.getElementById("mood").textContent = m[2]; document.getElementById("bubble").textContent = m[3];
+  spice.setAttribute("aria-valuetext", `${v}, ${m[2]}`);
+  hog.classList.add("walk"); clearTimeout(walkT); walkT = setTimeout(() => hog.classList.remove("walk"), 260);
+}
+spice.addEventListener("input", draw); addEventListener("resize", draw); draw();
+
+/* hearts */
+const H = [".aa.aa.","abbabba","abbbbba",".abbba.","..aba..","...a..."], E = ["#ff5b3a","#ffc6b8"], words = ["not for me","it was fine","pretty good","very good","I'd make it every week"];
+const hearts = document.getElementById("hearts");
+hearts.innerHTML = [0,1,2,3,4].map(i => `<button role="radio" aria-checked="false" aria-label="${i+1} heart${i?"s":""}" tabindex="${i?-1:0}"><svg class="px empty" viewBox="-1 -1 9 8">${rects(H,{a:"#4a4275",b:"#2c2650"})}</svg><svg class="px full" viewBox="-1 -1 9 8">${rects(H,{a:"#c93a20",b:E[0]})}<rect x="1" y="1" width="1" height="1" fill="#ffd0c4"/></svg></button>`).join("");
+const hb = [...hearts.children];
+const rate = (n, focus) => { hb.forEach((b,i) => { b.classList.toggle("on", i<=n); b.setAttribute("aria-checked", String(i===n)); b.tabIndex = i===n ? 0 : -1; b.classList.remove("pop"); if(i<=n){ void b.offsetWidth; setTimeout(() => b.classList.add("pop"), i*60); } }); document.getElementById("say").textContent = words[n]; if(focus) hb[n].focus(); };
+hb.forEach((b,i) => b.addEventListener("click", () => rate(i)));
+hearts.addEventListener("keydown", e => { const i = Math.max(0, hb.findIndex(b => b.getAttribute("aria-checked")==="true")); if(e.key==="ArrowRight"){ e.preventDefault(); rate(Math.min(4,i+1), true); } if(e.key==="ArrowLeft"){ e.preventDefault(); rate(Math.max(0,i-1), true); } });
+
+/* cookie jar */
+const jarGrid = ["....llllllllllllll....","....lLLLLLLLLLLLLl....","......gggggggggg......",".....g..........g.....","....g............g....","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","...g..............g...","....g............g....",".....gggggggggggg....."];
+let n = 3; const slots = []; for(let r=0;r<4;r++) for(let c=0;c<3;c++) slots.push([5 + c*4 + (r%2)*2, 18 - r*4]);
+function jar(){ let s = rects(jarGrid, { l:"#ff5b3a", L:"#c93a20", g:"#a49cc8" });
+  for(let i=0;i<n;i++){ const [x,y] = slots[i]; s += `<rect x="${x}" y="${y}" width="3" height="3" fill="#d9a15e"/><rect x="${x}" y="${y}" width="1" height="1" fill="#5e3a24"/><rect x="${x+2}" y="${y+1}" width="1" height="1" fill="#5e3a24"/><rect x="${x+1}" y="${y+2}" width="1" height="1" fill="#5e3a24"/>`; }
+  s += `<rect x="5" y="4" width="1" height="14" fill="#ffffff22"/>`;
+  document.getElementById("jar").innerHTML = s; document.getElementById("count").textContent = n;
+  document.getElementById("minus").disabled = n<=0; document.getElementById("plus").disabled = n>=12; }
+document.getElementById("minus").onclick = () => { n = Math.max(0,n-1); jar(); };
+document.getElementById("plus").onclick = () => { n = Math.min(12,n+1); jar(); };
+jar(); rate(3);
+
+/* gallery preview: the hedgehog strolls until someone touches the page */
+let touched = false; addEventListener("pointerdown", () => touched = true, { once:true }); addEventListener("keydown", () => touched = true, { once:true });
+let t = 0; const demo = setInterval(() => { if(touched || matchMedia("(prefers-reduced-motion: reduce)").matches){ clearInterval(demo); return; } t += .08; spice.value = Math.round(50 + Math.sin(t)*48); draw(); if(Math.random()<.04){ n = (n+1)%13; jar(); } if(Math.random()<.03) rate((Math.random()*5)|0); }, 90);
+})();
+</script>
+</body>
+</html>

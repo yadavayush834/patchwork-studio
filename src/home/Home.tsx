@@ -37,7 +37,7 @@ const PATCH = ["#ff5b3a", "#ffc23d", "#6fe3b5", "#7fa8ff", "#b79bff", "#f4efe6",
 const ARROW = <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 11.5 11.5 4.5M5.5 4.5h6v6" fill="none" stroke="currentColor" strokeWidth="1.6" /></svg>;
 
 /** A real page shown inside a card: rendered at 1440x900, scaled to fit, and only while on screen. */
-function Live({ html, title }: { html: string; title: string }) {
+function Live({ html, title, src }: { html?: string; title: string; src?: string }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [on, setOn] = useState(false), [k, setK] = useState(0.3);
   useEffect(() => {
@@ -47,7 +47,7 @@ function Live({ html, title }: { html: string; title: string }) {
     io.observe(el); ro.observe(el);
     return () => { io.disconnect(); ro.disconnect(); };
   }, []);
-  return <span className="hm-live" ref={ref}>{on && <iframe title={title} tabIndex={-1} aria-hidden="true" scrolling="no" srcDoc={html} style={{ transform: `scale(${k})` }} />}</span>;
+  return <span className="hm-live" ref={ref}>{on && <iframe title={title} tabIndex={-1} aria-hidden="true" scrolling="no" srcDoc={src ? undefined : html} src={src} style={{ transform: `scale(${k})` }} />}</span>;
 }
 
 /** Load the shared kit, the pals and the kite once. */
@@ -83,14 +83,14 @@ export default function Home(p: Props) {
     { key: "components", title: "Components", line: "Characters that do real jobs: reveal, copy, progress, back to top.", meta: `${components.length} components`, act: go("/?collection=components"), cover: <Live title="Lamplighter demo" html={componentDocument("lamplighter", {}, "/components/")} /> },
     { key: "spirits", title: "Spirits", line: "Little creatures that move into your pages and live there.", meta: `${spirits.length + pals.length} spirits`, act: go("/?collection=spirits"), cover: <span className="hm-stage" ref={stage}><i /></span>, tone: "light" },
     { key: "motion", title: "Motion templates", line: "Whole scroll-led worlds, built to be customised.", meta: `${motionTemplates.length} worlds`, act: p.openMotion, cover: <span className="hm-covers">{covers.map((src, i) => <img key={src} src={src} alt="" style={{ animationDelay: `${i * 3.5}s`, animationDuration: `${covers.length * 3.5}s` }} />)}</span> },
-    { key: "library", title: "Design Library", line: "Templates, colour palettes, UI pieces and experiments.", meta: "6 collections", act: p.openLibrary, cover: <span className="hm-fan">{["ecom-aura-minimal", "edu-lumina-academy", "fashion-atelier-venus"].map((f, i) => <img key={f} src={`/template-covers/${f}.jpg`} alt="" style={{ "--i": i } as React.CSSProperties} />)}</span>, tone: "light" },
+    { key: "library", title: "Design Library", line: "Fifteen hand-made pieces: websites, style studies, motion, SVG and controls.", meta: "15 pieces", act: p.openLibrary, cover: <Live title="Low Orbit" src="/library/low-orbit/index.html" /> },
     { key: "brand", title: "Brand kit", line: "Your name, colours and font, set once and used by every piece.", meta: "Settings", act: () => openBrandKit(), cover: <span className="hm-brandcover" aria-hidden="true"><i /><i /><i /><b>Aa</b></span> },
     { key: "video", title: "Video Lab", line: "Cut, crop and caption video right in the browser.", meta: "Editor", act: p.openVideoLab, cover: <span className="hm-film" aria-hidden="true">{Array.from({ length: 14 }, (_, i) => <i key={i} />)}</span> },
     { key: "ascii", title: "ASCII studies", line: "Living backgrounds drawn entirely in characters.", meta: "Backgrounds", act: p.openAscii, cover: <span className="hm-ascii" aria-hidden="true">{"·:;+*x%@#".repeat(6)}</span> },
   ];
   const ticker = [...heroes2.map((h) => h.name), ...scenes.map((s) => s.name), ...components.map((c) => c.name), ...pals.slice(0, 8).map((q) => q.name), ...motionTemplates.slice(0, 6).map((m) => m.name)];
   return (
-    <div className="hm" hidden={p.paused}>
+    <div className={`hm${p.paused ? " is-away" : ""}`}>
       <header className="hm-nav" ref={nav}>
         <a className="hm-logo" href="/" aria-label="Patchwork home"><span className="hm-mark" aria-hidden="true"><i /><i /><i /><i /></span>patchwork</a>
         <nav aria-label="Home">
@@ -108,7 +108,7 @@ export default function Home(p: Props) {
           <h1><span className="hm-line">Make the internet</span> <span className="hm-line">feel <em>handmade</em> again.</span></h1>
           <p className="hm-lede">Pick a world, stitch in living scenes, characters with real jobs and little creatures that wander your pages. It all stays on your computer and exports as a site you own.</p>
           <div className="hm-actions">
-            <button className="hm-primary" onClick={p.onMake}>Start a site {ARROW}</button>
+            <button className="hm-primary" onClick={p.openMotion}>Explore motion templates {ARROW}</button>
             <button className="hm-ghost dark" onClick={p.onScratch}>Begin with a blank page</button>
           </div>
           <div className="hm-hero-foot">

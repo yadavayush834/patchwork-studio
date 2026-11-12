@@ -4,6 +4,14 @@ Last verified: 11 November 2026 (combined motion, ASCII and Style studies work; 
 
 Repository: [yadavayush834/patchwork-studio](https://github.com/yadavayush834/patchwork-studio), private, branch `main`. The local checkout uses `origin` for this repository. Check `git status`, the current commit, and the remote before continuing; do not infer present synchronization from this dated note.
 
+## New Design Library and motion-first home — 12 November 2026
+
+The imported Design Library (templates, style studies, colour palettes, resources, vendor build, covers and their four tests) was deleted at the user's request and rebuilt from scratch as fifteen hand-made pieces on five shelves: templates (Kiln & Crumb, Low Orbit, Fieldbook), style studies (Riso Club, Phosphor, Cut Paper), motion (Running Stitch, Pixel Dissolve, Quilt Flip), SVG (Ink Botanical, Goo Lamp, Constellations) and UI primitives (Pixel Switches, Stitched Buttons, Creature Slider). Each is a self-contained page that previews live, opens full size and downloads as a folder. The home hero's main button now opens Motion templates; Motion lists the pixel worlds first. Details: `docs/LIBRARY.md`. Older Design Library notes below are historical.
+
+## One Patchwork look and history — 12 November 2026
+
+Motion templates, Design Library and the editor/dashboard now share the dark quilt look of the home page and Scenes, and the browser Back button works inside the app. Details: `docs/SHELL.md`.
+
 ## Scenes expansion — 12 November 2026
 
 Scenes now has ten places: the original Last Bus, Kelp, Long Night, Rooftops, Riso Swell and Lantern River, followed by Tidewatch, Cloudline, Glasshouse and Pomegranate Court. The four additions are original GLSL pixel paintings with palette-limited detail, pointer interaction, explicit keyboard artwork controls and pause/resume. They reuse the existing customizer, saved configuration, independent scene routes, words-off backgrounds and local ZIP packaging. No hero collection was changed for this task. Details and provenance are in `docs/SCENES.md`; browser regression: `scripts/verify-scene-expansion.mjs`.

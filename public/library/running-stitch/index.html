@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Running Stitch — a motion experiment</title>
+<style>
+@font-face{font-family:"Bricolage";src:url("../fonts/BricolageGrotesque.woff2") format("woff2");font-weight:200 800;font-display:swap}
+@font-face{font-family:"Instrument Serif";src:url("../fonts/InstrumentSerif-Italic.woff2") format("woff2");font-style:italic;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{overflow:hidden;background:#1d2a4a;color:#f4efe6;font:15px/1.5 "Bricolage",system-ui,sans-serif;cursor:none;touch-action:none}
+/* denim: a twill of tiny diagonals over an indigo ground */
+.fabric{position:fixed;inset:0;background:
+  repeating-linear-gradient(45deg,#ffffff07 0 2px,transparent 2px 5px),
+  repeating-linear-gradient(-45deg,#00000014 0 1px,transparent 1px 4px),
+  radial-gradient(120% 90% at 50% 40%,#2a3c66,#16213d)}
+canvas{position:fixed;inset:0;width:100%;height:100%}
+.label{position:fixed;left:clamp(18px,4vw,48px);top:clamp(18px,4vw,40px);pointer-events:none;max-width:420px}
+.label h1{margin:0;font:800 clamp(40px,5vw,76px)/.9 "Bricolage";letter-spacing:-.045em}
+.label h1 em{font:400 1.1em/0 "Instrument Serif",serif;color:#ffc23d}
+.label p{margin:14px 0 0;color:#c9cfe4;max-width:36ch}
+.tools{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:10px;padding:8px;border-radius:999px;background:#0f1630cc;backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px #ffffff22;cursor:auto}
+.tools button{display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:50%;cursor:pointer;background:var(--c);box-shadow:inset 0 0 0 2px #0003}
+.tools button[aria-pressed="true"]{box-shadow:0 0 0 2px #0f1630,0 0 0 4px #f4efe6}
+.tools .txt{width:auto;padding:0 16px;border-radius:999px;background:#f4efe6;color:#0f1630;font:600 13px "Bricolage"}
+.tools .txt:hover{background:#ffc23d}
+.count{padding:0 10px;font:12px "JetBrains Mono";color:#c9cfe4}
+:focus-visible{outline:2px solid #ffc23d;outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="fabric" aria-hidden="true"></div>
+<canvas id="c" aria-label="A needle follows your pointer and sews a running stitch into denim. Click to tie a knot."></canvas>
+<div class="label"><h1>Running <em>stitch</em></h1><p>The pointer is a needle. The thread trails behind on a little physics rope and leaves a real running stitch in the fabric. Click to tie a knot.</p></div>
+<div class="tools" role="toolbar" aria-label="Thread">
+  <button style="--c:#ff5b3a" aria-pressed="true" aria-label="Tomato thread"></button>
+  <button style="--c:#ffc23d" aria-pressed="false" aria-label="Sun thread"></button>
+  <button style="--c:#6fe3b5" aria-pressed="false" aria-label="Mint thread"></button>
+  <button style="--c:#f4efe6" aria-pressed="false" aria-label="Cream thread"></button>
+  <span class="count" id="n">0 stitches</span>
+  <button class="txt" id="unpick">Unpick</button>
+</div>
+<script>
+(() => {
+const cv = document.getElementById("c"), g = cv.getContext("2d"), dpr = Math.min(2, devicePixelRatio||1);
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let W, H; const size = () => { W = innerWidth; H = innerHeight; cv.width = W*dpr; cv.height = H*dpr; g.setTransform(dpr,0,0,dpr,0,0); };
+size(); addEventListener("resize", size);
+let color = "#ff5b3a", stitches = [], knots = [], sparks = [];
+// the thread: verlet points hanging from the needle's eye
+const SEG = 28, LEN = 9; const rope = Array.from({length:SEG}, (_,i) => ({ x: W/2, y: H/2 + i*LEN, px: W/2, py: H/2 + i*LEN }));
+let needle = { x: W*.6, y: H*.55, angle: 0 }, target = { ...needle }, idle = 3, auto = 0, lastStitch = null, carry = 0, down = true;
+const STITCH = 16, GAP = 10;
+function onMove(x, y){ target.x = x; target.y = y; idle = 0; }
+addEventListener("pointermove", e => onMove(e.clientX, e.clientY));
+addEventListener("pointerdown", e => { if(e.target.closest(".tools")) return; onMove(e.clientX, e.clientY); knot(e.clientX, e.clientY); });
+function knot(x, y){ knots.push({ x, y, c: color, r: 0 }); for(let i=0;i<14;i++){ const a = Math.random()*6.28, s = 1+Math.random()*3; sparks.push({ x, y, vx: Math.cos(a)*s, vy: Math.sin(a)*s, l: 1, c: color }); } }
+document.querySelectorAll(".tools button:not(.txt)").forEach(b => b.addEventListener("click", () => { color = getComputedStyle(b).getPropertyValue("--c").trim(); document.querySelectorAll(".tools button:not(.txt)").forEach(o => o.setAttribute("aria-pressed", String(o===b))); }));
+document.getElementById("unpick").addEventListener("click", () => { stitches.forEach((s,i) => s.die = 1 + i*.004); knots.forEach(k => k.die = 1); });
+
+// the needle lays stitches along its own path: STITCH px visible on top, GAP px under the fabric
+function sew(x, y){
+  if(!lastStitch){ lastStitch = { x, y }; return; }
+  let dx = x - lastStitch.x, dy = y - lastStitch.y, d = Math.hypot(dx, dy);
+  while(d > 0){
+    const need = (down ? STITCH : GAP) - carry, step = Math.min(need, d);
+    const nx = lastStitch.x + dx/d*step, ny = lastStitch.y + dy/d*step;
+    if(down){ const s = stitches.at(-1); if(s && s.open) { s.x2 = nx; s.y2 = ny; } else stitches.push({ x1: lastStitch.x, y1: lastStitch.y, x2: nx, y2: ny, c: color, open: true, t: 0 }); }
+    carry += step; d -= step; lastStitch = { x: nx, y: ny }; dx = x - nx; dy = y - ny;
+    if(carry >= (down ? STITCH : GAP) - .01){ carry = 0; if(down && stitches.at(-1)) stitches.at(-1).open = false; down = !down; }
+  }
+  if(stitches.length > 1400) stitches.splice(0, stitches.length - 1400);
+}
+function autopilot(t){ // an idle needle sews a slow lemniscate so the piece is never still
+  const a = t*.55, s = Math.min(W, H)*.28; return { x: W*.58 + Math.cos(a)*s*1.4/(1+Math.sin(a)**2), y: H*.55 + Math.sin(a)*Math.cos(a)*s*1.4/(1+Math.sin(a)**2) };
+}
+let last = performance.now();
+function frame(now){
+  const dt = Math.min(.05, (now - last)/1000); last = now; idle += dt;
+  if(idle > 2.5){ auto += dt; const p = autopilot(auto); target.x = p.x; target.y = p.y; }
+  const ox = needle.x, oy = needle.y;
+  needle.x += (target.x - needle.x)*.28; needle.y += (target.y - needle.y)*.28;
+  const mv = Math.hypot(needle.x-ox, needle.y-oy); if(mv > .3) needle.angle = Math.atan2(needle.y-oy, needle.x-ox);
+  sew(needle.x, needle.y);
+  // verlet rope
+  rope[0].x = needle.x - Math.cos(needle.angle)*20; rope[0].y = needle.y - Math.sin(needle.angle)*20;
+  for(let i=1;i<SEG;i++){ const p = rope[i], vx = (p.x-p.px)*.96, vy = (p.y-p.py)*.96; p.px = p.x; p.py = p.y; p.x += vx; p.y += vy + 0.35; }
+  for(let k=0;k<6;k++) for(let i=1;i<SEG;i++){ const a = rope[i-1], b = rope[i], dx = b.x-a.x, dy = b.y-a.y, d = Math.hypot(dx,dy)||1, f = (d-LEN)/d; if(i>1){ a.x += dx*f*.5; a.y += dy*f*.5; } b.x -= dx*f*(i>1?.5:1); b.y -= dy*f*(i>1?.5:1); }
+  rope[0].x = needle.x - Math.cos(needle.angle)*20; rope[0].y = needle.y - Math.sin(needle.angle)*20;
+
+  g.clearRect(0,0,W,H);
+  // stitches, each pulled taut as it lands
+  g.lineCap = "round";
+  for(let i=stitches.length-1;i>=0;i--){ const s = stitches[i]; s.t = Math.min(1, s.t + dt*6);
+    if(s.die){ s.die -= dt*2.2; if(s.die <= 0){ stitches.splice(i,1); continue; } }
+    const a = s.die ? Math.min(1, s.die) : 1, lift = (1 - s.t)*3;
+    g.globalAlpha = a; g.strokeStyle = "#00000059"; g.lineWidth = 4; g.beginPath(); g.moveTo(s.x1+1, s.y1+2); g.lineTo(s.x2+1, s.y2+2); g.stroke();
+    g.strokeStyle = s.c; g.lineWidth = 3; g.beginPath(); g.moveTo(s.x1, s.y1 - lift); g.lineTo(s.x2, s.y2 - lift); g.stroke();
+    g.strokeStyle = "#ffffff55"; g.lineWidth = 1; g.beginPath(); g.moveTo(s.x1+1, s.y1-1-lift); g.lineTo(s.x2-1, s.y2-1-lift); g.stroke();
+    g.fillStyle = "#0b1226"; g.globalAlpha = a*.8; g.fillRect(s.x1-1.5, s.y1-1.5, 3, 3); }
+  g.globalAlpha = 1;
+  for(let i=knots.length-1;i>=0;i--){ const k = knots[i]; k.r = Math.min(1, k.r + dt*5); if(k.die){ k.die -= dt*3; if(k.die<=0){ knots.splice(i,1); continue; } }
+    g.globalAlpha = k.die ? k.die : 1; for(let j=0;j<6;j++){ const a = j*1.05 + k.r; g.fillStyle = k.c; g.beginPath(); g.arc(k.x + Math.cos(a)*4*k.r, k.y + Math.sin(a)*4*k.r, 3.4, 0, 6.28); g.fill(); } g.fillStyle = "#ffffff66"; g.beginPath(); g.arc(k.x-1, k.y-1, 2, 0, 6.28); g.fill(); }
+  g.globalAlpha = 1;
+  for(let i=sparks.length-1;i>=0;i--){ const p = sparks[i]; p.x += p.vx; p.y += p.vy; p.vy += .08; p.l -= dt*1.6; if(p.l<=0){ sparks.splice(i,1); continue; } g.globalAlpha = p.l; g.fillStyle = p.c; g.fillRect(p.x, p.y, 3, 3); }
+  g.globalAlpha = 1;
+  // thread
+  g.strokeStyle = color; g.lineWidth = 2; g.beginPath(); g.moveTo(rope[0].x, rope[0].y); for(let i=1;i<SEG-1;i++){ const mx = (rope[i].x+rope[i+1].x)/2, my = (rope[i].y+rope[i+1].y)/2; g.quadraticCurveTo(rope[i].x, rope[i].y, mx, my); } g.stroke();
+  // needle
+  g.save(); g.translate(needle.x, needle.y); g.rotate(needle.angle);
+  const grad = g.createLinearGradient(-26,0,10,0); grad.addColorStop(0,"#9aa3b8"); grad.addColorStop(.6,"#f4f6fb"); grad.addColorStop(1,"#c3c9d8");
+  g.fillStyle = grad; g.beginPath(); g.moveTo(10,0); g.lineTo(-24,-2.4); g.quadraticCurveTo(-30,0,-24,2.4); g.closePath(); g.fill();
+  g.fillStyle = "#16213d"; g.beginPath(); g.ellipse(-22,0,3,1,0,0,6.28); g.fill(); g.restore();
+  document.getElementById("n").textContent = `${stitches.length} stitches`;
+  if(!reduced) raf = requestAnimationFrame(frame);
+}
+let raf = requestAnimationFrame(frame);
+if(reduced){ // a still, already-sewn heart
+  for(let a=0;a<6.3;a+=.02){ sew(W*.6 + 16*Math.sin(a)**3*14, H*.5 - (13*Math.cos(a)-5*Math.cos(2*a)-2*Math.cos(3*a)-Math.cos(4*a))*14); } stitches.forEach(s=>s.t=1); requestAnimationFrame(frame);
+  addEventListener("pointermove", () => requestAnimationFrame(frame));
+}
+document.addEventListener("visibilitychange", () => { cancelAnimationFrame(raf); if(!document.hidden && !reduced){ last = performance.now(); raf = requestAnimationFrame(frame); } });
+})();
+</script>
+</body>
+</html>

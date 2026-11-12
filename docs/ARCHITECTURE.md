@@ -111,7 +111,10 @@ The critical images decode before GSAP's initial measurements; portal clipping p
 
 `imageMotionAssets(id)` in `image-assets.ts` is the exact per-template export manifest. The six optimized WebP images and two prompt/provenance JSON files are served locally under `public/motion/art/`. Each new ZIP has 27 entries: the prior static bundle plus its three images, its record, and the artwork folder. No generated-image service, account, or API key is needed after authoring. Original generation masters and test captures remain outside Git; committed artwork records contain no machine paths.
 
-## Imported Design Library
+## Imported Design Library (removed)
+
+> **Superseded 12 November 2026:** the imported Design Library described here was deleted and replaced by the hand-made Library (see `docs/LIBRARY.md`). Kept for history.
+
 
 `src/DesignLibrary.tsx` hosts a separate same-origin iframe workspace and restores underlying focus/inert/display state on close. The main App lazy-loads only this host. Imported dependencies and Tailwind utilities are compiled separately in `vendor/design-library`; no imported style or component enters the editor bundle. Seven lazy demo adapters mount only the selected family. Individual previews use a nested iframe for genuine viewport media queries. Preview back messages validate source and origin.
 
@@ -155,3 +158,7 @@ Scenes expansion uses the existing catalog/document/gallery/export pipeline. New
 
 
 Four new living-art IDs (nereid, zephyr, vernant, volute) are registered through the existing Motion catalog and living/pages.ts dispatch. living/specimens.ts builds each original subject as procedural Three.js geometry; living/runtime.ts assigns its print/screen look. The existing LivingArt renderer, cleanup, visibility handling, reduced-motion stills, motionDocument and exportMotion remain shared. No reference-site imagery or Lumen source is bundled.
+
+## Design Library (12 November 2026)
+
+`src/DesignLibrary.tsx` shows fifteen hand-made pieces from `src/library/catalog.ts`. Each piece is one self-contained page at `public/library/<id>/index.html` that loads only fonts from `public/library/fonts/`. Cards render the real page in a scaled iframe mounted only while visible; `?piece=ID` opens the viewer (pushes a history entry). `src/library/export.ts` packages a piece as a folder ZIP (index.html with `fonts/` paths, the fonts it uses, their OFL licences, README). `tests/library.test.ts` checks the contracts. See `docs/LIBRARY.md`.

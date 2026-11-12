@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Low Orbit — a podcast about small things in space</title>
+<style>
+@font-face{font-family:"Unbounded";src:url("../fonts/Unbounded.woff2") format("woff2");font-weight:200 900;font-display:swap}
+@font-face{font-family:"JetBrains Mono";src:url("../fonts/JetBrainsMono.woff2") format("woff2");font-weight:300 700;font-display:swap}
+@font-face{font-family:"Instrument Sans";src:url("../fonts/InstrumentSans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+:root{--void:#07081a;--deep:#0e1030;--panel:#14173d;--line:#262a5c;--star:#eef0ff;--muted:#8f93c4;--flare:#ff7a3d;--gold:#ffc65c;--teal:#53e0c8;
+  --display:"Unbounded",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace;--sans:"Instrument Sans",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--void);color:var(--star);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:clip}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.wrap{width:min(1240px,100% - 48px);margin-inline:auto}
+#stars{position:fixed;inset:0;width:100%;height:100%;z-index:-1;image-rendering:pixelated}
+
+.nav .wrap{display:flex;align-items:center;gap:24px;height:84px}
+.logo{display:flex;align-items:center;gap:12px;font:700 18px var(--display);letter-spacing:-.02em;text-decoration:none}
+.logo i{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--gold),var(--flare) 60%,#7a2a1a);box-shadow:0 0 0 3px var(--void),0 0 0 4px var(--muted)}
+.nav nav{display:flex;gap:4px;margin-left:auto;font:13px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+.nav nav a{padding:8px 12px;border-radius:6px;text-decoration:none;color:var(--muted)}
+.nav nav a:hover{color:var(--star);background:var(--panel)}
+.sub{padding:10px 16px;border-radius:8px;background:var(--star);color:var(--void);font:600 13px var(--mono);text-decoration:none;text-transform:uppercase;letter-spacing:.06em}
+.sub:hover{background:var(--gold)}
+
+.hero{position:relative;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:40px;min-height:calc(100svh - 84px);padding-bottom:40px}
+.eyebrow{display:flex;align-items:center;gap:12px;margin:0 0 22px;font:12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+.eyebrow b{padding:3px 8px;border:1px solid var(--teal);border-radius:4px;font-weight:500}
+h1{margin:0;font:800 clamp(48px,6.4vw,104px)/.9 var(--display);letter-spacing:-.05em;text-transform:uppercase}
+h1 span{display:block;color:transparent;-webkit-text-stroke:1.5px var(--star)}
+h1 em{font-style:normal;color:var(--flare)}
+.lede{max-width:42ch;margin:28px 0 34px;color:var(--muted);font-size:18px}
+.cta{display:flex;flex-wrap:wrap;align-items:center;gap:16px}
+.play{display:inline-flex;align-items:center;gap:14px;padding:10px 22px 10px 10px;border:0;border-radius:999px;background:var(--flare);color:var(--void);font:700 15px var(--display);cursor:pointer;transition:transform .2s cubic-bezier(.2,.7,.2,1)}
+.play:hover{transform:translateY(-2px) rotate(-1deg)}
+.play svg{width:40px;height:40px;padding:12px;border-radius:50%;background:var(--void);color:var(--flare)}
+.meta{font:12px var(--mono);color:var(--muted);letter-spacing:.06em}
+.planet-wrap{position:relative;aspect-ratio:1;width:min(100%,620px);justify-self:center}
+#planet{width:100%;height:100%;image-rendering:pixelated;cursor:grab}
+#planet:active{cursor:grabbing}
+.readout{position:absolute;right:0;bottom:8%;display:grid;gap:4px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#07081acc;backdrop-filter:blur(6px);font:11px var(--mono);color:var(--muted);letter-spacing:.06em}
+.readout b{color:var(--star);font-weight:500}
+
+section{padding:110px 0}
+.title{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:40px;padding-bottom:22px;border-bottom:1px dashed var(--line)}
+h2{margin:0;font:700 clamp(32px,3.6vw,54px)/1 var(--display);letter-spacing:-.04em;text-transform:uppercase}
+h2 em{font-style:normal;color:var(--gold)}
+.title p{margin:0;max-width:38ch;color:var(--muted)}
+
+.eps{display:grid;gap:10px}
+.ep{display:grid;grid-template-columns:56px 76px 1fr auto auto;align-items:center;gap:22px;padding:16px 20px;border-radius:14px;background:var(--deep);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .2s,background-color .2s}
+.ep:hover{box-shadow:inset 0 0 0 1px var(--muted)}
+.ep.on{background:var(--panel);box-shadow:inset 0 0 0 1px var(--flare)}
+.ep-btn{display:grid;place-items:center;width:56px;height:56px;border:0;border-radius:50%;background:var(--star);color:var(--void);cursor:pointer;transition:transform .15s}
+.ep-btn:hover{transform:scale(1.06)}
+.ep.on .ep-btn{background:var(--flare)}
+.ep-btn svg{width:18px;height:18px}
+.ep canvas{width:76px;height:76px;border-radius:10px;image-rendering:pixelated;background:#000}
+.ep h3{margin:0 0 4px;font:600 19px/1.2 var(--display);letter-spacing:-.02em}
+.ep p{margin:0;color:var(--muted);font-size:15px}
+.ep .num{font:12px var(--mono);color:var(--muted)}
+.wave{display:flex;align-items:end;gap:2px;height:32px;width:120px}
+.wave i{flex:1;background:var(--line);height:20%;transition:height .12s}
+.ep.on .wave i{background:var(--flare)}
+
+.player{position:fixed;left:50%;bottom:18px;z-index:20;display:flex;align-items:center;gap:16px;width:min(720px,calc(100% - 32px));padding:12px 18px 12px 12px;border-radius:16px;background:#14173df2;backdrop-filter:blur(12px);box-shadow:0 0 0 1px var(--line),0 30px 60px -20px #000;transform:translate(-50%,140%);transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.player.show{transform:translate(-50%,0)}
+.player .ep-btn{width:44px;height:44px;background:var(--flare)}
+.player b{display:block;font:600 14px var(--display)}
+.player small{font:11px var(--mono);color:var(--muted)}
+.bar{flex:1;height:8px;border-radius:2px;background:var(--line);cursor:pointer;position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;background:repeating-linear-gradient(90deg,var(--flare) 0 6px,var(--gold) 6px 8px)}
+.time{font:12px var(--mono);color:var(--muted);min-width:94px;text-align:right}
+
+.hosts{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.host{padding:26px;border-radius:18px;background:var(--deep);box-shadow:inset 0 0 0 1px var(--line)}
+.host canvas{width:96px;height:96px;image-rendering:pixelated;border-radius:12px;background:var(--panel)}
+.host h3{margin:18px 0 4px;font:700 22px var(--display);letter-spacing:-.03em}
+.host small{font:12px var(--mono);color:var(--teal);letter-spacing:.06em;text-transform:uppercase}
+.host p{color:var(--muted);margin:12px 0 0}
+
+.signal{display:grid;grid-template-columns:1.2fr 1fr;gap:40px;align-items:center;padding:56px;border-radius:24px;background:linear-gradient(135deg,var(--panel),var(--deep));box-shadow:inset 0 0 0 1px var(--line)}
+.signal form{display:flex;gap:10px}
+.signal input{flex:1;padding:16px 18px;border:1px solid var(--line);border-radius:10px;background:var(--void);color:var(--star);font:15px var(--mono)}
+.signal input:focus{outline:none;border-color:var(--gold)}
+.signal button{padding:0 22px;border:0;border-radius:10px;background:var(--gold);color:var(--void);font:700 14px var(--display);cursor:pointer}
+.ok{margin:12px 0 0;font:13px var(--mono);color:var(--teal);min-height:1.4em}
+footer{padding:40px 0 120px;color:var(--muted);font:12px var(--mono)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;border-top:1px dashed var(--line);padding-top:24px}
+
+@media (max-width:960px){.hero,.signal{grid-template-columns:1fr}.hosts{grid-template-columns:1fr}.ep{grid-template-columns:48px 1fr auto}.ep canvas,.wave{display:none}.nav nav{display:none}.title{flex-direction:column;align-items:start}.signal{padding:30px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="stars" aria-hidden="true"></canvas>
+<header class="nav"><div class="wrap">
+  <a class="logo" href="#top"><i></i>Low Orbit</a>
+  <nav aria-label="Main"><a href="#episodes">Episodes</a><a href="#crew">Crew</a><a href="#signal">Newsletter</a></nav>
+  <a class="sub" href="#signal">Subscribe</a>
+</div></header>
+
+<main id="top">
+<div class="wrap hero">
+  <div>
+    <p class="eyebrow"><b>S03</b>A podcast about small things in space</p>
+    <h1>Life in <span>low</span><em>orbit.</em></h1>
+    <p class="lede">Every other Thursday, three friends talk about the quiet corners of the solar system: a moon made of sponge, a comet's tail, the screws astronauts lose. Forty minutes, no jargon.</p>
+    <div class="cta">
+      <button class="play" id="heroPlay"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z" fill="currentColor"/></svg>Play the latest</button>
+      <span class="meta">EP 41 · 43 MIN · 12 NOV</span>
+    </div>
+  </div>
+  <div class="planet-wrap">
+    <canvas id="planet" width="160" height="160" aria-label="A pixel planet with rings and a small moon, slowly turning. Drag it to spin."></canvas>
+    <div class="readout" aria-hidden="true"><span>ROT <b id="rot">000.0°</b></span><span>MOON <b id="moon">PHASE 0</b></span><span>DRAG TO SPIN</span></div>
+  </div>
+</div>
+
+<section id="episodes"><div class="wrap">
+  <div class="title"><h2>Recent <em>episodes</em></h2><p>Press play on any of them. The little screen shows the night sky of that week.</p></div>
+  <div class="eps" id="eps"></div>
+</div></section>
+
+<section id="crew"><div class="wrap">
+  <div class="title"><h2>The <em>crew</em></h2><p>Nobody here is an astronaut. Two of us own telescopes. One of us has seen a meteor land.</p></div>
+  <div class="hosts" id="hosts"></div>
+</div></section>
+
+<section id="signal"><div class="wrap signal">
+  <div><h2>Get the <em>signal</em></h2><p style="color:var(--muted);margin:14px 0 0">One short email when a new episode lands, plus the thing we saw through the telescope that week.</p></div>
+  <div><form id="sig"><input type="email" required placeholder="you@earth.example" aria-label="Email address"><button>Tune in</button></form><p class="ok" id="ok" role="status"></p></div>
+</div></section>
+</main>
+<footer><div class="wrap"><span>LOW ORBIT · RECORDED IN A SHED WITH GOOD CURTAINS</span><span>RSS · APPLE · SPOTIFY · YOUR OWN EARS</span></div></footer>
+
+<div class="player" id="player" aria-live="polite">
+  <button class="ep-btn" id="pp" aria-label="Pause"><svg viewBox="0 0 16 16" aria-hidden="true"><path id="ppi" d="M3 2h4v12H3zM9 2h4v12H9z" fill="currentColor"/></svg></button>
+  <div style="min-width:0;width:180px"><b id="pt">—</b><small id="pn">—</small></div>
+  <div class="bar" id="bar" role="slider" aria-label="Seek" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="fill" style="width:0"></i></div>
+  <span class="time" id="time">00:00 / 00:00</span>
+</div>
+
+<script>
+(() => {
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const BAYER = [0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5];
+const hex = h => [1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+
+/* starfield, pixel-sized, twinkling */
+const sc = document.getElementById("stars"), sg = sc.getContext("2d");
+let stars = [];
+function sizeStars(){ sc.width = Math.ceil(innerWidth/3); sc.height = Math.ceil(innerHeight/3); stars = Array.from({length:(sc.width*sc.height)/90|0},()=>({x:Math.random()*sc.width|0,y:Math.random()*sc.height|0,p:Math.random()*6.28,s:Math.random()})); }
+sizeStars(); addEventListener("resize", sizeStars);
+
+/* the planet: per-pixel sphere, banded, dithered to a fixed palette */
+const pc = document.getElementById("planet"), pg = pc.getContext("2d"), N = 160, img = pg.createImageData(N,N);
+const PAL = ["#07081a","#1d1446","#3b1e5c","#7a2a4a","#c4473a","#ff7a3d","#ffc65c","#fff1c9"].map(hex);
+let spin = 0, vel = .004, drag = null, moonA = 0;
+function noise(x){ return Math.sin(x*1.7)+.5*Math.sin(x*3.9+1.3)+.25*Math.sin(x*8.1+.7); }
+function put(i,c){ img.data[i]=c[0]; img.data[i+1]=c[1]; img.data[i+2]=c[2]; img.data[i+3]=255; }
+function drawPlanet(t){
+  img.data.fill(0);
+  const cx=80, cy=80, R=46, L=[-.6,-.45,.66], tilt=.38;
+  const moonX = cx + Math.cos(moonA)*70, moonY = cy + Math.sin(moonA)*20, moonBehind = Math.sin(moonA)<0;
+  const ring = (front) => { for(let a=0;a<6.283;a+=.004){ for(let r=58;r<74;r+=1.2){ const x=cx+Math.cos(a)*r, y=cy+Math.sin(a)*r*.28 + Math.cos(a)*r*Math.sin(tilt)*.3; const isFront=Math.sin(a)>0; if(isFront!==front) continue;
+      const xi=x|0, yi=y|0; if(xi<0||yi<0||xi>=N||yi>=N) continue; const band = (r>63&&r<65)?0:1; if(!band) continue;
+      const shade = .45 + .4*Math.cos(a+.8) - (r-58)*.01; const lv = 2 + shade*4 + (BAYER[(yi&3)*4+(xi&3)]/16-.5); put((yi*N+xi)*4, PAL[Math.max(1,Math.min(6,lv|0))]); } } };
+  const moon = () => { for(let y=-7;y<=7;y++) for(let x=-7;x<=7;x++){ if(x*x+y*y>49) continue; const z=Math.sqrt(49-x*x-y*y)/7; const d=(-.6*x/7-.45*y/7+.66*z); const xi=(moonX+x)|0, yi=(moonY+y)|0; const lv = 1+Math.max(0,d)*5.5 + (BAYER[(yi&3)*4+(xi&3)]/16-.5); put((yi*N+xi)*4, [hex("#2a2f5c"),hex("#3d4480"),hex("#6a72b8"),hex("#a9afe6"),hex("#e6e8ff"),hex("#ffffff")][Math.max(0,Math.min(5,lv|0))]); } };
+  ring(false); if(moonBehind) moon();
+  for(let y=-R;y<=R;y++) for(let x=-R;x<=R;x++){
+    const d2=x*x+y*y; if(d2>R*R) continue;
+    const z=Math.sqrt(R*R-d2)/R, nx=x/R, ny=y/R;
+    const lon = Math.atan2(nx, z) + spin, lat = ny;
+    const band = noise(lat*9 + .6*Math.sin(lon*2+lat*3)) + .6*Math.sin(lon*3+lat*14);
+    const storm = Math.hypot(((lon%6.283+6.283)%6.283)-3.6, (lat-.25)*3) < .35 ? 1.4 : 0;
+    const light = Math.max(0, nx*L[0]+ny*L[1]+z*L[2]);
+    let lv = 1.2 + light*5 + band*.55 + storm - (1-z)*.8;
+    const xi=cx+x, yi=cy+y; lv += BAYER[(yi&3)*4+(xi&3)]/16 - .5;
+    put((yi*N+xi)*4, PAL[Math.max(1,Math.min(7,lv|0))]);
+  }
+  ring(true); if(!moonBehind) moon();
+  pg.putImageData(img,0,0);
+  document.getElementById("rot").textContent = (((spin*57.3)%360+360)%360).toFixed(1).padStart(5,"0")+"°";
+  document.getElementById("moon").textContent = "PHASE " + (((moonA%6.283+6.283)%6.283)/6.283*8|0);
+}
+pc.addEventListener("pointerdown", e => { drag = { x:e.clientX }; pc.setPointerCapture(e.pointerId); });
+pc.addEventListener("pointermove", e => { if(!drag) return; const dx = e.clientX - drag.x; drag.x = e.clientX; spin += dx*.01; vel = dx*.002; });
+pc.addEventListener("pointerup", () => drag = null);
+
+/* episodes, each with its own tiny sky */
+const eps = [
+  ["41","The sponge moon","Hyperion is mostly empty space. We try to describe what walking on it would feel like.","43:12"],
+  ["40","Lost screws","A short history of things astronauts have dropped, and where they are now.","38:40"],
+  ["39","A comet's long goodbye","Why tails point away from the sun, and the night one of us cried at a telescope.","51:05"],
+  ["38","Weather on Neptune","Winds at two thousand kilometres an hour, and the blue that nobody can explain.","46:27"],
+];
+const list = document.getElementById("eps");
+list.innerHTML = eps.map((e,i)=>`<article class="ep" data-i="${i}"><button class="ep-btn" aria-label="Play episode ${e[0]}: ${e[1]}"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2l10 6-10 6z" fill="currentColor"/></svg></button><canvas width="24" height="24" aria-hidden="true"></canvas><div><span class="num">EP ${e[0]} · ${e[3]}</span><h3>${e[1]}</h3><p>${e[2]}</p></div><div class="wave" aria-hidden="true">${"<i></i>".repeat(24)}</div><span class="num">${e[3]}</span></article>`).join("");
+list.querySelectorAll("canvas").forEach((c,i)=>{ const g=c.getContext("2d"); let s=i*97+13; const r=()=>((s=s*16807%2147483647)/2147483647);
+  for(let y=0;y<24;y++) for(let x=0;x<24;x++){ g.fillStyle = BAYER[(y&3)*4+(x&3)]/16 < y/40 ? "#14173d" : "#07081a"; g.fillRect(x,y,1,1); }
+  for(let k=0;k<14;k++){ g.fillStyle=["#eef0ff","#ffc65c","#53e0c8"][k%3]; g.fillRect(r()*24|0,r()*24|0,1,1); }
+  const hx=4+r()*16|0, hy=4+r()*10|0, col=["#ff7a3d","#53e0c8","#ffc65c","#a9afe6"][i]; g.fillStyle=col; g.fillRect(hx,hy,3,3); g.fillRect(hx+1,hy-1,1,5); g.fillRect(hx-1,hy+1,5,1); });
+
+/* the player: a pretend broadcast with a moving waveform */
+let cur = -1, playing = false, pos = 0;
+const player = document.getElementById("player"), pp = document.getElementById("pp"), ppi = document.getElementById("ppi");
+const secs = s => s.split(":").reduce((a,b)=>a*60+ +b,0), fmt = s => `${String(s/60|0).padStart(2,"0")}:${String(s%60|0).padStart(2,"0")}`;
+function setPlaying(on){ playing = on; ppi.setAttribute("d", on ? "M3 2h4v12H3zM9 2h4v12H9z" : "M4 2l10 6-10 6z"); pp.setAttribute("aria-label", on ? "Pause" : "Play"); }
+function start(i){ if(cur===i){ setPlaying(!playing); return; } cur=i; pos=0; setPlaying(true); player.classList.add("show");
+  document.querySelectorAll(".ep").forEach(el=>el.classList.toggle("on", +el.dataset.i===i));
+  document.getElementById("pt").textContent = eps[i][1]; document.getElementById("pn").textContent = `EPISODE ${eps[i][0]}`; }
+list.addEventListener("click", e => { const b = e.target.closest(".ep-btn"); if(b) start(+b.closest(".ep").dataset.i); });
+document.getElementById("heroPlay").onclick = () => start(0);
+pp.onclick = () => setPlaying(!playing);
+const bar = document.getElementById("bar");
+const seek = f => { if(cur<0) return; pos = Math.max(0,Math.min(1,f))*secs(eps[cur][3]); };
+bar.addEventListener("click", e => { const r = bar.getBoundingClientRect(); seek((e.clientX-r.left)/r.width); });
+bar.addEventListener("keydown", e => { if(cur<0) return; const d = secs(eps[cur][3]); if(e.key==="ArrowRight") pos=Math.min(d,pos+10); if(e.key==="ArrowLeft") pos=Math.max(0,pos-10); });
+
+/* newsletter */
+document.getElementById("sig").addEventListener("submit", e => { e.preventDefault(); document.getElementById("ok").textContent = "✓ Locked on. First signal arrives Thursday."; e.target.reset(); });
+
+/* crew portraits, drawn from grids */
+const crew = [["Ada Okafor","Host · telescope owner","Keeps a notebook of every Saturn she has seen.","#ff7a3d"],["Ben Ruiz","Producer · skeptic","Asks the question everyone was too shy to.","#53e0c8"],["Mira Holt","Guest wrangler","Once emailed an astronaut and got a reply.","#ffc65c"]];
+const face = ["....hhhhhh....","...hhhhhhhh...","..hhsssssshh..","..hsssssssh...","..hseessees...","..hsssssssss..","...sssmmsss...","....ssssss....","...cccccccc...","..cccccccccc..",".cccccccccccc.",".cccccccccccc."];
+document.getElementById("hosts").innerHTML = crew.map(c=>`<article class="host"><canvas width="14" height="14" aria-hidden="true"></canvas><h3>${c[0]}</h3><small>${c[1]}</small><p>${c[2]}</p></article>`).join("");
+document.querySelectorAll(".host canvas").forEach((cv,i)=>{ const g=cv.getContext("2d"); const C={h:["#2a1a12","#3b2418","#7a4a2a"][i],s:["#8d5a3b","#e0b48c","#f2c9a5"][i],e:"#07081a",m:"#c4473a",c:crew[i][3]};
+  face.forEach((r,y)=>[...r].forEach((ch,x)=>{ if(ch!=="."){ g.fillStyle=C[ch]; g.fillRect(x,y+2,1,1);} })); });
+
+/* one loop for everything */
+let last = performance.now();
+function loop(now){
+  const dt = Math.min(.05,(now-last)/1000); last = now;
+  if(!drag){ vel += (.004 - vel)*.02; spin += vel; } moonA += .006;
+  drawPlanet(now/1000);
+  sg.clearRect(0,0,sc.width,sc.height);
+  for(const s of stars){ const a = .35 + .65*Math.abs(Math.sin(s.p + now*.0006*(1+s.s))); sg.globalAlpha=a; sg.fillStyle = s.s>.92 ? "#ffc65c" : "#eef0ff"; sg.fillRect(s.x,s.y,1,1); }
+  sg.globalAlpha=1;
+  if(cur>=0){ const d = secs(eps[cur][3]); if(playing) pos = Math.min(d, pos + dt*12); if(pos>=d) setPlaying(false);
+    document.getElementById("fill").style.width = (pos/d*100)+"%"; bar.setAttribute("aria-valuenow", String(pos/d*100|0)); document.getElementById("time").textContent = `${fmt(pos)} / ${eps[cur][3]}`;
+    const bars = document.querySelectorAll(`.ep[data-i="${cur}"] .wave i`); bars.forEach((b,k)=>{ b.style.height = playing ? (20 + 80*Math.abs(Math.sin(now*.008 + k*.7)*Math.sin(now*.003+k))) + "%" : "20%"; }); }
+  if(!reduced) raf = requestAnimationFrame(loop);
+}
+let raf = requestAnimationFrame(loop);
+document.addEventListener("visibilitychange", () => { cancelAnimationFrame(raf); if(!document.hidden && !reduced){ last = performance.now(); raf = requestAnimationFrame(loop);} });
+})();
+</script>
+</body>
+</html>

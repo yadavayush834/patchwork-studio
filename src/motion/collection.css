@@ -1,0 +1,62 @@
+/* Motion templates in Patchwork's own look. Layout and cards come from shell/page.css; this file holds
+   the template viewer (top bar, preview, customise panel), the live card preview and messages. */
+.motion-studio button{font-family:inherit;cursor:pointer}
+.motion-studio.is-viewing{overflow:hidden}
+
+/* Card live preview sits over the cover image */
+.motion-card-live{position:absolute;inset:0;z-index:3;overflow:hidden;pointer-events:none}
+.motion-card-live iframe{position:absolute;top:0;left:0;max-width:none;min-height:0;border:0;transform-origin:top left;opacity:0;pointer-events:none;flex:none;transition:opacity .4s ease}
+.motion-card-live.is-ready iframe{opacity:1}
+.motion-card-live-status{position:absolute;left:16px;bottom:18px;display:flex;align-items:center;gap:8px;max-width:55%;padding:8px 12px;border-radius:999px;background:rgba(15,14,19,.86);color:#f4efe6;font:11px var(--mono);letter-spacing:.04em}
+.motion-card-live-status i{width:7px;height:7px;border-radius:1px;background:var(--mint);animation:mc-blink 1s steps(1) infinite}
+@keyframes mc-blink{50%{opacity:.2}}
+.motion-card-live-toggle{display:inline-flex;align-items:center;gap:6px;padding:0;border:0;background:none;color:var(--muted);font:11px var(--mono);letter-spacing:.06em;text-transform:uppercase;transition:color .2s ease}
+.motion-card-live-toggle:hover,.motion-card-live-toggle[aria-pressed="true"]{color:var(--paper)}
+.motion-card-live-toggle[aria-pressed="true"] svg{color:var(--mint)}
+.pw-tabs button small{font:11px var(--mono);opacity:.6}
+
+/* Viewer top bar: the Patchwork bar, carrying the template's actions */
+.motion-topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:18px;height:68px;padding:0 clamp(16px,2.4vw,36px);background:rgba(15,14,19,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.motion-back{display:inline-flex;align-items:center;gap:8px;padding:9px 15px;border:0;border-radius:999px;background:var(--ink2);color:var(--paper);font:500 14px var(--display);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .2s ease}
+.motion-back:hover{box-shadow:inset 0 0 0 1px var(--paper)}
+.motion-now{display:flex;align-items:baseline;gap:10px;min-width:0;margin-left:6px}
+.motion-now-dot{align-self:center;width:10px;height:10px;border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
+.motion-now b{font:800 20px var(--display);letter-spacing:-.03em;white-space:nowrap}
+.motion-now small{overflow:hidden;font:11px var(--mono);letter-spacing:.06em;color:var(--muted);white-space:nowrap;text-overflow:ellipsis}
+.motion-top-actions{display:flex;gap:8px;margin-left:auto}
+
+/* The template itself */
+.motion-preview{position:relative;height:calc(100svh - 68px);background:#000}
+.motion-preview iframe{display:block;width:100%;height:100%;border:0}
+.motion-preview-info{position:absolute;left:16px;bottom:16px;z-index:9;display:flex;align-items:center;gap:22px;padding:10px 16px;border-radius:999px;background:rgba(15,14,19,.86);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px var(--line);color:var(--paper);font:11px var(--mono);letter-spacing:.05em;pointer-events:none}
+.motion-preview-info>span{display:flex;align-items:center;gap:8px}
+.motion-preview-info>span>i{width:8px;height:8px;border-radius:1px;background:var(--sun);animation:mc-blink 1s steps(1) infinite}
+.motion-preview-info>span>i.is-ready{background:var(--mint);animation:none}
+.motion-progress-bar{display:flex;gap:2px}
+.motion-progress-bar i{width:6px;height:10px;background:var(--line)}
+.motion-progress-bar i.on{background:var(--patch)}
+
+/* Customise panel: a cream patch with a stitched edge, like the brand kit */
+.motion-customize{position:absolute;right:22px;top:90px;z-index:30;width:340px;max-height:calc(100svh - 120px);overflow:auto;display:grid;gap:14px;padding:26px;border-radius:18px;background:var(--ink2);box-shadow:inset 0 0 0 1px var(--line),0 40px 100px -30px #000;animation:pw-rise .35s cubic-bezier(.2,.7,.2,1) both}
+.motion-customize::before{content:"";position:absolute;inset:8px;border:2px dashed var(--line);border-radius:12px;pointer-events:none}
+.motion-customize>header{display:flex;justify-content:space-between;align-items:center}
+.motion-customize>header span{font:800 30px/1 var(--display);letter-spacing:-.04em}
+.motion-customize>header em{font:400 1.1em/0 var(--serif);color:var(--patch)}
+.motion-customize>header button{position:relative;z-index:1;display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:50%;background:var(--ink3);color:var(--paper)}
+.motion-customize>p{margin:0;color:var(--muted);font-size:14px}
+.motion-customize label{display:grid;gap:7px;font-size:13px;color:var(--muted)}
+.motion-customize input:not([type="color"]),.motion-customize textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--ink);color:var(--paper);font:15px/1.4 var(--display);resize:vertical}
+.motion-customize input:not([type="color"]):hover,.motion-customize textarea:hover{border-color:#3d3947}
+.motion-color-field>span{display:flex;align-items:center;gap:10px}
+.motion-color-field input[type="color"]{width:52px;height:40px;padding:3px;border:1px solid var(--line);border-radius:10px;background:var(--ink)}
+.motion-color-field code{font:13px var(--mono);color:var(--paper)}
+.motion-apply{position:relative;z-index:1;justify-content:center;padding:13px 18px}
+.motion-reset{position:relative;z-index:1;justify-self:start}
+.motion-customize>small{padding-top:12px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;line-height:1.6}
+
+/* Messages */
+.motion-error,.motion-notice{position:fixed;bottom:22px;left:50%;z-index:300;display:flex;align-items:center;gap:14px;max-width:90vw;padding:14px 20px;border-radius:999px;background:var(--paper);color:var(--ink);font:500 14px var(--display);box-shadow:0 20px 50px -20px #000;transform:translateX(-50%)}
+.motion-error{background:var(--patch);color:#fff}
+.motion-error button{border:0;background:none;color:inherit}
+
+@media (max-width:900px){.motion-now small,.motion-top-actions span,.motion-topbar .pw-bar-logo{display:none}.motion-customize{left:12px;right:12px;width:auto}}

@@ -269,3 +269,6 @@ Hearthstone: browser-reviewed the initial poster and an intermediate vertical sc
 
 
 2026-11-12 release checkpoint: all current Patchwork changes pass 85 unit tests and the full production build. Includes the shell/collection updates, both hero collections, ten Scenes, components/spirits, Motion Study card previews and four new living-art templates. User explicitly requested pushing all current work to GitHub and Vercel. Production target: existing patchwork-studio project, main branch, patchwork-studio-six.vercel.app.
+
+
+2026-11-12 subsequent release checkpoint: rebuilt standalone Design Library and current shell/collection changes pass all 77 tests and the full production build. User requested publishing all current changes to the existing GitHub main branch and Vercel production project. Historical test counts above describe earlier snapshots.
