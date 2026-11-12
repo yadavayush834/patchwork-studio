@@ -1,8 +1,0 @@
-<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#f4efe4;color:#221d2b;font:18px/1.6 Georgia,serif}header{height:70px;background:#221d2b;color:#fff;display:flex;align-items:center;padding:0 40px;position:relative}main{max-width:900px;margin:0 auto;padding:60px 30px;min-height:120vh;position:relative}h1{font:400 64px/1.05 Georgia;margin:0 0 30px}.row{display:flex;gap:16px;margin:30px 0}.row a{padding:12px 18px;background:#221d2b;color:#fff;text-decoration:none;border-radius:8px}.card{background:#fff;border-radius:14px;padding:24px;margin:30px 0}</style>
-<header id=hd>Nav bar</header>
-<main id=m><h1>The garden after rain.</h1><p>Every leaf holds a little water and every web holds a little light. Walk slowly and you will see who lives here.</p><div class=row><a href="#">Visit the garden</a><a href="#">Read the notes</a></div><div class=card><p>Snails come out first, then the birds that eat them, then the people who watch the birds.</p></div><p>Under the hedge there is a whole small city that never sleeps and never hurries.</p></main>
-<script src="kit.js"></script><script>
-const s=new URLSearchParams(location.search).get("s"), into=new URLSearchParams(location.search).get("in")||"m";
-const el=document.createElement("pw-"+s); for(const [k,v] of new URLSearchParams(location.search)) if(!["s","in"].includes(k)) el.setAttribute(k,v);
-document.getElementById(into).append(el); const sc=document.createElement("script"); sc.src=s+".js"; document.body.append(sc);
-</script>

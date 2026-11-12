@@ -1,1 +1,7 @@
-These five covers are captures of the actual original hero renderers at 1440 x 900, reduced motion, resized to 1280 x 800. They are not third-party images or mockups. Canonical source: src/heroes. Recreate by opening /?view=hero&hero=ID after npm run build:heroes, waiting for document.fonts.ready and the hero-ready event, then capturing the viewport. The fonts retain their SIL notices under ../licenses.
+Covers for the five original hero sections (Facet, Undertow, Daybreak, Lattice, Frequency).
+
+Each one is a screenshot of the real hero: rendered at 1440 x 900 with reduced motion, then resized to 1280 x 800. The source is src/heroes.
+
+To make one again: npm run build:heroes, open /?view=hero&hero=<id>, wait for the fonts and the hero-ready event, and capture the viewport.
+
+The fonts keep their SIL Open Font Licences in ../licenses.

@@ -26,6 +26,8 @@ Run `npm test` and `npm run build` before calling a change done. For anything vi
 | ASCII backgrounds + paint studio | `src/ascii/`, `src/PaintStudio.tsx` | `src/ascii/runtime.generated.js` |
 | Diorama engine | `src/diorama/engine.ts` | `public/diorama/diorama.js` (+ copies in `heroes2/vendor/` and `scenes/`) |
 | Components, spirits, library, video lab | `src/components/`, `src/spirits/`, `src/library/`, `src/video-lab/` | `public/…` |
+| Keepsakes (snow globe) | `src/keepsake/` | bundled by Vite |
+| Particle heroes | `src/particles/` | `public/heroes2/<id>/hero.js` (`npm run build:particles`) |
 
 Generated files — edit the source, never the output:
 - `src/ascii/runtime.generated.js` ← `npm run build:ascii`
@@ -42,11 +44,12 @@ Generated files — edit the source, never the output:
 - **Old projects keep opening.** The project format is version 1; new fields are optional. Retired backgrounds map to their replacements (`legacyBackgroundIds`).
 - **Motion is optional.** Everything animated pauses offscreen and in hidden tabs, and shows a still frame for `prefers-reduced-motion`.
 - **Don't clear someone's local data to make a test pass.** Use a fresh browser profile for QA.
+- **The Video Lab is in beta.** Fix it if it breaks, but don't add features until the owner revisits it.
 - **Licences travel.** Font OFL files, the GSAP and Three.js notices, and `licenses/ARTWORK.txt` / `ASCII-SCENES.txt` ship with whatever uses them.
 - Don't deploy, push, or change repository settings unless the person you're working for asks (pushing `main` deploys; see `docs/DEPLOYMENT.md`).
 
 ## Generated artwork
 
-Some pieces use paintings made with ChatGPT image generation (through the local Codex CLI). Their prompts are kept next to the images (`artwork.json`) or in `docs/DIORAMA.md`. Paintings that move in 3D also need a depth map; `docs/DIORAMA.md` has the whole recipe.
+Some pieces use paintings made with ChatGPT image generation (through the local Codex CLI). Their prompts are kept next to the images (`artwork.json`) or in `docs/engines/diorama.md`. Paintings that move in 3D also need a depth map; `docs/engines/diorama.md` has the whole recipe.
 
-More: `docs/ARCHITECTURE.md` (how the app fits together), `docs/DIORAMA.md` (the painted-depth engine), `docs/DEPLOYMENT.md`.
+More: `docs/README.md` (the map), `docs/ARCHITECTURE.md` (how the app fits together), `docs/sections/` (one page per part of the site), `docs/engines/` (one page per engine), `docs/DEPLOYMENT.md`.
