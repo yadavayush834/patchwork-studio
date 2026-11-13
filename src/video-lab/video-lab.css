@@ -788,3 +788,30 @@
 .vl-engine-controls .vl-muted {
   margin: 0;
 }
+
+/* Beta notice: the lab is still being tested and not for real use yet. */
+.vl-beta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 30px;
+  background: #fff4d6;
+  border-bottom: 1px solid #f0d58a;
+  color: #5a4410;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.vl-beta b {
+  flex: none;
+  font-family: "Space Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  background: #5a4410;
+  color: #fff4d6;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+@media (max-width: 640px) {
+  .vl-beta { padding: 10px 16px; align-items: flex-start; }
+}

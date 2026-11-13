@@ -1,5 +1,8 @@
 # Video Lab (beta)
 
+> **In beta, not for real use yet.** The lab shows this notice at the top. Results may be unfinished or change. Fix it if it breaks, but hold new features until the owner returns to it.
+
+
 > `src/video-lab/` · open with `/?lab=video`
 
 **Beta. No new features until it's revisited.** It works, but results vary, and the people using it know that.

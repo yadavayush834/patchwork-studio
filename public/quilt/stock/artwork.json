@@ -1,0 +1,41 @@
+{
+  "note": "Stock photos for Quilt templates, generated with ChatGPT image generation through the local Codex CLI on 2026-11-13. Free to use in any Patchwork site.",
+  "images": [
+    {
+      "file": "cafe.webp",
+      "prompt": "Warm morning light inside a small neighbourhood cafe: wooden counter, handmade ceramic cups, pastries under a glass dome, trailing plants, soft 35mm film photograph look, no people, no text, no signs, no logos"
+    },
+    {
+      "file": "ceramics.webp",
+      "prompt": "A ceramicist's studio table with handmade glazed bowls and mugs in earthy terracotta, sage and cream colours, clay tools, soft window light, 35mm film photograph, no text, no logos"
+    },
+    {
+      "file": "portrait.webp",
+      "prompt": "Editorial portrait of a smiling young designer with curly hair in a sunlit studio, paper sketches pinned on the wall behind, shallow depth of field, warm 35mm film photograph, no text, no logos"
+    },
+    {
+      "file": "hills.webp",
+      "prompt": "Rolling green hills at golden hour with a small winding footpath and a distant white cottage, soft haze, warm 35mm film landscape photograph, no text"
+    },
+    {
+      "file": "desk.webp",
+      "prompt": "Top-down view of a tidy creative desk on pale wood: open sketchbook with pencil drawings, coffee cup, paint colour swatches, a small plant, soft daylight, no readable text, no logos, no screens"
+    },
+    {
+      "file": "food.webp",
+      "prompt": "Overhead food photograph of a rustic table with fresh sourdough loaf, seasonal salad, citrus halves and linen napkins, natural daylight, no text, no logos"
+    },
+    {
+      "file": "shapes.webp",
+      "prompt": "Abstract soft 3D render of glossy pastel blobs, rings and spheres floating against a calm lilac background, gentle studio lighting, minimal, no text, no logos"
+    },
+    {
+      "file": "stage.webp",
+      "prompt": "A small intimate concert stage at night with warm string lights, an acoustic guitar on a stand and a vintage microphone, moody 35mm film photograph, no people, no text, no logos"
+    },
+    {
+      "file": "flowers.webp",
+      "prompt": "A loose bouquet of wildflowers in a clear glass vase on a linen tablecloth, soft afternoon light and shadows, 35mm film photograph, no text"
+    }
+  ]
+}

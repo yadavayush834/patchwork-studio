@@ -17,7 +17,8 @@ Run `npm test` and `npm run build` before calling a change done. For anything vi
 
 | Area | Source | Served / packaged from |
 |---|---|---|
-| Home, editor, routing | `src/App.tsx`, `src/home/`, `src/main.tsx` | — |
+| **Make a site (Quilt)** | `src/quilt/` (engine) + `src/quilt/editor/` (React editor) | `public/quilt/stock/` (photos) |
+| Home, classic editor, routing | `src/App.tsx`, `src/home/`, `src/main.tsx` | — |
 | Website renderer + export | `src/render.ts`, `src/export.ts`, `src/site.css` | one renderer for preview and export |
 | Project storage | `src/storage.ts` (IndexedDB, validation, bundles) | — |
 | Hero sections | `src/heroes2/` | `public/heroes2/<id>/` |
@@ -29,12 +30,24 @@ Run `npm test` and `npm run build` before calling a change done. For anything vi
 | Keepsakes (snow globe) | `src/keepsake/` | bundled by Vite |
 | Particle heroes | `src/particles/` | `public/heroes2/<id>/hero.js` (`npm run build:particles`) |
 
-Generated files — edit the source, never the output:
+Generated files (edit the source, never the output):
 - `src/ascii/runtime.generated.js` ← `npm run build:ascii`
 - `public/motion/engine.js` ← `npm run build:motion`
 - `public/diorama/diorama.js` and its two copies ← `npm run build:diorama`
 
 `npm run dev` and `npm run build` regenerate all of them.
+
+## Making sites: Quilt
+
+"Make a site" is **Quilt** (`/?quilt`), a Canva-style builder that outputs a real responsive website. It replaced the old world-based editor as the way new sites are made. The old editor in `App.tsx` still opens existing classic projects; don't build new site-making features there.
+
+Read `docs/engines/quilt.md` before touching `src/quilt/`. The short version:
+- The document model is `src/quilt/model.ts`. Every change is a pure function in `ops.ts`, called through `commit()` so undo works.
+- `render.ts` is the only renderer: the canvas, preview and export all use it. Add visual features there, never in `editor/quilt.css`.
+- Recipes in `library/recipes.ts` are content-aware layouts tied together by slots. Every layout of a recipe must place the same slots, and `tests/quilt.test.ts` enforces it.
+- Widgets declare their fields in `widgets.ts`; the inspector builds controls from them.
+- Colours in recipes and templates are tokens (`$accent`), so style kits and Shuffle work.
+- QA the editor in a browser at desktop, tablet and phone sizes. Check the downloaded zip opened from disk too.
 
 ## Things that must stay true
 

@@ -5,8 +5,15 @@ import { scenesRoute } from "./scenes/route";
 import { componentsRoute } from "./components/route";
 import { spiritsRoute } from "./spirits/route";
 import { keepsakeRoute } from "./keepsake/route";
+import { quiltRoute } from "./quilt/route";
 
 async function start() {
+  // Quilt: the site maker (?quilt for its front door, ?quilt=<id> for the editor).
+  if (quiltRoute(location.search)) {
+    const { startQuilt } = await import("./quilt/entry");
+    startQuilt();
+    return;
+  }
   // Keepsakes: make a snow globe for someone, send it as a link, unwrap it.
   if (keepsakeRoute(location.search)) {
     const { startKeepsake } = await import("./keepsake/entry");

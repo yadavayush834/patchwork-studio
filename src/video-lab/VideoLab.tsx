@@ -554,6 +554,13 @@ export default function VideoLab({ open, onClose, sections, onAdd }: Props) {
         </div>
         <span className="vl-private">● On your device. Entirely yours.</span>
       </header>
+      <div className="vl-beta" role="note">
+        <b>Beta</b>
+        <span>
+          The Video Lab is still being tested and isn&rsquo;t ready for real
+          use yet. Results may be unfinished or change without notice.
+        </span>
+      </div>
       <div className="vl-heading">
         <div>
           <p className="vl-eyebrow">A DIFFERENT WAY TO SEE</p>

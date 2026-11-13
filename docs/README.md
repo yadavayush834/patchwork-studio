@@ -6,7 +6,8 @@ Start with the [README](../README.md) for the tour. If you're changing code, rea
 
 | | |
 |---|---|
-| [The studio](sections/studio.md) | Worlds, sections, backgrounds, motion, living sites, export and import. |
+| [Make a site (Quilt)](sections/site-maker.md) | The site maker: Quick start, templates, a free canvas, phones, Rearrange, Shuffle, living layers, download. |
+| [The classic studio](sections/studio.md) | The original world-based editor, kept for existing projects. |
 | [Hero sections](sections/heroes.md) | 23 single-screen openings and how a hero is put together. |
 | [Scenes](sections/scenes.md) | 16 living places: procedural, painted and title cards. |
 | [Motion](sections/motion.md) | 25 scroll-told websites. |
@@ -21,6 +22,7 @@ Start with the [README](../README.md) for the tour. If you're changing code, rea
 
 | | |
 |---|---|
+| [Quilt](engines/quilt.md) | The site maker: grid model, one renderer, phone smart stack, recipes and slots, how to extend it. |
 | [Diorama](engines/diorama.md) | A painting plus a depth map becomes a small 3D place, and the recipe for making the art. |
 | [Title cards](engines/title-cards.md) | Headlines painted into the picture at a real depth. |
 | [Pixel scenes](engines/pixel-scenes.md) | One shader and one palette per place. |

@@ -21,6 +21,11 @@ No account. No server. Nothing hosted. Everything you make stays on your compute
 
 ## ✦ What's inside
 
+### 🪡 [Make a site](docs/sections/site-maker.md)
+A website builder that feels like making a poster. Say what you're making and pick a feeling, and **Quick start** sews you a whole site. Then drag anything anywhere, and Patchwork turns it into a real responsive grid. Phones lay themselves out in reading order. **Rearrange** gives any section a new layout and keeps your words. **Shuffle** restyles the whole site. Living scenes and little residents only Patchwork has can go behind any section. Download a folder that works anywhere.
+
+<img src="docs/images/quilt-editor.webp" width="880" alt="The Make a site editor">
+
 <table>
 <tr>
 <td width="50%" valign="top">
@@ -79,7 +84,7 @@ Build a snow globe, send it as a link (the whole globe lives in the URL), and yo
 | **[Components](docs/sections/components-and-spirits.md)**: pixel characters with real jobs. A lamplighter lights your headline, a kite is your back-to-top button, a postie checks your form, a caterpillar is your progress bar. | <img src="docs/images/gal-components.webp" width="420"> |
 | **[Spirits](docs/sections/components-and-spirits.md)**: 22 creatures that move into your page and get on with their lives, plus a maker for drawing your own. | <img src="docs/images/gal-spirits.webp" width="420"> |
 | **[ASCII](docs/sections/ascii.md)**: living backgrounds drawn in characters: a night lotus, an aurora, neon rain, a koi pond, and *your own painting*, turned into light. | <img src="docs/images/gal-ascii.webp" width="420"> |
-| **[Brand kit](docs/sections/brand-kit.md)**: set your name, colours and font once, and every piece wears them. **[Video Lab](docs/sections/video-lab.md)** *(beta)*: 92 looks for turning a clip into a stylised loop. | <img src="docs/images/keepsake.webp" width="420"> |
+| **[Brand kit](docs/sections/brand-kit.md)**: set your name, colours and font once, and every piece wears them. **[Video Lab](docs/sections/video-lab.md)** *(beta, not ready for use yet)*: 92 looks for turning a clip into a stylised loop. | <img src="docs/images/keepsake.webp" width="420"> |
 
 </details>
 

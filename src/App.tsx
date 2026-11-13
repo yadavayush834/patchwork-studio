@@ -851,8 +851,8 @@ export default function App() {
           projectThumb={(id) => { const pr = projects.find((x) => x.id === id); return pr ? <ProjectThumbnail project={pr} /> : null; }}
           onOpenProject={(id) => { const pr = projects.find((x) => x.id === id); if (pr) void openProject(pr); }}
           onWorld={(id) => void openProject(createProject(id as Parameters<typeof createProject>[0]))}
-          onMake={() => void openProject(createProject("pixel"))}
-          onScratch={() => void openProject(createProject("editorial", true))}
+          onMake={() => location.assign("/?quilt")}
+          onScratch={() => location.assign("/?quilt")}
           onProjects={() => setDashTab("projects")}
           onHelp={() => setModal("help")}
           openLibrary={openLibrary}
@@ -897,7 +897,7 @@ export default function App() {
                 <span className="new-dot" />
               </button>
               <button onClick={openVideoLab}>
-                <Play size={18} /> Video Lab <span className="new-dot" />
+                <Play size={18} /> Video Lab <span className="count">beta</span>
               </button>
               <button
                 className={dashTab === "home" ? "selected" : ""}
@@ -930,12 +930,8 @@ export default function App() {
                 Entirely yours.
               </strong>
               <p>Make something that feels a little more like you.</p>
-              <button
-                onClick={() =>
-                  void openProject(createProject("editorial", true))
-                }
-              >
-                Start with a blank canvas <ArrowUpRight size={14} />
+              <button onClick={() => location.assign("/?quilt")}>
+                Make a site <ArrowUpRight size={14} />
               </button>
             </div>
             <button className="help-link" onClick={() => setModal("help")}>

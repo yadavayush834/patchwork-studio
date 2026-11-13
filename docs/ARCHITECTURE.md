@@ -12,7 +12,7 @@ flowchart TD
 
 ## Routing
 
-`src/main.tsx` reads the URL before anything else. A piece opened on its own renders as a complete page without loading the studio: `?hero2=`, `?view=hero&hero=` (the original five), `?scene=`, `?view=motion&motion=`, `?component=`, `?spirit=` and `?keepsake=`. Each collection has a tiny `route.ts`, with no imports, that it can check cheaply. Every other URL loads `App.tsx`: the home page, the dashboard, the editor, and the collection overlays (`?collection=…`). Overlays push a history entry, so Back closes them.
+`src/main.tsx` reads the URL before anything else. `?quilt` (and `?quilt=<id>`) loads the site maker, `src/quilt/`, on its own; see [the Quilt engine](engines/quilt.md). A piece opened on its own renders as a complete page without loading the studio: `?hero2=`, `?view=hero&hero=` (the original five), `?scene=`, `?view=motion&motion=`, `?component=`, `?spirit=` and `?keepsake=`. Each collection has a tiny `route.ts`, with no imports, that it can check cheaply. Every other URL loads `App.tsx`: the home page, the dashboard, the editor, and the collection overlays (`?collection=…`). Overlays push a history entry, so Back closes them.
 
 ## One shape for every collection
 
@@ -27,7 +27,9 @@ The pieces themselves are plain files under `public/<collection>/`. Some engines
 
 ## Websites people make
 
-A project (`src/types.ts`) is a list of sections. Each section has a kind, a world, words, an optional background, decorations and motion. `render.ts` turns a project into markup scoped under `.pw-*`. The editor shows that markup in an iframe, and `export.ts` zips the same markup with `site.css`, fonts, assets and `site.js`, which is the ASCII runtime plus a small script for motion and visibility. See [the studio](sections/studio.md).
+New sites are made in **Quilt** (`src/quilt/`): a document of pages, sections and freely placed elements on a 96-column grid, rendered by `src/quilt/render.ts` for the canvas, the preview and the download alike. See [the Quilt engine](engines/quilt.md).
+
+The classic editor below still opens projects made before Quilt. A classic project (`src/types.ts`) is a list of sections. Each section has a kind, a world, words, an optional background, decorations and motion. `render.ts` turns a project into markup scoped under `.pw-*`. The editor shows that markup in an iframe, and `export.ts` zips the same markup with `site.css`, fonts, assets and `site.js`, which is the ASCII runtime plus a small script for motion and visibility. See [the studio](sections/studio.md).
 
 Storage is IndexedDB (`storage.ts`): projects, uploaded assets referenced as `asset:<uuid>`, validation on import, and editable project bundles.
 
