@@ -18,6 +18,7 @@ import { iconSvg } from "./library/icons";
 import { seamDef, patternDef, SEAMS } from "./library/seams";
 import { SITE_CSS, PHONE } from "./site-css";
 import { widget } from "./widgets";
+import { pieceDef } from "./pieces";
 
 /** Theme variables and font faces. */
 export function themeCss(doc: QuiltDoc, ctx: RenderCtx, scope = ".q-site") {
@@ -300,11 +301,21 @@ export function sectionClasses(s: Section): string {
   if (s.fullscreen) c.push("q-full");
   if (s.sticky) c.push("q-sticky");
   if (s.kind === "header") c.push("q-bar");
+  if (s.piece) c.push("q-has-piece");
   if (s.seam && s.seam.shape !== "none") c.push(`q-seam-${s.seam.shape}`);
   return c.join(" ");
 }
 
 export function sectionBgHtml(s: Section, ctx: RenderCtx): string {
+  if (s.piece) {
+    const def = pieceDef(s.piece);
+    const live = ctx.piece?.(s);
+    // The piece is the section's main content, so unlike a backdrop it is announced and focusable.
+    const inner = live
+      ? `<iframe class="q-piece" src="${esc(live)}" title="${esc(String(s.piece.config.headline ?? def?.name ?? "Hero"))}" allow="autoplay"></iframe>`
+      : def?.cover ? `<img class="q-piece-still" src="${esc(def.cover)}" alt="">` : "";
+    return `<div class="q-bg q-bg-scene q-bg-piece">${inner}<div class="q-dim"></div></div>`;
+  }
   const scene = s.bg.scene ? `<iframe src="${esc(ctx.scene(s.bg.scene))}" title="" tabindex="-1" loading="lazy" aria-hidden="true"></iframe>` : "";
   return `<div class="q-bg${scene ? " q-bg-scene" : ""}" aria-hidden="true">${scene}<div class="q-dim"></div></div>`;
 }
@@ -344,6 +355,7 @@ export function pageNeeds(doc: QuiltDoc, page: Page) {
     pals: secs.some((s) => (s.residents?.length ?? 0) > 0),
     kite: !!doc.settings.kite,
     scenes: [...new Set(secs.map((s) => s.bg.scene).filter((x): x is string => !!x))],
+    pieces: secs.filter((s) => s.piece),
   };
 }
 

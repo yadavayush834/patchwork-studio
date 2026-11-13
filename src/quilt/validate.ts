@@ -3,7 +3,8 @@
  * editor or renderer sees it. Structure problems throw; individual bad values are repaired so one odd
  * colour never costs someone their site.
  */
-import type { El, Paint, QuiltDoc, Section, Page, Theme, Link } from "./model";
+import type { El, Paint, QuiltDoc, Section, Page, Theme, Link, Piece } from "./model";
+import { isPiece } from "./pieces";
 import { TOKENS } from "./model";
 import { isColorRef, isFont, isHex, KITS, themeFromKit } from "./theme";
 import { isShape } from "./library/shapes";
@@ -148,6 +149,13 @@ export function section(v: unknown): Section | null {
       scene: isLivingScene(b.scene) ? (b.scene as string) : undefined,
       blur: opt(b.blur, (x) => num(x, 0, 40, 0)),
     },
+    piece: isObj(v.piece) && isPiece(v.piece.kind, v.piece.id) ? {
+      kind: v.piece.kind as Piece["kind"],
+      id: v.piece.id as string,
+      config: props(v.piece.config) as Piece["config"],
+      link: link(v.piece.link),
+      hideNav: v.piece.hideNav === true || undefined,
+    } : undefined,
     seam: isObj(v.seam) ? { shape: seamDef(str(v.seam.shape, 20)).id, depth: opt(v.seam.depth, (x) => num(x, 4, 200, 30)), flip: v.seam.flip === true || undefined, thread: opt(v.seam.thread, (x) => color(x, "$accent")) } : undefined,
     residents: Array.isArray(v.residents) ? v.residents.filter((r) => isObj(r) && isResident(r.kind)).slice(0, 6).map((r) => ({ kind: (r as { kind: string }).kind, color: isHex((r as { color?: string }).color) ? (r as { color: string }).color : undefined })) : undefined,
     phone: isObj(v.phone) ? { gap: opt(v.phone.gap, (x) => num(x, 0, 80, 14)), pad: opt(v.phone.pad, (x) => num(x, 0, 200, 56)), align: opt(v.phone.align, (x) => oneOf(x, ["start", "center"] as const, "start")) } : undefined,

@@ -7,9 +7,10 @@ import { siteCss, pageCss, pageDocument } from "../render";
 import { QUILT_RUNTIME } from "../runtime";
 import { sceneDocument } from "../../scenes/document";
 import type { SceneId } from "../../scenes/catalog";
-import type { RenderCtx } from "../util";
+import { href, type RenderCtx } from "../util";
+import { pieceUrl } from "./Editor";
 
-const NAV = `addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a[href]");if(!a)return;const h=a.getAttribute("href");if(h.startsWith("#page-")){e.preventDefault();parent.postMessage({quiltPage:h.slice(6)},"*")}else if(!h.startsWith("#")){e.preventDefault()}});`;
+const NAV = `addEventListener("message",e=>{const h=e.data&&e.data.quiltLink;if(typeof h==="string"&&h.startsWith("#page-"))parent.postMessage({quiltPage:h.slice(6)},"*")});addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("a[href]");if(!a)return;const h=a.getAttribute("href");if(h.startsWith("#page-")){e.preventDefault();parent.postMessage({quiltPage:h.slice(6)},"*")}else if(!h.startsWith("#")){e.preventDefault()}});`;
 
 export default function Preview({ doc, startPage, assetUrl, onClose }: { doc: QuiltDoc; startPage: string; assetUrl: (s: string) => string; onClose: () => void }) {
   const [pageId, setPageId] = useState(startPage);
@@ -21,6 +22,7 @@ export default function Preview({ doc, startPage, assetUrl, onClose }: { doc: Qu
       doc, theme: doc.theme, mode: "preview", base: `${location.origin}/`, pageId: page.id, asset: (s) => { const u = assetUrl(s); return u.startsWith("/") ? location.origin + u : u; },
       scene: (id) => { if (!scenes.has(id)) scenes.set(id, URL.createObjectURL(new Blob([sceneDocument(id as SceneId, { text: false }, `${location.origin}/scenes/`)], { type: "text/html" }))); return scenes.get(id)!; },
       page: (id) => `#page-${id}`,
+      piece: (s) => pieceUrl(s, s.piece?.link?.kind === "page" ? `#page-${s.piece.link.value}` : href(s.piece?.link, { page: (id: string) => `#page-${id}` } as RenderCtx)),
     };
     return pageDocument(doc, page, ctx, { inlineCss: siteCss(doc, ctx) + pageCss(doc, page, ctx), inlineRuntime: QUILT_RUNTIME + NAV, scripts: { runtime: "", spirits: `${location.origin}/spirits/`, components: `${location.origin}/components/` } });
   }, [doc, page, assetUrl, scenes]);

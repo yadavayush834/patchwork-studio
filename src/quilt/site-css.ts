@@ -21,6 +21,9 @@ export const SITE_CSS = String.raw`
 .q-bg>iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 .q-bg::after{content:"";position:absolute;inset:0;background:var(--q-pc,transparent);opacity:var(--q-po,0);-webkit-mask:var(--q-pm,none);mask:var(--q-pm,none);pointer-events:none}
 .q-dim{position:absolute;inset:0;pointer-events:none}
+.q-bg-piece{z-index:0}
+.q-has-piece>.q-grid{z-index:1}
+.q-piece-still{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .q-grid{display:grid;grid-template-columns:repeat(96,minmax(0,1fr));max-width:1200px;margin:0 auto;padding:0 var(--pad);position:relative;box-sizing:content-box!important;pointer-events:none}
 .q-e{position:relative;min-width:0;min-height:0;pointer-events:auto;rotate:var(--r,0deg)}
 .q-box{display:grid;grid-template-columns:subgrid;grid-template-rows:subgrid}

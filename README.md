@@ -22,7 +22,7 @@ No account. No server. Nothing hosted. Everything you make stays on your compute
 ## ✦ What's inside
 
 ### 🪡 [Make a site](docs/sections/site-maker.md)
-A website builder that feels like making a poster. Say what you're making and pick a feeling, and **Quick start** sews you a whole site. Then drag anything anywhere, and Patchwork turns it into a real responsive grid. Phones lay themselves out in reading order. **Rearrange** gives any section a new layout and keeps your words. **Shuffle** restyles the whole site. Living scenes and little residents only Patchwork has can go behind any section. Download a folder that works anywhere.
+A website builder that feels like making a poster. Say what you're making and pick a feeling, and **Quick start** sews you a whole site. Then drag anything anywhere, and Patchwork turns it into a real responsive grid. Phones lay themselves out in reading order. **Rearrange** gives any section a new layout and keeps your words. **Shuffle** restyles the whole site. Every hero section and scene in the collection can be dropped in as a section of your site, with your words in it. Living scenes and little residents can also go behind any section. Download a folder that works anywhere.
 
 <img src="docs/images/quilt-editor.webp" width="880" alt="The Make a site editor">
 

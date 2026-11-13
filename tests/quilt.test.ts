@@ -12,6 +12,7 @@ import { text, shape } from "../src/quilt/library/build";
 import { QUILT_RUNTIME } from "../src/quilt/runtime";
 import { existsSync } from "node:fs";
 import type { QuiltDoc } from "../src/quilt/model";
+import { PIECES, pieceDocument, pieceFiles, pieceSection, pieceFields } from "../src/quilt/pieces";
 import type { RenderCtx } from "../src/quilt/util";
 
 const ctxFor = (doc: QuiltDoc, pageId = doc.pages[0].id): RenderCtx => ({
@@ -135,4 +136,21 @@ test("the site stylesheet and runtime are self-contained", () => {
   assert.ok(!/url\(["']?https?:/.test(css), "no network fonts or images");
   assert.ok(css.includes("@container q"));
   assert.ok(!/fetch\(|XMLHttpRequest|https?:\/\//.test(QUILT_RUNTIME), "runtime makes no requests");
+});
+
+test("every Patchwork hero and scene works as a section, with every file it needs", () => {
+  assert.equal(PIECES.filter((p) => p.kind !== "scene").length, 23);
+  assert.equal(PIECES.filter((p) => p.kind === "scene").length, 16);
+  for (const def of PIECES) {
+    const s = pieceSection(def.kind, def.id, "Rosa <script>", true, { kind: "section", value: "about" });
+    s.piece!.config.headline = "Hello </script><b>there</b>";
+    const back = validateDoc({ ...newSite(null, { name: "x" }), pages: [{ id: "p1", name: "Home", slug: "index", sections: [s] }] });
+    const piece = back.pages[0].sections[0].piece!;
+    assert.equal(piece.id, def.id);
+    const html = pieceDocument(piece, { heroes2: "../heroes2/", heroes: "../heroes/", scenes: "../scenes/" }, "#about");
+    assert.ok(!html.includes("<b>there</b>") && !html.includes("Rosa <script>"), `${def.id} escapes words`);
+    assert.ok(html.includes("quiltLink"), `${def.id} relays clicks`);
+    assert.ok(pieceFields(def.kind).length >= 4);
+    for (const f of pieceFiles(piece)) assert.ok(existsSync(`public${f}`), `${def.id}: ${f}`);
+  }
 });

@@ -4,7 +4,9 @@
  * Also: the editable project bundle (.quilt.zip) and importing it again.
  */
 import JSZip from "jszip";
-import type { QuiltDoc, Page } from "./model";
+import type { QuiltDoc, Page, Section } from "./model";
+import { pieceDocument, pieceFiles } from "./pieces";
+import { href } from "./util";
 import { allSections } from "./model";
 import { siteCss, pageCss, pageDocument, pageNeeds, usedFonts } from "./render";
 import { QUILT_RUNTIME } from "./runtime";
@@ -45,11 +47,13 @@ export async function exportSite(doc: QuiltDoc, fetchFile: (path: string) => Pro
       return p.slice(1);
     },
     scene: (id) => `living/${id}.html`,
+    piece: (s) => pieceFile(s),
     page: (id) => pageFile(doc.pages.find((p) => p.id === id) ?? doc.pages[0]),
   });
   const shared = siteCss(doc, ctxFor(doc.pages[0]));
   zip.file("quilt.css", shared);
   zip.file("quilt.js", QUILT_RUNTIME);
+  const pieceFile = (s: Section) => `living/piece-${s.id}.html`;
   let pals = false, kite = false;
   const scenes = new Set<string>();
   for (const page of doc.pages) {
@@ -58,6 +62,12 @@ export async function exportSite(doc: QuiltDoc, fetchFile: (path: string) => Pro
     pals ||= needs.pals;
     kite ||= needs.kite;
     needs.scenes.forEach((s) => scenes.add(s));
+    for (const s of needs.pieces) {
+      // The piece page lives in living/, so links back to the site go up one folder.
+      const target = href(s.piece!.link, ctx);
+      zip.file(pieceFile(s), pieceDocument(s.piece!, { heroes2: "../heroes2/", heroes: "../heroes/", scenes: "../scenes/" }, target));
+      pieceFiles(s.piece!).forEach((f) => files.add(f));
+    }
     zip.file(pageFile(page), pageDocument(doc, page, ctx, { stylesheet: "quilt.css", inlineCss: pageCss(doc, page, ctx), scripts: { runtime: "quilt.js", spirits: "spirits/", components: "components/" } }));
   }
   for (const id of usedFonts(doc)) {

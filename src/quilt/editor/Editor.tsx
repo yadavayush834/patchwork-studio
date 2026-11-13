@@ -1,6 +1,6 @@
 /** The Quilt editor: top bar, tool rail, panels, canvas, inspector. Owns history and the selection. */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Undo2, Redo2, Monitor, Tablet, Smartphone, Eye, Download, Plus, LayoutTemplate, Image as ImageIcon, Palette, Sparkles, Layers, Files, Play, Minus, Search, ChevronDown, Package, Command } from "lucide-react";
+import { ArrowLeft, Undo2, Redo2, Monitor, Tablet, Smartphone, Eye, Download, Plus, LayoutTemplate, Image as ImageIcon, Palette, Sparkles, Layers, Files, Play, Minus, Search, ChevronDown, Package, Sun, Moon, Keyboard, X } from "lucide-react";
 import type { Device, El, QuiltDoc, Section } from "../model";
 import { DEVICE_WIDTH, uid } from "../model";
 import { siteCss, pageCss } from "../render";
@@ -11,7 +11,8 @@ import { putAsset, getAsset, assetRefs } from "../storage";
 import { exportSite, exportProject } from "../export";
 import { sceneDocument } from "../../scenes/document";
 import type { SceneId } from "../../scenes/catalog";
-import type { RenderCtx } from "../util";
+import { href, type RenderCtx } from "../util";
+import { pieceDocument } from "../pieces";
 import { QuiltContext, type QuiltApi, type Panel, type Selection } from "./context";
 import Canvas, { designScale } from "./Canvas";
 import Inspector from "./Inspector";
@@ -34,6 +35,19 @@ const sceneUrls = new Map<string, string>();
 function sceneUrl(id: string) {
   if (!sceneUrls.has(id)) sceneUrls.set(id, URL.createObjectURL(new Blob([sceneDocument(id as SceneId, { text: false }, `${location.origin}/scenes/`)], { type: "text/html" })));
   return sceneUrls.get(id)!;
+}
+
+/** Piece pages (heroes and scenes as sections) for the editor and preview: one blob per section, replaced when its words change. */
+const pieceUrls = new Map<string, { key: string; url: string }>();
+export function pieceUrl(s: Section, target: string) {
+  const key = JSON.stringify([s.piece, target]);
+  const had = pieceUrls.get(s.id);
+  if (had?.key === key) return had.url;
+  if (had) setTimeout(() => URL.revokeObjectURL(had.url), 4000);
+  const o = location.origin;
+  const url = URL.createObjectURL(new Blob([pieceDocument(s.piece!, { heroes2: `${o}/heroes2/`, heroes: `${o}/heroes/`, scenes: `${o}/scenes/` }, target)], { type: "text/html" }));
+  pieceUrls.set(s.id, { key, url });
+  return url;
 }
 
 /** Spirits need their scripts on the page that shows them. */
@@ -69,6 +83,12 @@ export default function Editor({ initial, onSave, onExit, status }: Props) {
   const [command, setCommand] = useState(false);
   const [preview, setPreview] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
+  const [keys, setKeys] = useState(false);
+  const [ui, setUi] = useState<"light" | "dark">(() => {
+    try { const v = localStorage.getItem("quilt-ui"); if (v === "light" || v === "dark") return v; } catch { /* storage can be off */ }
+    return matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  });
+  useEffect(() => { try { localStorage.setItem("quilt-ui", ui); } catch { /* storage can be off */ } }, [ui]);
   const [busy, setBusy] = useState("");
   const [urls, setUrls] = useState<Record<string, string>>({});
   const [, setTick] = useState(0);
@@ -110,7 +130,11 @@ export default function Editor({ initial, onSave, onExit, status }: Props) {
   useEffect(() => {
     if (!fit || !centre.current) return;
     const el = centre.current;
-    const update = () => setZoom(Math.min(1, Math.max(0.25, (el.clientWidth - 72) / DEVICE_WIDTH[device])));
+    const update = () => {
+      const stage = el.querySelector<HTMLElement>(".qe-stage");
+      const w = (stage?.clientWidth ?? el.clientWidth) - 2 * 40;
+      setZoom(Math.min(1, Math.max(0.2, w / DEVICE_WIDTH[device])));
+    };
     update();
     const ro = new ResizeObserver(update);
     ro.observe(el);
@@ -129,7 +153,11 @@ export default function Editor({ initial, onSave, onExit, status }: Props) {
     return src;
   }, [urls]);
 
-  const ctx: RenderCtx = useMemo(() => ({ doc, theme: doc.theme, mode: "editor", base: "/", pageId: page.id, asset: assetUrl, scene: sceneUrl, page: (id) => `#page-${id}` }), [doc, page.id, assetUrl]);
+  const ctx: RenderCtx = useMemo(() => {
+    const c: RenderCtx = { doc, theme: doc.theme, mode: "editor", base: "/", pageId: page.id, asset: assetUrl, scene: sceneUrl, page: (id) => `#page-${id}` };
+    c.piece = (s) => pieceUrl(s, href(s.piece?.link, c));
+    return c;
+  }, [doc, page.id, assetUrl]);
   const css = useMemo(() => siteCss(doc, ctx) + pageCss(doc, page, ctx), [doc, page, ctx]);
 
   // ── History ──
@@ -288,49 +316,56 @@ export default function Editor({ initial, onSave, onExit, status }: Props) {
 
   const zoomTo = (z: number) => { setFit(false); setZoom(Math.min(2, Math.max(0.2, z))); };
 
+  const hint = sel.ids.length ? `${sel.ids.length} selected · drag to move · double-click to edit words` : sel.section ? "Section selected · press R to rearrange it" : "Click anything on the page to change it";
   return (
     <QuiltContext.Provider value={api}>
-      <div className="qe">
+      <div className="qe" data-ui={ui}>
         <header className="qe-top">
           <div className="qe-top-l">
-            <button type="button" className="qe-icon-btn" onClick={onExit} title="All my sites"><ArrowLeft size={18} /></button>
+            <button type="button" className="qe-icon-btn" onClick={onExit} title="All my sites" aria-label="Back to all my sites"><ArrowLeft size={18} /></button>
             <span className="qe-mark" aria-hidden="true"><i /><i /><i /><i /></span>
             <div className="qe-name">
               <input value={doc.name} aria-label="Site name" maxLength={120} onChange={(e) => commit({ ...doc, name: e.target.value }, "name")} />
-              <small><i className={status === "Saved" ? "ok" : ""} />{status}</small>
+              <small><i className={status === "Saved" ? "ok" : ""} />{status === "Saved" ? "Saved on this device" : status}</small>
             </div>
           </div>
           <div className="qe-top-c">
-            <div className="qe-pagepick">
-              <Files size={14} />
+            <label className="qe-pagepick" title="Page">
+              <Files size={15} />
               <select value={page.id} onChange={(e) => api.setPage(e.target.value)} aria-label="Page">
                 {doc.pages.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
               </select>
               <ChevronDown size={14} />
-            </div>
+            </label>
             <div className="qe-devices" role="radiogroup" aria-label="Screen size">
               {([["desktop", <Monitor size={16} />, "Desktop"], ["tablet", <Tablet size={16} />, "Tablet"], ["phone", <Smartphone size={16} />, "Phone"]] as const).map(([d, icon, label]) => (
-                <button key={d} type="button" role="radio" aria-checked={device === d} title={label} className={device === d ? "on" : ""} onClick={() => { setDevice(d); setFit(true); }}>{icon}</button>
+                <button key={d} type="button" role="radio" aria-checked={device === d} title={label} aria-label={label} className={device === d ? "on" : ""} onClick={() => { setDevice(d); setFit(true); }}>{icon}</button>
               ))}
             </div>
-            <div className="qe-zoom">
-              <button type="button" onClick={() => zoomTo(zoom - 0.1)} aria-label="Zoom out"><Minus size={13} /></button>
-              <button type="button" className="qe-zoom-v" onClick={() => setFit(true)} title="Fit to screen">{Math.round(zoom * 100)}%</button>
-              <button type="button" onClick={() => zoomTo(zoom + 0.1)} aria-label="Zoom in"><Plus size={13} /></button>
+            <div className="qe-zoom" role="group" aria-label="Zoom">
+              <button type="button" onClick={() => zoomTo(zoom - 0.1)} aria-label="Zoom out"><Minus size={14} /></button>
+              <button type="button" className="qe-zoom-v" onClick={() => setFit(true)} title="Fit to the window">{fit ? "Fit" : `${Math.round(zoom * 100)}%`}</button>
+              <button type="button" onClick={() => zoomTo(zoom + 0.1)} aria-label="Zoom in"><Plus size={14} /></button>
             </div>
           </div>
           <div className="qe-top-r">
-            <button type="button" className="qe-cmd" onClick={() => setCommand(true)}><Search size={14} />Do anything<kbd><Command size={11} />K</kbd></button>
-            <button type="button" className="qe-icon-btn" onClick={undo} disabled={!past.current.length} title="Undo (Ctrl+Z)"><Undo2 size={17} /></button>
-            <button type="button" className="qe-icon-btn" onClick={redo} disabled={!future.current.length} title="Redo (Ctrl+Shift+Z)"><Redo2 size={17} /></button>
-            <button type="button" className="qe-ghost" onClick={api.play} title="Play every entrance animation"><Play size={15} />Play</button>
-            <button type="button" className="qe-ghost" onClick={() => setPreview(true)}><Eye size={15} />Preview</button>
-            <div className="qe-export">
-              <button type="button" className="qe-primary" onClick={() => setExportOpen(!exportOpen)} aria-expanded={exportOpen}><Download size={15} />Download<ChevronDown size={14} /></button>
+            <button type="button" className="qe-icon-btn" onClick={() => setCommand(true)} title="Do anything (Ctrl K)" aria-label="Do anything"><Search size={17} /></button>
+            <span className="qe-divider" />
+            <button type="button" className="qe-icon-btn" onClick={undo} disabled={!past.current.length} title="Undo (Ctrl Z)" aria-label="Undo"><Undo2 size={17} /></button>
+            <button type="button" className="qe-icon-btn" onClick={redo} disabled={!future.current.length} title="Redo (Ctrl Shift Z)" aria-label="Redo"><Redo2 size={17} /></button>
+            <span className="qe-divider" />
+            <button type="button" className="qe-icon-btn" onClick={() => setUi(ui === "dark" ? "light" : "dark")} title={ui === "dark" ? "Light mode" : "Dark mode"} aria-label={ui === "dark" ? "Switch to light mode" : "Switch to dark mode"}>{ui === "dark" ? <Sun size={17} /> : <Moon size={17} />}</button>
+            <div className="qe-anchor">
+              <button type="button" className="qe-icon-btn" onClick={() => setKeys(!keys)} aria-expanded={keys} title="Shortcuts" aria-label="Keyboard shortcuts"><Keyboard size={17} /></button>
+              {keys && <Shortcuts onClose={() => setKeys(false)} />}
+            </div>
+            <button type="button" className="qe-ghost" onClick={() => setPreview(true)}><Eye size={16} />Preview</button>
+            <div className="qe-anchor">
+              <button type="button" className="qe-primary" onClick={() => setExportOpen(!exportOpen)} aria-expanded={exportOpen}><Download size={16} />Download</button>
               {exportOpen && (
                 <div className="qe-pop qe-export-pop" role="menu">
-                  <button type="button" role="menuitem" onClick={() => void download("site")}><Download size={16} /><span><b>Website</b><small>A folder that works anywhere. Every page, font and picture inside; nothing loaded from the internet.</small></span></button>
-                  <button type="button" role="menuitem" onClick={() => void download("project")}><Package size={16} /><span><b>Editable project</b><small>Back it up, or keep editing on another computer.</small></span></button>
+                  <button type="button" role="menuitem" onClick={() => void download("site")}><span className="qe-pop-icon"><Download size={17} /></span><span><b>Website</b><small>A folder that works anywhere. Every page, font and picture is inside.</small></span></button>
+                  <button type="button" role="menuitem" onClick={() => void download("project")}><span className="qe-pop-icon"><Package size={17} /></span><span><b>Editable project</b><small>Back it up, or keep editing on another computer.</small></span></button>
                 </div>
               )}
             </div>
@@ -340,21 +375,22 @@ export default function Editor({ initial, onSave, onExit, status }: Props) {
           <nav className="qe-rail" aria-label="Tools">
             {RAIL.map((r) => (
               <button key={r.id} type="button" className={panel === r.id ? "on" : ""} aria-pressed={panel === r.id} onClick={() => setPanel(panel === r.id ? null : r.id)}>
-                {r.icon}<span>{r.label}</span>
+                <span className="qe-rail-icon">{r.icon}</span><span>{r.label}</span>
               </button>
             ))}
           </nav>
-          {panel && (
-            <aside className="qe-panel" aria-label={PANELS[panel].title}>
-              <header><h2>{PANELS[panel].title}</h2><button type="button" className="qe-icon-btn" onClick={() => setPanel(null)} aria-label="Close panel">×</button></header>
-              <div className="qe-panel-body">{PANELS[panel].render()}</div>
-            </aside>
-          )}
+          <aside className="qe-panel" aria-label={panel ? PANELS[panel].title : undefined} hidden={!panel}>
+            {panel && <>
+              <header className="qe-panel-head"><h2>{PANELS[panel].title}</h2><button type="button" className="qe-icon-btn is-small" onClick={() => setPanel(null)} aria-label="Close panel" title="Close panel"><X size={16} /></button></header>
+              <div className="qe-panel-body" key={panel}>{PANELS[panel].render()}</div>
+            </>}
+          </aside>
           <main className="qe-centre" ref={centre}>
             <Canvas css={css} onDrop={onDrop} />
             <footer className="qe-foot">
-              <span>{device === "phone" ? "Phone view: everything stacks into one column automatically" : `${DEVICE_WIDTH[device]} px · ${page.sections.length} sections on “${page.name}”`}</span>
-              <span>{sel.ids.length ? `${sel.ids.length} selected · drag to move · double-click to edit` : sel.section ? "Section selected · R to rearrange" : "Click anything to change it"}</span>
+              <span>{device === "phone" ? "Phone · everything stacks into one column" : `${device === "desktop" ? "Desktop" : "Tablet"} · ${DEVICE_WIDTH[device]} px`}</span>
+              <span className="qe-foot-hint">{hint}</span>
+              <button type="button" className="qe-foot-btn" onClick={api.play} title="Play every entrance animation"><Play size={13} />Play animations</button>
             </footer>
           </main>
           <aside className="qe-right" aria-label="Properties"><Inspector /></aside>
@@ -365,6 +401,39 @@ export default function Editor({ initial, onSave, onExit, status }: Props) {
         {preview && <Preview doc={doc} startPage={page.id} assetUrl={assetUrl} onClose={() => setPreview(false)} />}
       </div>
     </QuiltContext.Provider>
+  );
+}
+
+const SHORTCUTS: [string[], string][] = [
+  [["Ctrl", "K"], "Do anything: add, restyle, switch"],
+  [["Double-click"], "Edit words"],
+  [["Shift", "click"], "Select several"],
+  [["Shift", "drag"], "Keep straight, keep the shape"],
+  [["Alt", "drag"], "Move without snapping"],
+  [["Ctrl", "D"], "Duplicate"],
+  [["Ctrl", "C / V"], "Copy and paste"],
+  [["Ctrl", "] / ["], "Bring forward, send back"],
+  [["R"], "Rearrange the selected section"],
+  [["Arrows"], "Nudge (Shift for further)"],
+  [["Delete"], "Delete"],
+  [["Ctrl", "Z"], "Undo"],
+];
+function Shortcuts({ onClose }: { onClose: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const off = (e: PointerEvent) => !ref.current?.contains(e.target as Node) && onClose();
+    const key = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    setTimeout(() => document.addEventListener("pointerdown", off));
+    document.addEventListener("keydown", key);
+    return () => { document.removeEventListener("pointerdown", off); document.removeEventListener("keydown", key); };
+  }, [onClose]);
+  return (
+    <div className="qe-pop qe-keys-pop" ref={ref} role="dialog" aria-label="Keyboard shortcuts">
+      <p className="qe-pop-title">Shortcuts</p>
+      <ul className="qe-keys">
+        {SHORTCUTS.map(([k, t]) => <li key={t}><span>{t}</span><span>{k.map((x) => <kbd key={x}>{x}</kbd>)}</span></li>)}
+      </ul>
+    </div>
   );
 }
 

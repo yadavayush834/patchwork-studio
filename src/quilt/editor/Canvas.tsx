@@ -36,8 +36,15 @@ const ElView = memo(function ElView({ n, ctx }: { n: Node; ctx: RenderCtx }) {
 /** The section background, rendered as the real .q-bg element (its CSS is a direct-child rule). */
 const Bg = memo(function Bg({ s, ctx }: { s: Section; ctx: RenderCtx }) {
   const html = sectionBgHtml(s, ctx);
-  const inner = html.replace(/^<div class="[^"]*" aria-hidden="true">/, "").replace(/<\/div>$/, "");
-  return <div className={`q-bg${s.bg.scene ? " q-bg-scene" : ""}`} aria-hidden="true" dangerouslySetInnerHTML={{ __html: inner }} />;
+  const inner = html.replace(/^<div class="[^"]*"( aria-hidden="true")?>/, "").replace(/<\/div>$/, "");
+  // A piece restarts when its page changes, so wait until the typing stops.
+  const [shown, setShown] = useState(inner);
+  useEffect(() => {
+    if (!s.piece) return setShown(inner);
+    const t = setTimeout(() => setShown(inner), 450);
+    return () => clearTimeout(t);
+  }, [inner, s.piece]);
+  return <div className={`q-bg${s.bg.scene || s.piece ? " q-bg-scene" : ""}${s.piece ? " q-bg-piece" : ""}`} aria-hidden="true" dangerouslySetInnerHTML={{ __html: s.piece ? shown : inner }} />;
 });
 
 const SectionView = memo(function SectionView({ s, ctx, shared }: { s: Section; ctx: RenderCtx; shared: boolean }) {

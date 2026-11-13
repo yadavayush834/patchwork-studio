@@ -1,4 +1,6 @@
 import JSZip from "jszip";
+import { heroFiles } from "./files";
+export { heroFiles };
 import { heroDocument, heroEmbed } from "./document";
 import {
   heroes,
@@ -6,19 +8,6 @@ import {
   type HeroConfig,
   type HeroId,
 } from "./catalog";
-export const heroFiles = [
-  "hero.js",
-  "fonts.css",
-  ...[
-    "Syne",
-    "InstrumentSerif",
-    "BricolageGrotesque",
-    "DMSans",
-    "SpaceMono",
-    "Silkscreen",
-  ].flatMap((font) => [`fonts/${font}.ttf`, `licenses/${font}-OFL.txt`]),
-  "licenses/gsap-NOTICE.txt",
-];
 const sources = import.meta.glob("./*.{ts,css}", {
   query: "?raw",
   import: "default",

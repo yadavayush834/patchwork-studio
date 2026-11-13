@@ -233,6 +233,18 @@ export interface SectionBackground {
   blur?: number;
 }
 
+/** A Patchwork hero or scene used as a whole section (see pieces.ts). */
+export interface Piece {
+  kind: "hero" | "classic" | "scene";
+  id: string;
+  /** Its words and options (validated by its own collection when rendered). */
+  config: Record<string, string | number | boolean>;
+  /** Where its main button goes. */
+  link?: Link;
+  /** Hide the piece's own menu, for sites with a shared header. */
+  hideNav?: boolean;
+}
+
 export interface Section {
   id: string;
   name: string;
@@ -245,6 +257,8 @@ export interface Section {
   fullscreen?: boolean;
   /** Vertically centre the grid in a fullscreen section. */
   bg: SectionBackground;
+  /** A Patchwork hero or scene filling the section. */
+  piece?: Piece;
   seam?: Seam;
   residents?: Resident[];
   elements: El[];

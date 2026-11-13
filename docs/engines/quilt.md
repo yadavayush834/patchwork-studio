@@ -19,6 +19,7 @@ Every section is a **grid of 96 columns by 8 px rows** (1200 design px wide). An
 | `render.ts` | Document → CSS + HTML. Used by the canvas, the preview and the export. **One renderer.** |
 | `site-css.ts` | The base stylesheet every site ships (grid, phone stack, buttons, masks, widgets, motion). |
 | `runtime.ts` | ~3 KB script shipped with sites: entrances, parallax, countdowns, count-up numbers, forms, cursor trail. |
+| `pieces.ts` | Patchwork heroes (all 23) and scenes (16) as whole sections, with the person's words in them. |
 | `widgets.ts` | Working parts (menu, countdown, ticker, FAQ, form, social, list, numbers, video). Each declares fields; the inspector builds its own controls. |
 | `ops.ts` | Pure document operations (move, restack, align, distribute, add/duplicate/move sections, pages, kits). |
 | `export.ts` | The website zip (one HTML per page + everything it uses) and the editable project bundle. |
@@ -36,6 +37,23 @@ Every section is a **grid of 96 columns by 8 px rows** (1200 design px wide). An
 - **No network in exports.** Fonts come from `theme.ts`'s bundled list, pictures from uploads or `/quilt/stock`. `tests/quilt.test.ts` checks the CSS and runtime.
 - **Escape what people type.** Text goes through `esc`/`escLines`, links through `href()`/`safeUrl()`. Picture sources must pass `isSrc()`.
 - **Slots are a contract.** In a recipe, every layout must place the same slots (`title`, `body`, `cta`, `i0-title`…). The round-trip test walks every layout and fails if one drops content.
+
+## Heroes and scenes as sections (pieces)
+
+A section can carry a `piece`: one of the collection's heroes (`hero` for Hero Sections II, `classic` for the original five) or a scene. `pieces.ts` builds the piece's own complete page with the section's words (`hero2Document`, `heroDocument`, `sceneDocument`), so it looks and runs exactly as designed in its collection. The renderer shows it as an iframe in the section's background layer, so Quilt elements can still be placed on top.
+
+The piece page gets two small injections:
+- `hideNav` hides its own menu, for sites with a shared header. It's on by default when the site has one.
+- A click relay: links inside the piece post `{ quiltLink }` to the site. The main button's real target (`piece.link`, resolved with `href()`) replaces the `#quilt-cta` placeholder. The site runtime only accepts messages from its own `iframe.q-piece` frames and only follows `#anchors`, `*.html` pages, `https:`, `mailto:` and `tel:`.
+
+| | Editor and preview | Download |
+|---|---|---|
+| Piece page | blob URL per section (`pieceUrl` in `Editor.tsx`), rebuilt 450 ms after typing stops | `living/piece-<section id>.html` |
+| Its files | served from `/heroes2/`, `/heroes/`, `/scenes/` | copied to the same folders (`pieceFiles`) |
+
+Thumbnails that can't run live (dashboard cards) show the piece's palette, or its painting or cover when it has one. The Sections panel's cards run live but only while on screen, because browsers allow a limited number of WebGL pages at once.
+
+**Adding a hero or scene to its collection** makes it available in Quilt automatically, as long as its catalog entry, `…Document` and `…Files` are complete. `tests/quilt.test.ts` checks that every piece builds and that every file it needs exists.
 
 ## Phones
 
@@ -82,4 +100,5 @@ Every section is a **grid of 96 columns by 8 px rows** (1200 design px wide). An
 - Groups you make yourself (today cards group automatically).
 - Real multi-user editing. Every change is already a pure function over an immutable document, so this would slot in at `commit`.
 - More layouts per recipe, more recipes (team, timeline, logos, blog list), and blog/collection pages.
+- Using the Specimen hero's "your own picture" and the scenes' photo option inside Quilt (the config field exists in the collections, but Quilt doesn't expose it yet).
 - Importing a classic Patchwork project (`src/types.ts` `Project`) into Quilt.

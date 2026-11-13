@@ -1,6 +1,6 @@
 /** The left-hand panels: everything you can add or change site-wide. */
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { Eye, EyeOff, Lock, Unlock, Upload, ArrowUp, ArrowDown, Copy, Trash2, Home as HomeIcon, Plus, Shuffle, Image as ImageIcon, Check } from "lucide-react";
+import { Eye, EyeOff, Lock, Unlock, Upload, ArrowUp, ArrowDown, Copy, Trash2, Home as HomeIcon, Plus, Shuffle, Image as ImageIcon, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import type { El, Section, TextEl } from "../model";
 import { GRID, uid, contentRows } from "../model";
 import { KITS, PAIRINGS, FONTS, font, paletteFrom, isDark, themeFromKit } from "../theme";
@@ -10,11 +10,19 @@ import { STOCK, LIVING_SCENES, RESIDENTS, stock } from "../library/media";
 import { RECIPES, buildSection } from "../library/recipes";
 import { WIDGETS, widget } from "../widgets";
 import { text, button, shape, icon, line, wid, image } from "../library/build";
-import { sectionCss, sectionHtml, phoneOrderCss } from "../render";
+import { sectionCss, sectionHtml, phoneOrderCss, anchorOf } from "../render";
 import { addSection, mapSection, restack, addPage, renamePage, removePage, duplicatePage, makeHome, applyKit } from "../ops";
 import { listAssets, type StoredAsset } from "../storage";
 import { useQuilt, type Panel } from "./context";
+import { PIECES, pieceDef, pieceDefaults, pieceDocument, pieceSection, type PieceKind } from "../pieces";
 import { Group, ColorPick, Toggle, Select, Slider, Segmented, Field } from "./controls";
+
+/** Scroll the canvas (and only the canvas) to a section. */
+export function revealSection(id: string) {
+  const stage = document.querySelector<HTMLElement>(".qe-stage"), sec = stage?.querySelector<HTMLElement>(`[data-sec="${id}"]`);
+  if (!stage || !sec) return;
+  stage.scrollTo({ top: stage.scrollTop + sec.getBoundingClientRect().top - stage.getBoundingClientRect().top - 24, behavior: "smooth" });
+}
 
 // ── What the Add panel can make ─────────────────────────────────────────────────────────────────────
 
@@ -133,11 +141,47 @@ export function SectionThumb({ s }: { s: Section }) {
   );
 }
 
+/** A live, scaled-down piece. Only mounted while on screen: browsers allow a limited number of WebGL pages. */
+function PieceCard({ kind, id, onAdd }: { kind: PieceKind; id: string; onAdd: () => void }) {
+  const def = pieceDef({ kind, id })!;
+  const ref = useRef<HTMLButtonElement>(null);
+  const [on, setOn] = useState(false), [w, setW] = useState(280);
+  const src = useMemo(() => (on ? URL.createObjectURL(new Blob([pieceDocument({ kind, id, config: pieceDefaults(kind, id, "") }, { heroes2: `${location.origin}/heroes2/`, heroes: `${location.origin}/heroes/`, scenes: `${location.origin}/scenes/` }, "#")], { type: "text/html" })) : ""), [on, kind, id]);
+  useEffect(() => () => { if (src) URL.revokeObjectURL(src); }, [src]);
+  useEffect(() => {
+    const el = ref.current!;
+    const io = new IntersectionObserver(([e]) => setOn(e.isIntersecting), { rootMargin: "60px" });
+    const ro = new ResizeObserver(() => setW(el.clientWidth));
+    io.observe(el); ro.observe(el);
+    return () => { io.disconnect(); ro.disconnect(); };
+  }, []);
+  const [a, b = a, c = b] = def.palette;
+  return (
+    <button type="button" ref={ref} className="qe-sec-card qe-piece-card" onClick={onAdd} title={def.line}>
+      <span className="qe-piece-thumb" style={{ background: `linear-gradient(135deg, ${a}, ${b} 60%, ${c})` }}>
+        {def.cover && !on && <img src={def.cover} alt="" />}
+        {on && <iframe src={src} title="" tabIndex={-1} aria-hidden="true" scrolling="no" style={{ zoom: w / 1280 }} />}
+      </span>
+      <span className="qe-card-foot"><b>{def.name}<small>{def.technique}</small></b><span className="qe-card-add"><Plus size={15} /></span></span>
+    </button>
+  );
+}
+
 function SectionsPanel() {
   const q = useQuilt();
-  const [kind, setKind] = useState<string>("hero");
+  const [kind, setKind] = useState<string | null>(null);
   const samples = useMemo(() => RECIPES.map((r) => ({ r, sections: r.layouts.map((l) => buildSection(r.kind, l.id, {})) })), []);
-  const current = samples.find((x) => x.r.kind === kind)!;
+  const current = samples.find((x) => x.r.kind === kind);
+  function addPiece(pk: PieceKind, id: string) {
+    const idx = q.insertAt ?? (() => { const i = q.page.sections.findIndex((x) => x.id === q.sel.section); return i < 0 ? 0 : i + 1; })();
+    const next = q.page.sections[idx];
+    const s = pieceSection(pk, id, q.doc.name, !!q.doc.header, next ? { kind: "section", value: anchorOf(next) } : undefined);
+    q.commit(addSection(q.doc, q.page.id, s, idx));
+    q.setInsertAt(null);
+    q.setSel({ section: s.id, ids: [] });
+    q.toast(`${pieceDef({ kind: pk, id })!.name} added. Change its words on the right.`);
+    requestAnimationFrame(() => revealSection(s.id));
+  }
   function add(s: Section) {
     const fresh = { ...s, id: uid("s"), elements: s.elements.map((e) => ({ ...e, id: uid() })) };
     if (fresh.kind === "header" || fresh.kind === "footer") {
@@ -150,20 +194,56 @@ function SectionsPanel() {
       q.setInsertAt(null);
     }
     q.setSel({ section: fresh.id, ids: [] });
-    requestAnimationFrame(() => document.querySelector(`[data-sec="${fresh.id}"]`)?.scrollIntoView({ behavior: "smooth", block: "center" }));
+    requestAnimationFrame(() => revealSection(fresh.id));
   }
+  const insertNote = q.insertAt !== null && (
+    <div className="qe-note"><span>Adding at position {q.insertAt + 1} on this page.</span><button type="button" className="qe-link" onClick={() => q.setInsertAt(null)}>Cancel</button></div>
+  );
+  if (!kind) {
+    const sceneCover = PIECES.find((p) => p.kind === "scene" && p.cover)?.cover;
+    return (
+      <>
+        {insertNote}
+        <div className="qe-featured">
+          <button type="button" className="qe-feature" onClick={() => setKind("heroes")}>
+            <span className="qe-feature-art is-heroes" />
+            <span className="qe-feature-text"><b>Patchwork heroes</b><small>{PIECES.filter((p) => p.kind !== "scene").length} live openings</small></span>
+          </button>
+          <button type="button" className="qe-feature" onClick={() => setKind("scenes")}>
+            <span className="qe-feature-art" style={{ backgroundImage: sceneCover ? `url(${sceneCover})` : undefined }} />
+            <span className="qe-feature-text"><b>Living scenes</b><small>{PIECES.filter((p) => p.kind === "scene").length} moving places</small></span>
+          </button>
+        </div>
+        <p className="qe-overline">Section types</p>
+        <ul className="qe-kinds">
+          {RECIPES.map((r) => (
+            <li key={r.kind}>
+              <button type="button" onClick={() => setKind(r.kind)}>
+                <span className="qe-kind-icon" dangerouslySetInnerHTML={{ __html: iconSvg(r.icon) }} />
+                <span className="qe-kind-text"><b>{r.name}</b><small>{r.line}</small></span>
+                <span className="qe-kind-count">{r.layouts.length}</span>
+                <ChevronRight size={15} />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  }
+  const pieceKind = kind === "heroes" || kind === "scenes";
+  const title = kind === "heroes" ? "Patchwork heroes" : kind === "scenes" ? "Living scenes" : current?.r.name;
+  const line = kind === "heroes" ? "Full-screen openings from the Patchwork collection. Your words go in, and they ship with your site." : kind === "scenes" ? "Living pixel places with your headline in them. They move and answer the cursor." : `${current?.r.line} Shown in your style.`;
   return (
     <>
-      {q.insertAt !== null && <p className="qe-tip is-strong">Pick a section to add at position {q.insertAt + 1}. <button type="button" className="qe-link" onClick={() => q.setInsertAt(null)}>Cancel</button></p>}
-      <div className="qe-chips is-wrap">
-        {RECIPES.map((r) => <button key={r.kind} type="button" className={kind === r.kind ? "on" : ""} onClick={() => setKind(r.kind)}>{r.name}</button>)}
-      </div>
-      <p className="qe-tip">{current.r.line} Shown in your style. Every one can be rearranged later.</p>
+      <button type="button" className="qe-back" onClick={() => setKind(null)}><ChevronLeft size={16} />All sections</button>
+      <div className="qe-subhead"><h3>{title}</h3><p>{line}</p></div>
+      {insertNote}
       <div className="qe-sec-list">
-        {current.sections.map((s, i) => (
-          <button key={s.layout} type="button" className="qe-sec-card" onClick={() => add(s)}>
-            <SectionThumb s={s} />
-            <span><b>{current.r.layouts[i].name}</b><Plus size={14} /></span>
+        {pieceKind && PIECES.filter((p) => (kind === "scenes" ? p.kind === "scene" : p.kind !== "scene")).map((p) => <PieceCard key={`${p.kind}-${p.id}`} kind={p.kind} id={p.id} onAdd={() => addPiece(p.kind, p.id)} />)}
+        {current && current.sections.map((sec, i) => (
+          <button key={sec.layout} type="button" className="qe-sec-card" onClick={() => add(sec)}>
+            <SectionThumb s={sec} />
+            <span className="qe-card-foot"><b>{current.r.layouts[i].name}</b><span className="qe-card-add"><Plus size={15} /></span></span>
           </button>
         ))}
       </div>
@@ -384,7 +464,7 @@ function LayersPanel() {
         <ol className="qe-layers">
           {[...(q.doc.header ? [q.doc.header] : []), ...q.page.sections, ...(q.doc.footer ? [q.doc.footer] : [])].map((x) => (
             <li key={x.id} className={q.sel.section === x.id ? "on" : ""}>
-              <button type="button" className="qe-layer-name" onClick={() => { q.setSel({ section: x.id, ids: [] }); document.querySelector(`[data-sec="${x.id}"]`)?.scrollIntoView({ behavior: "smooth", block: "start" }); }}>{x.name}{(x === q.doc.header || x === q.doc.footer) && <small> · every page</small>}</button>
+              <button type="button" className="qe-layer-name" onClick={() => { q.setSel({ section: x.id, ids: [] }); revealSection(x.id); }}>{x.name}{(x === q.doc.header || x === q.doc.footer) && <small> · every page</small>}</button>
               <button type="button" title={x.hidden ? "Show" : "Hide"} onClick={() => q.commit(mapSection(q.doc, x.id, (y) => ({ ...y, hidden: !y.hidden || undefined })))}>{x.hidden ? <EyeOff size={14} /> : <Eye size={14} />}</button>
             </li>
           ))}

@@ -1,6 +1,6 @@
 /** The right-hand panel: the properties of whatever is selected (element, section or the site). */
 import { useState } from "react";
-import { AlignLeft, AlignCenter, AlignRight, AlignStartVertical, AlignCenterVertical, AlignEndVertical, AlignHorizontalJustifyCenter, AlignVerticalJustifyCenter, Play, RefreshCw, Bold, Italic, Underline, CaseUpper, Keyboard } from "lucide-react";
+import { AlignLeft, AlignCenter, AlignRight, AlignStartVertical, AlignCenterVertical, AlignEndVertical, AlignHorizontalJustifyCenter, AlignVerticalJustifyCenter, Play, RefreshCw, Bold, Italic, Underline, CaseUpper, MousePointerClick } from "lucide-react";
 import type { Animation, ButtonEl, El, IconEl, ImageEl, LineEl, Link, Section, ShapeEl, TextEl, WidgetEl, Paint } from "../model";
 import { COL_PX, GRID, slugify } from "../model";
 import { SHAPES, shapePreview } from "../library/shapes";
@@ -10,6 +10,7 @@ import { recipe, rearrange } from "../library/recipes";
 import { WIDGETS, type FieldDef } from "../widgets";
 import { align, distribute, mapSection } from "../ops";
 import { anchorOf } from "../render";
+import { pieceDef, pieceFields } from "../pieces";
 import { useQuilt } from "./context";
 import { Field, Group, Slider, Segmented, Select, Toggle, Text, ColorPick, PaintPick, FontPick, NumberBox } from "./controls";
 
@@ -356,7 +357,7 @@ function LinkFields({ el }: { el: El }) {
     <Group title="When clicked, go to">
       <Segmented value={l?.kind ?? "none"} options={[["none", "Nowhere"], ["page", "Page"], ["section", "Section"], ["url", "Website"], ["email", "Email"], ["phone", "Phone"]] as [string, string][]} onChange={(k) => set(k === "none" ? undefined : { kind: k as Link["kind"], value: k === "page" ? q.doc.pages[0].id : k === "section" ? sections[0]?.[0] ?? "" : "" })} />
       {l?.kind === "page" && <Field label="Page"><Select value={l.value} options={q.doc.pages.map((p) => [p.id, p.name])} onChange={(v) => set({ ...l, value: v })} /></Field>}
-      {l?.kind === "section" && <Field label="Section on this page"><Select value={l.value} options={sections.length ? sections : [["", "No sections"]]} onChange={(v) => set({ ...l, value: v })} /></Field>}
+      {l?.kind === "section" && <Field label="Section on this page"><Select value={sections.some(([a]) => a === l.value) ? l.value : ""} options={[["", sections.length ? "Choose a section…" : "No sections yet"], ...sections]} onChange={(v) => set({ ...l, value: v })} /></Field>}
       {l?.kind === "url" && <><Field label="Address"><Text value={l.value} placeholder="https://…" onChange={(v) => set({ ...l, value: v })} /></Field><Toggle checked={!!l.newTab} onChange={(v) => set({ ...l, newTab: v || undefined })} label="Open in a new tab" /></>}
       {l?.kind === "email" && <Field label="Email address"><Text value={l.value} placeholder="you@example.com" onChange={(v) => set({ ...l, value: v })} /></Field>}
       {l?.kind === "phone" && <Field label="Phone number"><Text value={l.value} placeholder="+44 …" onChange={(v) => set({ ...l, value: v })} /></Field>}
@@ -409,6 +410,7 @@ function SectionInspector({ s }: { s: Section }) {
       </div>
       {tab === "look" && <>
         <Field label="Name"><Text value={s.name} max={60} onChange={(v) => set((x) => ({ ...x, name: v }), "sname")} /></Field>
+        {s.piece && <PieceFields s={s} />}
         {r && r.layouts.length > 1 && (
           <Group title="Rearrange" aside={<button type="button" className="qe-mini-btn" onClick={() => q.commit(mapSection(q.doc, s.id, (x) => rearrange(x)))}><RefreshCw size={12} /> Next</button>}>
             <p className="qe-tip">Same words and pictures, a different layout.</p>
@@ -464,6 +466,35 @@ function SectionInspector({ s }: { s: Section }) {
   );
 }
 
+/** The words and options of a Patchwork hero or scene used as this section. */
+function PieceFields({ s }: { s: Section }) {
+  const q = useQuilt();
+  const p = s.piece!;
+  const def = pieceDef(p);
+  const setPiece = (patch: Partial<NonNullable<Section["piece"]>>, key?: string) => q.patchSection((x) => ({ ...x, piece: { ...x.piece!, ...patch } }), key);
+  const l = p.link;
+  const sections = q.page.sections.filter((x) => x.id !== s.id).map((x) => [anchorOf(x), x.name] as [string, string]);
+  return (
+    <>
+      <Group title={def?.name ?? "Hero"} aside={<button type="button" className="qe-mini-btn" onClick={() => { q.setPanel("sections"); }}>Swap</button>}>
+        <p className="qe-tip">{def?.technique}. {p.kind === "scene" ? "A living scene" : "A Patchwork hero"} with your words in it. It plays live in the preview and in your download.</p>
+        {pieceFields(p.kind).map((f) => (
+          <FieldControl key={f.key} f={f} value={f.kind === "select" ? String(p.config[f.key] ?? "") : p.config[f.key]} onChange={(v, key) => setPiece({ config: { ...p.config, [f.key]: f.key === "pixel" ? Number(v) : (v as string | number | boolean) } }, key ? `piece-${key}` : undefined)} />
+        ))}
+        {p.kind === "classic" && <Field label="Accent"><input type="color" className="qe-colorwell" value={String(p.config.accent ?? "#795be6")} onChange={(e) => setPiece({ config: { ...p.config, accent: e.target.value } }, "piece-accent")} /></Field>}
+      </Group>
+      <Group title="Main button goes to">
+        <Segmented value={l?.kind ?? "section"} options={[["section", "Section"], ["page", "Page"], ["url", "Website"], ["email", "Email"]]} onChange={(k) => setPiece({ link: { kind: k as Link["kind"], value: k === "page" ? q.doc.pages[0].id : k === "section" ? sections[0]?.[0] ?? "" : "" } })} />
+        {l?.kind === "section" && <Select value={l.value} options={sections.length ? sections : [["", "No other sections yet"]]} onChange={(v) => setPiece({ link: { ...l, value: v } })} />}
+        {l?.kind === "page" && <Select value={l.value} options={q.doc.pages.map((x) => [x.id, x.name])} onChange={(v) => setPiece({ link: { ...l, value: v } })} />}
+        {(l?.kind === "url" || l?.kind === "email") && <Text value={l.value} placeholder={l.kind === "url" ? "https://…" : "you@example.com"} onChange={(v) => setPiece({ link: { ...l, value: v } }, "piece-link")} />}
+        {p.kind !== "classic" && <Toggle checked={!!p.hideNav} onChange={(v) => setPiece({ hideNav: v || undefined })} label="Hide its own menu" line="Use this when your site has a shared header." />}
+      </Group>
+      <button type="button" className="qe-link" onClick={() => q.patchSection((x) => ({ ...x, piece: undefined, kind: undefined, bg: { fill: "$bg" } }))}>Turn into an empty section</button>
+    </>
+  );
+}
+
 function SeamIcon({ id }: { id: string }) {
   const d: Record<string, string> = {
     none: "M2 10h28", stitch: "M2 10h4M9 10h4M16 10h4M23 10h4", wave: "M2 8c4 0 4 4 8 4s4-4 8-4 4 4 8 4 4-4 4-4", zigzag: "M2 7l4 5 4-5 4 5 4-5 4 5 4-5 4 5", scallop: "M2 7a3.5 3.5 0 0 0 7 0 3.5 3.5 0 0 0 7 0 3.5 3.5 0 0 0 7 0 3.5 3.5 0 0 0 7 0",
@@ -480,7 +511,12 @@ function SiteInspector() {
   const setPage = (patch: Partial<typeof p>) => q.commit({ ...q.doc, pages: q.doc.pages.map((x) => (x.id === p.id ? { ...x, ...patch } : x)) }, `page-${Object.keys(patch)[0]}`);
   return (
     <div className="qe-insp">
-      <h3 className="qe-insp-title">Your site</h3>
+      <div className="qe-empty">
+        <span className="qe-empty-icon"><MousePointerClick size={20} /></span>
+        <b>Nothing selected</b>
+        <p>Click a section or anything on the page to change it. Press <kbd>Ctrl</kbd> <kbd>K</kbd> to do anything by typing.</p>
+      </div>
+      <h3 className="qe-insp-title">Site settings</h3>
       <Field label="Site name"><Text value={q.doc.name} max={120} onChange={(v) => q.commit({ ...q.doc, name: v }, "site-name")} /></Field>
       <Group title={`This page: ${p.name}`}>
         <Field label="Title in search results" hint="Leave empty to use the page and site name."><Text value={p.title ?? ""} max={120} placeholder={p.slug === "index" ? q.doc.name : `${p.name} · ${q.doc.name}`} onChange={(v) => setPage({ title: v || undefined })} /></Field>
@@ -489,19 +525,7 @@ function SiteInspector() {
       <Group title="Language" open={false}>
         <Field label="Language code"><Text value={q.doc.settings.lang ?? "en"} max={12} onChange={(v) => q.commit({ ...q.doc, settings: { ...q.doc.settings, lang: v.replace(/[^\w-]/g, "") || undefined } }, "lang")} /></Field>
       </Group>
-      <Group title="Quick keys">
-        <ul className="qe-keys">
-          <li><kbd>Ctrl</kbd><kbd>K</kbd><span>Do anything: add, restyle, switch</span></li>
-          <li><kbd>Double-click</kbd><span>Edit words</span></li>
-          <li><kbd>Shift</kbd><span>Select several · keep straight · keep shape</span></li>
-          <li><kbd>Alt</kbd><span>Drag without snapping</span></li>
-          <li><kbd>Ctrl</kbd><kbd>D</kbd><span>Duplicate</span></li>
-          <li><kbd>R</kbd><span>Rearrange the selected section</span></li>
-          <li><kbd>←↑→↓</kbd><span>Nudge (Shift: further)</span></li>
-          <li><kbd>Ctrl</kbd><kbd>Z</kbd><span>Undo</span></li>
-        </ul>
-        <p className="qe-tip"><Keyboard size={12} /> Click any section or element to change it.</p>
-      </Group>
+
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import type { Link, QuiltDoc, Theme } from "./model";
+import type { Link, QuiltDoc, Section, Theme } from "./model";
 
 export const esc = (v: unknown) =>
   String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
@@ -20,6 +20,8 @@ export interface RenderCtx {
   base: string;
   /** The page being rendered. */
   pageId: string;
+  /** URL of a section's piece page (a Patchwork hero or scene). Leave out for still thumbnails. */
+  piece?: (s: Section) => string;
 }
 
 /** Only links that cannot run script. */

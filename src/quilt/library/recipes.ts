@@ -79,7 +79,7 @@ export const RECIPES: Recipe[] = [
         button("cta", c.cta ?? "Say hello", [82, 4, 14, 7], "pill", "$ink", { size: "s", icon: "none" }, c.ctaLink ?? "#contact"),
       ] }) },
       { id: "minimal", name: "Just the essentials", build: (c) => ({ rows: 10, elements: [
-        shape("asterisk", [0, 3, 3, 4], "$accent", { slot: "mark" }),
+        shape("asterisk", [0, 3, 3, 4], "$accent", { slot: "mark", phone: { hide: true } }),
         text("brand", c.brand ?? "Little Studio", [4, 3, 30, 4], "h3", { size: 19 }),
         wid("menu", "menu", [38, 3, 42, 4], w(c, "menu")),
         button("cta", c.cta ?? "Say hello", [82, 2, 14, 6], "link", "$ink", { size: "s", icon: "arrow" }, c.ctaLink ?? "#contact"),

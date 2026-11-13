@@ -7,6 +7,7 @@ import { LIVING_SCENES } from "../library/media";
 import { addSection, applyKit, addPage, mapSection } from "../ops";
 import { useQuilt } from "./context";
 import { ALL_ITEMS, place } from "./panels";
+import { PIECES, pieceSection } from "../pieces";
 
 interface Cmd { id: string; group: string; label: string; hint?: string; keys?: string; run: () => void }
 
@@ -36,6 +37,12 @@ export default function CommandBar({ onClose, onPreview, onDownload }: { onClose
         q.setSel({ section: sec.id, ids: [] });
       } }))),
       ...ALL_ITEMS.map((it) => ({ id: `add-${it.key}`, group: "Add", label: `Add ${it.label.toLowerCase()}`, run: () => { const t = s ?? q.page.sections[0]; if (t) q.addElement(place(it.make(), t), t.id); } })),
+      ...PIECES.map((pc) => ({ id: `piece-${pc.kind}-${pc.id}`, group: pc.kind === "scene" ? "Add a scene" : "Add a hero", label: `${pc.kind === "scene" ? "Scene" : "Hero"}: ${pc.name}`, hint: pc.technique, keys: "hero section opening patchwork", run: () => {
+        const sec = pieceSection(pc.kind, pc.id, q.doc.name, !!q.doc.header);
+        const i = q.page.sections.findIndex((x) => x.id === q.sel.section);
+        q.commit(addSection(q.doc, q.page.id, sec, i < 0 ? 0 : i + 1));
+        q.setSel({ section: sec.id, ids: [] });
+      } })),
       { id: "kite", group: "Living", label: `${q.doc.settings.kite ? "Remove" : "Add"} the kite back-to-top`, run: () => q.commit({ ...q.doc, settings: { ...q.doc.settings, kite: !q.doc.settings.kite || undefined } }) },
     ];
     if (s) {

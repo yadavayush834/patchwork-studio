@@ -19,7 +19,7 @@
 |---|---|
 | **Canvas** | Click to select, Shift-click or drag a box to select several, drag to move (snaps to the grid, the middle and other elements; Alt turns snapping off), handles to resize (corners keep proportions for pictures and shapes), the round handle to rotate (Shift snaps to 15°). Double-click words to type. Each section has a bar for **Rearrange**, move, duplicate and delete, and a handle to change its height. **+ Add section** sits between sections. |
 | **Add** | 12 text styles (heading, highlighter, handwritten, outline, gradient, stamp, retro, pixel…), 6 buttons, 9 working parts, 37 shapes and doodles, 7 lines and 51 icons. Click to add, or drag straight onto the page. |
-| **Sections** | 16 kinds of section and 36 layouts in all, shown in *your* current style. |
+| **Sections** | **✳ Patchwork heroes**: all 23 heroes from the collection (raymarched chrome, GPU fluid, the flock that spells your word, the particle owl…) as full-screen openings. **✳ Living scenes**: the 16 scenes with your headline in them. Both run live in the panel, take your words in the inspector, link their buttons to your sections or pages, and ship in the download. Plus 16 kinds of section and 36 layouts in all, shown in *your* current style. |
 | **Photos** | Your uploads (kept on this device) and Patchwork's own photos and paintings. Click to add or to replace the selected picture; the small button sets a section background. |
 | **Style** | Shuffle the style, 16 kits, edit any of the 7 brand colours, make a palette from one colour, swap light and dark, 10 font pairings, corners and shadows. |
 | **Living** | Put one of 16 living Patchwork scenes behind a section, move residents (fox, hedgehog, ghost, jellyfish…) into it, and switch on the kite back-to-top, the reading thread, a soft fade-in or a cursor trail. |
@@ -28,7 +28,7 @@
 | **Inspector** | Everything about the selection, in tabs: **Design**, **Motion** (13 entrances, 6 loops, 5 hover effects, parallax), **Link** (page, section, website, email, phone) and **Phone**. For a section: Rearrange, background (colour, gradient, mesh, photo with a colour wash, living scene), patterns, the **bottom edge** (wave, zigzag, scallop, torn paper, steps, drip, curve, slant, stitched), height, full-screen, sticky header. |
 | **Ctrl K** | Do anything by typing: add any section or element, restyle, switch page or screen size, preview, download. |
 
-Undo and redo cover everything. The site saves itself a moment after every change.
+The editor has a **light and a dark mode** (the sun/moon button at the top; it starts from your system setting and remembers your choice). Shortcuts are under the keyboard button. Undo and redo cover everything. The site saves itself a moment after every change.
 
 ## Phones
 
