@@ -64,3 +64,9 @@ All generated with ChatGPT image generation for Patchwork, 12 November 2026. Pro
 | Overnight (4) | Pixel art, one sleeper train: the night platform under an iron-and-glass canopy; the train crossing a moonlit lake; a stone viaduct over a misty gorge at sunrise; arriving at a seaside terminus in the morning. The last three were generated with the first as a style reference. |
 
 Each depth map was made from its painting with the depth prompt above.
+
+## Scene clarity
+
+Onsen, Arcade, Sky Isle, Hayfield, Blue Room and Night Train default to full-resolution rendering (`pixel: 0`), preserving the detail in their 1672 × 941 paintings. The Scenes customizer offers **Clear (full resolution)** alongside the optional 3–6 px styles. Existing saved pixel choices remain supported; select Clear to update an older saved scene. Preview and downloaded pages use the same configuration and runtime.
+
+Overnight also renders all four stops (platform, lake, viaduct and coast) at full resolution, with normal canvas scaling. Its scroll cameras, lighting, particles and exported runtime retain the same choreography.

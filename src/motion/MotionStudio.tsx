@@ -229,8 +229,8 @@ export default function MotionStudio({ onClose }: Props) {
       else onClose();
     }
   };
-  // Pixel worlds lead: they are the collection's strongest pieces.
-  const ordered = [...motionTemplates].sort((a, b) => Number(groupOf(b.category) === "pixel") - Number(groupOf(a.category) === "pixel"));
+  // Pixel worlds lead, with Overnight kept at the end of the collection.
+  const ordered = [...motionTemplates].sort((a, b) => Number(a.id === "overnight") - Number(b.id === "overnight") || Number(groupOf(b.category) === "pixel") - Number(groupOf(a.category) === "pixel"));
   const shown = ordered.filter((t) => filter === "all" || groupOf(t.category) === filter);
   return (
     <div

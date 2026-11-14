@@ -144,7 +144,7 @@ export const isDioramaScene = (id: SceneId) => (scene(id) as { engine?: string }
 export const isTitleCardScene = (id: SceneId) => scene(id).layout === "titlecard";
 export const PIXEL_SIZES = [3, 4, 5, 6] as const;
 export function defaultScene(id: SceneId): SceneConfig {
-  return { ...scene(id).defaults, href: "#", pixel: 4, text: true, image: "" };
+  return { ...scene(id).defaults, href: "#", pixel: isDioramaScene(id) ? 0 : 4, text: true, image: "" };
 }
 const limits = { brand: 24, eyebrow: 48, headline: 60, sub: 160, cta: 28, cta2: 28, href: 300 } as const;
 /** Trim, cap lengths, only allow safe links and the offered pixel sizes. */
@@ -156,7 +156,7 @@ export function normalizeScene(value: Partial<SceneConfig>, id: SceneId): SceneC
   }
   if (!/^(https?:\/\/|mailto:|#|\/)/i.test(out.href) || /^\/\//.test(out.href)) out.href = "#";
   const px = Number(value.pixel);
-  if ((PIXEL_SIZES as readonly number[]).includes(px)) out.pixel = px;
+  if ((px === 0 && isDioramaScene(id)) || (PIXEL_SIZES as readonly number[]).includes(px)) out.pixel = px;
   if (typeof value.text === "boolean") out.text = value.text;
   const img = value.image;
   if (typeof img === "string" && img.length <= MAX_SCENE_IMAGE && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(img)) out.image = img;

@@ -12,10 +12,10 @@
 .on-logo { width: 22px; height: 14px; background: var(--accent); clip-path: polygon(0 20%, 80% 20%, 100% 50%, 100% 100%, 0 100%); box-shadow: 0 0 14px var(--accent); }
 .on-nav nav { font: 10px "Space Mono", monospace; letter-spacing: .1em; text-transform: uppercase; gap: 30px; }
 
-/* Stages: one painting per stop, filling the screen, drawn in pixels. */
+/* Stages: one painting per stop, filling the screen with the original painting detail. */
 .on-chapter { position: relative; height: 100svh; min-height: 600px; overflow: hidden; isolation: isolate; background: #000; }
 .on-stage { position: absolute; inset: 0; }
-.on-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; image-rendering: pixelated; }
+.on-art { position: absolute; inset: 0; width: 100%; height: 100%; display: block; image-rendering: auto; }
 .on-shade { position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(90deg, #04071acc 0%, #04071a88 28%, #04071a00 55%), linear-gradient(0deg, #04071aaa 0%, #04071a00 28%); }
 .on-shade-dawn { background: linear-gradient(90deg, #0b1230c8 0%, #0b123070 30%, #0b123000 58%); }
 .on-shade-day { background: linear-gradient(90deg, #fff4e6e8 0%, #fff4e6a0 30%, #fff4e600 56%); }

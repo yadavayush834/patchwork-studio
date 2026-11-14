@@ -50,7 +50,7 @@ export function pieceFields(kind: PieceKind): FieldDef[] {
     { key: "cta", label: "Main button", kind: "text", max: 28 },
     ...(kind !== "classic" ? [{ key: "cta2", label: "Second button", kind: "text", max: 28 } as FieldDef] : []),
   ];
-  if (kind === "scene") words.push({ key: "pixel", label: "Pixel size", kind: "select", options: [["3", "Fine"], ["4", "Normal"], ["5", "Chunky"], ["6", "Very chunky"]] }, { key: "text", label: "Show the words", kind: "toggle" });
+  if (kind === "scene") words.push({ key: "pixel", label: "Pixel size", kind: "select", options: [["0", "Clear (painted scenes)"], ["3", "Fine"], ["4", "Normal"], ["5", "Chunky"], ["6", "Very chunky"]] }, { key: "text", label: "Show the words", kind: "toggle" });
   if (kind === "classic") words.push({ key: "speed", label: "Speed", kind: "number", min: 0.25, max: 1.8, step: 0.05 }, { key: "intensity", label: "Intensity", kind: "number", min: 0.25, max: 1.8, step: 0.05 });
   return words;
 }

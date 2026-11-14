@@ -1,6 +1,6 @@
 import JSZip from "jszip";
 import "./gallery.css";
-import { scenes, scene, isScene, normalizeScene, PIXEL_SIZES, MAX_SCENE_IMAGE, type SceneConfig, type SceneId } from "./catalog";
+import { scenes, scene, isScene, normalizeScene, isDioramaScene, PIXEL_SIZES, MAX_SCENE_IMAGE, type SceneConfig, type SceneId } from "./catalog";
 import { sceneDocument, sceneFiles } from "./document";
 import { mountShell } from "../shell/shell";
 import { readBrand, brandStyle, withBrand, brandFontFiles } from "../shell/brand";
@@ -41,7 +41,7 @@ export async function exportScene(id: SceneId, config: SceneConfig) {
   zip.file("recipe.json", JSON.stringify({ version: 1, scene: id, config }, null, 2));
   zip.file(
     "README.txt",
-    `${config.brand}: ${scene(id).name} scene (${scene(id).mood})\n\nOpen index.html through any static server, or drop the folder into your site.\nEverything is local: fonts, the pixel runtime and the scene. No build step, CDN or account.\n\nThe scene is painted in a fragment shader at 1/${config.pixel} resolution and snapped to its own palette with a 4x4 ordered dither.\nChange the pixel size with data-pixel on <main>. The palette and the picture live in ${id}/scene.js; words and colours of the text in index.html and base.css.\nReduced-motion visitors get a still frame; the words and buttons are plain HTML.\n\nFonts are under the SIL Open Font License; see licenses/.\n`,
+    `${config.brand}: ${scene(id).name} scene (${scene(id).mood})\n\nOpen index.html through any static server, or drop the folder into your site.\nEverything is local: fonts, the pixel runtime and the scene. No build step, CDN or account.\n\n${isDioramaScene(id) ? (config.pixel === 0 ? "The painting is rendered at full resolution with depth, light and particles." : `The painting is rendered with ${config.pixel} px pixelation.`) : `The scene is painted at 1/${config.pixel} resolution and snapped to its palette with ordered dithering.`}\nChange the pixel size with data-pixel on <main>. The palette and the picture live in ${id}/scene.js; words and colours of the text in index.html and base.css.\nReduced-motion visitors get a still frame; the words and buttons are plain HTML.\n\nFonts are under the SIL Open Font License; see licenses/.\n`,
   );
   return zip.generateAsync({ type: "blob", compression: "DEFLATE" });
 }
@@ -103,6 +103,7 @@ export function mountScenesGallery(initial?: SceneId) {
     });
     const c = cfg(id);
     for (const [k] of fields) el<HTMLInputElement>(k).value = c[k];
+    el<HTMLSelectElement>("pixel").innerHTML = `${isDioramaScene(id) ? '<option value="0">Clear (full resolution)</option>' : ""}${PIXEL_SIZES.map((p) => `<option value="${p}">${p} px</option>`).join("")}`;
     el<HTMLSelectElement>("pixel").value = String(c.pixel);
     el<HTMLInputElement>("text").checked = c.text;
     desc.textContent = scene(id).description;

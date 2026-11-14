@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { Diorama, type DioramaOptions } from "../diorama/engine";
 
 /**
- * Overnight's choreography. Each stop is a Diorama (painting + depth map, in pixels) whose camera
+ * Overnight's choreography. Each stop is a Diorama (painting + depth map, at full resolution) whose camera
  * the scroll drives: down the platform, past the lake as if from a moving window, up over the
  * viaduct as the sun rises, into the station by the sea. Between stops the train goes through a
  * tunnel (the picture darkens), and the ticket punches the stop and moves its clock.
@@ -10,7 +10,7 @@ import { Diorama, type DioramaOptions } from "../diorama/engine";
 type Stop = "platform" | "forest" | "viaduct" | "coast";
 const SETUP: Record<Stop, Omit<DioramaOptions, "color" | "depth">> = {
   platform: {
-    pixel: 3, depthScale: .045, focus: .3, pointer: .7,
+    pixel: 0, depthScale: .045, focus: .3, pointer: .7,
     glow: { threshold: .68, strength: .95, flicker: .22, tint: [1, .74, .4], bloom: 1.4 },
     grade: { vignette: .45 },
     particles: [
@@ -19,20 +19,20 @@ const SETUP: Record<Stop, Omit<DioramaOptions, "color" | "depth">> = {
     ],
   },
   forest: {
-    pixel: 3, depthScale: .07, focus: .3, pointer: .5,
+    pixel: 0, depthScale: .07, focus: .3, pointer: .5,
     glow: { threshold: .72, strength: .9, flicker: .3, tint: [1, .78, .45], bloom: 1.4 },
     water: { y: .55, strength: .9 }, grade: { vignette: .35 },
     particles: [{ kind: "fireflies", count: 90, color: [1, .9, .45], size: 3, speed: 1, region: [0, .45, 1, 1], depth: [.45, .95], glow: 1.6 }],
   },
   viaduct: {
-    pixel: 3, depthScale: .06, focus: .35, pointer: .5,
+    pixel: 0, depthScale: .06, focus: .35, pointer: .5,
     glow: { threshold: .8, strength: .7, flicker: .06, tint: [1, .82, .55], bloom: 1.6 },
     rays: { x: .9, y: .3, strength: .2, decay: .965, color: [1, .78, .5] },
     grade: { vignette: .3 },
     particles: [{ kind: "steam", count: 40, color: [.95, .96, 1], size: 16, speed: .4, region: [.15, .55, 1, .95], depth: [.2, .6] }],
   },
   coast: {
-    pixel: 3, depthScale: .05, focus: .4, pointer: .6,
+    pixel: 0, depthScale: .05, focus: .4, pointer: .6,
     glow: { threshold: .88, strength: .5, flicker: .05, tint: [1, .9, .7] },
     water: { y: .43, strength: .6 }, grade: { saturation: 1.05, vignette: .2 },
     particles: [{ kind: "petals", count: 40, color: [1, .55, .75], size: 3, speed: .5, region: [0, .2, .4, 1], depth: [.6, 1] }],

@@ -1,3 +1,4 @@
+import { runInNewContext } from "node:vm";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
@@ -12,7 +13,7 @@ test("scenes: sixteen distinct living places, each a complete page", () => {
     const html = sceneDocument(s.id);
     assert.match(html, /<h1/);
     assert.match(html, /class="sx-btn/);
-    assert.match(html, /data-pixel="4"/);
+    assert.match(html, new RegExp(`data-pixel="${isDioramaScene(s.id) ? 0 : 4}"`));
     assert.match(html, new RegExp(`${s.id}/scene.js`));
     assert.ok(!/https?:\/\//.test(html.replace(/href="#"/g, "")), "no external requests");
     for (const f of sceneFiles(s.id)) assert.ok(existsSync(`public/scenes/${f}`), `${s.id}: missing ${f}`);
@@ -116,4 +117,30 @@ test("title-card scenes paint the headline into the picture and keep it in the p
     // with the words off there is no title card at all
     assert.doesNotMatch(sceneDocument(id, { text: false }), /class="sx-title/);
   }
+});
+
+
+test("painted scene runtime keeps full detail by default and preserves optional pixelation", () => {
+  const runtime = readFileSync("public/scenes/diorama-scene.js", "utf8");
+  for (const id of ["onsen", "arcade", "skyisle", "hayfield", "aquarium", "nighttrain"] as const) {
+    assert.equal(normalizeScene({}, id).pixel, 0);
+    assert.equal(normalizeScene({ pixel: 0 }, id).pixel, 0);
+    for (const pixel of [0, 4, undefined]) {
+      const canvas = { style: { imageRendering: "pixelated" } };
+      const element = () => ({ setAttribute() {}, addEventListener() {}, append() {} });
+      const root = { ...element(), dataset: { scene: id, pixel }, querySelector: () => canvas };
+      let options: any;
+      const window: any = { Diorama: true };
+      runInNewContext(runtime, {
+        window,
+        document: { querySelector: () => root, currentScript: { src: `http://localhost/scenes/${id}/scene.js` }, createElement: element },
+        Diorama: class { constructor(_canvas: unknown, opts: unknown) { options = opts; } },
+      });
+      window.DioramaScene({ action: "Activate" });
+      assert.equal(options.pixel, pixel === 4 ? 4 : 0);
+      assert.equal(canvas.style.imageRendering, pixel === 4 ? "pixelated" : "auto");
+      assert.equal(options.color, `http://localhost/scenes/${id}/painting.webp`);
+    }
+  }
+  assert.equal(normalizeScene({ pixel: 0 }, "kelp").pixel, 4);
 });

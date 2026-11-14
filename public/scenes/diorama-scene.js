@@ -10,7 +10,10 @@
     const id = root.dataset.scene;
     // the scene file sits at <base><id>/scene.js; everything else is found from there
     const src = (document.currentScript && document.currentScript.src) || "", base = src.replace(/[^/]+\/scene\.js(\?.*)?$/, "");
-    const pixel = Math.max(2, Math.min(8, Number(root.dataset.pixel) || 4));
+    // Preserve the painting's detail by default; pixelation is an explicit choice.
+    const requestedPixel = Number(root.dataset.pixel);
+    const pixel = [3, 4, 5, 6].includes(requestedPixel) ? requestedPixel : 0;
+    canvas.style.imageRendering = pixel ? "pixelated" : "auto";
     const photo = root.dataset.image;
     const painting = `${base}${id}/painting.webp`;
     const d = new Diorama(canvas, {
